@@ -1,8 +1,2 @@
-class Serializer {
-	// Attributse
-	
-	// Constructors
-	Serializer()
-	{
-	}
-};
+#include "headers/Serializer.h"
+

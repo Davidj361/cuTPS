@@ -1,5 +1,5 @@
 server:	serverEx
-# add files to include in server here
+# Add files here
 serverEx:	Server.o Controller.o Connection.o Serializer.o DBManager.o
 	g++ Server.o Controller.o Connection.o Serializer.o DBManager.o -o serverEx
 Server.o:	Server.cc

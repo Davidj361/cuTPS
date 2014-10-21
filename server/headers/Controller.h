@@ -1,19 +1,19 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include <stddef.h>
-#include <string>
-#include <iostream>
-
-// #include "UI.h"
-// #include "ServerFacade.h"
-
 class Controller {
-    public:
-        Controller();
-        ~Controller();
+  public:
+    Controller();
+    ~Controller();
 
-        void Run();
-    private:
+    /*
+    Function  : Run
+    Purpose   : The main loop of the server process
+    Variables : None
+    Returns   : 1 - Success
+                0 - Fail
+    */
+    int Run();
+  private:
 };
 #endif

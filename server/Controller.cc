@@ -1,4 +1,4 @@
-#include "Controller.h"
+#include "headers/Controller.h"
 
 using namespace std;
 
@@ -8,5 +8,5 @@ Controller::Controller () {
 Controller::~Controller () {
 }
 
-void Controller::Run () {
+int Controller::Run () {
 }

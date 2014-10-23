@@ -14,7 +14,7 @@
 For all Git related issues see this [site](http://git-scm.com/doc).  Don't be lazy, read and google. 
 There's LOTS of documentation.
 
-## Repository setup
+## Repository Setup
 
 1. Make sure you have [SSH keys](https://gitlab.com/profile/keys) setup. [Help](https://gitlab.com/help/ssh/ssh)
 2. Create project directory
@@ -24,3 +24,10 @@ There's LOTS of documentation.
 6. If you don't want to type 'origin master' every time you push or pull then:
   - If you're in the 3004 VM `git branch --set-upstream master origin/master`
   - If your're **not** in the 3004 VM `git branch -u origin/master`
+
+## Repository Structure
+
+- common - Contains all classes that are common between the client and server
+- resources - Contains all non source code files eg. SQL and DB files
+- cuTPSServer - Contains all source code for the cuTPS server
+- cuTPSClient - Contains all source code for the cuTPS client

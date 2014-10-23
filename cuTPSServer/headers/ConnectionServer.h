@@ -1,5 +1,5 @@
-#ifndef CONNECTION_H
-#define CONNECTION_H
+#ifndef CONNECTIONSERVER_H
+#define CONNECTIONSERVER_H
 
 #include <QObject>
 #include <QDebug>
@@ -8,20 +8,20 @@
 
 using namespace std;
 
-class Connection : public QObject{
+class ConnectionServer : public QObject{
 
   public:
     // default port is 60001
-    Connection(QObject *parent = 0);
+    ConnectionServer(QObject *parent = 0);
 
     /*  IN: int = port  */
-    Connection(int, QObject *parent = 0);
+    ConnectionServer(int, QObject *parent = 0);
 
     /*  IN: str* = pointer to json object to be recieved or sent  */
     int waitForRequest(string*);
     int sendResponse(string*);
 
-    ~Connection();
+    ~ConnectionServer();
   private:
     int         portno;
     QTcpServer *server;

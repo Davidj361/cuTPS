@@ -21,8 +21,8 @@ SOURCES += \
     Serializer.cc \
     DBManager.cc \
     Controller.cc \
-    Connection.cc \
-    main.cc
+    main.cc \
+    ConnectionServer.cc
 
 OTHER_FILES +=
 
@@ -30,4 +30,4 @@ HEADERS += \
     headers/Serializer.h \
     headers/DBManager.h \
     headers/Controller.h \
-    headers/Connection.h
+    headers/ConnectionServer.h

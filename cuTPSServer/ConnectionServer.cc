@@ -1,7 +1,7 @@
-#include "headers/Connection.h"
+#include "headers/ConnectionServer.h"
 
 /*  Add exception throwing after cerrs  */
-Connection::Connection(QObject *parent):
+ConnectionServer::ConnectionServer(QObject *parent):
     QObject(parent)
 {
     portno = 60001;
@@ -14,7 +14,7 @@ Connection::Connection(QObject *parent):
     }
 }
 
-Connection::Connection(int PORT, QObject *parent) :
+ConnectionServer::ConnectionServer(int PORT, QObject *parent) :
     QObject(parent)
 {
     portno = PORT;
@@ -27,13 +27,13 @@ Connection::Connection(int PORT, QObject *parent) :
     }
 }
 
-Connection::~Connection(){
+ConnectionServer::~ConnectionServer(){
     free(server);
 }
 
-int Connection::waitForRequest(string*){
-    sock = server->nextPendingConnection();
-    sock->write("SConnect");
+int ConnectionServer::waitForRequest(string*){
+    //sock = server->nextPendingConnection();
+    //sock->write("SConnect");
     //sock->flush();
     /*  -1 make this block indefinitally. Change to timeout  */
     sock->waitForBytesWritten(-1);
@@ -42,7 +42,7 @@ int Connection::waitForRequest(string*){
     return 0;
 }
 
-int Connection::sendResponse(string*){
+int ConnectionServer::sendResponse(string*){
   return 0;
 }
 

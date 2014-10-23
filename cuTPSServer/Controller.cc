@@ -15,7 +15,7 @@ Controller::~Controller () {
 
 int Controller::Run () {
     qDebug() << "MainClass.Run is executing";
-    connection = new Connection();
+    connection = new ConnectionServer();
     // you must call quit when complete or the program will stay in the
     // messaging loop
     Quit();

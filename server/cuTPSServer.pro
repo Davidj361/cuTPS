@@ -17,12 +17,13 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp \
+SOURCES += \
     Server.cc \
     Serializer.cc \
     DBManager.cc \
     Controller.cc \
-    Connection.cc
+    Connection.cc \
+    main.cc
 
 OTHER_FILES +=
 

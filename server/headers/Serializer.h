@@ -1,12 +1,9 @@
 #ifndef SERIALIZER_H
 #define SERIALIZER_H
 
-#include <stddef.h>
 #include <string>
-#include <iostream>
 
-// #include "UI.h"
-// #include "ServerFacade.h"
+using namespace std;
 
 class Serializer {
     public:
@@ -14,8 +11,8 @@ class Serializer {
         ~Serializer();
 
 	// public functions
-        int deserialize(json*, void*);
-	int serialize(int, void*, json*);
+    int deserialize(string*, void*);
+    int serialize(int, void*, string*);
     private:
 };
 #endif

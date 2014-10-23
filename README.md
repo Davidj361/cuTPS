@@ -21,3 +21,6 @@ There's LOTS of documentation.
 3. Initialize the repository `git init`
 4. Set the remote repository you want to track and call it origin `git remote add origin git@gitlab.com:team-do-not-stick-in-ear/cutps.git`
 5. Pull the files from the master branch on origin to your local machine `git pull origin master`
+6. If you don't want to type 'origin master' every time you push or pull then:
+  - If you're in the 3004 VM `git branch --set-upstream master remotes/origin/master`
+  - If your're **not** in the 3004 VM `git branch -u origin/master`

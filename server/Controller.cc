@@ -14,7 +14,7 @@ Controller::~Controller () {
 }
 
 int Controller::Run () {
-    qDebug() << "MainClass.Run is executing";
+    qDebug() << "Controller Run() is executing";
     connection = new Connection();
     // you must call quit when complete or the program will stay in the
     // messaging loop
@@ -24,6 +24,7 @@ int Controller::Run () {
 void Controller::Quit() {
     // you can do some cleanup here
     // then do emit finished to signal CoreApplication to quit
+    qDebug() << "Emitting the finished signal";
     emit Finished();
 }
 
@@ -34,4 +35,5 @@ void Controller::AboutToQuitApp() {
     // stop threads
     // sleep(1);   // wait for threads to stop.
     // delete any objects
+    qDebug() << "In Controller::AboutToQuitApp";
 }

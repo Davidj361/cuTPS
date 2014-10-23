@@ -14,15 +14,6 @@ class Controller : public QObject {
         ~Controller();
 
         /* =====================================================================
-        Function  : Run
-        Purpose   : The main loop of the server process
-        Variables : None
-        Returns   : 1 - Success
-                    0 - Fail
-        ===================================================================== */
-        int Run();
-
-        /* =====================================================================
         Function  : Quit
         Purpose   : Tells the main application to quit
         Variables : None
@@ -40,6 +31,15 @@ class Controller : public QObject {
         void Finished();
 
     public slots:
+        /* =====================================================================
+        Function  : Run
+        Purpose   : The main loop of the server process
+        Variables : None
+        Returns   : 1 - Success
+                    0 - Fail
+        ===================================================================== */
+        int Run();
+
         /* =====================================================================
         Function  : AboutToQuitApp
         Purpose   : Slot for when application is about to quit

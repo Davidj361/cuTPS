@@ -1,43 +1,31 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#include <string>
-#include <string.h>       //bzero()
-#include <unistd.h>
-#include <sys/types.h>    //socket()
-#include <sys/socket.h>   //socket()
-#include <netinet/in.h>
-#include <netdb.h>
+#include <QObject>
+#include <QDebug>
+#include <QTcpServer>
+#include <QTcpSocket>
 
 using namespace std;
 
-class Connection{
+class Connection : public QObject{
 
   public:
     // default port is 60001
-    Connection();
+    Connection(QObject *parent = 0);
 
     /*  IN: int = port  */
-    Connection(int);  
+    Connection(int, QObject *parent = 0);
 
     /*  IN: str* = pointer to json object to be recieved or sent  */
     int waitForRequest(string*);
     int sendResponse(string*);
 
     ~Connection();
-
   private:
-    int serverSock;
-    int clientSock;
-    struct sockaddr_in serverAddr;
-    struct sockaddr_in clientAddr;
-    unsigned short     port;
-
-    /*  Open and listen on a socket  */
-    int olSock();
+    int         portno;
+    QTcpServer *server;
+    QTcpSocket *sock;
 
 
 };

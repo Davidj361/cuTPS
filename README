@@ -11,7 +11,10 @@
   - `git config --global color.interactive auto`
   - `git config --global color.diff auto`
 
-# Repository setup
+For all Git related issues see this [site](http://git-scm.com/doc).  Don't be lazy, read and google. 
+There's LOTS of documentation.
+
+## Repository setup
 
 1. Make sure you have [SSH keys](https://gitlab.com/profile/keys) setup. [Help](https://gitlab.com/help/ssh/ssh)
 2. Create project directory

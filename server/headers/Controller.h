@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QCoreApplication>
+#include <QDebug>
+#include "Connection.h"
 
 class Controller : public QObject {
     Q_OBJECT
@@ -49,5 +51,6 @@ class Controller : public QObject {
     private:
         // Reference to the main application instance
         QCoreApplication *app;
+        Connection       *connection;
 };
 #endif

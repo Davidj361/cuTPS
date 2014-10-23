@@ -1,5 +1,3 @@
-#include <QDebug>
-
 #include "headers/Controller.h"
 
 using namespace std;
@@ -17,7 +15,7 @@ Controller::~Controller () {
 
 int Controller::Run () {
     qDebug() << "MainClass.Run is executing";
-
+    connection = new Connection();
     // you must call quit when complete or the program will stay in the
     // messaging loop
     Quit();

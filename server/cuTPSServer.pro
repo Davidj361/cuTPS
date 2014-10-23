@@ -18,7 +18,6 @@ TEMPLATE = app
 
 
 SOURCES += \
-    Server.cc \
     Serializer.cc \
     DBManager.cc \
     Controller.cc \

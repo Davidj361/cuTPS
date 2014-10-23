@@ -6,10 +6,14 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    string* ip = new string("192.132.242.2");
+    string* ip = new string("127.0.0.1");
     ConnectionClient *connection;
-    connection =new ConnectionClient(ip,1234);
-    connection->sendRequest(ip);
+    connection =new ConnectionClient(ip,60001);
+
+    string *out = new string();
+    string *in = new string("ding");
+    connection->request(in,out);
+    qDebug()<<out->c_str();
     w.show();
 
     return a.exec();

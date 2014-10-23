@@ -14,8 +14,15 @@ Controller::~Controller () {
 }
 
 int Controller::Run () {
+    string *out = new string();
+    string *in = new string();
     qDebug() << "Controller Run() is executing";
     connection = new ConnectionServer();
+    qDebug()<<"conection created";
+    connection->waitForRequest(in);
+    qDebug()<<"recieved: "<<in->c_str();
+    out->append("dong");
+    connection->sendResponse(out);
 
     // you must call quit when complete or the program will stay in the
     // messaging loop

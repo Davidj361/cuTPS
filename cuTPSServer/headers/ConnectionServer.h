@@ -17,11 +17,25 @@ class ConnectionServer : public QObject{
     /*  IN: int = port  */
     ConnectionServer(int, QObject *parent = 0);
 
-    /*  IN: str* = pointer to json object to be recieved or sent  */
-    int waitForRequest(string*);
-    int sendResponse(string*);
-
     ~ConnectionServer();
+
+    /* =====================================================================
+    Function  : WaitForRequest
+    Purpose   : Waits for and receives a connection from a client
+    Variables : Out - string* - The message received from the client
+    Returns   : 1 - Success
+                0 - Fail
+    ===================================================================== */
+    int WaitForRequest(string*);
+
+    /* =====================================================================
+    Function  : SendResponse
+    Purpose   : Sends a response to a client
+    Variables : In - string* - The message sent to the client
+    Returns   : 1 - Success
+                0 - Fail
+    ===================================================================== */
+    int SendResponse(string*);
   private:
     int         portno;
     QTcpServer *server;

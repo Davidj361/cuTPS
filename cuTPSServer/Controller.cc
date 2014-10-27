@@ -13,16 +13,23 @@ Controller::Controller (QObject *parent) : QObject(parent) {
 Controller::~Controller () {
 }
 
-int Controller::Run () {
+void Controller::Run () {
     string *out = new string();
     string *in = new string();
-    qDebug() << "Controller Run() is executing";
+
+    // Create new ConnectionServer to handle incoming requests
     connection = new ConnectionServer();
-    qDebug()<<"conection created";
-    connection->waitForRequest(in);
-    qDebug()<<"recieved:"<<in->c_str();
-    out->append("dong");
-    connection->sendResponse(out);
+
+    while (true) {
+
+        if (!connection->WaitForRequest(in))
+            qDebug() << "An error occured while waiting for a request";
+
+        qDebug() << "recieved:" << in->c_str();
+        out->assign("dong");
+
+        connection->SendResponse(out);
+    }
 
     // you must call quit when complete or the program will stay in the
     // messaging loop

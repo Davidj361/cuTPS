@@ -32,43 +32,47 @@ ConnectionServer::~ConnectionServer(){
     free(server);
 }
 
-int ConnectionServer::waitForRequest(string* str){
+int ConnectionServer::WaitForRequest(string* str){
+
+    qDebug() << "Waiting for a connection";
+
     /*  Block until a connection is made by a client  */
-    qDebug()<<"Waiting for a connection";
     if(!server->hasPendingConnections())
         server->waitForNewConnection(-1);
+
     sock = server->nextPendingConnection();
 
     /*  Block until a message has been recieved  */
     qDebug()<<"Found a connection";
     if(sock->waitForReadyRead(-1)){
         char buf[256];
-        if((rv = sock->read(buf, 255))<0){
-            qDebug()"There was an error reading";
-            return -1;
+        int rv = sock->read(buf, 255);
+        if(rv < 0){
+            qDebug() << "There was an error reading";
+            return 0;
         }
         buf[rv] = '\0';
         str->append(buf);
-        return 0;
+        return 1;
     }
     else{
         qDebug()<<"There was an error waiting to read";
-        return -1;
+        return 0;
     }
 }
 
-int ConnectionServer::sendResponse(string* str){
+int ConnectionServer::SendResponse(string* str){
     /*  Write message to client  */
     if(sock->write(str->c_str()) < 0){
-        qDebug()<<"There was an error writing";
-        return -1;
+        qDebug() << "There was an error writing";
+        return 0;
     }
     if(!sock->waitForBytesWritten(-1)){
-        qDebug()<<"There was an error waiting for writing to finish";
-        return -1;
+        qDebug() << "There was an error waiting for writing to finish";
+        return 0;
     }
     qDebug()<<"Disconnecting from client";
     sock->disconnectFromHost();
-  return 0;
+  return 1;
 }
 

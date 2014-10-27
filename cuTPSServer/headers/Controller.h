@@ -38,7 +38,7 @@ class Controller : public QObject {
         Returns   : 1 - Success
                     0 - Fail
         ===================================================================== */
-        int Run();
+        void Run();
 
         /* =====================================================================
         Function  : AboutToQuitApp

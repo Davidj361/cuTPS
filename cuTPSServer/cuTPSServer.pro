@@ -22,7 +22,8 @@ SOURCES += \
     DBManager.cc \
     Controller.cc \
     main.cc \
-    ConnectionServer.cc
+    ConnectionServer.cc \
+    ../common/Student.cc
 
 OTHER_FILES +=
 
@@ -30,4 +31,7 @@ HEADERS += \
     headers/Serializer.h \
     headers/DBManager.h \
     headers/Controller.h \
-    headers/ConnectionServer.h
+    headers/ConnectionServer.h \
+    ../common/User.h \
+    ../common/Student.h \
+    ../common/Content.h

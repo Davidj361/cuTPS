@@ -20,7 +20,7 @@ int Controller::Run () {
     connection = new ConnectionServer();
     qDebug()<<"conection created";
     connection->waitForRequest(in);
-    qDebug()<<"recieved: "<<in->c_str();
+    qDebug()<<"recieved:"<<in->c_str();
     out->append("dong");
     connection->sendResponse(out);
 

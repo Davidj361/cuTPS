@@ -44,16 +44,16 @@ int ConnectionServer::WaitForRequest(string* str){
 
     /*  Block until a message has been recieved  */
     qDebug()<<"Found a connection";
-    if(sock->waitForReadyRead(-1)){
+    int bytesread;
+    if(sock->waitForReadyRead(-1)) {
         char buf[256];
-        int rv = sock->read(buf, 255);
-        if(rv < 0){
-            qDebug() << "There was an error reading";
-            return 0;
+        if((bytesread = sock->read(buf, 255))<0){
+            qDebug()<<"There was an error reading";
+            return -1;
         }
-        buf[rv] = '\0';
+        buf[bytesread] = '\0';
         str->append(buf);
-        return 1;
+        return 0;
     }
     else{
         qDebug()<<"There was an error waiting to read";

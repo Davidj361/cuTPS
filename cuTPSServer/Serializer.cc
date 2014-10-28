@@ -45,7 +45,7 @@ commands_t Serializer::deserialize(const QByteArray& inJson, void* retData) {
 }
 
 // We will create a QJsonObject with given data
-const QByteArray& Serializer::serialize(const commands_t& command, int errorState, void* contentList) {
+const QByteArray* Serializer::serialize(const commands_t& command, int errorState, void* contentList) {
         // we initialize an empty QJsonObject
         // XXX NEW MEMORY HERE
         QByteArray* retJson = new QByteArray();

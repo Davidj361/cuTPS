@@ -1,6 +1,7 @@
 #ifndef SERIALIZER_H
 #define SERIALIZER_H
 
+<<<<<<< HEAD:server/headers/Serializer.h
 #include <iostream>
 
 #include <QJsonObject>
@@ -35,12 +36,27 @@ class Serializer {
                 // 2nd argument: give successful or failure from the requested operation from deserialize
                 // 3rd argument: give the content list if was requested
                 // return: returned Json object to send back to client
-                const QByteArray& serialize(const commands_t&, int, void* = 0);
+                const QByteArray* serialize(const commands_t&, int, void* = 0);
 
         private:
                 void createContent(const QJsonObject&, void*);
                 void createInvoice(const QJsonObject&, void*);
                 // FIXME Change the return type to a content list
                 int serializeContent(void*);
+=======
+#include <string>
+
+using namespace std;
+
+class Serializer {
+    public:
+        Serializer();
+        ~Serializer();
+
+	// public functions
+    int deserialize(string*, string*, void*);
+    int serialize(int, void*, string*);
+    private:
+>>>>>>> f8c780e78b034f08413f6951af755180882b7a64:cuTPSServer/headers/Serializer.h
 };
 #endif

@@ -11,7 +11,7 @@ class Serializer {
         ~Serializer();
 
 	// public functions
-    int deserialize(string*, void*);
+    int deserialize(string*, string*, void*);
     int serialize(int, void*, string*);
     private:
 };

@@ -14,10 +14,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    ConnectionClient.cc
+    ConnectionClient.cc \
+    MainWindow.cpp
 
-HEADERS  += headers/mainwindow.h \
-    headers/ConnectionClient.h
+HEADERS  += \
+    headers/ConnectionClient.h \
+    headers/MainWindow.h
 
 FORMS    += mainwindow.ui

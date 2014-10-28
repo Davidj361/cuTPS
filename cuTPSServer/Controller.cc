@@ -15,18 +15,47 @@ Controller::~Controller () {
 
 void Controller::Run () {
     string *out = new string();
-    string *in = new string();
+    string *in  = new string();
+    string *cmd = new string();
 
     // Create new ConnectionServer to handle incoming requests
     connection = new ConnectionServer();
+
+    // Create new Serializer to process requests
+    // serializer = new Serializer();
+
+    // Create new DBManager to handle all storage operations
+    // dbManager = new DBManager();
 
     while (true) {
 
         if (!connection->WaitForRequest(in))
             qDebug() << "An error occured while waiting for a request";
 
+        // Deserialize the request
+        // if (!serializer->deserialize(in, cmd, /* object out */))
+        //    qDebug() << "An error occured while deserializing the request";
+
+
+        // Handle the command
+//        if (cmd == "something") {
+
+//        }
+//        else if (cmd == "something else") {
+
+//        }
+//        else {
+//            qDebug() << "An error occured?";
+//        }
+
+
         qDebug() << "recieved:" << in->c_str();
         out->assign("dong");
+
+        // Serialize the response
+        // if (!serializer->serialize()) {
+        //      qDebug() << "An error occured while serializing the response";
+        // }
 
         connection->SendResponse(out);
     }

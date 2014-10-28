@@ -49,11 +49,11 @@ int ConnectionServer::WaitForRequest(string* str){
         char buf[256];
         if((bytesread = sock->read(buf, 255))<0){
             qDebug()<<"There was an error reading";
-            return -1;
+            return 0;
         }
         buf[bytesread] = '\0';
         str->append(buf);
-        return 0;
+        return 1;
     }
     else{
         qDebug()<<"There was an error waiting to read";

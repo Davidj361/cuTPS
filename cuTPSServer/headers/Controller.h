@@ -4,7 +4,10 @@
 #include <QObject>
 #include <QCoreApplication>
 #include <QDebug>
+
 #include "ConnectionServer.h"
+#include "Serializer.h"
+#include "DBManager.h"
 
 class Controller : public QObject {
     Q_OBJECT
@@ -35,8 +38,7 @@ class Controller : public QObject {
         Function  : Run
         Purpose   : The main loop of the server process
         Variables : None
-        Returns   : 1 - Success
-                    0 - Fail
+        Returns   : void
         ===================================================================== */
         void Run();
 
@@ -49,8 +51,9 @@ class Controller : public QObject {
         void AboutToQuitApp();
 
     private:
-        // Reference to the main application instance
         QCoreApplication *app;
         ConnectionServer *connection;
+        Serializer *serializer;
+        DBManager *dbManager;
 };
 #endif

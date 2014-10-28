@@ -1,25 +1,18 @@
 #include "headers/ConnectionClient.h"
 
-
-ConnectionClient::ConnectionClient(string* IPADDR, QObject *parent):
-    QObject(parent)
-{
-
+ConnectionClient::ConnectionClient(string* IPADDR, QObject *parent): QObject(parent) {
     serverAddr = new QString(IPADDR->c_str());
     portno = 60001;
     sock = new QTcpSocket(this);
 }
 
-ConnectionClient::ConnectionClient(string* IPADDR, int PORT, QObject *parent) :
-    QObject(parent)
-{
+ConnectionClient::ConnectionClient(string* IPADDR, int PORT, QObject *parent) : QObject(parent) {
     serverAddr = new QString(IPADDR->c_str());
     portno = PORT;
     sock = new QTcpSocket(this);
-
 }
 
-int ConnectionClient::request(string * inStr, string *outStr){
+int ConnectionClient::request(string * inStr, string *outStr) {
     /*  Connect to the server and write the request  */
     sock->connectToHost(*serverAddr, portno);
     sock->write(inStr->c_str());

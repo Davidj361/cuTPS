@@ -1,5 +1,6 @@
-#include "headers/mainwindow.h"
 #include <QApplication>
+
+#include "headers/MainWindow.h"
 #include "headers/ConnectionClient.h"
 
 int main(int argc, char *argv[])
@@ -7,7 +8,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     string* ip = new string("127.0.0.1");
-    ConnectionClient *connection =new ConnectionClient(ip,60001);
+    ConnectionClient *connection = new ConnectionClient(ip,60001);
 
     string *out = new string();
     string *in = new string("ding");

@@ -87,4 +87,10 @@ CREATE TABLE IF NOT EXISTS `Purchases` (
     FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
 );
 
--- BEGIN TRANSACTION;
+BEGIN TRANSACTION;
+SELECT * FROM `Users`;
+
+INSERT INTO `Users` (username, password, type, name) VALUES ('admin', 'password123', 'administrator', 'Administrator');
+
+SELECT * FROM `Users`;
+END TRANSACTION;

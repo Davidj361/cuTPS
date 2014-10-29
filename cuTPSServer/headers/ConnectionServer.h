@@ -2,6 +2,7 @@
 #define CONNECTIONSERVER_H
 
 #include <unistd.h>
+#include <stdexcept>
 
 #include <QObject>
 #include <QDebug>
@@ -13,10 +14,11 @@ using namespace std;
 class ConnectionServer : public QObject {
 
   public:
-    // default port is 60001
+
+    // Default port is 60001
     ConnectionServer(QObject *parent = 0);
 
-    /*  IN: int = port  */
+    // The port number to use
     ConnectionServer(int, QObject *parent = 0);
 
     ~ConnectionServer();
@@ -24,23 +26,19 @@ class ConnectionServer : public QObject {
     /* =====================================================================
     Function  : WaitForRequest
     Purpose   : Waits for and receives a connection from a client
-    Variables : Out - string* - The message received from the client
-    Returns   : 1 - Success
-                0 - Fail
+    Variables : None
+    Returns   : The message received from the client
     ===================================================================== */
-
-    int WaitForRequest(QByteArray*);
+    QByteArray* WaitForRequest();
 
 
     /* =====================================================================
     Function  : SendResponse
     Purpose   : Sends a response to a client
-    Variables : In - string* - The message sent to the client
-    Returns   : 1 - Success
-                0 - Fail
+    Variables : In - The message being sent to the client
+    Returns   : void
     ===================================================================== */
-
-    int SendResponse(QByteArray*);
+    void SendResponse(QByteArray*);
 
   private:
     int         portno;

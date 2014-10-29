@@ -2,7 +2,6 @@
 #define SERIALIZER_H
 
 #include <iostream>
-#include <string>
 #include <stdexcept>
 
 #include <QJsonObject>
@@ -24,7 +23,7 @@ class Serializer {
     //             Out - The deserialized object
     // Returns   : The command to be performed
     ===================================================================== */
-    commands_t deserialize(const QByteArray&, void*) const;
+    commands_t Deserialize(const QByteArray&, void*) const;
 
     /* =====================================================================
     // Function  : Serialize
@@ -34,7 +33,7 @@ class Serializer {
     //             In  - The outcome of the operation (1 = Success, 0 = Fail)
     // Returns   : The serialized object to send to the connection class
     // ===================================================================== */
-    QByteArray *serialize(const commands_t&, void*, bool) const;
+    QByteArray* Serialize(const commands_t&, void*, bool) const;
 
   private:
     void createContent(const QJsonObject&, void*) const;

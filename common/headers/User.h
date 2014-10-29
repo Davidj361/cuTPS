@@ -14,8 +14,6 @@ class User {
         QString name;
         QString password;
         user_t type;
-
-
 };
 #endif
 

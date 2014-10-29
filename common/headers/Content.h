@@ -9,12 +9,10 @@ class Content{
         float   getPrice();
         bool    isAvailable();
 
-
     protected:
         QString title;
         float   price;
         bool    available;
-
 
 };
 

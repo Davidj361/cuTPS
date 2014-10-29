@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QString>
 
+#include "headers/ConnectionClient.h"
+#include "../common/headers/Definitions.h"
 
 namespace Ui {
     class MainWindow;
@@ -26,6 +28,7 @@ class MainWindow : public QMainWindow {
 
     private:
         Ui::MainWindow *ui;
+        ConnectionClient *connection;
         QString *serverIP;
         int    portno;
 };

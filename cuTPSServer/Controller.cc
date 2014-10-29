@@ -1,13 +1,9 @@
 #include "headers/Controller.h"
 
-// using namespace std;
+using namespace std;
 
 Controller::Controller (QObject *parent) : QObject(parent) {
   app = QCoreApplication::instance();
-
-  // setup everything here
-  // create any global objects
-  // setup debug and warning mode
 }
 
 Controller::~Controller () {
@@ -15,25 +11,27 @@ Controller::~Controller () {
 }
 
 void Controller::Run () {
-  QByteArray *out;
+  QByteArray *out = new QByteArray();
   QByteArray *in = new QByteArray();
   void *object;
   commands_t command;
 
-  // Create new ConnectionServer to handle incoming requests
-  connection = new ConnectionServer();
+  try {
+    // Create new ConnectionServer to handle incoming requests
+    connection = new ConnectionServer();
 
-  // Create new DBManager to handle all storage operations
-  // dbManager = new DBManager();
+    // Create new DBManager to handle all storage operations
+    // dbManager = new DBManager();
+  }
+  catch (exception& e) {
+      cout << e.what() << endl;
+  }
 
+  // Main controller loop
   while (true) {
     try {
       connection->WaitForRequest(in);
-      qDebug()<<"test 1";
-      QString *teststr = new QString(*in);
-      qDebug()<<"test 2";
-      qDebug()<<*teststr;
-      command = serializer->deserialize(*in, object);
+      command = serializer->Deserialize(*in, object);
 
       switch (command) {
         case ADD_CONTENT:
@@ -47,7 +45,7 @@ void Controller::Run () {
         break;
       }
 
-      out = serializer->serialize(command, object, true);
+      out = serializer->Serialize(command, object, true);
       connection->SendResponse(out);
     }
     catch (exception& e) {
@@ -55,8 +53,6 @@ void Controller::Run () {
     }    
   }
 
-  // you must call quit when complete or the program will stay in the
-  // messaging loop
   Quit();
 }
 

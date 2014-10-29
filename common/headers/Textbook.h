@@ -20,7 +20,6 @@ private:
     QString edition;
     QString description;
     int     year;
-
 };
 
 #endif // TEXTBOOK_H

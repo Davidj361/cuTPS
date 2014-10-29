@@ -30,7 +30,7 @@ void Controller::Run () {
   // Main controller loop
   while (true) {
     try {
-      connection->WaitForRequest(in);
+      in = connection->WaitForRequest();
       command = serializer->Deserialize(*in, object);
 
       switch (command) {

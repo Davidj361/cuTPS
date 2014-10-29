@@ -23,8 +23,8 @@ void Controller::Run () {
     // Create new DBManager to handle all storage operations
     // dbManager = new DBManager();
   }
-  catch (exception& e) {
-      cout << e.what() << endl;
+  catch (exception &e) {
+    cout << e.what() << endl;
   }
 
   // Main controller loop
@@ -36,21 +36,21 @@ void Controller::Run () {
       switch (command) {
         case ADD_CONTENT:
           // Do something
-        break;
+          break;
         case ADD_INVOICE:
           // Do something
-        break;
+          break;
         case GET_CONTENT:
           // Do something
-        break;
+          break;
       }
 
       out = serializer->Serialize(command, object, true);
       connection->SendResponse(out);
     }
-    catch (exception& e) {
+    catch (exception &e) {
       cout << e.what() << endl;
-    }    
+    }
   }
 
   Quit();

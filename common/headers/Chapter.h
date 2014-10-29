@@ -3,11 +3,11 @@
 #include "Content.h"
 #include "Textbook.h"
 
-class Chapter: public Content{
-public:
-    Chapter(QString, bool, float, int, Textbook*);
-    Textbook* getTextbook();
-private:
+class Chapter: public Content {
+  public:
+    Chapter(QString, bool, float, int, Textbook *);
+    Textbook *getTextbook();
+  private:
     int chapterNo;
     Textbook *textbook;
 };

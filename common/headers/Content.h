@@ -3,16 +3,16 @@
 #include <QString>
 
 
-class Content{
-    public:
-        QString getTitle();
-        float   getPrice();
-        bool    isAvailable();
+class Content {
+  public:
+    QString getTitle();
+    float   getPrice();
+    bool    isAvailable();
 
-    protected:
-        QString title;
-        float   price;
-        bool    available;
+  protected:
+    QString title;
+    float   price;
+    bool    available;
 
 };
 

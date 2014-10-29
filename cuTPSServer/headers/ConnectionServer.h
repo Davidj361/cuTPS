@@ -29,7 +29,7 @@ class ConnectionServer : public QObject {
     Variables : None
     Returns   : The message received from the client
     ===================================================================== */
-    QByteArray* WaitForRequest();
+    QByteArray * WaitForRequest();
 
 
     /* =====================================================================
@@ -38,7 +38,7 @@ class ConnectionServer : public QObject {
     Variables : In - The message being sent to the client
     Returns   : void
     ===================================================================== */
-    void SendResponse(QByteArray*);
+    void SendResponse(QByteArray *);
 
   private:
     int         portno;

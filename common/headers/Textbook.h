@@ -2,9 +2,9 @@
 #define TEXTBOOK_H
 #include "Content.h"
 
-class Textbook: public Content{
+class Textbook: public Content {
 
-public:
+  public:
     Textbook(QString, bool, float, QString, QString, QString, QString, QString, int);
     QString getAuthor();
     QString getISBN();
@@ -13,7 +13,7 @@ public:
     QString getDescription();
     int     getYear();
 
-private:
+  private:
     QString author;
     QString ISBN;
     QString publisher;

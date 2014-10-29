@@ -23,7 +23,7 @@ class Serializer {
     //             Out - The deserialized object
     // Returns   : The command to be performed
     ===================================================================== */
-    commands_t Deserialize(const QByteArray&, void*) const;
+    commands_t Deserialize(const QByteArray &, void *) const;
 
     /* =====================================================================
     // Function  : Serialize
@@ -33,13 +33,13 @@ class Serializer {
     //             In  - The outcome of the operation (1 = Success, 0 = Fail)
     // Returns   : The serialized object to send to the connection class
     // ===================================================================== */
-    QByteArray* Serialize(const commands_t&, void*, bool) const;
+    QByteArray *Serialize(const commands_t &, void *, bool) const;
 
   private:
-    void createContent(const QJsonObject&, void*) const;
-    void createInvoice(const QJsonObject&, void*) const;
+    void createContent(const QJsonObject &, void *) const;
+    void createInvoice(const QJsonObject &, void *) const;
     // returns an error
     // 1st Argument:
-        int serializeContent(void*, QByteArray*) const;
+    int serializeContent(void *, QByteArray *) const;
 };
 #endif

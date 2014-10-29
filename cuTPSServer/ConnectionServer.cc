@@ -5,7 +5,7 @@ ConnectionServer::ConnectionServer(QObject *parent): QObject(parent) {
   server = new QTcpServer(this);
 
   if (!server->listen(QHostAddress::Any, portno))
-      throw runtime_error("ERROR: ConnectionServer::ConnectionServer() Unable to start listening");
+    throw runtime_error("ERROR: ConnectionServer::ConnectionServer() Unable to start listening");
   else
     qDebug() << "Server is listening";
 }
@@ -25,9 +25,9 @@ ConnectionServer::~ConnectionServer() {
 }
 
 
-QByteArray* ConnectionServer::WaitForRequest() {
+QByteArray *ConnectionServer::WaitForRequest() {
 
-  QByteArray* str = new QByteArray();
+  QByteArray *str = new QByteArray();
 
   qDebug() << "Waiting for a connection";
 
@@ -41,12 +41,12 @@ QByteArray* ConnectionServer::WaitForRequest() {
   qDebug() << "Found a connection";
   int bytesread;
   if (sock->waitForReadyRead(-1)) {
-      char buf[256];
+    char buf[256];
 
-      if ((bytesread = sock->read(buf, 255)) < 0)
-          throw runtime_error("ERROR: ConnectionServer::WaitForRequest(), Error while reading from socket");
-      buf[bytesread] = '\0';
-      str->append(buf);
+    if ((bytesread = sock->read(buf, 255)) < 0)
+      throw runtime_error("ERROR: ConnectionServer::WaitForRequest(), Error while reading from socket");
+    buf[bytesread] = '\0';
+    str->append(buf);
   }
   else
     throw runtime_error("ERROR: ConnectionServer::WaitForRequest(), Error while waiting to read from socket");
@@ -54,16 +54,16 @@ QByteArray* ConnectionServer::WaitForRequest() {
   return str;
 }
 
-void ConnectionServer::SendResponse(QByteArray* str) {
+void ConnectionServer::SendResponse(QByteArray *str) {
 
-    // Write message to client
-    if (sock->write(*str) < 0)
-        throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while writing to socket");
+  // Write message to client
+  if (sock->write(*str) < 0)
+    throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while writing to socket");
 
-    if (!sock->waitForBytesWritten(-1))
-        throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while waiting for writing to socket to finish");
+  if (!sock->waitForBytesWritten(-1))
+    throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while waiting for writing to socket to finish");
 
-    qDebug()<<"Disconnecting from client";
-    sock->disconnectFromHost();
+  qDebug() << "Disconnecting from client";
+  sock->disconnectFromHost();
 }
 

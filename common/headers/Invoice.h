@@ -3,14 +3,14 @@
 #include "Content.h"
 #include "User.h"
 
-class Invoice{
-private:
-    Content** contentList;
-    User* user;
-public:
-    Invoice(User*, Content**);
-    Content** getContentList();
-    User* getUser();
+class Invoice {
+  private:
+    Content **contentList;
+    User *user;
+  public:
+    Invoice(User *, Content **);
+    Content **getContentList();
+    User *getUser();
 };
 
 #endif // INVOICE_H

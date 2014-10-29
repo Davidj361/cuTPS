@@ -1,17 +1,21 @@
 #ifndef USER_H
 #define USER_H
 
-#include <string>
-
-using namespace std;
+#include "Definitions.h"
 
 class User {
     public:
-        virtual ~User();
-        virtual void SetUserName(string);
-        virtual string GetUserName();
+        User(QString, QString, QString, user_t);
+        QString getUserName();
+        QString getName();
+        user_t  getType();
     private:
-        string username;
+        QString username;
+        QString name;
+        QString password;
+        user_t type;
+
+
 };
 #endif
 

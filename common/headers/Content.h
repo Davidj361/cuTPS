@@ -1,13 +1,19 @@
 #ifndef CONTENT_H
 #define CONTENT_H
+#include <QString>
 
 class Content{
     public:
         virtual ~Content();
-        virtual getTextBookTitle();
+        QString getTitle();
+        float   getPrice();
+        bool    isAvailable();
+
+
     private:
-        float price;
-        bool  isAvailable;
+        QString title;
+        float   price;
+        bool    available;
 
 
 };

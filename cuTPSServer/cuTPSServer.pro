@@ -12,26 +12,27 @@ QT       -= gui
 
 TARGET = cuTPSServer
 CONFIG   += console
+CONFIG   += qt
 CONFIG   -= app_bundle
 
 TEMPLATE = app
 
 
 SOURCES += \
-    Serializer.cc \
     DBManager.cc \
     Controller.cc \
     main.cc \
     ConnectionServer.cc \
-    ../common/Student.cc
+    ../common/Student.cc \
+    ../common/Textbook.cc
 
 OTHER_FILES +=
 
 HEADERS += \
-    headers/Serializer.h \
     headers/DBManager.h \
     headers/Controller.h \
     headers/ConnectionServer.h \
     ../common/User.h \
     ../common/Student.h \
-    ../common/Content.h
+    ../common/Content.h \
+    ../common/Textbook.h

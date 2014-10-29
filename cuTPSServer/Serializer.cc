@@ -10,34 +10,33 @@ int Serializer::Deserialize(const QByteArray *in_json, commands_t *out_command, 
 
   // Create a QJsonObject from the QJsonDocument
   if (jdoc.isNull()) {
-    throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON");
+    throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
     return ERROR;
   }
   else
     json = jdoc.object();
 
   // What command is being asked of us?
-  *retCommand = static_cast<commands_t>( json["command"].toDouble() );
+  *out_command = static_cast<commands_t>( json["command"].toDouble() );
 
-  switch (*retCommand) {
+  switch (*out_command) {
     case ADD_CONTENT:
       // If it's this one then we need construct a list of content
-      this->CreateContent(json, retData);
+      this->CreateContent(json, out_object);
       break;
     case ADD_INVOICE:
       // if it's this one then we need to construct an invoice
-      this->createInvoice(json, retData);
+      this->createInvoice(json, out_object);
       break;
     case GET_CONTENT:
       // if it's this one then we merely do nothing else and pass off the return value
       break;
     default:
-      // TODO Add proper logging
-      std::cout << "ERROR: deserialize()::Serializer.cc, didn't get proper value for json[\"command\"]" << std::endl;
+      throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['command']");
       return ERROR;
   }
 
-  return retCommand;
+  return out_command;
 }
 
 // We will create a QJsonObject with given data

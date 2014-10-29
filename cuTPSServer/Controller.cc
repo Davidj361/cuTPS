@@ -16,7 +16,7 @@ Controller::~Controller () {
 
 void Controller::Run () {
   QByteArray *out;
-  QByteArray *in;
+  QByteArray *in = new QByteArray();
   void *object;
   commands_t command;
 
@@ -29,6 +29,10 @@ void Controller::Run () {
   while (true) {
     try {
       connection->WaitForRequest(in);
+      qDebug()<<"test 1";
+      QString *teststr = new QString(*in);
+      qDebug()<<"test 2";
+      qDebug()<<*teststr;
       command = serializer->deserialize(*in, object);
 
       switch (command) {

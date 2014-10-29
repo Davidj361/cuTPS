@@ -5,6 +5,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QByteArray>
+#include <QString>
 
 #include "ConnectionServer.h"
 #include "Serializer.h"

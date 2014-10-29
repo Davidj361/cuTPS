@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->btnRunTest2, SIGNAL(clicked()), this, SLOT(runTest2()));
     connect(ui->btnRunTest3, SIGNAL(clicked()), this, SLOT(runTest3()));
 
-    serverIP = new QString("192.168.28.100");
+    serverIP = new QString("127.0.0.1");
     portno = 60001;
 }
 
@@ -32,7 +32,7 @@ void MainWindow::runTest1(){
     qDebug() << "Running test 1";
     ConnectionClient *connection;
     connection = new ConnectionClient(serverIP, portno);
-    QByteArray *req = new QByteArray("{command:'2',userType:'0', username:'Graeme'}");
+    QByteArray *req = new QByteArray("{\"command\":\"2\",\"userType\":\"0\", \"username\":\"Graeme\"}");
     QByteArray *res;
     connection->request(req, res);
     qDebug()<<res;

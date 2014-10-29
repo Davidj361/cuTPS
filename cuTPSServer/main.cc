@@ -7,6 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+        //
     QCoreApplication app(argc, argv);
 
     app.setApplicationName("cuTPS Server");
@@ -14,7 +15,8 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("https://gitlab.com/team-do-not-stick-in-ear/cutps");
     app.setOrganizationName("Team Do Not Stick In Ear");
 
-    Controller *controller = new Controller();
+    // TODO Definite memory leak here, fix it
+    Controller* controller = new Controller();
 
     // connect the signals
     QObject::connect(controller, SIGNAL(Finished()),

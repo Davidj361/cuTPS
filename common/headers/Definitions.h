@@ -1,0 +1,7 @@
+#ifndef DEFINITION_H
+#define DEFINITION_H
+
+enum commands_t {ADD_CONTENT, ADD_INVOICE, GET_CONTENT, ERROR};
+enum user_t {STUDENT, CONTENT_MANAGER, ADMINISTRATOR};
+
+#endif

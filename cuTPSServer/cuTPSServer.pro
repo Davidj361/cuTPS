@@ -26,7 +26,9 @@ SOURCES += \
     ../common/Student.cc \
     ../common/Textbook.cc \
     ../common/Chapter.cc \
-    ../common/Section.cc
+    ../common/Section.cc \
+    ../common/Content.cc \
+    ../common/Invoice.cc
 
 OTHER_FILES +=
 

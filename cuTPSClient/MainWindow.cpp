@@ -1,5 +1,6 @@
 #include "headers/MainWindow.h"
 #include "ui_mainwindow.h"
+#include "headers/ConnectionClient.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -27,7 +28,8 @@ void MainWindow::RunTests() {
 
 void MainWindow::RunTest1(){
     qDebug() << "Running test 1";
-    //ConnectionClient connection = new ConnectionClient();
+    ConnectionClient *connection;
+    connection = new ConnectionClient(serverIP, portno);
 
 }
 

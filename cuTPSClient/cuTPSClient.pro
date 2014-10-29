@@ -15,10 +15,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     ConnectionClient.cc \
-    MainWindow.cpp
+    MainWindow.cpp \
+    SettingsDialog.cc
 
 HEADERS  += \
     headers/ConnectionClient.h \
-    headers/MainWindow.h
+    headers/MainWindow.h \
+    headers/SettingsDialog.h
 
 FORMS    += mainwindow.ui

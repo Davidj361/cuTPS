@@ -28,7 +28,8 @@ ConnectionServer::~ConnectionServer() {
   free(server);
 }
 
-int ConnectionServer::WaitForRequest(string *str) {
+
+int ConnectionServer::WaitForRequest(QByteArray* str){
 
   qDebug() << "Waiting for a connection";
 
@@ -38,41 +39,39 @@ int ConnectionServer::WaitForRequest(string *str) {
 
   sock = server->nextPendingConnection();
 
-  /*  Block until a message has been recieved  */
-  qDebug() << "Found a connection";
-  int bytesread;
+    /*  Block until a message has been recieved  */
+    qDebug()<<"Found a connection";
+    int bytesread;
+    if(sock->waitForReadyRead(-1)) {
+        char buf[256];
 
-  if (sock->waitForReadyRead(-1)) {
-    char buf[256];
-    if ((bytesread = sock->read(buf, 255)) < 0) {
-      qDebug() << "There was an error reading";
-      return 0;
+        if((bytesread = sock->read(buf, 255))<0){
+            qDebug()<<"There was an error reading";
+            return 0;
+        }
+        buf[bytesread] = '\0';
+        str->append(buf);
+        return 1;
     }
-    buf[bytesread] = '\0';
-    str->append(buf);
-    return 1;
-  }
-  else {
+    else {
     qDebug() << "There was an error waiting to read";
     return 0;
   }
 }
 
-int ConnectionServer::SendResponse(string *str) {
+int ConnectionServer::SendResponse(QByteArray* str){
+    /*  Write message to client  */
+    if(sock->write(str) < 0){
+        qDebug() << "There was an error writing";
+        return 0;
+    }
+    if(!sock->waitForBytesWritten(-1)){
+        qDebug() << "There was an error waiting for writing to finish";
+        return 0;
+    }
+    qDebug()<<"Disconnecting from client";
+    sock->disconnectFromHost();
 
-  /*  Write message to client  */
-  if (sock->write(str->c_str()) < 0) {
-    qDebug() << "There was an error writing";
-    return 0;
-  }
-
-  if (!sock->waitForBytesWritten(-1)) {
-    qDebug() << "There was an error waiting for writing to finish";
-    return 0;
-  }
-
-  qDebug() << "Disconnecting from client";
-  sock->disconnectFromHost();
-  return 1;
+    return 1;
 }
 

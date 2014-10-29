@@ -26,7 +26,9 @@ class ConnectionServer : public QObject {
     Returns   : 1 - Success
                 0 - Fail
     ===================================================================== */
-    int WaitForRequest(string *);
+
+    int WaitForRequest(QByteArray*);
+
 
     /* =====================================================================
     Function  : SendResponse
@@ -35,7 +37,8 @@ class ConnectionServer : public QObject {
     Returns   : 1 - Success
                 0 - Fail
     ===================================================================== */
-    int SendResponse(string *);
+
+    int SendResponse(QByteArray*);
 
   private:
     int         portno;

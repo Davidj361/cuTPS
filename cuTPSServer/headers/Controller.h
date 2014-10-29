@@ -4,10 +4,12 @@
 #include <QObject>
 #include <QCoreApplication>
 #include <QDebug>
+#include <QByteArray>
 
 #include "ConnectionServer.h"
 #include "Serializer.h"
 #include "DBManager.h"
+#include "../../common/headers/Definitions.h"
 
 class Controller : public QObject {
     Q_OBJECT

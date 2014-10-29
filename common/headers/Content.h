@@ -2,6 +2,7 @@
 #define CONTENT_H
 #include <QString>
 
+
 class Content{
     public:
         QString getTitle();

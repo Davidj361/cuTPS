@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 #include <QByteArray>
 
+#include "../common/headers/Content.h"
 #include "../../common/headers/Definitions.h"
 
 using namespace std;
@@ -20,11 +21,8 @@ class Serializer {
     // Function  : Deserialize
     // Purpose   : Deserializes a request
     // Variables : In  - The raw data from the Connection class
-    // Out - The command to be performed
-    // Out - The deserialized object
-    // FIXME
-    //                  ***** Returns   : 1 - Success
-    //                  *** 0 - Fail
+    //             Out - The deserialized object
+    // Returns   : The command to be performed
     ===================================================================== */
     commands_t deserialize(const QByteArray &, void *) const;
 
@@ -32,11 +30,9 @@ class Serializer {
     // Function  : Serialize
     // Purpose   : Deserializes a request
     // Variables : In  - The command that was performed
-    // In  - The object to serialize
-    // In  - The outcome of the operation (1 = Success, 0 = Fail)
-    // Out - The serialized object to send to the connection class
-    // Returns   : 1 - Success
-    // 0 - Fail
+    //             In  - The object to serialize
+    //             In  - The outcome of the operation (1 = Success, 0 = Fail)
+    // Returns   : The serialized object to send to the connection class
     // ===================================================================== */
     QByteArray *serialize(const commands_t &, void *, bool) const;
 

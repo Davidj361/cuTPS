@@ -11,53 +11,49 @@ Controller::Controller (QObject *parent) : QObject(parent) {
 }
 
 Controller::~Controller () {
+  delete connection;
+  delete serializer;
 }
 
 void Controller::Run () {
-  string *out = new string();
-  string *in  = new string();
-  string *cmd = new string();
+  QByteArray *out;
+  QByteArray *in;
+  commands_t *cmd;
+  void *object;
+  commands_t command;
 
   // Create new ConnectionServer to handle incoming requests
   connection = new ConnectionServer();
 
   // Create new Serializer to process requests
-  // serializer = new Serializer();
+  serializer = new Serializer();
 
   // Create new DBManager to handle all storage operations
   // dbManager = new DBManager();
 
   while (true) {
+    try {
+      connection->WaitForRequest(in);
+      command = serializer->deserialize(in, object);
 
-    if (!connection->WaitForRequest(in))
-      qDebug() << "An error occured while waiting for a request";
+      switch (command) {
+        case ADD_CONTENT:
+          // Do something
+        break;
+        case ADD_INVOICE:
+          // Do something
+        break;
+        case GET_CONTENT:
+          // Do something
+        break;
+      }
 
-    // Deserialize the request
-    // if (!serializer->deserialize(in, cmd, /* object out */))
-    //    qDebug() << "An error occured while deserializing the request";
-
-
-    // Handle the command
-    //        if (cmd == "something") {
-
-    //        }
-    //        else if (cmd == "something else") {
-
-    //        }
-    //        else {
-    //            qDebug() << "An error occured?";
-    //        }
-
-
-    qDebug() << "recieved:" << in->c_str();
-    out->assign("dong");
-
-    // Serialize the response
-    // if (!serializer->serialize()) {
-    //      qDebug() << "An error occured while serializing the response";
-    // }
-
-    connection->SendResponse(out);
+      out = serializer->serialize(command, object, TRUE)
+      connection->SendResponse(out);
+    }
+    catch (exception& e) {
+      cout << e.what() << endl;
+    }    
   }
 
   // you must call quit when complete or the program will stay in the

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class ConnectionServer : public QObject{
+class ConnectionServer : public QObject {
 
   public:
     // default port is 60001
@@ -26,7 +26,7 @@ class ConnectionServer : public QObject{
     Returns   : 1 - Success
                 0 - Fail
     ===================================================================== */
-    int WaitForRequest(string*);
+    int WaitForRequest(string *);
 
     /* =====================================================================
     Function  : SendResponse
@@ -35,7 +35,8 @@ class ConnectionServer : public QObject{
     Returns   : 1 - Success
                 0 - Fail
     ===================================================================== */
-    int SendResponse(string*);
+    int SendResponse(string *);
+
   private:
     int         portno;
     QTcpServer *server;

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-commands_t Serializer::Deserialize(const QByteArray *in_json, void *out_object) {
+commands_t Serializer::deserialize(const QByteArray *in_json, void *out_object) {
 
   // Create a QJsonDocument from the QByteArray
   QJsonDocument jdoc = QJsonDocument::fromJson(in_json);
@@ -39,7 +39,7 @@ commands_t Serializer::Deserialize(const QByteArray *in_json, void *out_object) 
   return out_command;
 }
 
-QByteArray *Serializer::Serialize(const commands_t *in_command, void *in_object, bool in_outcome) {
+QByteArray *Serializer::serialize(const commands_t *in_command, void *in_object, bool in_outcome) {
   QJsonObject json;
   QJsonDocument jdoc;
 

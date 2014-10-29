@@ -27,7 +27,7 @@ class Serializer {
     Returns   : 1 - Success
                 0 - Fail
     ===================================================================== */
-    commands_t Deserialize(const QByteArray *, void *) const;
+    commands_t deserialize(const QByteArray *, void *) const;
 
     /* =====================================================================
     Function  : Serialize
@@ -39,12 +39,12 @@ class Serializer {
     Returns   : 1 - Success
                 0 - Fail
     ===================================================================== */
-    QByteArray* Serialize(const commands_t &, void *, bool) const;
+    QByteArray* serialize(const commands_t &, void *, bool) const;
 
   private:
-    void CreateContent(const QJsonObject &, void *);
+    void createContent(const QJsonObject &, void *);
     void createInvoice(const QJsonObject &, void *);
     // FIXME Change the return type to a content list
-    int SerializeContent(void *);
+    int serializeContent(void *);
 };
 #endif

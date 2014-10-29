@@ -12,21 +12,16 @@ Controller::Controller (QObject *parent) : QObject(parent) {
 
 Controller::~Controller () {
   delete connection;
-  delete serializer;
 }
 
 void Controller::Run () {
   QByteArray *out;
   QByteArray *in;
-  commands_t *cmd;
   void *object;
   commands_t command;
 
   // Create new ConnectionServer to handle incoming requests
   connection = new ConnectionServer();
-
-  // Create new Serializer to process requests
-  serializer = new Serializer();
 
   // Create new DBManager to handle all storage operations
   // dbManager = new DBManager();
@@ -48,7 +43,7 @@ void Controller::Run () {
         break;
       }
 
-      out = serializer->serialize(command, object, TRUE);
+      out = serializer->serialize(command, object, true);
       connection->SendResponse(out);
     }
     catch (exception& e) {

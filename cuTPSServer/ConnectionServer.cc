@@ -61,7 +61,7 @@ int ConnectionServer::WaitForRequest(QByteArray* str){
 
 int ConnectionServer::SendResponse(QByteArray* str){
     /*  Write message to client  */
-    if(sock->write(str) < 0){
+    if(sock->write(*str) < 0){
         qDebug() << "There was an error writing";
         return 0;
     }

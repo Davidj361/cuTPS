@@ -14,7 +14,7 @@ ConnectionClient::ConnectionClient(QString* IPADDR, int PORT, QObject *parent) :
 
 int ConnectionClient::request(QByteArray * inStr, QByteArray *outStr) {
     /*  Connect to the server and write the request  */
-    connect(sock, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(runTest3()));
+    //connect(sock, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(runTest3()));
     sock->connectToHost(*serverAddr, portno);
     sock->write(*inStr);
     sock->waitForBytesWritten(-1);

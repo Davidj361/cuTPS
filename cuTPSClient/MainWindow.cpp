@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->btnRunTest2, SIGNAL(clicked()), this, SLOT(runTest2()));
     connect(ui->btnRunTest3, SIGNAL(clicked()), this, SLOT(runTest3()));
 
-    serverIP = new QString("127.0.0.1");
+    serverIP = new QString("192.168.28.100");
     portno = 60001;
 }
 

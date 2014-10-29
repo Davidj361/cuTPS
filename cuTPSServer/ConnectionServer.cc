@@ -2,45 +2,42 @@
 #include <unistd.h>
 
 /*  Add exception throwing after cerrs  */
-ConnectionServer::ConnectionServer(QObject *parent):
-    QObject(parent)
-{
-    portno = 60001;
-    server = new QTcpServer(this);
-    if(!server->listen(QHostAddress::Any, portno)){
-        qDebug() << "Server would not listen";
-    }
-    else{
-        qDebug()<<"Server is listening";
-    }
+ConnectionServer::ConnectionServer(QObject *parent): QObject(parent) {
+  portno = 60001;
+  server = new QTcpServer(this);
+
+  if (!server->listen(QHostAddress::Any, portno)) {
+    qDebug() << "Server would not listen";
+  }
+  else {
+    qDebug() << "Server is listening";
+  }
 }
 
-ConnectionServer::ConnectionServer(int PORT, QObject *parent) :
-    QObject(parent)
-{
-    portno = PORT;
-    server = new QTcpServer(this);
-    if(!server->listen(QHostAddress::Any, portno)){
-        qDebug() << "Server would not listen";
-    }
-    else{
-        qDebug()<<"Server is listening";
-    }
+ConnectionServer::ConnectionServer(int PORT, QObject *parent) : QObject(parent) {
+  portno = PORT;
+  server = new QTcpServer(this);
+
+  if (!server->listen(QHostAddress::Any, portno))
+    qDebug() << "Server would not listen";
+  else
+    qDebug() << "Server is listening";
 }
 
-ConnectionServer::~ConnectionServer(){
-    free(server);
+ConnectionServer::~ConnectionServer() {
+  free(server);
 }
+
 
 int ConnectionServer::WaitForRequest(QByteArray* str){
 
-    qDebug() << "Waiting for a connection";
+  qDebug() << "Waiting for a connection";
 
-    /*  Block until a connection is made by a client  */
-    if(!server->hasPendingConnections())
-        server->waitForNewConnection(-1);
+  /*  Block until a connection is made by a client  */
+  if (!server->hasPendingConnections())
+    server->waitForNewConnection(-1);
 
-    sock = server->nextPendingConnection();
+  sock = server->nextPendingConnection();
 
     /*  Block until a message has been recieved  */
     qDebug()<<"Found a connection";
@@ -56,10 +53,10 @@ int ConnectionServer::WaitForRequest(QByteArray* str){
         str->append(buf);
         return 1;
     }
-    else{
-        qDebug()<<"There was an error waiting to read";
-        return 0;
-    }
+    else {
+    qDebug() << "There was an error waiting to read";
+    return 0;
+  }
 }
 
 int ConnectionServer::SendResponse(QByteArray* str){
@@ -74,6 +71,7 @@ int ConnectionServer::SendResponse(QByteArray* str){
     }
     qDebug()<<"Disconnecting from client";
     sock->disconnectFromHost();
-  return 1;
+
+    return 1;
 }
 

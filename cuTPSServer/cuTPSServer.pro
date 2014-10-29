@@ -8,14 +8,12 @@ QT       += core
 QT       += network
 QT       += sql
 
-QT       -= gui
-
 TARGET = cuTPSServer
-CONFIG   += console
+# CONFIG   += console # might not be needed
 CONFIG   += qt
 CONFIG   -= app_bundle
 
-TEMPLATE = app
+# TEMPLATE = app # already default
 
 
 SOURCES += \
@@ -36,10 +34,10 @@ HEADERS += \
     headers/DBManager.h \
     headers/Controller.h \
     headers/ConnectionServer.h \
-    ../common/User.h \
-    ../common/Student.h \
-    ../common/Content.h \
-    ../common/Textbook.h \
+    ../common/headers/User.h \
+    ../common/headers/Student.h \
+    ../common/headers/Content.h \
+    ../common/headers/Textbook.h \
     ../common/headers/Content.h \
     ../common/headers/Textbook.h \
     ../common/headers/Chapter.h \

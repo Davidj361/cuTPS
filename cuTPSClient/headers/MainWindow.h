@@ -18,10 +18,10 @@ class MainWindow : public QMainWindow {
         ~MainWindow();
 
     public slots:
-    void RunTests();
-    void RunTest1();
-    void RunTest2();
-    void RunTest3();
+    void runTests();
+    void runTest1();
+    void runTest2();
+    void runTest3();
 
 
     private:

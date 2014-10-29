@@ -1,9 +1,9 @@
 #include "headers/Invoice.h"
 
-Invoice::Invoice(User* cUser, Content** cContentlist){
+Invoice::Invoice(User* cUser, Content** cContentList){
     user = cUser;
     contentList = cContentList;
 }
 
-Content** getContentList(){return contentList;}
-User* getUser(){return user;}
+Content** Invoice::getContentList(){ return contentList; }
+User* Invoice::getUser(){return user;}

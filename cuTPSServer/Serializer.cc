@@ -52,7 +52,7 @@ QByteArray *Serializer::serialize(const commands_t &in_command, void *in_object,
 
   // TODO - convert json object to bytearray
 
-  return json;
+  return retArray;
 }
 
 // Construct content

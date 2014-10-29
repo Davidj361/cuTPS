@@ -41,6 +41,6 @@ class Serializer {
     void createInvoice(const QJsonObject&, void*) const;
     // returns an error
     // 1st Argument:
-    int serializeContent(QByteArray*, void*);
+        int serializeContent(void*, QByteArray*) const;
 };
 #endif

@@ -48,7 +48,7 @@ void Controller::Run () {
         break;
       }
 
-      out = serializer->serialize(command, object, TRUE)
+      out = serializer->serialize(command, object, TRUE);
       connection->SendResponse(out);
     }
     catch (exception& e) {

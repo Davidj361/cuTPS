@@ -57,7 +57,8 @@ QByteArray *Serializer::serialize(const commands_t &in_command, void *in_object,
 
 // Construct content
 void Serializer::createContent(const QJsonObject &, void *) const {
-  // for this we want to create a content object
+  // for this we want to create a a textbook with all its corresponding chapters and sections
+  
 }
 
 // Construct Invoice

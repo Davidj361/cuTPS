@@ -24,7 +24,9 @@ SOURCES += \
     main.cc \
     ConnectionServer.cc \
     ../common/Student.cc \
-    ../common/Textbook.cc
+    ../common/Textbook.cc \
+    ../common/Chapter.cc \
+    ../common/Section.cc
 
 OTHER_FILES +=
 
@@ -35,4 +37,9 @@ HEADERS += \
     ../common/User.h \
     ../common/Student.h \
     ../common/Content.h \
-    ../common/Textbook.h
+    ../common/Textbook.h \
+    ../common/headers/Content.h \
+    ../common/headers/Textbook.h \
+    ../common/headers/Chapter.h \
+    ../common/headers/Section.h \
+    ../common/headers/User.h

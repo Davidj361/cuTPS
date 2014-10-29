@@ -4,13 +4,12 @@
 
 class Content{
     public:
-        virtual ~Content();
         QString getTitle();
         float   getPrice();
         bool    isAvailable();
 
 
-    private:
+    protected:
         QString title;
         float   price;
         bool    available;

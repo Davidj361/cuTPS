@@ -1,5 +1,6 @@
 #ifndef TEXTBOOK_H
 #define TEXTBOOK_H
+#include "Content.h"
 
 class Textbook: public Content{
 

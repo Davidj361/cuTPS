@@ -1,5 +1,4 @@
 #include "headers/ConnectionServer.h"
-#include <unistd.h>
 
 /*  Add exception throwing after cerrs  */
 ConnectionServer::ConnectionServer(QObject *parent): QObject(parent) {

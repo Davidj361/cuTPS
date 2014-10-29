@@ -8,7 +8,7 @@
 
 #include "ConnectionServer.h"
 #include "Serializer.h"
-#include "DBManager.h"
+// #include "DBManager.h"
 #include "../../common/headers/Definitions.h"
 
 class Controller : public QObject {
@@ -56,6 +56,6 @@ class Controller : public QObject {
     QCoreApplication *app;
     ConnectionServer *connection;
     Serializer *serializer;
-    DBManager *dbManager;
+    // DBManager *dbManager;
 };
 #endif

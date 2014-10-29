@@ -1,6 +1,8 @@
 #ifndef CONNECTIONSERVER_H
 #define CONNECTIONSERVER_H
 
+#include <unistd.h>
+
 #include <QObject>
 #include <QDebug>
 #include <QTcpServer>

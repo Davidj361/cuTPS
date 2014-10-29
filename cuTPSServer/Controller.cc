@@ -1,6 +1,6 @@
 #include "headers/Controller.h"
 
-using namespace std;
+// using namespace std;
 
 Controller::Controller (QObject *parent) : QObject(parent) {
   app = QCoreApplication::instance();
@@ -29,7 +29,7 @@ void Controller::Run () {
   while (true) {
     try {
       connection->WaitForRequest(in);
-      command = serializer->deserialize(in, object);
+      command = serializer->deserialize(*in, object);
 
       switch (command) {
         case ADD_CONTENT:

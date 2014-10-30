@@ -33,7 +33,7 @@ class Serializer {
     //             In  - The outcome of the operation (1 = Success, 0 = Fail)
     // Returns   : The serialized object to send to the connection class
     // ===================================================================== */
-    QByteArray* Serialize(const commands_t &, void *, const outcome_t) const;
+    QByteArray* Serialize(const commands_t &, void *, const status_t) const;
 
   private:
     void createContent(const QJsonObject &, void *) const;

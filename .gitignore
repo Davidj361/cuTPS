@@ -21,6 +21,10 @@ ui_*.h
 Makefile*
 *-build-*
 *build-*
+cuTPSServer/cuTPSServer
+cuTPSClient/cuTPSClient
+*.swp
+*~
 
 # QtCreator
 

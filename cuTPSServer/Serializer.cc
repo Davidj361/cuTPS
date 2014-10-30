@@ -36,14 +36,14 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object) 
   return out_command;
 }
 
-QByteArray* Serializer::Serialize(const commands_t &in_command, void *in_object, outcome_t in_outcome) const {
+QByteArray* Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status) const {
   QJsonObject json;
   QJsonDocument jdoc;
   QByteArray *retArray;
 
   json["command"] = in_command;
 
-  if(in_outcome) json["outcome"] = in_outcome;
+  if(status) json["outcome"] = status;
   else {
     switch(in_command){
       case ADD_CONTENT:

@@ -2,18 +2,21 @@
 #define USER_H
 
 #include "Definitions.h"
+#include <QString>
+
 
 class User {
   public:
-    User(QString, QString, QString, user_t);
+    User(QString, QString, QString, QString);
     QString getUserName();
     QString getName();
-    user_t  getType();
+    QString getPassword();
+    QString getType();
   private:
     QString username;
     QString name;
     QString password;
-    user_t type;
+    QString type;
 };
 #endif
 

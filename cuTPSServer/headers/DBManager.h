@@ -1,8 +1,11 @@
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
 
-#include <string>
-#include <vector>
+
+#include <QString>
+#include <QVector>
+#include <QSqlDatabase>
+#include "../common/headers/User.h"
 
 using namespace std;
 
@@ -10,6 +13,9 @@ class DBManager {
   public:
     DBManager();
     ~DBManager();
+    bool addUser(User* user);
+    bool removeUser(User* user);
+    void showUsers();
 
     /* =====================================================================
       Function  : RetrieveContentList
@@ -20,7 +26,7 @@ class DBManager {
                   0 - Fail
       TODO: Change string to Content when the class has been created
     ===================================================================== */
-    int RetrieveContentList (string *, vector<string> *);
+    //int RetrieveContentList (string *, vector<string> *);
 
     /* =====================================================================
     Function  : StoreContent
@@ -30,7 +36,7 @@ class DBManager {
                 0 - Fail
     TODO: Change string to Content when the class has been created
     ===================================================================== */
-    int StoreContent (string *);
+   // int StoreContent (string *);
 
     /* =====================================================================
       Function  : StoreInvoice
@@ -40,7 +46,7 @@ class DBManager {
                   0 - Fail
       TODO: Change string to Invoice when the class has been created
     ===================================================================== */
-    int StoreInvoice (string *);
+   // int StoreInvoice (string *);
   private:
 };
 #endif

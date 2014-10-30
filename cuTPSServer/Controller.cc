@@ -1,4 +1,6 @@
 #include "headers/Controller.h"
+#include "../common/headers/User.h"
+#include "../common/headers/Student.h"
 
 using namespace std;
 
@@ -21,7 +23,12 @@ void Controller::Run () {
     connection = new ConnectionServer();
 
     // Create new DBManager to handle all storage operations
-    // dbManager = new DBManager();
+    dbManager = new DBManager();
+    Student* u = new Student("admin","pass","Joe Blow");
+    dbManager->addUser(u);
+    dbManager->addUser(u);
+    dbManager->removeUser(u);
+    dbManager->removeUser(u);
   }
   catch (exception &e) {
     cout << e.what() << endl;

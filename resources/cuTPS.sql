@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `Textbooks` (
 );
 
 CREATE TABLE IF NOT EXISTS `Chapters` (
-    `id` INTEGER NOT NULL PRIMARY KEY,
+    `id` INTEGER UNIQUE,
     `name` TEXT NOT NULL,
     `number` INTEGER NOT NULL,
     `textbook` TEXT NOT NULL,
@@ -39,19 +39,22 @@ CREATE TABLE IF NOT EXISTS `Chapters` (
     `availability` INTEGER NOT NULL,
     `price` REAL NOT NULL,
     `content_id` INTEGER NOT NULL,
+    PRIMARY KEY(`number`, `textbook`),
     FOREIGN KEY(`textbook`) REFERENCES Textbooks(`isbn`),
     FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `Sections` (
-    `id` INTEGER NOT NULL PRIMARY KEY,
+    `id` INTEGER UNIQUE,
     `name` TEXT NOT NULL,
     `number` INTEGER NOT NULL,
     `chapter` INTEGER NOT NULL,
+    `textbook` TEXT NOT NULL,
     `description` TEXT,
     `availability` INTEGER NOT NULL,
     `price` REAL NOT NULL,
     `content_id` INTEGER NOT NULL,
+    PRIMARY KEY(`number`, `chapter`, `textbook`),
     FOREIGN KEY(`chapter`) REFERENCES Chapters(`id`),
     FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
 );
@@ -170,15 +173,15 @@ INSERT INTO `Textbooks` (isbn, title, publisher, author, year, edition, descript
 -- Create some chapters
 INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
-    VALUES ('Intro to Processing', 1, '0123736021', 'An introduction to the Processing language.', 1, 15, (SELECT last_insert_rowid()));
+    VALUES ('Features', 1, '0123736021', 'Features of the Processing programming language.', 1, 15, (SELECT last_insert_rowid()));
 
 INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
-    VALUES ('Drawing Shapes', 2, '0123736021', 'How to draw basic shapes with Processing.', 1, 15, (SELECT last_insert_rowid()));
+    VALUES ('Examples', 2, '0123736021', 'Basic Processing examples.', 1, 15, (SELECT last_insert_rowid()));
 
 INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
-    VALUES ('Animations', 3, '0123736021', 'Controlling the movement of objects.', 1, 20, (SELECT last_insert_rowid()));
+    VALUES ('Related Projects', 3, '0123736021', 'Projects using the Processing language.', 1, 20, (SELECT last_insert_rowid()));
 
 INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
@@ -315,5 +318,31 @@ INSERT INTO `Chapters` (name, number, textbook, description, availability, price
 INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
     VALUES ('Leviticus', 3, '082760680X', '', 1, 5, (SELECT last_insert_rowid()));
+    
+-- Create some Sections
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Sections` (name, number, chapter, textbook, description, availability, price, content_id) 
+    VALUES ('Hello World', 1, 2, '0123736021', 'A basic Hello World example in Processing', 1, 2, (SELECT last_insert_rowid()));
+    
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Sections` (name, number, chapter, textbook, description, availability, price, content_id) 
+    VALUES ('United States presidential election map', 2, 2, '0123736021', 'How to draw a United States presidential election map in Processing', 1, 2, (SELECT last_insert_rowid()));
+    
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Sections` (name, number, chapter, textbook, description, availability, price, content_id) 
+    VALUES ('Design By Numbers', 1, 3, '0123736021', '', 1, 5, (SELECT last_insert_rowid()));
+    
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Sections` (name, number, chapter, textbook, description, availability, price, content_id) 
+    VALUES ('Wiring, Arduino, and Fritzing', 2, 3, '0123736021', '', 1, 5, (SELECT last_insert_rowid()));
+    
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Sections` (name, number, chapter, textbook, description, availability, price, content_id) 
+    VALUES ('Wiring, Arduino, and Fritzing', 3, 3, '0123736021', '', 1, 5, (SELECT last_insert_rowid()));
+
+    
+-- Link Courses to Books
+INSERT INTO `Book_List` (textbook_id, course_code) VALUES ('0123736021', 'COMP 1405');
+INSERT INTO `Book_List` (textbook_id, course_code) VALUES ('0071808558', 'COMP 1406');
 
 END TRANSACTION;

@@ -114,6 +114,7 @@ INSERT INTO `Courses` (code, name) VALUES ('PSCI 1100', 'Introduction to Politic
 INSERT INTO `Courses` (code, name) VALUES ('ERTH 2401', 'Dinosaurs');
 INSERT INTO `Courses` (code, name) VALUES ('SPAN 2415', 'Natural Disasters');
 
+-- Create some textbooks
 INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Textbooks` (isbn, title, publisher, author, year, edition, description, availability, price, content_id)
     VALUES ('0123736021', 'Learning Processing', 'Morgan Kaufmann', 'Daniel Shiffman', 2008, '1', 'A Beginners Guide to Programming Images, Animation, and Interaction', 1,  58.82,  (SELECT last_insert_rowid()));
@@ -166,5 +167,153 @@ INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Textbooks` (isbn, title, publisher, author, year, edition, description, availability, price, content_id)
     VALUES ('082760680X', 'The Torah, Pocket Edition', 'The Jewish Publication Society', 'Inc. Jewish Publication Society', 1999, 'Pocket Edition', 'The Torah is the essence of Jewish tradition; it inspires each successive generation. The current JPS translation, based on classical and modern sources, is acclaimed for its fidelity to the ancient Hebrew.', 0, 15.12, (SELECT last_insert_rowid()));
 
+-- Create some chapters
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Intro to Processing', 1, '0123736021', 'An introduction to the Processing language.', 1, 15, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Drawing Shapes', 2, '0123736021', 'How to draw basic shapes with Processing.', 1, 15, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Animations', 3, '0123736021', 'Controlling the movement of objects.', 1, 20, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Intro to Java', 1, '0071808558', 'An introduction to the Java programming language.', 1, 10, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Variables', 2, '0071808558', 'Declaring and using variables in Java.', 1, 10, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Objects', 3, '0071808558', 'Object-oriented programming in Java.', 1, 15, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Grand challenges, past and present', 1, '1906574820', 'Challenges in the field of discrete mathematics.', 1, 9, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Topics in discrete mathematics', 2, '1906574820', '', 1, 15, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Overview', 1, '0136067123', 'An overview of systems programming', 1, 20, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('History', 2, '0136067123', 'A history of systems programming', 1, 20, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Introduction', 1, '1927356385', 'An introduction to data structures', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Array-based Lists', 2, '1927356385', 'Implementations of the List and Queue interfaces', 1, 10, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Linked Lists', 3, '1927356385', 'Implementations of the List interface', 1, 10, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Skip Lists', 4, '1927356385', 'Theory and implementation of the skip list data structure', 1, 10, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Introduction to Single Variable Calculus', 1, '0538498676', '', 1, 20, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Derivatives', 2, '0538498676', 'Calculating the derivative of a function', 1, 30, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Integrals', 3, '0538498676', 'Performing function integrations', 1, 30, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('History', 1, '9780538735452', 'The history of linear algebra', 1, 20, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Scope of study', 2, '9780538735452', '', 1, 30, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Theorems', 3, '9780538735452', 'Useful theorems to remember', 1, 30, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('History', 1, '0030740169', 'The history of political theories', 1, 15, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Contemporary political philosophy', 2, '0030740169', '', 1, 25, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Influential political philosophers', 3, '0030740169', '', 1, 25, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Etymology', 1, '0521282373', 'The taxonomy of dinosaurs', 1, 8.50, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Definition', 2, '0521282373', 'What is a dinosaur?', 1, 10.50, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Evolutionary History', 3, '0521282373', 'Where did dinosaurs come from?', 1, 13.50, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Avalanches', 1, '0070385491', 'Anatomy of an avalanche', 1, 15.50, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Volcanic Eruptions', 2, '0070385491', 'Dissecting an eruption', 1, 15.50, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Earthquakes', 3, '0070385491', 'Earthquake shakedown', 1, 15.50, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Old Testament', 1, '0199557608', '', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('New Testament', 2, '0199557608', '', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Monotheism', 1, '1879402297', '', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Eschatology', 2, '1879402297', '', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Prophets', 3, '1879402297', '', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Genesis', 1, '082760680X', '', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Exodus', 2, '082760680X', '', 1, 5, (SELECT last_insert_rowid()));
+
+INSERT INTO `Content` DEFAULT VALUES;
+INSERT INTO `Chapters` (name, number, textbook, description, availability, price, content_id) 
+    VALUES ('Leviticus', 3, '082760680X', '', 1, 5, (SELECT last_insert_rowid()));
 
 END TRANSACTION;

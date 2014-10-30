@@ -1,6 +1,7 @@
 #ifndef TEXTBOOK_H
 #define TEXTBOOK_H
 #include "Content.h"
+#include <QJsonObject>
 
 class Textbook: public Content {
 
@@ -12,13 +13,14 @@ class Textbook: public Content {
     QString getEdition();
     QString getDescription();
     int     getYear();
+    QJsonObject* serialize();
+
 
   private:
     QString author;
     QString ISBN;
     QString publisher;
     QString edition;
-    QString description;
     int     year;
 };
 

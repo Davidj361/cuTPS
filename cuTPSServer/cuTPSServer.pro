@@ -44,4 +44,5 @@ HEADERS += \
     ../common/headers/Textbook.h \
     ../common/headers/Chapter.h \
     ../common/headers/Section.h \
-    ../common/headers/User.h
+    ../common/headers/User.h \
+    ../common/headers/Definitions.h

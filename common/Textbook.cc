@@ -37,3 +37,15 @@ QString Textbook::getDescription() {
 int     Textbook::getYear() {
   return year;
 }
+
+QJsonObject* Textbook::serialize(){
+    QJsonObject *textbookJson = new QJsonObject();
+    (*textbookJson)["title"] = title;
+    (*textbookJson)["available"] = available;
+    (*textbookJson)["price"] = price;
+    (*textbookJson)["author"] = author;
+    (*textbookJson)["publisher"] = publisher;
+    (*textbookJson)["edition"] = edition;
+    (*textbookJson)["year"] = year;
+    return textbookJson;
+}

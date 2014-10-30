@@ -11,3 +11,7 @@ float Content::getPrice() {
 bool Content::isAvailable() {
   return available;
 }
+
+QString Content::getDescription(){
+    return description;
+}

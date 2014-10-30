@@ -27,7 +27,8 @@ SOURCES += \
     ../common/Chapter.cc \
     ../common/Section.cc \
     ../common/Content.cc \
-    ../common/Invoice.cc
+    ../common/Invoice.cc \
+    ../common/User.cc
 
 OTHER_FILES +=
 

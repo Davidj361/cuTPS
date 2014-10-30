@@ -1,22 +1,26 @@
 #include "headers/User.h"
 
-User::User(QString cUsername, QString cName, QString cPassword,
-           user_t cType) {
-  username = cUsername;
-  name = cName;
-  password = cPassword;
-  type = cType;
+User::User(QString cUsername, QString cPassword, QString cType, QString cName) {
+    username = cUsername;
+    password = cPassword;
+    type = cType;
+    name = cName;
 }
 
-User::getName() {
-  return name;
+
+QString User::getUserName() {
+    return username;
 }
 
-User::getUserName() {
-  return username;
+QString User::getPassword() {
+    return password;
 }
 
-User::type() {
-  return type;
+QString User::getType() {
+    return type;
+}
+
+QString User::getName() {
+    return name;
 }
 

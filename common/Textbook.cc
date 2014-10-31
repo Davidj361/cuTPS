@@ -40,7 +40,7 @@ int     Textbook::getYear() {
 }
 
 void Textbook::addChapter(Chapter * cha){
-  chapters->push_back(cha);
+  chapters.push_back(cha);
 }
 
 vector<Chapter*>& Textbook::getChapters(){return chapters;}

@@ -142,7 +142,7 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
   else{
     switch(in_command){
       case GET_CONTENT:
-        if(status = SUCCESS)
+        if(status == SUCCESS)
           serializeContent(in_object, json);
         break;
       default:
@@ -321,7 +321,3 @@ void Serializer::createContent(const QJsonObject& json, vector<Textbook*>& textb
         }
 }
 
-// Create a Json array or object for all the content
-int Serializer::serializeContent(void *, QByteArray *) const {
-        return 0;
-}

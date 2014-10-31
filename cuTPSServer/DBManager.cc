@@ -355,7 +355,7 @@ void DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
             }
             textbook.addChapter(&chapter);
         }
-        list.allocator_typepush_back(textbook);
+        list.push_back(textbook);
     }
 }
 

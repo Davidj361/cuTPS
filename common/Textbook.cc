@@ -2,7 +2,7 @@
 
 Textbook::Textbook(QString cTitle, bool cAvailable, float cPrice,
                    QString cAuthor, QString cISBN, QString cPublisher,
-                   QString cEdition, QString cDescription, int cYear) {
+                   QString cEdition, QString cDescription, int cYear, int cC_id) {
   title = cTitle;
   available = cAvailable;
   price = cPrice;
@@ -12,6 +12,7 @@ Textbook::Textbook(QString cTitle, bool cAvailable, float cPrice,
   edition = cEdition;
   description = cDescription;
   year = cYear;
+  c_id = cC_id;
 }
 
 QString Textbook::getAuthor() {
@@ -36,4 +37,17 @@ QString Textbook::getDescription() {
 
 int     Textbook::getYear() {
   return year;
+}
+
+QJsonObject* Textbook::serialize(){
+    QJsonObject *textbookJson = new QJsonObject();
+    (*textbookJson)["title"] = title;
+    (*textbookJson)["available"] = available;
+    (*textbookJson)["price"] = price;
+    (*textbookJson)["author"] = author;
+    (*textbookJson)["publisher"] = publisher;
+    (*textbookJson)["edition"] = edition;
+    (*textbookJson)["year"] = year;
+    (*textbookJson)["c_id"] = c_id;
+    return textbookJson;
 }

@@ -3,11 +3,14 @@
 #include "Content.h"
 #include "Textbook.h"
 #include "Chapter.h"
+#include <QJsonObject>
 
 class Section: public Content {
-    Section(QString, bool, float, Textbook *, Chapter *);
-    Chapter *getChapter();
-    Textbook *getTextbook();
+    Section(QString, bool, float, int, QString description = "",Textbook * = 0, Chapter * = 0, int cC_id = 0);
+    Chapter* getChapter();
+    Textbook* getTextbook();
+    QJsonObject* serialize();
+
   private:
     int       sectionNo;
     Textbook *textbook;

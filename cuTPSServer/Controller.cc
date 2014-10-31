@@ -24,13 +24,6 @@ void Controller::Run () {
 
     // Create new DBManager to handle all storage operations
     dbManager = new DBManager();
-    /* for db management
-    Student* u = new Student("admin","pass","Joe Blow");
-    dbManager->addUser(u);
-    dbManager->addUser(u);
-    dbManager->removeUser(u);
-    dbManager->removeUser(u);
-    */
   }
   catch (exception &e) {
     cout << e.what() << endl;

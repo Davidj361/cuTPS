@@ -50,7 +50,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
                                         qDebug() << "ADD_CHAPTER was an error";
                                         break;
                                 case REQUEST:
-                                        this->createChapter(json, out_object);
+                                        this->createChapter(json, out_object, str1);
                                         break;
                                 default:
                                         throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
@@ -69,7 +69,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
                                         qDebug() << "ADD_SECTION was an error";
                                         break;
                                 case REQUEST:
-                                        this->createSection(json, out_object);
+                                        this->createSection(json, out_object, str1, str2);
                                         break;
                                 default:
                                         throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
@@ -117,36 +117,37 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
         return out_command;
 }
 
-QByteArray* Serializer::Serialize(const commands_t &in_command, void *in_object, outcome_t in_outcome) const {
-        QJsonObject json;
-        QJsonDocument jdoc;
-        QByteArray *retArray;
+QByteArray* Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status) const {
+  QJsonObject json;
+  QJsonDocument jdoc;
+  QByteArray *retArray = new QByteArray();
 
-        json["command"] = in_command;
+  json["command"] = in_command;
 
-        if(in_outcome) json["outcome"] = in_outcome;
-        else {
-                switch(in_command){
-                        case ADD_CONTENT:
-                                //if (!this->serializeContent(in_object, retArray))
-                                // throw runtime_error("ERROR: Serializer::Serialize(), error while serializing an object");
-                                break;
-                        case ADD_INVOICE:
-                                // serialize
-                                break;
-                        case GET_CONTENT:
-                                //serialize
-                                break;
-                        default:
-                                //error?
-                                break; 
-                }
-        }
+  if(status == REQUEST){
+    switch(in_command){
+      // Call serialize on the content object and adds it to the json object.
+      case ADD_CONTENT:
+        json["content"] = *(static_cast<Content*>(in_object)->serialize());
+        json["status"] = REQUEST;
+        break;
+      case ADD_INVOICE:
 
-        // TODO - convert json object to bytearray
+        // serialize
+        break;
+      case GET_CONTENT:
+        //serialize
+        break;
+      default:
+        //error?
+        break; 
+    }
+  }
+
+  // TODO - convert json object to bytearray
 
 
-        return retArray;
+  return retArray;
 }
 
 void Serializer::createTextbook(const QJsonObject& json, void* retData) const {

@@ -1,24 +1,12 @@
-#include <QCoreApplication>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QTextStream>
-#include <QString>
-#include <QDebug>
-#include <QStringList>
-#include <QSqlRecord>
-#include <QList>
 #include "headers/DBManager.h"
-#include "../common/headers/User.h"
-#include <QDir>
 
-QSqlDatabase db;
+using namespace std;
 
 /***************************************************************************
  **                INITILIZE DATABASE                                     **
  **************************************************************************/
 DBManager::DBManager() {
-    db = QSqlDatabase::addDatabase("QSQLITE"); // Treat it as QSQLite
-    //db.setDatabaseName("/home/student/cuTPS/resources/cuTPS.db"); // Connect to the database
+    db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("./../resources/cuTPS.db"); // Connect to the database
 }
 
@@ -29,63 +17,79 @@ DBManager::~DBManager() {
 
 }
 
-
-
 /***************************************************************************
  **                ADD A USER TO DATABASE                                 **
  **************************************************************************/
-bool DBManager::addUser(User* user) {
-    if (db.open()) {
-        QString username = user->getUserName();
-        QString password = user->getPassword();
-        QString type = user->getType();
-        QString name = user->getName();
-        QSqlQuery query;
-        query.exec("SELECT * FROM Users WHERE username = '"+username+"'");
+bool DBManager::AddUser(User* user) {
+    bool result = false;
 
-        if (query.first()) {    // GET username FIELDS AND VALUES FROM TABLE Users
-            qDebug() << name << "already exists in database";
-            db.close();
-            return false;
-        } else {
-            query.prepare("INSERT INTO Users VALUES (:username,:password,:type,:name)");
-            query.bindValue(":username", username);
-            query.bindValue(":password", password);
-            query.bindValue(":type", type);
-            query.bindValue(":name", name);
-            query.exec();
-            qDebug() << name << "was added successfully";
-            db.close();
-            return true;
-            //qDebug() << userToAdd + " was added";
-        }
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::AddUser() Error while performing db.open()");
+
+    QSqlQuery query;
+
+    QString username = user->getUserName();
+    QString password = user->getPassword();
+    QString type = user->getType();
+    QString name = user->getName();
+
+    if (!query.exec("SELECT * FROM Users WHERE username = '" + username + "'"))
+        throw runtime_error("ERROR DBManager::AddUser() Error while searching for user");
+
+    if (query.first()) {
+        result = false;
+    } else {
+        if (!query.prepare("INSERT INTO Users VALUES (:username,:password,:type,:name)"))
+            throw runtime_error("ERROR DBManager::AddUser() Error while preparing INSERT statement");
+
+        query.bindValue(":username", username);
+        query.bindValue(":password", password);
+        query.bindValue(":type", type);
+        query.bindValue(":name", name);
+
+        if (query.exec())
+            result = true;
+        else
+            throw runtime_error("ERROR DBManager::AddUser() Error while inserting user");
     }
+    db.close();
+
+    return result;
 }
 
 /***************************************************************************
  **                REMOVE A USER TO DATABASE                              **
  **************************************************************************/
-bool DBManager::removeUser(User* user) {
+bool DBManager::RemoveUser(User* user) {
+    bool result = false;
 
-    if (db.open()){
-        QSqlQuery query;
-        query.exec("SELECT * FROM Users WHERE username ='"+user->getUserName()+"'");
-        if (query.first()) {
-            query.exec("DELETE FROM Users WHERE username = '"+user->getUserName()+"'");
-            qDebug() << user->getName() << " was removed";
-            return true;
-        } else {
-            qDebug() << user->getName() << " does not exist in the database" << endl;
-        }
-        db.close();
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::RemoveUser() Error while performing db.open()");
+
+    QSqlQuery query;
+
+    QString username = user->getUserName();
+
+    if(!query.exec("SELECT * FROM Users WHERE username ='" + username + "'"))
+        throw runtime_error("ERROR DBManager::RemoveUser() Error while searching for user");
+
+    if (!query.first())
+        result = false;
+    else {
+        if (query.exec("DELETE FROM Users WHERE username = '" + username + "'"))
+            result = true;
+        else
+            throw runtime_error("ERROR DBManager::RemoveUser() Error while deleting user");
     }
-    return false;
+    db.close();
+
+    return result;
 }
 
 /***************************************************************************
  **                SHOWS USERS IN THE DATABASE                            **
  **************************************************************************/
-void DBManager::showUsers() {
+void DBManager::ShowUsers() {
     if (db.open()) {
         QSqlQuery query;
         query.exec("SELECT * FROM Users");
@@ -93,6 +97,45 @@ void DBManager::showUsers() {
             qDebug() << query.value(0).toString();
         }
     }
+}
+
+/***************************************************************************
+ **                STORE TEXTBOOK IN THE DATABASE                         **
+ **************************************************************************/
+bool DBManager::StoreTextbook(Textbook *textbook) {
+    bool result = false;
+
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreTextbook() Error while performing db.open()");
+
+    QSqlQuery query;
+    int content_id = GetNewContentId();
+
+    if (!query.prepare("INSERT INTO Textbooks  (isbn, title, publisher, author, "
+                       "year, edition, description, availability, price, content_id)"
+                       "VALUES (:isbn,:title,:publisher,:author, :year, "
+                       ":edition, :description, :availability, :price, :content_id);"))
+        throw runtime_error("ERROR DBManager::StoreTextbook() Error while preparing INSERT statement");
+
+    query.bindValue(":isbn", textbook->getISBN());
+    query.bindValue(":title", textbook->getTitle());
+    query.bindValue(":publisher", textbook->getPublisher());
+    query.bindValue(":author", textbook->getAuthor());
+    query.bindValue(":year", textbook->getYear());
+    query.bindValue(":edition", textbook->getEdition());
+    query.bindValue(":description", textbook->getDescription());
+    query.bindValue(":availability", textbook->isAvailable());
+    query.bindValue(":price", textbook->getPrice());
+    query.bindValue(":content_id", content_id);
+
+    if (query.exec())
+        result = true;
+    else
+        throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
+
+    db.close();
+
+    return result;
 }
 
 
@@ -183,14 +226,14 @@ void DBManager::showUsers() {
 /***************************************************************************
  **                NEW RECORD IN CONTENT                                  **
  **************************************************************************/
-/*int addNewContentId(QSqlDatabase* db, QString type) {
-    if (db->open()) {
-        QSqlQuery query;
-        query.exec("INSERT INTO Content (type)" "VALUES ('"+type+"')");
-        return query.lastInsertId().toInt(); // Return the ID that was added
-    }
-    return -1;
-} */
+int DBManager::GetNewContentId() {
+    QSqlQuery query;
+
+    if(!query.exec("INSERT INTO Content DEFAULT VALUES;"))
+        throw runtime_error("ERROR DBManager::GetNewContentId() Error while creating new content id");
+
+    return query.lastInsertId().toInt();
+}
 
 /***************************************************************************
  **                REMOVE RECORD IN CONTENT                               **
@@ -287,28 +330,3 @@ void DBManager::showUsers() {
     }
     return false;
 }*/
-
-
-
-/*#include "headers/DBManager.h"
-
-using namespace std;
-
-DBManager::DBManager () {
-}
-
-DBManager::~DBManager () {
-}
-
-int DBManager::RetrieveContentList (string *username, vector<string> *list) {
-  return 0;
-}
-
-int StoreContent (string *content) {
-  return 0;
-}
-
-int StoreInvoice (string *content) {
-  return 0;
-}
-*/

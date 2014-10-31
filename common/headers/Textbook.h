@@ -28,7 +28,7 @@ class Textbook: public Content {
     QString getEdition();
     QString getDescription();
     int     getYear();
-    QJsonObject* serialize();
+    void serialize(QJsonObject&);
 
   private:
     QString author;

@@ -15,18 +15,16 @@ Textbook* Chapter::getTextbook() {
   return textbook;
 }
 
-QJsonObject* Chapter::serialize(){
+void Chapter::serialize(QJsonObject & chapterJson){
 
-    QJsonObject *chapterJson = new QJsonObject();
-    (*chapterJson)["title"] = title;
-    (*chapterJson)["available"] = available;
-    (*chapterJson)["price"] = price;
-    (*chapterJson)["chapterNo"] = chapterNo;
-    (*chapterJson)["description"] = description;
-    (*chapterJson)["c_id"] = c_id;
-    (*chapterJson)["ISBN"] = textbook->getISBN();
+    chapterJson["title"] = title;
+    chapterJson["available"] = available;
+    chapterJson["price"] = price;
+    chapterJson["chapterNo"] = chapterNo;
+    chapterJson["description"] = description;
+    chapterJson["c_id"] = c_id;
+    chapterJson["ISBN"] = textbook->getISBN();
 
-    return chapterJson;
 }
 
 int Chapter::getChapterNo(){

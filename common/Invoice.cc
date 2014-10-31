@@ -17,17 +17,14 @@ QString Invoice::getUsername() {
   return username;
 }
 
-QJsonObject* Invoice::serialize(){
-    QJsonObject *json = new QJsonObject();
-    (*json)["username"] = getUsername();
-    QJsonArray *cidArray = new QJsonArray();
+void Invoice::serialize(QJsonObject& inJson){
+    inJson["username"] = getUsername();
+    QJsonArray cidArray;
     for(vector<int>::const_iterator iter= contentList->begin(); iter != contentList->end(); ++iter){
         QJsonObject cid;
         cid["cid"] = *iter;
-        cidArray->append(cid);
+        cidArray.append(cid);
     }
-    (*json)["contents"] = *cidArray;
+    inJson["contents"] = cidArray;
 
-
-    return json;
 }

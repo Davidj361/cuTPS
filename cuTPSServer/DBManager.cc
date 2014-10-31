@@ -104,7 +104,6 @@ void DBManager::ShowUsers() {
  **************************************************************************/
 bool DBManager::StoreTextbook(Textbook *textbook) {
 
-    qDebug() << *(textbook->serialize());
     bool result = false;
 
     if (!db.open())

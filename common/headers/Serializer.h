@@ -15,6 +15,7 @@
 #include "Textbook.h"
 #include "Chapter.h"
 #include "Section.h"
+#include "Invoice.h"
 
 
 using namespace std;

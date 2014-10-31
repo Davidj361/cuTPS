@@ -39,16 +39,15 @@ int     Textbook::getYear() {
   return year;
 }
 
-QJsonObject* Textbook::serialize(){
-    QJsonObject *textbookJson = new QJsonObject();
-    (*textbookJson)["title"] = title;
-    (*textbookJson)["available"] = available;
-    (*textbookJson)["price"] = price;
-    (*textbookJson)["author"] = author;
-    (*textbookJson)["publisher"] = publisher;
-    (*textbookJson)["edition"] = edition;
-    (*textbookJson)["year"] = year;
-    (*textbookJson)["c_id"] = c_id;
-    (*textbookJson)["ISBN"] = ISBN;
-    return textbookJson;
+void Textbook::serialize(QJsonObject& textbookJson){
+    textbookJson["title"] = title;
+    textbookJson["available"] = available;
+    textbookJson["price"] = price;
+    textbookJson["author"] = author;
+    textbookJson["publisher"] = publisher;
+    textbookJson["edition"] = edition;
+    textbookJson["year"] = year;
+    textbookJson["c_id"] = c_id;
+    textbookJson["ISBN"] = ISBN;
+    textbookJson["description"] = description;
 }

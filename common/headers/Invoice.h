@@ -18,7 +18,7 @@ class Invoice {
     vector<int> *getContentList();
     void addContent(Content*);
     QString getUsername();
-    QJsonObject *serialize();
+    void serialize(QJsonObject&);
 };
 
 #endif // INVOICE_H

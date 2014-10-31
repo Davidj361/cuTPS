@@ -112,6 +112,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
 
 void Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status, QByteArray &out) const {
   QJsonObject json;
+  QJsonObject inJson;
 
   json["command"] = in_command;
 
@@ -121,20 +122,21 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
       case ADD_TEXTBOOK:
       case ADD_CHAPTER:
       case ADD_SECTION:
-        json["content"] = *(static_cast<Content*>(in_object)->serialize());
-        json["status"] = REQUEST;
+        static_cast<Content*>(in_object)->serialize(inJson);
+        json["content"] = inJson;
         break;
       case ADD_INVOICE:
-
-        // serialize
+        static_cast<Invoice*>(in_object)->serialize(inJson);
+        json["invoice"] = inJson;
         break;
       case GET_CONTENT:
-        //serialize
+        json["username"] = static_cast<User*>(in_object)->getUserName();
         break;
       default:
         //error?
         break;
     }
+    json["status"] = REQUEST;
   }
 
 

@@ -300,7 +300,7 @@ void DBManager::RetrieveContentList (QString *username, vector<Textbook> *list) 
     if (!query.exec())
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving user's textbook list");
 
-    // Loop through each textbook, getting all the chapters and sections and creating object
+    // Loop through each textbook, getting all the chapters and sections and creating objects
     while (query.next()) {
 
         Textbook textbook(query.value(0), query.value(1), query.value(2),
@@ -317,6 +317,7 @@ void DBManager::RetrieveContentList (QString *username, vector<Textbook> *list) 
         if (!ch_query.exec())
             throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving chapter info");
 
+        // Loop through each chapter, getting all the sections and creating objects
         while (ch_query.next()) {
             Chapter chapter(query.value(0), query.value(1), &textbook,
                             query.value(3), query.value(4), query.value(5),

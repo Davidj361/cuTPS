@@ -83,6 +83,8 @@ class Serializer {
 
                 void createInvoice(const QJsonObject &, void *&) const;
 
+                void createContent(const QJsonObject& json, vector<Textbook*>& textbooks) const;
+
                 // returns an error
                 // 1st Argument:
                 int serializeContent(void *, QByteArray *) const;

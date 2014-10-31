@@ -6,6 +6,9 @@
 #include "Chapter.h"
 #include <QJsonObject>
 
+class Chapter;
+class Textbook;
+
 class Section: public Content {
     public:
         Section(QString, int, Chapter * = 0, Textbook * = 0, QString description = "", bool, float, int cC_id = 0);

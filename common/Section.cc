@@ -1,8 +1,8 @@
 #include "headers/Section.h"
 
 Section::Section(QString cTitle, bool cAvailable,
-                 float cPrice,int cSectionNo, Textbook *cTextbook,
-                 Chapter *cChapter, QString cDescription) {
+                 float cPrice,int cSectionNo, QString cDescription, Textbook *cTextbook,
+                 Chapter *cChapter, int cC_id) {
   title = cTitle;
   available = cAvailable;
   price = cPrice;
@@ -10,6 +10,7 @@ Section::Section(QString cTitle, bool cAvailable,
   textbook = cTextbook;
   chapter = cChapter;
   description = cDescription;
+  c_id = cC_id;
 }
 
 Textbook *Section::getTextbook() {
@@ -27,5 +28,6 @@ QJsonObject* Section::serialize(){
     (*sectionJson)["price"] = price;
     (*sectionJson)["sectionNo"] = sectionNo;
     (*sectionJson)["description"] = description;
+    (*sectionJson)["c_id"] = c_id;
     return sectionJson;
 }

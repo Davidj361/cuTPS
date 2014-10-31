@@ -10,6 +10,7 @@ class Content {
     float   getPrice();
     bool    isAvailable();
     QString getDescription();
+    int     getcid();
     virtual QJsonObject* serialize() = 0;
 
   protected:
@@ -17,6 +18,7 @@ class Content {
     float   price;
     bool    available;
     QString description;
+    int     c_id;
 
 };
 

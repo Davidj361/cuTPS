@@ -21,7 +21,7 @@ Chapter *Section::getChapter() {
   return chapter;
 }
 
-int Section::getSectionNumber() {
+int Section::getSectionNo() {
     return sectionNo;
 }
 

@@ -11,7 +11,7 @@ class Section: public Content {
         Chapter* getChapter();
         Textbook* getTextbook();
         QJsonObject* serialize();
-        int getSectionNumber();
+        int getSectionNo();
 
   private:
     int       sectionNo;

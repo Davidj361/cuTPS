@@ -1,8 +1,8 @@
 #ifndef DEFINITION_H
 #define DEFINITION_H
 
-enum commands_t {ADD_CONTENT, ADD_INVOICE, GET_CONTENT};
+enum commands_t {ADD_TEXTBOOK, ADD_CHAPTER, ADD_SECTION, ADD_INVOICE, GET_CONTENT};
 enum user_t {STUDENT, CONTENT_MANAGER, ADMINISTRATOR};
-enum outcome_t {SUCCESS = 1, FAIL};
+enum status_t {SUCCESS, ERROR, REQUEST};
 
 #endif

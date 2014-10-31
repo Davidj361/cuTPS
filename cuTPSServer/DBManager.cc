@@ -209,7 +209,7 @@ bool DBManager::StoreSection(Section *section, QString &isbn, QString &ch_number
 
     query.bindValue(":name", section->getTitle());
     query.bindValue(":number", section->getSectionNo());
-    query.bindValue(":chapter", ch_number);
+    query.bindValue(":chapter", ch_number.toInt());
     query.bindValue(":textbook", isbn);
     query.bindValue(":description", section->getDescription());
     query.bindValue(":availability", int(section->isAvailable()));
@@ -270,6 +270,10 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     db.close();
 
     return result;
+}
+
+bool DBManager::RetrieveContentList (QString *username, vector<Textbook> list*) {
+
 }
 
 /***************************************************************************

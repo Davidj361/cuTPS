@@ -93,6 +93,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                         switch (status) {
                                 // SUCCESS and ERROR are for the client
                                 case SUCCESS:
+                                        // Success for obtaining a content list for the client, we need to create all the textbooks, section, chapters
                                         break;
                                 case ERROR:
                                         break;
@@ -170,18 +171,18 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
       QJsonObject serializedTB;
       (*iter)->serialize(serializedTB);
 
-      vector<Chapter*> *chapters = (*iter)->getChapters();
+      vector<Chapter*> chapters = (*iter)->getChapters();
       QJsonArray chaparray;
 
-      for(vector<Chapter*>::const_iterator chapIter= chapters->begin(); chapIter != chapters->end(); ++chapIter){
+      for(vector<Chapter*>::const_iterator chapIter= chapters.begin(); chapIter != chapters.end(); ++chapIter){
 
         QJsonObject serializedCh;
         (*chapIter)->serialize(serializedCh);
 
-        vector<Section*> *sections = (*chapIter)->getSections();
+        vector<Section*> sections = (*chapIter)->getSections();
         QJsonArray secarray;
 
-        for(vector<Section*>::const_iterator secIter = sections->begin(); secIter != sections->end(); ++secIter){
+        for(vector<Section*>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter){
 
             QJsonObject serializedSec;
             (*secIter)->serialize(serializedSec);
@@ -282,4 +283,45 @@ void Serializer::createInvoice(const QJsonObject& json, void *& retData) const {
         else
                 retData = static_cast<void*>(pInvoice);
         return;
+}
+
+void Serializer::createContent(const QJsonObject& json, vector<Textbook*>& textbooks) const {
+        // Check if textbooks is empty if not then throw an error
+        if (!textbooks.empty())
+                throw runtime_error("Serializer::createContent, vector<Textbook>& textbooks is not empty");
+        // For this we will have 3 levels of arrays, top level is textbooks, 2nd is chapters, 3rd is sections
+        QJsonArray content = json["content"].toArray();
+
+        // TODO Make an overloaded function to deal with these garbage holders
+        QString str1, str2;
+
+        for (QJsonArray::const_iterator book = content.begin(); book != content.end(); ++book) {
+                // We are at a textbook so we create a textbook with all the attributes then proceed to add the corresponding chapters
+                Textbook* pTextbook;
+                void* temp;
+                this->createTextbook((*book).toObject(), temp);
+                pTextbook = static_cast<Textbook*>(temp);
+                QJsonArray chapters = (*book).toObject()["chapters"].toArray();
+
+                for (QJsonArray::const_iterator chapter = chapters.begin(); chapter != chapters.end(); ++chapter) {
+                        Chapter* pChapter;
+                        this->createChapter((*chapter).toObject(), temp, str1);
+                        pChapter = static_cast<Chapter*>(temp);
+                        QJsonArray sections = (*chapter).toObject()["chapters"].toArray();
+
+                        for (QJsonArray::const_iterator section = sections.begin(); section != sections.end(); ++section) {
+                                Section* pSection;
+                                this->createSection((*section).toObject(), temp, str1, str2);
+                                pSection = static_cast<Section*>(temp);
+                                pChapter->getSections().push_back(pSection);
+                        }
+                       pTextbook->getChapters().push_back(pChapter); 
+                }
+                textbooks.push_back(pTextbook);
+        }
+}
+
+// Create a Json array or object for all the content
+int Serializer::serializeContent(void *, QByteArray *) const {
+        return 0;
 }

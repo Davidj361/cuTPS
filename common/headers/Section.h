@@ -1,5 +1,6 @@
 #ifndef SECTION_H
 #define SECTION_H
+
 #include "Content.h"
 #include "Textbook.h"
 #include "Chapter.h"

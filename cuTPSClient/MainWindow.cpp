@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
   connect(ui->btnRunTest1, SIGNAL(clicked()), this, SLOT(runTest1()));
   connect(ui->btnRunTest2, SIGNAL(clicked()), this, SLOT(runTest2()));
   connect(ui->btnRunTest3, SIGNAL(clicked()), this, SLOT(runTest3()));
+
+  s = new Serializer();
+
 }
 
 MainWindow::~MainWindow() {
@@ -42,8 +45,11 @@ void MainWindow::runTests() {
 
 void MainWindow::runTest1() {
   qDebug() << "Running test 1";
-  QByteArray *req = new QByteArray("{\"command\":\"2\",\"userType\":\"0\", \"username\":\"Graeme\"}");
-  QByteArray *res = new QByteArray();
+  Textbook *t = new Textbook("Playboy", true, 50, "David J", "1234567890", "Graeme J", "1", "Boobs", 2014 );
+  QByteArray res;
+  QByteArray req;
+  s->Serialize(ADD_TEXTBOOK, t, REQUEST, req);
+  qDebug() << req;
   connection->request(req, res);
   qDebug() << res;
 }

@@ -10,11 +10,11 @@
 
 #include <stdexcept>
 
-#include "../common/headers/User.h"
-#include "../common/headers/Textbook.h"
-#include "../common/headers/Chapter.h"
-#include "../common/headers/Section.h"
-#include "../common/headers/Invoice.h"
+#include "../../common/headers/User.h"
+#include "../../common/headers/Textbook.h"
+#include "../../common/headers/Chapter.h"
+#include "../../common/headers/Section.h"
+#include "../../common/headers/Invoice.h"
 
 using namespace std;
 

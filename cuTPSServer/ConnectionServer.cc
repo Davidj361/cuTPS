@@ -25,9 +25,7 @@ ConnectionServer::~ConnectionServer() {
 }
 
 
-QByteArray *ConnectionServer::WaitForRequest() {
-
-  QByteArray *str = new QByteArray();
+void ConnectionServer::WaitForRequest(QByteArray &str) {
 
   qDebug() << "Waiting for a connection";
 
@@ -39,25 +37,17 @@ QByteArray *ConnectionServer::WaitForRequest() {
 
   // Block until a message has been recieved
   qDebug() << "Found a connection";
-  int bytesread;
   if (sock->waitForReadyRead(-1)) {
-    char buf[256];
-
-    if ((bytesread = sock->read(buf, 255)) < 0)
-      throw runtime_error("ERROR: ConnectionServer::WaitForRequest(), Error while reading from socket");
-    buf[bytesread] = '\0';
-    str->append(buf);
+    str = sock->readAll();
   }
   else
     throw runtime_error("ERROR: ConnectionServer::WaitForRequest(), Error while waiting to read from socket");
-
-  return str;
 }
 
-void ConnectionServer::SendResponse(QByteArray *str) {
+void ConnectionServer::SendResponse(QByteArray &str) {
 
   // Write message to client
-  if (sock->write(*str) < 0)
+  if (sock->write(str) < 0)
     throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while writing to socket");
 
   if (!sock->waitForBytesWritten(-1))

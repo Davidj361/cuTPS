@@ -8,6 +8,7 @@
 #include "headers/ConnectionClient.h"
 #include "../common/headers/Textbook.h"
 #include "../common/headers/Definitions.h"
+#include "../common/headers/Serializer.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +33,7 @@ class MainWindow : public QMainWindow {
     ConnectionClient *connection;
     QString *serverIP;
     int    portno;
+    Serializer *s;
 };
 
 #endif // MAINWINDOW_H

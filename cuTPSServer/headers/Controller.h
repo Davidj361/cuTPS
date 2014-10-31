@@ -8,9 +8,11 @@
 #include <QString>
 
 #include "ConnectionServer.h"
-#include "../../common/headers/Serializer.h"
 #include "DBManager.h"
+#include "../../common/headers/Serializer.h"
 #include "../../common/headers/Definitions.h"
+#include "../../common/headers/User.h"
+#include "../../common/headers/Student.h"
 
 class Controller : public QObject {
     Q_OBJECT

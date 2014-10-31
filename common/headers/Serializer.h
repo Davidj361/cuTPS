@@ -10,8 +10,12 @@
 #include <QString>
 #include <QDebug>
 
-#include "../common/headers/Content.h"
-#include "../../common/headers/Definitions.h"
+#include "Content.h"
+#include "Definitions.h"
+#include "Textbook.h"
+#include "Chapter.h"
+#include "Section.h"
+
 
 using namespace std;
 
@@ -36,14 +40,14 @@ class Serializer {
                 //             In  - The outcome of the operation (1 = Success, 0 = Fail)
                 // Returns   : The serialized object to send to the connection class
                 // ===================================================================== */
-            QByteArray* Serialize(const commands_t &, void *, const status_t) const;
+            void Serialize(const commands_t &, void *, const status_t, QByteArray&) const;
 
         private:
                 // This is deprecated since we changed commands_t to be more seperate i.e ADD_CHAPTER, ADD_TEXTBOOK, ADD_SECTION
                 // void createContent(const QJsonObject &, void *) const;
-                
+
                 /* =====================================================================
-                // Function  : createTextbook 
+                // Function  : createTextbook
                 // Purpose   : To construct and allocate a textbok object and pass it off to the controller on server
                 // Variables : In  - The raw data from the connection class
                 //             Out - The textbook object

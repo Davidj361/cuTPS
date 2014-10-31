@@ -28,7 +28,7 @@ SOURCES += \
     ../common/Section.cc \
     ../common/Content.cc \
     ../common/Invoice.cc \
-    ../common/User.cc
+    ../common/User.cc \
 
 OTHER_FILES +=
 
@@ -37,10 +37,7 @@ HEADERS += \
     headers/Controller.h \
     headers/ConnectionServer.h \
     ../common/headers/Serializer.h \
-    ../common/headers/User.h \
     ../common/headers/Student.h \
-    ../common/headers/Content.h \
-    ../common/headers/Textbook.h \
     ../common/headers/Content.h \
     ../common/headers/Textbook.h \
     ../common/headers/Chapter.h \

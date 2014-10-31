@@ -1,7 +1,4 @@
 #include "headers/Serializer.h"
-#include "../common/headers/Textbook.h"
-#include "../common/headers/Chapter.h"
-#include "../common/headers/Section.h"
 
 using namespace std;
 
@@ -113,7 +110,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
         return out_command;
 }
 
-QByteArray* Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status) const {
+void Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status, QByteArray &out) const {
   QJsonObject json;
 
   json["command"] = in_command;
@@ -144,8 +141,7 @@ QByteArray* Serializer::Serialize(const commands_t &in_command, void *in_object,
   // TODO - convert json object to bytearray
 
   QJsonDocument jdoc(json);
-  QByteArray *retArray = new QByteArray(jdoc.toJson());
-  return retArray;
+  out = jdoc.toJson();
 }
 
 void Serializer::createTextbook(const QJsonObject& json, void* retData) const {

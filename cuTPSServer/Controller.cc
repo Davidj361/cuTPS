@@ -1,6 +1,4 @@
 #include "headers/Controller.h"
-#include "../common/headers/User.h"
-#include "../common/headers/Student.h"
 
 using namespace std;
 
@@ -13,8 +11,9 @@ Controller::~Controller () {
 }
 
 void Controller::Run () {
-  QByteArray *out = new QByteArray();
-  QByteArray *in = new QByteArray();
+
+  QByteArray out;
+  QByteArray in;
   commands_t command;
   void *object;
   QString str1;
@@ -34,8 +33,10 @@ void Controller::Run () {
   // Main controller loop
   while (true) {
     try {
-      in = connection->WaitForRequest();
-      command = serializer->Deserialize(*in, object, str1, str2);
+      connection->WaitForRequest(in);
+      qDebug() << "LOOK OUT!";
+      qDebug() << in;
+      command = serializer->Deserialize(in, object, str1, str2);
 
       switch (command) {
         case ADD_TEXTBOOK:
@@ -55,7 +56,7 @@ void Controller::Run () {
           break;
       }
 
-      out = serializer->Serialize(command, object, SUCCESS);
+      serializer->Serialize(command, object, SUCCESS, out);
       connection->SendResponse(out);
     }
     catch (exception &e) {

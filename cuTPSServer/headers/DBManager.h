@@ -1,11 +1,16 @@
 #ifndef DBMANAGER_H
 #define DBMANAGER_H
 
-
-#include <QString>
-#include <QVector>
 #include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QDebug>
+#include <QString>
+
+#include <stdexcept>
+
 #include "../common/headers/User.h"
+#include "../common/headers/Textbook.h"
 
 using namespace std;
 
@@ -13,9 +18,50 @@ class DBManager {
   public:
     DBManager();
     ~DBManager();
-    bool addUser(User* user);
-    bool removeUser(User* user);
-    void showUsers();
+
+    /* =====================================================================
+      Function  : AddUsers
+      Purpose   : Adds a user to the database
+      Variables : In - User* - The user to add to the DB
+      Returns   : - True if successful
+                  - False otherwise
+    ===================================================================== */
+    bool AddUser(User*);
+
+    /* =====================================================================
+      Function  : RemoveUser
+      Purpose   : Deletes a user from the database
+      Variables : In - User* - The user to delete from the DB
+      Returns   : - True if successful
+                  - False otherwise
+    ===================================================================== */
+    bool RemoveUser(User*);
+
+    /* =====================================================================
+      Function  : ShowUsers
+      Purpose   : Prints all users from the DB to the console
+                  For debugging purposes only
+      Variables : None
+      Returns   : void
+    ===================================================================== */
+    void ShowUsers();
+
+    /* =====================================================================
+      Function  : StoreTextbook
+      Purpose   : Stores a textbook in the DB
+      Variables : In - Textbook* - The textbook to store
+      Returns   : void
+    ===================================================================== */
+    bool StoreTextbook (Textbook*);
+
+    /* =====================================================================
+      Function  : GetNewContentId
+      Purpose   : Gets a new content id from the DB.
+                  Note: This method assumes the DB is already open
+      Variables : None
+      Returns   : The new content id
+    ===================================================================== */
+    int GetNewContentId();
 
     /* =====================================================================
       Function  : RetrieveContentList
@@ -48,5 +94,6 @@ class DBManager {
     ===================================================================== */
    // int StoreInvoice (string *);
   private:
+    QSqlDatabase db;
 };
 #endif

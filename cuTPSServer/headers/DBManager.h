@@ -11,6 +11,7 @@
 
 #include "../common/headers/User.h"
 #include "../common/headers/Textbook.h"
+#include "../common/headers/Chapter.h"
 
 using namespace std;
 
@@ -53,6 +54,14 @@ class DBManager {
       Returns   : void
     ===================================================================== */
     bool StoreTextbook (Textbook*);
+
+    /* =====================================================================
+      Function  : StoreTextbook
+      Purpose   : Stores a textbook in the DB
+      Variables : In - Textbook* - The textbook to store
+      Returns   : void
+    ===================================================================== */
+    bool StoreChapter (Chapter*, QString);
 
     /* =====================================================================
       Function  : GetNewContentId

@@ -113,8 +113,8 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
 
     if (!query.prepare("INSERT INTO Textbooks  (isbn, title, publisher, author, "
                        "year, edition, description, availability, price, content_id)"
-                       "VALUES (:isbn,:title,:publisher,:author, :year, "
-                       ":edition, :description, :availability, :price, :content_id);"))
+                       "VALUES (:isbn,:title,:publisher,:author, :year, :edition, "
+                       ":description, :availability, :price, :content_id);"))
         throw runtime_error("ERROR DBManager::StoreTextbook() Error while preparing INSERT statement");
 
     query.bindValue(":isbn", textbook->getISBN());
@@ -137,6 +137,43 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
 
     return result;
 }
+
+/***************************************************************************
+ **                STORE CHAPTER IN THE DATABASE                          **
+ **************************************************************************/
+bool DBManager::StoreChapter(Chapter *chapter, QString isbn) {
+    bool result = false;
+
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreChapter() Error while performing db.open()");
+
+    QSqlQuery query;
+    int content_id = GetNewContentId();
+
+    if (!query.prepare("INSERT INTO Chapters (name, number, textbook, description, "
+                       "availability, price, content_id) VALUES (:name, :number, "
+                       ":textbook,:description,:availability, :price, :content_id);"))
+        throw runtime_error("ERROR DBManager::StoreChapter() Error while preparing INSERT statement");
+
+    query.bindValue(":name", chapter->getTitle());
+    query.bindValue(":number", chapter->getChapterNumber());
+    query.bindValue(":textbook", isbn);
+    query.bindValue(":description", chapter->getDescription());
+    query.bindValue(":availability", chapter->isAvailable());
+    query.bindValue(":price", chapter->getPrice());
+    query.bindValue(":content_id", content_id);
+
+    if (query.exec())
+        result = true;
+    else
+        throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
+
+    db.close();
+
+    return result;
+}
+
+
 
 
 /***************************************************************************

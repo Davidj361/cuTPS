@@ -6,12 +6,16 @@ Chapter::Chapter(QString cTitle, bool cAvailable, float cPrice,
   available = cAvailable;
   price = cPrice;
   description = cDescription;
-  chapterNo = cChapterno;
+  chapterNumber = cChapterno;
   textbook = cParent;
 }
 
 Textbook* Chapter::getTextbook() {
   return textbook;
+}
+
+int Chapter::getChapterNumber() {
+    return chapterNumber;
 }
 
 QJsonObject* Chapter::serialize(){
@@ -20,7 +24,7 @@ QJsonObject* Chapter::serialize(){
     (*chapterJson)["title"] = title;
     (*chapterJson)["available"] = available;
     (*chapterJson)["price"] = price;
-    (*chapterJson)["chapterNo"] = chapterNo;
+    (*chapterJson)["chapterNumber"] = chapterNumber;
     (*chapterJson)["description"] = description;
     return chapterJson;
 }

@@ -6,7 +6,7 @@ Section::Section(QString cTitle, bool cAvailable,
   title = cTitle;
   available = cAvailable;
   price = cPrice;
-  sectionNo = cSectionNo;
+  sectionNumber = cSectionNumber;
   textbook = cTextbook;
   chapter = cChapter;
   description = cDescription;
@@ -21,12 +21,16 @@ Chapter *Section::getChapter() {
   return chapter;
 }
 
+int Section::getSectionNumber() {
+    return sectionNumber;
+}
+
 QJsonObject* Section::serialize(){
     QJsonObject *sectionJson = new QJsonObject();
     (*sectionJson)["title"] = title;
     (*sectionJson)["available"] = available;
     (*sectionJson)["price"] = price;
-    (*sectionJson)["sectionNo"] = sectionNo;
+    (*sectionJson)["sectionNumber"] = sectionNumber;
     (*sectionJson)["description"] = description;
     (*sectionJson)["c_id"] = c_id;
     return sectionJson;

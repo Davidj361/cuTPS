@@ -11,7 +11,7 @@ class Content {
     bool    isAvailable();
     QString getDescription();
     int     getcid();
-    virtual QJsonObject* serialize() = 0;
+    virtual void serialize(QJsonObject&) = 0;
 
   protected:
     QString title;

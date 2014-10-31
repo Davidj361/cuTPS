@@ -112,6 +112,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
 
 void Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status, QByteArray &out) const {
   QJsonObject json;
+  QJsonObject inJson;
 
   json["command"] = in_command;
 
@@ -121,20 +122,21 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
       case ADD_TEXTBOOK:
       case ADD_CHAPTER:
       case ADD_SECTION:
-        json["content"] = *(static_cast<Content*>(in_object)->serialize());
-        json["status"] = REQUEST;
+        static_cast<Content*>(in_object)->serialize(inJson);
+        json["content"] = inJson;
         break;
       case ADD_INVOICE:
-
-        // serialize
+        static_cast<Invoice*>(in_object)->serialize(inJson);
+        json["invoice"] = inJson;
         break;
       case GET_CONTENT:
-        //serialize
+        json["username"] = static_cast<User*>(in_object)->getUserName();
         break;
       default:
         //error?
         break;
     }
+    json["status"] = REQUEST;
   }
 
 
@@ -166,7 +168,7 @@ void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
         }
 }
 
-void Serializer::createChapter(const QJsonObject& json, void* retData, QString& ISBN) const {
+void Serializer::createChapter(const QJsonObject& json, void*& retData, QString& ISBN) const {
         QJsonObject chapter = json["content"].toObject();
 
         QString title( chapter["title"].toString() );
@@ -186,7 +188,7 @@ void Serializer::createChapter(const QJsonObject& json, void* retData, QString& 
         return;
 }
 
-void Serializer::createSection(const QJsonObject& json, void* retData, QString& outISBN, QString& outChapterNo) const {
+void Serializer::createSection(const QJsonObject& json, void*& retData, QString& outISBN, QString& outChapterNo) const {
         QJsonObject section = json["content"].toObject();
 
         QString title( section["title"].toString() );
@@ -209,7 +211,24 @@ void Serializer::createSection(const QJsonObject& json, void* retData, QString& 
 
 
 // Construct Invoice
-void Serializer::createInvoice(const QJsonObject &, void *) const {
+void Serializer::createInvoice(const QJsonObject& json, void *& retData) const {
+        // For this one we will want to createn invoice object with the username to pass back to the controller
+        QJsonObject invoice = json["invoice"].toObject();
+        Invoice* pInvoice = new Invoice(invoice["username"].toString());
+        QJsonArray arr = invoice["contents"].toArray();
+        
+        // We iterate through arr and add each content id via Invoice::add(int);
+        QJsonObject temp;
+        for (QJsonArray::iterator iter = arr.begin(); iter != arr.end(); ++iter) {
+                temp = (*iter).toObject();
+                pInvoice->addContent( static_cast<int>(temp["cid"].toDouble() ) );
+        }
+
+        if (retData != 0)
+                throw runtime_error("Serializer::createSection, void* retData was not set null beforehand");
+        else
+                retData = static_cast<void*>(pInvoice);
+        return;
 }
 
 // Create a Json array or object for all the content

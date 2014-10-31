@@ -108,6 +108,9 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
     if (!db.open())
         throw runtime_error("ERROR DBManager::StoreTextbook() Error while performing db.open()");
 
+    // Start a new transaction
+    db.transaction();
+
     QSqlQuery query;
     int content_id = GetNewContentId();
 
@@ -133,6 +136,7 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
     else
         throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
 
+    db.commit();
     db.close();
 
     return result;
@@ -141,11 +145,14 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
 /***************************************************************************
  **                STORE CHAPTER IN THE DATABASE                          **
  **************************************************************************/
-bool DBManager::StoreChapter(Chapter *chapter, QString isbn) {
+bool DBManager::StoreChapter(Chapter *chapter, QString *isbn) {
     bool result = false;
 
     if (!db.open())
         throw runtime_error("ERROR DBManager::StoreChapter() Error while performing db.open()");
+
+    // Start a new transaction
+    db.transaction();
 
     QSqlQuery query;
     int content_id = GetNewContentId();
@@ -157,7 +164,7 @@ bool DBManager::StoreChapter(Chapter *chapter, QString isbn) {
 
     query.bindValue(":name", chapter->getTitle());
     query.bindValue(":number", chapter->getChapterNumber());
-    query.bindValue(":textbook", isbn);
+    query.bindValue(":textbook", *isbn);
     query.bindValue(":description", chapter->getDescription());
     query.bindValue(":availability", chapter->isAvailable());
     query.bindValue(":price", chapter->getPrice());
@@ -168,13 +175,95 @@ bool DBManager::StoreChapter(Chapter *chapter, QString isbn) {
     else
         throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
 
+    db.commit();
     db.close();
 
     return result;
 }
 
+/***************************************************************************
+ **                STORE SECTION IN THE DATABASE                          **
+ **************************************************************************/
+bool DBManager::StoreSection(Section *section, QString *isbn, QString *ch_number) {
+    bool result = false;
 
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreSection() Error while performing db.open()");
 
+    // Start a new transaction
+    db.transaction();
+
+    QSqlQuery query;
+    int content_id = GetNewContentId();
+
+    if (!query.prepare("INSERT INTO Sections (name, number, chapter, textbook, "
+                       "description, availability, price, content_id) VALUES "
+                       "(:name, :number, :chapter, :textbook, :description,:availability, "
+                       ":price, :content_id);"))
+        throw runtime_error("ERROR DBManager::StoreSection() Error while preparing INSERT statement");
+
+    query.bindValue(":name", section->getTitle());
+    query.bindValue(":number", section->getSectionNumber());
+    query.bindValue(":chapter", *ch_number);
+    query.bindValue(":textbook", *isbn);
+    query.bindValue(":description", section->getDescription());
+    query.bindValue(":availability", section->isAvailable());
+    query.bindValue(":price", section->getPrice());
+    query.bindValue(":content_id", content_id);
+
+    if (query.exec())
+        result = true;
+    else
+        throw runtime_error("ERROR DBManager::StoreSection() Error while inserting section");
+
+    db.commit();
+    db.close();
+
+    return result;
+}
+
+bool DBManager::StoreInvoice(Invoice *invoice) {
+    bool result = false;
+
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreInvoice() Error while performing db.open()");
+
+    // Start a new transaction
+    db.transaction();
+
+    QSqlQuery query;
+
+    // Add a new record to the invoices table
+    if (!query.prepare("INSERT INTO Invoices (student, date_purchased) VALUES (:student, :date);"))
+        throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT invoice statement");
+
+    query.bindValue(":student", invoice->getUsername());
+    query.bindValue(":date", QDateTime::fromString("yyyy-MM-dd HH:mm:ss:zzz"));
+
+    if (!query.exec())
+        throw runtime_error("ERROR DBManager::StoreInvoice() Error while inserting invoice");
+
+    // Get the invoice id from the purchases table
+    int invoice_id = query.lastInsertId().toInt();
+
+    // For each content in the invoice, add it to the purchases table
+    for(vector<int>::const_iterator iter= invoice->getContentList()->begin(); iter != invoice->getContentList()->end(); ++iter) {
+        if (!query.prepare("INSERT INTO Purchases (invoice_id, content_id) VALUES(:invoice_id, :content_id);"))
+            throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT purchase statement");
+        query.bindValue(":invoice_id", invoice_id);
+        query.bindValue(":content_id", *iter);
+        if (!query.exec())
+            throw runtime_error("ERROR DBManager::StoreInvoice() Error while inserting purchase");
+    }
+
+    // Commit the transaction
+    db.commit();
+
+    // Close the database
+    db.close();
+
+    return result;
+}
 
 /***************************************************************************
  **                DISPLAYS THE NAMES OF TABLES IN DATABASE               **

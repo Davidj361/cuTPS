@@ -6,12 +6,15 @@
 #include <QSqlRecord>
 #include <QDebug>
 #include <QString>
+#include <QDateTime>
 
 #include <stdexcept>
 
 #include "../common/headers/User.h"
 #include "../common/headers/Textbook.h"
 #include "../common/headers/Chapter.h"
+#include "../common/headers/Section.h"
+#include "../common/headers/Invoice.h"
 
 using namespace std;
 
@@ -51,17 +54,37 @@ class DBManager {
       Function  : StoreTextbook
       Purpose   : Stores a textbook in the DB
       Variables : In - Textbook* - The textbook to store
-      Returns   : void
+      Returns   : - True if successful
+                  - False otherwise
     ===================================================================== */
     bool StoreTextbook (Textbook*);
 
     /* =====================================================================
-      Function  : StoreTextbook
-      Purpose   : Stores a textbook in the DB
-      Variables : In - Textbook* - The textbook to store
-      Returns   : void
+      Function  : StoreChapter
+      Purpose   : Stores a chapter in the DB
+      Variables : In - Chapter* - The chapter to store
+      Returns   : - True if successful
+                  - False otherwise
     ===================================================================== */
-    bool StoreChapter (Chapter*, QString);
+    bool StoreChapter (Chapter*, QString*);
+
+    /* =====================================================================
+      Function  : StoreSection
+      Purpose   : Stores a section in the DB
+      Variables : In - Section* - The section to store
+      Returns   : - True if successful
+                  - False otherwise
+    ===================================================================== */
+    bool StoreSection (Section*, QString*, QString*);
+
+    /* =====================================================================
+      Function  : StoreInvoice
+      Purpose   : Stores an invoice in the database
+      Variables : In - Invoice* - The invoice to store
+      Returns   : - True if successful
+                  - False otherwise
+    ===================================================================== */
+    bool StoreInvoice (Invoice *);
 
     /* =====================================================================
       Function  : GetNewContentId
@@ -92,16 +115,6 @@ class DBManager {
     TODO: Change string to Content when the class has been created
     ===================================================================== */
    // int StoreContent (string *);
-
-    /* =====================================================================
-      Function  : StoreInvoice
-      Purpose   : Stores an invoice in the database
-      Variables : In - Invoice* - The invoice to store
-      Returns   : 1 - Success
-                  0 - Fail
-      TODO: Change string to Invoice when the class has been created
-    ===================================================================== */
-   // int StoreInvoice (string *);
   private:
     QSqlDatabase db;
 };

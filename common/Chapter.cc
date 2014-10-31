@@ -31,7 +31,7 @@ void Chapter::addSection(Section* sec){
   sections.push_back(sec);
 }
 
-vector<Section*>& getSections(){return sections;}
+vector<Section*>& Chapter::getSections(){return this->sections;}
 
 int Chapter::getChapterNo(){
     return chapterNo;

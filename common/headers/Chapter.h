@@ -21,7 +21,7 @@ class Chapter: public Content {
   private:
     int chapterNo;
     Textbook *textbook;
-    vector<Section*> *sections;
+    vector<Section*> sections;
 };
 
 #endif // CHAPTER_H

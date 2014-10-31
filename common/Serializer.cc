@@ -260,9 +260,9 @@ void Serializer::createContent(const QJsonObject& json, vector<Textbook*>& textb
                                 Section* pSection;
                                 this->createSection((*section).toObject(), temp, str1, str2);
                                 pSection = static_cast<Section*>(temp);
-                                pChapter.sections.push_back(pSection);
+                                pChapter->getSections().push_back(pSection);
                         }
-                       pTextbook.chapters.push_back(chapter); 
+                       pTextbook->getChapters().push_back(pChapter); 
                 }
                 textbooks.push_back(pTextbook);
         }

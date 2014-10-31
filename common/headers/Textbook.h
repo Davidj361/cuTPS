@@ -43,7 +43,7 @@ class Textbook: public Content {
     QString publisher;
     QString edition;
     int     year;
-    vector<Chapter*> *chapters;
+    vector<Chapter*> chapters;
 };
 
 #endif // TEXTBOOK_H

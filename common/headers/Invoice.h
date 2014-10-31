@@ -10,15 +10,16 @@
 using namespace std;
 
 class Invoice {
-  private:
-    vector<int> *contentList;
-    QString username;
   public:
     Invoice(QString);
     vector<int> *getContentList();
     void addContent(Content*);
+    void addContent(int);
     QString getUsername();
     QJsonObject *serialize();
+  private:
+    vector<int> *contentList;
+    QString username;
 };
 
 #endif // INVOICE_H

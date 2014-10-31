@@ -31,3 +31,5 @@ QJsonObject* Invoice::serialize(){
 
     return json;
 }
+
+void Invoice::addContent(int i) { contentList->push_back(i); }

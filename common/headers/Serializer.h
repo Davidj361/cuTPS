@@ -3,9 +3,11 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <iterator>
 
-#include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QByteArray>
 #include <QString>
 #include <QDebug>
@@ -15,6 +17,7 @@
 #include "Textbook.h"
 #include "Chapter.h"
 #include "Section.h"
+#include "Invoice.h"
 
 
 using namespace std;
@@ -64,7 +67,7 @@ class Serializer {
                 //             Out - The ISBN for the chapter
                 // Returns   : Nothing
                 // ===================================================================== */
-                void createChapter(const QJsonObject &, void *, QString& outISBN) const;
+                void createChapter(const QJsonObject &, void *&, QString& outISBN) const;
 
                 /* =====================================================================
                 // Function  : createSection
@@ -77,9 +80,9 @@ class Serializer {
                 //             Out - The ISBN for the chapter
                 // Returns   : Nothing
                 // ===================================================================== */
-                void createSection(const QJsonObject &, void *, QString& outISBN, QString& chapterNo) const;
+                void createSection(const QJsonObject &, void *&, QString& outISBN, QString& chapterNo) const;
 
-                void createInvoice(const QJsonObject &, void *) const;
+                void createInvoice(const QJsonObject &, void *&) const;
 
                 // returns an error
                 // 1st Argument:

@@ -1,13 +1,14 @@
 #include "headers/Chapter.h"
 
 Chapter::Chapter(QString cTitle, bool cAvailable, float cPrice,
-                 int cChapterno, Textbook *cParent, QString cDescription) {
+                 int cChapterno, QString cDescription, Textbook *cParent, int cC_id) {
   title = cTitle;
   available = cAvailable;
   price = cPrice;
   description = cDescription;
   chapterNo = cChapterno;
   textbook = cParent;
+  c_id = cC_id;
 }
 
 Textbook* Chapter::getTextbook() {
@@ -22,5 +23,6 @@ QJsonObject* Chapter::serialize(){
     (*chapterJson)["price"] = price;
     (*chapterJson)["chapterNo"] = chapterNo;
     (*chapterJson)["description"] = description;
+    (*chapterJson)["c_id"] = c_id;
     return chapterJson;
 }

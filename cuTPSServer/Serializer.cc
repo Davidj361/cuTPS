@@ -39,18 +39,19 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object) 
 QByteArray* Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status) const {
   QJsonObject json;
   QJsonDocument jdoc;
-  QByteArray *retArray;
+  QByteArray *retArray = new QByteArray();
 
   json["command"] = in_command;
 
-  if(status) json["outcome"] = status;
-  else {
+  if(status == REQUEST){
     switch(in_command){
+      // Call serialize on the content object and adds it to the json object.
       case ADD_CONTENT:
-        //if (!this->serializeContent(in_object, retArray))
-         // throw runtime_error("ERROR: Serializer::Serialize(), error while serializing an object");
+        json["content"] = *(static_cast<Content*>(in_object)->serialize());
+        json["status"] = REQUEST;
         break;
       case ADD_INVOICE:
+
         // serialize
         break;
       case GET_CONTENT:

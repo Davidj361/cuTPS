@@ -46,4 +46,5 @@ HEADERS += \
     ../common/headers/Chapter.h \
     ../common/headers/Section.h \
     ../common/headers/User.h \
-    ../common/headers/Definitions.h
+    ../common/headers/Definitions.h \
+    ../common/headers/Invoice.h

@@ -15,3 +15,7 @@ bool Content::isAvailable() {
 QString Content::getDescription(){
     return description;
 }
+
+int Content::getcid(){
+    return c_id;
+}

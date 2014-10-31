@@ -6,6 +6,7 @@
 #include <QJsonObject>
 
 class Section: public Content {
+        public:
     Section(QString, bool, float, int, QString description = "",Textbook * = 0, Chapter * = 0, int cC_id = 0);
     Chapter* getChapter();
     Textbook* getTextbook();

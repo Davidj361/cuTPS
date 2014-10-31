@@ -175,8 +175,10 @@ bool DBManager::StoreChapter(Chapter *chapter, QString &isbn) {
 
     if (query.exec())
         result = true;
-    else
+    else {
+        qDebug() << query.lastError().text();
         throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
+    }
 
     db.commit();
     db.close();
@@ -216,8 +218,10 @@ bool DBManager::StoreSection(Section *section, QString &isbn, QString &ch_number
 
     if (query.exec())
         result = true;
-    else
+    else {
+        qDebug() << query.lastError().text();
         throw runtime_error("ERROR DBManager::StoreSection() Error while inserting section");
+    }
 
     db.commit();
     db.close();

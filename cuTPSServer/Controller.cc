@@ -8,6 +8,8 @@ Controller::Controller (QObject *parent) : QObject(parent) {
 
 Controller::~Controller () {
   delete connection;
+  delete dbManager;
+  // delete app; ?
 }
 
 void Controller::Run () {
@@ -56,9 +58,14 @@ void Controller::Run () {
 
       serializer->Serialize(command, object, SUCCESS, out);
       connection->SendResponse(out);
+
+      delete object;
+      object = 0;
     }
     catch (exception &e) {
       cout << e.what() << endl;
+      delete object;
+      object = 0;
     }
   }
 

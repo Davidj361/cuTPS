@@ -7,11 +7,13 @@
 
 #include "headers/ConnectionClient.h"
 #include "../common/headers/Textbook.h"
+#include "../common/headers/Chapter.h"
+#include "../common/headers/Section.h"
 #include "../common/headers/Definitions.h"
 #include "../common/headers/Serializer.h"
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -22,6 +24,7 @@ class MainWindow : public QMainWindow {
     ~MainWindow();
 
   public slots:
+
     void runTests();
     void runTest1();
     void runTest2();
@@ -29,11 +32,13 @@ class MainWindow : public QMainWindow {
 
 
   private:
-    Ui::MainWindow *ui;
+
+    Ui::MainWindow   *ui;
     ConnectionClient *connection;
-    QString *serverIP;
-    int    portno;
-    Serializer *s;
+    Serializer       *serializer;
+    QString          *serverIP;
+
+    int              portno;
 };
 
 #endif // MAINWINDOW_H

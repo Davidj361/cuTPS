@@ -22,5 +22,6 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
   /*  Recieve response from the server  */
   sock->waitForReadyRead(-1);
   outStr = sock->readAll();
+  sock->disconnectFromHost();
 }
 

@@ -105,7 +105,7 @@ class DBManager {
                   0 - Fail
       TODO: Change string to Content when the class has been created
     ===================================================================== */
-    //int RetrieveContentList (string *, vector<string> *);
+    // int RetrieveContentList (string *, vector<string> *);
 
     /* =====================================================================
     Function  : StoreContent

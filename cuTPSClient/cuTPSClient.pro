@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     ../common/Section.cc \
     ../common/Content.cc \
     ../common/Chapter.cc \
-    ../common/Serializer.cc
+    ../common/Serializer.cc \
+    ../common/User.cc \
+    ../common/Invoice.cc
 
 HEADERS  += \
     headers/ConnectionClient.h \
@@ -32,6 +34,8 @@ HEADERS  += \
     ../common/headers/Definitions.h \
     ../common/headers/Content.h \
     ../common/headers/Chapter.h \
-    ../common/headers/Serializer.h
+    ../common/headers/Serializer.h \
+    ../common/headers/Users.h \
+    ../common/headers/Invoice.h
 
 FORMS    += mainwindow.ui

@@ -66,7 +66,7 @@ class DBManager {
       Returns   : - True if successful
                   - False otherwise
     ===================================================================== */
-    bool StoreChapter (Chapter*, QString*);
+    bool StoreChapter (Chapter*, QString&);
 
     /* =====================================================================
       Function  : StoreSection
@@ -75,7 +75,7 @@ class DBManager {
       Returns   : - True if successful
                   - False otherwise
     ===================================================================== */
-    bool StoreSection (Section*, QString*, QString*);
+    bool StoreSection (Section*, QString&, QString&);
 
     /* =====================================================================
       Function  : StoreInvoice

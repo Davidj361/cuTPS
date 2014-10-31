@@ -30,7 +30,9 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
                                         qDebug() << "ADD_TEXTBOOK was an error";
                                         break;
                                 case REQUEST:
-                                        this->createTextbook(json, out_object);
+                                        createTextbook(json, out_object);
+                                        qDebug() << *(reinterpret_cast<Textbook*>(out_object)->serialize());
+                            qDebug() << "Were out";
                                         break;
                                 default:
                                         throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
@@ -145,7 +147,7 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
 }
 
 void Serializer::createTextbook(const QJsonObject& json, void* retData) const {
-        QJsonObject textbook = json["textbook"].toObject();
+        QJsonObject textbook = json["content"].toObject();
 
         QString title( textbook["title"].toString() );
         bool available( static_cast<bool>( textbook["available"].toDouble() ) );
@@ -161,13 +163,14 @@ void Serializer::createTextbook(const QJsonObject& json, void* retData) const {
         Textbook* pTextbook = new Textbook(title, available, price, author, ISBN, publisher, edition, description, year);
         if (retData != 0)
                 throw runtime_error("Serializer::createTextbook, void* retData was not set null beforehand");
-        else
-                retData = static_cast<void*>(pTextbook);
-        return;
+        else {
+                retData = pTextbook;
+                qDebug() << *(reinterpret_cast<Textbook*>(retData)->serialize());
+        }
 }
 
 void Serializer::createChapter(const QJsonObject& json, void* retData, QString& ISBN) const {
-        QJsonObject chapter = json["chapter"].toObject();
+        QJsonObject chapter = json["content"].toObject();
 
         QString title( chapter["title"].toString() );
         bool available( static_cast<bool>( chapter["available"].toDouble() ) );
@@ -187,7 +190,7 @@ void Serializer::createChapter(const QJsonObject& json, void* retData, QString& 
 }
 
 void Serializer::createSection(const QJsonObject& json, void* retData, QString& outISBN, QString& outChapterNo) const {
-        QJsonObject section = json["section"].toObject();
+        QJsonObject section = json["content"].toObject();
 
         QString title( section["title"].toString() );
         bool available( static_cast<bool>( section["available"].toDouble() ) );

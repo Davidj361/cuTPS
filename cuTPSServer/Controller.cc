@@ -12,12 +12,13 @@ Controller::~Controller () {
 
 void Controller::Run () {
 
-  QByteArray out;
   QByteArray in;
+  QByteArray out;
   commands_t command;
-  void *object;
   QString str1;
   QString str2;
+  void *object;
+  bool result;
 
   try {
     // Create new ConnectionServer to handle incoming requests
@@ -37,22 +38,22 @@ void Controller::Run () {
       qDebug() << "LOOK OUT!";
       qDebug() << in;
       command = serializer->Deserialize(in, object, str1, str2);
-
+      serializer->Serialize(command, static_cast<Textbook*>(object), REQUEST, out);
+      qDebug() << out;
       switch (command) {
         case ADD_TEXTBOOK:
-          // Do something
+          result = dbManager->StoreTextbook(static_cast<Textbook*>(object));
           break;
         case ADD_CHAPTER:
-          // Do something
+          result = dbManager->StoreChapter(static_cast<Chapter*>(object), str1);
           break;
         case ADD_SECTION:
-          // Do something
+          result = dbManager->StoreSection(static_cast<Section*>(object), str1, str2);
           break;
         case ADD_INVOICE:
-          // Do something
+          result = dbManager->StoreInvoice(static_cast<Invoice*>(object));
           break;
         case GET_CONTENT:
-          // Do something
           break;
       }
 

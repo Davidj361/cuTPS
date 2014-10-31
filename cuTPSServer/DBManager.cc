@@ -103,6 +103,8 @@ void DBManager::ShowUsers() {
  **                STORE TEXTBOOK IN THE DATABASE                         **
  **************************************************************************/
 bool DBManager::StoreTextbook(Textbook *textbook) {
+
+    qDebug() << textbook->serialize();
     bool result = false;
 
     if (!db.open())
@@ -145,7 +147,7 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
 /***************************************************************************
  **                STORE CHAPTER IN THE DATABASE                          **
  **************************************************************************/
-bool DBManager::StoreChapter(Chapter *chapter, QString *isbn) {
+bool DBManager::StoreChapter(Chapter *chapter, QString &isbn) {
     bool result = false;
 
     if (!db.open())
@@ -164,7 +166,7 @@ bool DBManager::StoreChapter(Chapter *chapter, QString *isbn) {
 
     query.bindValue(":name", chapter->getTitle());
     query.bindValue(":number", chapter->getChapterNo());
-    query.bindValue(":textbook", *isbn);
+    query.bindValue(":textbook", isbn);
     query.bindValue(":description", chapter->getDescription());
     query.bindValue(":availability", chapter->isAvailable());
     query.bindValue(":price", chapter->getPrice());
@@ -184,7 +186,7 @@ bool DBManager::StoreChapter(Chapter *chapter, QString *isbn) {
 /***************************************************************************
  **                STORE SECTION IN THE DATABASE                          **
  **************************************************************************/
-bool DBManager::StoreSection(Section *section, QString *isbn, QString *ch_number) {
+bool DBManager::StoreSection(Section *section, QString &isbn, QString &ch_number) {
     bool result = false;
 
     if (!db.open())
@@ -204,8 +206,8 @@ bool DBManager::StoreSection(Section *section, QString *isbn, QString *ch_number
 
     query.bindValue(":name", section->getTitle());
     query.bindValue(":number", section->getSectionNo());
-    query.bindValue(":chapter", *ch_number);
-    query.bindValue(":textbook", *isbn);
+    query.bindValue(":chapter", ch_number);
+    query.bindValue(":textbook", isbn);
     query.bindValue(":description", section->getDescription());
     query.bindValue(":availability", section->isAvailable());
     query.bindValue(":price", section->getPrice());

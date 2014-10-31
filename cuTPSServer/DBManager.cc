@@ -163,7 +163,7 @@ bool DBManager::StoreChapter(Chapter *chapter, QString *isbn) {
         throw runtime_error("ERROR DBManager::StoreChapter() Error while preparing INSERT statement");
 
     query.bindValue(":name", chapter->getTitle());
-    query.bindValue(":number", chapter->getChapterNumber());
+    query.bindValue(":number", chapter->getChapterNo());
     query.bindValue(":textbook", *isbn);
     query.bindValue(":description", chapter->getDescription());
     query.bindValue(":availability", chapter->isAvailable());
@@ -203,7 +203,7 @@ bool DBManager::StoreSection(Section *section, QString *isbn, QString *ch_number
         throw runtime_error("ERROR DBManager::StoreSection() Error while preparing INSERT statement");
 
     query.bindValue(":name", section->getTitle());
-    query.bindValue(":number", section->getSectionNumber());
+    query.bindValue(":number", section->getSectionNo());
     query.bindValue(":chapter", *ch_number);
     query.bindValue(":textbook", *isbn);
     query.bindValue(":description", section->getDescription());

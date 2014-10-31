@@ -17,7 +17,7 @@ class Chapter: public Content {
     void serialize(QJsonObject&);
     int getChapterNo();
     void addSection(Section*);
-    vector<Section*>& getSections();
+    vector<Section*>* getSections();
   private:
     int chapterNo;
     Textbook *textbook;

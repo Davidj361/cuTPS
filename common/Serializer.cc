@@ -138,12 +138,65 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
     }
     json["status"] = REQUEST;
   }
+  else{
+    switch(in_command){
+      case GET_CONTENT:
+        if(status = SUCCESS)
+          serializeContent(in_object, json);
+        break;
+      default:
+        // ?
+        break;
 
+    }
+    json["status"] = status;
+  }
+  
 
   // TODO - convert json object to bytearray
 
   QJsonDocument jdoc(json);
   out = jdoc.toJson();
+}
+
+void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
+
+    //
+    vector<Textbook*> *tbs = static_cast<vector<Textbook*>*>(in_object);
+    QJsonArray tbarray;
+
+    for(vector<Textbook*>::const_iterator iter= tbs->begin(); iter != tbs->end(); ++iter){
+
+      QJsonObject serializedTB;
+      (*iter)->serialize(serializedTB);
+
+      vector<Chapter*> *chapters = (*iter)->getChapters();
+      QJsonArray chaparray;
+
+      for(vector<Chapter*>::const_iterator chapIter= chapters->begin(); chapIter != chapters->end(); ++chapIter){
+
+        QJsonObject serializedCh;
+        (*chapIter)->serialize(serializedCh);
+
+        vector<Section*> *sections = (*chapIter)->getSections();
+        QJsonArray secarray;
+
+        for(vector<Section*>::const_iterator secIter = sections->begin(); secIter != sections->end(); ++secIter){
+
+            QJsonObject serializedSec;
+            (*secIter)->serialize(serializedSec);
+            secarray.append(serializedSec);
+        }
+
+        serializedCh["sections"] = secarray;
+        chaparray.append(serializedCh);
+
+      }
+      serializedTB["chapters"] = chaparray;
+      tbarray.append(serializedTB);
+
+
+    }
 }
 
 void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
@@ -229,9 +282,4 @@ void Serializer::createInvoice(const QJsonObject& json, void *& retData) const {
         else
                 retData = static_cast<void*>(pInvoice);
         return;
-}
-
-// Create a Json array or object for all the content
-int Serializer::serializeContent(void *, QByteArray *) const {
-        return 0;
 }

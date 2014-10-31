@@ -85,6 +85,6 @@ class Serializer {
 
                 // returns an error
                 // 1st Argument:
-                int serializeContent(void *, QByteArray *) const;
+                void serializeContent(void *, QJsonObject&) const;
 };
 #endif

@@ -272,7 +272,7 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     return result;
 }
 
-bool DBManager::RetrieveContentList (QString *username, vector<Textbook> list*) {
+bool DBManager::RetrieveContentList (QString *username, vector<Textbook> *list) {
 
 }
 

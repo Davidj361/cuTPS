@@ -35,7 +35,7 @@ class Textbook: public Content {
     int     getYear();
     void serialize(QJsonObject&);
     void addChapter(Chapter *);
-    vector<Chapter*>& getChapters();
+    vector<Chapter*>* getChapters();
 
   private:
     QString author;

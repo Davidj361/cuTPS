@@ -28,3 +28,5 @@ void Invoice::serialize(QJsonObject& inJson){
     inJson["contents"] = cidArray;
 
 }
+
+void Invoice::addContent(int i) { contentList->push_back(i); }

@@ -115,7 +115,7 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
     QSqlQuery query;
     int content_id = GetNewContentId();
 
-    if (!query.prepare("INSERT INTO Textbooks  (isbn, title, publisher, author, "
+    if (!query.prepare("INSERT INTO Textbooks (isbn, title, publisher, author, "
                        "year, edition, description, availability, price, content_id)"
                        "VALUES (:isbn,:title,:publisher,:author, :year, :edition, "
                        ":description, :availability, :price, :content_id);"))
@@ -128,15 +128,16 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
     query.bindValue(":year", textbook->getYear());
     query.bindValue(":edition", textbook->getEdition());
     query.bindValue(":description", textbook->getDescription());
-    query.bindValue(":availability", textbook->isAvailable());
+    query.bindValue(":availability", int(textbook->isAvailable()));
     query.bindValue(":price", textbook->getPrice());
     query.bindValue(":content_id", content_id);
 
     if (query.exec())
         result = true;
-    else
+    else {
         qDebug() << query.lastError().text();
         throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
+    }
 
     db.commit();
     db.close();

@@ -11,6 +11,7 @@ QT       += sql
 TARGET = cuTPSServer
 # CONFIG   += console # might not be needed
 CONFIG   += qt
+CONFIG   += debug 
 CONFIG   -= app_bundle
 
 # TEMPLATE = app # already default

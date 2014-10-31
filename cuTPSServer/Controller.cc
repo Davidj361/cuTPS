@@ -20,6 +20,7 @@ void Controller::Run () {
   QString str1;
   QString str2;
   void *object = 0;
+  vector<Textbook> book_list;
   bool result;
 
   try {
@@ -53,6 +54,7 @@ void Controller::Run () {
           result = dbManager->StoreInvoice(static_cast<Invoice*>(object));
           break;
         case GET_CONTENT:
+          dbManager->RetrieveContentList(str1, book_list);
           break;
       }
 

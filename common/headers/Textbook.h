@@ -14,16 +14,7 @@ class Textbook: public Content {
     /* =====================================================================
     Function  : Constructor
     Purpose   : Constructs a Textbook
-    Variables : IN  -   Title
-                IN  -   Whether it is available
-                IN  -   Price
-                IN  -   Author
-                IN  -   ISBN
-                IN  -   Publisher
-                IN  -   Edition
-                IN  -   Description
-                IN  -   Year
-                IN  -   C_ID Optional
+    Variables : TODO
     Returns   : void
     ===================================================================== */
     Textbook(QString, QString, QString, QString, int, QString, QString, bool, float, int cC_id = 0);

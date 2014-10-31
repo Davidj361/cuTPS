@@ -8,7 +8,7 @@
 #include <QString>
 
 #include "ConnectionServer.h"
-#include "Serializer.h"
+#include "../../common/headers/Serializer.h"
 #include "DBManager.h"
 #include "../../common/headers/Definitions.h"
 

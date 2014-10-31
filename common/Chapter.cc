@@ -24,5 +24,11 @@ QJsonObject* Chapter::serialize(){
     (*chapterJson)["chapterNo"] = chapterNo;
     (*chapterJson)["description"] = description;
     (*chapterJson)["c_id"] = c_id;
+    (*chapterJson)["ISBN"] = textbook->getISBN();
+
     return chapterJson;
+}
+
+int Chapter::getChapterNo(){
+    return chapterNo;
 }

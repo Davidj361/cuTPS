@@ -9,6 +9,7 @@ class Chapter: public Content {
     Chapter(QString, bool, float, int, QString cDescription = "", Textbook * = 0, int cC_id = 0);
     Textbook *getTextbook();
     QJsonObject* serialize();
+    int getChapterNo();
   private:
     int chapterNo;
     Textbook *textbook;

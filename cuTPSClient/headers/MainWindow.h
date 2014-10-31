@@ -6,6 +6,7 @@
 #include <QString>
 
 #include "headers/ConnectionClient.h"
+#include "../common/headers/Textbook.h"
 #include "../common/headers/Definitions.h"
 
 namespace Ui {

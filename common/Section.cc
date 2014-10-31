@@ -29,5 +29,7 @@ QJsonObject* Section::serialize(){
     (*sectionJson)["sectionNo"] = sectionNo;
     (*sectionJson)["description"] = description;
     (*sectionJson)["c_id"] = c_id;
+    (*sectionJson)["ISBN"] = textbook->getISBN();
+    (*sectionJson)["chapterNo"] = chapter->getChapterNo();
     return sectionJson;
 }

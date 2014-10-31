@@ -16,11 +16,22 @@ TEMPLATE = app
 SOURCES += main.cpp\
     ConnectionClient.cc \
     MainWindow.cpp \
-    SettingsDialog.cc
+    SettingsDialog.cc \
+    ../common/Textbook.cc \
+    ../common/Section.cc \
+    ../common/Content.cc \
+    ../common/Chapter.cc \
+    ../common/Serializer.cc
 
 HEADERS  += \
     headers/ConnectionClient.h \
     headers/MainWindow.h \
-    headers/SettingsDialog.h
+    headers/SettingsDialog.h \
+    ../common/headers/Textbook.h \
+    ../common/headers/Section.h \
+    ../common/headers/Definitions.h \
+    ../common/headers/Content.h \
+    ../common/headers/Chapter.h \
+    ../common/headers/Serializer.h
 
 FORMS    += mainwindow.ui

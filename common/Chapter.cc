@@ -1,7 +1,7 @@
 #include "headers/Chapter.h"
 
-Chapter::Chapter(QString cTitle, bool cAvailable, float cPrice,
-                 int cChapterno, QString cDescription, Textbook *cParent, int cC_id) {
+Chapter::Chapter(QString cTitle, int cChapterno, Textbook *cParent,
+                 QString cDescription, bool cAvailable, float cPrice, int cC_id) {
   title = cTitle;
   available = cAvailable;
   price = cPrice;

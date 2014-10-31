@@ -12,7 +12,7 @@ class Textbook;
 
 class Chapter: public Content {
   public:
-    Chapter(QString, bool, float, int, QString cDescription = "", Textbook * = 0, int cC_id = 0);
+    Chapter(QString, int, Textbook * = 0, QString = "", bool = false, float = 0, int cC_id = 0);
     Textbook *getTextbook();
     void serialize(QJsonObject&);
     int getChapterNo();

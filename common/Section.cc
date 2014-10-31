@@ -1,8 +1,8 @@
 #include "headers/Section.h"
 
-Section::Section(QString cTitle, bool cAvailable,
-                 float cPrice,int cSectionNo, QString cDescription, Textbook *cTextbook,
-                 Chapter *cChapter, int cC_id) {
+Section::Section(QString cTitle, int cSectionNo, Chapter *cChapter,
+                 Textbook *cTextbook, QString cDescription, bool cAvailable,
+                 float cPrice, int cC_id) {
   title = cTitle;
   available = cAvailable;
   price = cPrice;

@@ -11,11 +11,13 @@ class Textbook;
 
 class Section: public Content {
     public:
-        Section(QString, bool, float, int, QString description = "",Textbook * = 0, Chapter* = 0, int cC_id = 0);
-        Chapter* getChapter();
-        Textbook* getTextbook();
-        void serialize(QJsonObject&);
-        int getSectionNo();
+        Section(QString, int, Chapter* = 0, Textbook* = 0,
+                QString = "", bool = false, float = 0, int = 0);
+
+        Chapter*  getChapter ();
+        Textbook* getTextbook ();
+        void      serialize (QJsonObject&);
+        int       getSectionNo();
 
   private:
     int       sectionNo;

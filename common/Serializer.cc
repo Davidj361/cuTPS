@@ -214,7 +214,7 @@ void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
         int year( static_cast<int>( textbook["year"].toDouble() ) );
 
         // XXX NEW MEMORY HERE
-        Textbook* pTextbook = new Textbook(title, available, price, author, ISBN, publisher, edition, description, year);
+        Textbook* pTextbook = new Textbook(ISBN, title, publisher, author, year, edition, description, available, price);
         if (retData != 0)
                 throw runtime_error("Serializer::createTextbook, void* retData was not set null beforehand");
         else {
@@ -234,7 +234,7 @@ void Serializer::createChapter(const QJsonObject& json, void*& retData, QString&
         ISBN = chapter["ISBN"].toString();
 
         // XXX NEW MEMORY HERE
-        Chapter* pChapter = new Chapter(title, available, price, chapterNo, description);
+        Chapter* pChapter = new Chapter(title, chapterNo, 0, description, available, price);
         if (retData != 0)
                 throw runtime_error("Serializer::createChapter, void* retData was not set null beforehand");
         else
@@ -255,7 +255,7 @@ void Serializer::createSection(const QJsonObject& json, void*& retData, QString&
         outChapterNo = section["chapterNo"].toString();
 
         // XXX NEW MEMORY HERE
-        Section* pSection = new Section(title, available, price, sectionNo, description);
+        Section* pSection = new Section(title, sectionNo, 0, 0, description, available, price);
         if (retData != 0)
                 throw runtime_error("Serializer::createSection, void* retData was not set null beforehand");
         else
@@ -270,7 +270,7 @@ void Serializer::createInvoice(const QJsonObject& json, void *& retData) const {
         QJsonObject invoice = json["invoice"].toObject();
         Invoice* pInvoice = new Invoice(invoice["username"].toString());
         QJsonArray arr = invoice["contents"].toArray();
-        
+
         // We iterate through arr and add each content id via Invoice::add(int);
         QJsonObject temp;
         for (QJsonArray::iterator iter = arr.begin(); iter != arr.end(); ++iter) {
@@ -315,7 +315,7 @@ void Serializer::createContent(const QJsonObject& json, vector<Textbook*>& textb
                                 pSection = static_cast<Section*>(temp);
                                 pChapter->getSections().push_back(pSection);
                         }
-                       pTextbook->getChapters().push_back(pChapter); 
+                       pTextbook->getChapters().push_back(pChapter);
                 }
                 textbooks.push_back(pTextbook);
         }

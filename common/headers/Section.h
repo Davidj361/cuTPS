@@ -14,7 +14,7 @@ class Section: public Content {
         int getSectionNumber();
 
   private:
-    int       sectionNumber;
+    int       sectionNo;
     Textbook *textbook;
     Chapter  *chapter;
 };

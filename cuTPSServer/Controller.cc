@@ -20,7 +20,6 @@ void Controller::Run () {
   QString str1;
   QString str2;
 
-
   try {
     // Create new ConnectionServer to handle incoming requests
     connection = new ConnectionServer();
@@ -36,7 +35,7 @@ void Controller::Run () {
   while (true) {
     try {
       in = connection->WaitForRequest();
-      command = serializer->Deserialize(*in, object, str2, str2);
+      command = serializer->Deserialize(*in, object, str1, str2);
 
       switch (command) {
         case ADD_TEXTBOOK:

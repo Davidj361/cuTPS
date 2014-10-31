@@ -27,6 +27,12 @@ void Chapter::serialize(QJsonObject & chapterJson){
 
 }
 
+void Chapter::addSection(Section* sec){
+  sections.push_back(sec);
+}
+
+vector<Section*>& getSections(){return sections;}
+
 int Chapter::getChapterNo(){
     return chapterNo;
 }

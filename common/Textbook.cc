@@ -39,6 +39,11 @@ int     Textbook::getYear() {
   return year;
 }
 
+void Textbook::addChapter(Chapter * cha){
+  chapters.push_back(cha);
+}
+
+vector<Chapter*> Textbook::getChapters(){return chapters;}
 void Textbook::serialize(QJsonObject& textbookJson){
     textbookJson["title"] = title;
     textbookJson["available"] = available;

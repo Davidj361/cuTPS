@@ -15,8 +15,11 @@ Controller::~Controller () {
 void Controller::Run () {
   QByteArray *out = new QByteArray();
   QByteArray *in = new QByteArray();
-  void *object;
   commands_t command;
+  void *object;
+  QString str1;
+  QString str2;
+
 
   try {
     // Create new ConnectionServer to handle incoming requests
@@ -33,10 +36,16 @@ void Controller::Run () {
   while (true) {
     try {
       in = connection->WaitForRequest();
-      command = serializer->Deserialize(*in, object);
+      command = serializer->Deserialize(*in, object, str2, str2);
 
       switch (command) {
-        case ADD_CONTENT:
+        case ADD_TEXTBOOK:
+          // Do something
+          break;
+        case ADD_CHAPTER:
+          // Do something
+          break;
+        case ADD_SECTION:
           // Do something
           break;
         case ADD_INVOICE:

@@ -104,7 +104,6 @@ void DBManager::ShowUsers() {
  **************************************************************************/
 bool DBManager::StoreTextbook(Textbook *textbook) {
 
-    qDebug() << *(textbook->serialize());
     bool result = false;
 
     if (!db.open())
@@ -170,7 +169,7 @@ bool DBManager::StoreChapter(Chapter *chapter, QString &isbn) {
     query.bindValue(":number", chapter->getChapterNo());
     query.bindValue(":textbook", isbn);
     query.bindValue(":description", chapter->getDescription());
-    query.bindValue(":availability", chapter->isAvailable());
+    query.bindValue(":availability", int(chapter->isAvailable()));
     query.bindValue(":price", chapter->getPrice());
     query.bindValue(":content_id", content_id);
 
@@ -211,7 +210,7 @@ bool DBManager::StoreSection(Section *section, QString &isbn, QString &ch_number
     query.bindValue(":chapter", ch_number);
     query.bindValue(":textbook", isbn);
     query.bindValue(":description", section->getDescription());
-    query.bindValue(":availability", section->isAvailable());
+    query.bindValue(":availability", int(section->isAvailable()));
     query.bindValue(":price", section->getPrice());
     query.bindValue(":content_id", content_id);
 

@@ -50,7 +50,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
                                         qDebug() << "ADD_CHAPTER was an error";
                                         break;
                                 case REQUEST:
-                                        this->createChapter(json, out_object);
+                                        this->createChapter(json, out_object, str1);
                                         break;
                                 default:
                                         throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
@@ -69,7 +69,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
                                         qDebug() << "ADD_SECTION was an error";
                                         break;
                                 case REQUEST:
-                                        this->createSection(json, out_object);
+                                        this->createSection(json, out_object, str1, str2);
                                         break;
                                 default:
                                         throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");

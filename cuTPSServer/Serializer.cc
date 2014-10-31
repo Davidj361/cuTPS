@@ -186,7 +186,7 @@ void Serializer::createChapter(const QJsonObject& json, void* retData, string& I
 }
 
 void Serializer::createSection(const QJsonObject &, void *, string& outISBN, int chapterNo) const {
-        QJsonObject chapter = json["chapter"].toObject();
+        QJsonObject section = json["section"].toObject();
 
         QString title( textbook["title"].toString() );
         bool available( static_cast<bool>( textbook["available"].toDouble() ) );

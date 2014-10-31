@@ -77,6 +77,14 @@ void MainWindow::runTest1() {
 
 void MainWindow::runTest2() {
   qDebug() << "Running test 2";
+  User user("peter","", "", "");
+  QByteArray res;
+  QByteArray req;
+
+  serializer->Serialize(GET_CONTENT, &user, REQUEST, req);
+  qDebug() << req;
+  connection->request(req, res);
+  qDebug() << res;
 }
 
 void MainWindow::runTest3() {

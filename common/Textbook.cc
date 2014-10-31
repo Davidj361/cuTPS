@@ -1,8 +1,8 @@
 #include "headers/Textbook.h"
 
-Textbook::Textbook(QString cTitle, bool cAvailable, float cPrice,
-                   QString cAuthor, QString cISBN, QString cPublisher,
-                   QString cEdition, QString cDescription, int cYear, int cC_id) {
+Textbook::Textbook(QString cISBN, QString cTitle, QString cPublisher, QString cAuthor,
+                   int cYear, QString cEdition, QString cDescription,
+                   bool cAvailable, float cPrice, int cC_id) {
   title = cTitle;
   available = cAvailable;
   price = cPrice;

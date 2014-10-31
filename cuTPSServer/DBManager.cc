@@ -272,8 +272,73 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     return result;
 }
 
-bool DBManager::RetrieveContentList (QString *username, vector<Textbook> list*) {
+void DBManager::RetrieveContentList (QString *username, vector<Textbook> *list) {
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing db.open()");
 
+    QSqlQuery query;
+
+    // Make sure user is a student
+    if (!query.prepare("SELECT type FROM Users WHERE username=:username;"))
+        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing SELECT statement to look up user");
+
+    query.bindValue(":username", *username);
+
+    if (!query.exec())
+        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing user lookup");
+
+    // Check if username is a Student
+    if ( !query.next() || query.value(0) == "student")
+        throw runtime_error("User is not a student or does not exist");
+
+    // Get textbook list for courses the student is registered in
+    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOING Textbook ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
+        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
+
+    query.bindValue(":username", *username);
+
+    if (!query.exec())
+        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving user's textbook list");
+
+    // Loop through each textbook, getting all the chapters and sections and creating object
+    while (query.next()) {
+
+        Textbook textbook(query.value(0), query.value(1), query.value(2),
+                          query.value(3), query.value(4), query.value(5),
+                          query.value(6), query.value(7), query.value(8),
+                          query.value(9));
+
+        QSqlQuery ch_query;
+        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn"))
+            throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up chapter info");
+
+        ch_query.bindValue(":isbn", query.value(0), );
+
+        if (!ch_query.exec())
+            throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving chapter info");
+
+        while (ch_query.next()) {
+            Chapter chapter(query.value(0), query.value(1), &textbook,
+                            query.value(3), query.value(4), query.value(5),
+                            query.value(6));
+            QSqlQuery sec_query;
+            if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn"))
+                throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up section info");
+
+            sec_query.bindValue(":isbn", query.value(0), );
+
+            if (!sec_query.exec())
+                throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving section info");
+
+            while (sec_query.next()) {
+                Section section(query.value(0), query.value(1), &chapter,
+                                &textbook, query.value(4), query.value(5),
+                                query.value(6), query.value(7));
+            }
+        }
+
+        list->push_back(textbook);
+    }
 }
 
 /***************************************************************************

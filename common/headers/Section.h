@@ -8,7 +8,7 @@
 
 class Section: public Content {
     public:
-        Section(QString, bool, float, int, QString description = "",Textbook * = 0, Chapter * = 0, int cC_id = 0);
+        Section(QString, int, Chapter * = 0, Textbook * = 0, QString description = "", bool, float, int cC_id = 0);
         Chapter* getChapter();
         Textbook* getTextbook();
         void serialize(QJsonObject&);

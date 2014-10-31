@@ -21,7 +21,7 @@ class Textbook: public Content {
                 IN  -   C_ID Optional
     Returns   : void
     ===================================================================== */
-    Textbook(QString, bool, float, QString, QString, QString, QString, QString, int, int cC_id = 0);
+    Textbook(QString, QString, QString, QString, int, QString, QString, bool, float, int cC_id = 0);
     QString getAuthor();
     QString getISBN();
     QString getPublisher();

@@ -49,9 +49,9 @@ void MainWindow::runTests() {
 void MainWindow::runTest1() {
   qDebug() << "Running test 1 - Adding Content";
 
-  Textbook *t = new Textbook("Learning NodeJS", true, 50, "David J", "1234567891", "Graeme J", "1", "Everything you need to know about NodeJS", 2014);
-  Chapter  *c = new Chapter("V8 Engine", true, 15, 1, "More horsepower!", t);
-  Section  *s = new Section("Many ponies", true, 5, 1, "Ponies are funny looking", t, c);
+  Textbook *t = new Textbook("Learning NodeJS", "1234567891", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
+  Chapter  *c = new Chapter("V8 Engine", 1, t, "More horsepower!", true, 15);
+  Section  *s = new Section("Many ponies", 1, c, t, "Ponies are funny looking", true, 5);
 
   QByteArray res;
   QByteArray req;

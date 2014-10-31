@@ -30,7 +30,7 @@ class Serializer {
                 // Returns   : The command to be performed
                 ===================================================================== */
                 // Added 2 string arguments for ISBN/username and possible chapter/section #
-                commands_t Deserialize(const QByteArray &, void *, QString&, QString&) const;
+                commands_t Deserialize(const QByteArray &, void *&, QString&, QString&) const;
 
                 /* =====================================================================
                 // Function  : Serialize
@@ -53,7 +53,7 @@ class Serializer {
                 //             Out - The textbook object
                 // Returns   : Nothing
                 // ===================================================================== */
-                void createTextbook(const QJsonObject &, void *) const;
+                void createTextbook(const QJsonObject &, void *&) const;
 
                 /* =====================================================================
                 // Function  : createChapter

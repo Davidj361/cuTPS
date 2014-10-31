@@ -2,7 +2,7 @@
 
 using namespace std;
 
-commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, QString& str1, QString& str2) const {
+commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object, QString& str1, QString& str2) const {
 
         // Create a QJsonDocument from the QByteArray
         QJsonDocument jdoc = QJsonDocument::fromJson(in_json);
@@ -31,8 +31,6 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *out_object, 
                                         break;
                                 case REQUEST:
                                         createTextbook(json, out_object);
-                                        qDebug() << *(reinterpret_cast<Textbook*>(out_object)->serialize());
-                            qDebug() << "Were out";
                                         break;
                                 default:
                                         throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
@@ -146,7 +144,7 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
   out = jdoc.toJson();
 }
 
-void Serializer::createTextbook(const QJsonObject& json, void* retData) const {
+void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
         QJsonObject textbook = json["content"].toObject();
 
         QString title( textbook["title"].toString() );
@@ -165,7 +163,6 @@ void Serializer::createTextbook(const QJsonObject& json, void* retData) const {
                 throw runtime_error("Serializer::createTextbook, void* retData was not set null beforehand");
         else {
                 retData = pTextbook;
-                qDebug() << *(reinterpret_cast<Textbook*>(retData)->serialize());
         }
 }
 

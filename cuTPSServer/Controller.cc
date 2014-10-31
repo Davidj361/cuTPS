@@ -17,7 +17,7 @@ void Controller::Run () {
   commands_t command;
   QString str1;
   QString str2;
-  void *object;
+  void *object = 0;
   bool result;
 
   try {
@@ -35,11 +35,8 @@ void Controller::Run () {
   while (true) {
     try {
       connection->WaitForRequest(in);
-      qDebug() << "LOOK OUT!";
-      qDebug() << in;
       command = serializer->Deserialize(in, object, str1, str2);
-      serializer->Serialize(command, static_cast<Textbook*>(object), REQUEST, out);
-      qDebug() << out;
+
       switch (command) {
         case ADD_TEXTBOOK:
           result = dbManager->StoreTextbook(static_cast<Textbook*>(object));

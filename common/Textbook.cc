@@ -49,5 +49,6 @@ QJsonObject* Textbook::serialize(){
     (*textbookJson)["edition"] = edition;
     (*textbookJson)["year"] = year;
     (*textbookJson)["c_id"] = c_id;
+    (*textbookJson)["ISBN"] = ISBN;
     return textbookJson;
 }

@@ -104,7 +104,7 @@ void DBManager::ShowUsers() {
  **************************************************************************/
 bool DBManager::StoreTextbook(Textbook *textbook) {
 
-    qDebug() << textbook->serialize();
+    qDebug() << *(textbook->serialize());
     bool result = false;
 
     if (!db.open())
@@ -136,6 +136,7 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
     if (query.exec())
         result = true;
     else
+        qDebug() << query.lastError().text();
         throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
 
     db.commit();

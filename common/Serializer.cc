@@ -100,6 +100,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                                 case REQUEST:
                                         // This is the server so we need to notify controller with command_t and ask for creation of all the objects and give back the user name
                                         str1 = json["username"].toString();
+                                        break;
                                 default:
                                         throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
                         }

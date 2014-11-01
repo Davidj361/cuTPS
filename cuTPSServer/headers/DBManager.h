@@ -104,7 +104,7 @@ class DBManager {
       Returns   : True - Success
                   False - Fail
     ===================================================================== */
-    void RetrieveContentList (QString &, vector<Textbook> &);
+    bool RetrieveContentList (QString &, vector<Textbook> &);
   private:
     QSqlDatabase db;
 };

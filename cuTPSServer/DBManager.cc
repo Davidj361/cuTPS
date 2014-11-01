@@ -272,20 +272,26 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     return result;
 }
 
-void DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) {
+bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) {
     if (!db.open())
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing db.open()");
 
     QSqlQuery query;
 
     // Make sure user is a student
-    if (!query.prepare("SELECT type FROM Users WHERE username=:username;"))
+    if (!query.exec("SELECT type FROM Users WHERE username='" + username+ "';"))
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing SELECT statement to look up user");
 
-    query.bindValue(":username", username);
+    /*query.bindValue(":username", username);
 
     if (!query.exec())
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing user lookup");
+    */
+    qDebug() << "--------";
+    qDebug() << "SELECT type FROM Users WHERE username='" + username+ "';";
+    qDebug() << username;
+    qDebug() << query.size();
+    qDebug() << "--------";
 
     // Check if username is a Student
     if ( !query.next() || query.value(0) == "student")
@@ -357,6 +363,7 @@ void DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
         }
         list.push_back(textbook);
     }
+    return true;
 }
 
 /***************************************************************************

@@ -38,19 +38,32 @@ void Controller::Run () {
   while (true) {
     try {
       connection->WaitForRequest(in);
+      qDebug() << "Received from client...";
+      qDebug() << in;
       command = serializer->Deserialize(in, object, str1, str2);
-
+      qDebug() << "Deserialized into...";
+      qDebug() << "Str1 - " << str1;
+      qDebug() << "Str2 - " << str2;
+      QJsonObject json;
       switch (command) {
         case ADD_TEXTBOOK:
+          (static_cast<Textbook*>(object))->serialize(json);
+          qDebug() << json;
           result = dbManager->StoreTextbook(static_cast<Textbook*>(object));
           break;
         case ADD_CHAPTER:
+          (static_cast<Chapter*>(object))->serialize(json);
+          qDebug() << json;
           result = dbManager->StoreChapter(static_cast<Chapter*>(object), str1);
           break;
         case ADD_SECTION:
+          (static_cast<Section*>(object))->serialize(json);
+          qDebug() << json;
           result = dbManager->StoreSection(static_cast<Section*>(object), str1, str2);
           break;
         case ADD_INVOICE:
+          (static_cast<Invoice*>(object))->serialize(json);
+          qDebug() << json;
           result = dbManager->StoreInvoice(static_cast<Invoice*>(object));
           break;
         case GET_CONTENT:
@@ -58,7 +71,9 @@ void Controller::Run () {
           break;
       }
 
-      serializer->Serialize(command, object, SUCCESS, out);
+      serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
+      qDebug() << "Serialized Response...";
+      qDebug() << out;
       connection->SendResponse(out);
 
       delete object;
@@ -66,6 +81,7 @@ void Controller::Run () {
     }
     catch (exception &e) {
       cout << e.what() << endl;
+      // On Exception send an error message to the client
       delete object;
       object = 0;
     }

@@ -67,7 +67,7 @@ void Controller::Run () {
           result = dbManager->StoreInvoice(static_cast<Invoice*>(object));
           break;
         case GET_CONTENT:
-          dbManager->RetrieveContentList(str1, book_list);
+          result = dbManager->RetrieveContentList(str1, book_list);
           qDebug() << "We made it out!";
           break;
       }

@@ -279,26 +279,15 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
     QSqlQuery query;
 
     // Make sure user is a student
-    if (!query.exec("SELECT type FROM Users WHERE username='" + username+ "';"))
-        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing SELECT statement to look up user");
-
-    /*query.bindValue(":username", username);
-
-    if (!query.exec())
-        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing user lookup");
-    */
-    qDebug() << "--------";
-    qDebug() << "SELECT type FROM Users WHERE username='" + username+ "';";
-    qDebug() << username;
-    qDebug() << query.size();
-    qDebug() << "--------";
+    if (!query.exec("SELECT type FROM Users WHERE username='" + username + "'"))
+        throw runtime_error("ERROR DBManager::RetrieveContentList()  Error while performing user lookup");
 
     // Check if username is a Student
-    if ( !query.next() || query.value(0) == "student")
+    if ( !query.first() || query.value(0) != "student")
         throw runtime_error("User is not a student or does not exist");
 
     // Get textbook list for courses the student is registered in
-    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOING Textbook ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
+    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
 
     query.bindValue(":username", username);
@@ -308,7 +297,6 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
 
     // Loop through each textbook, getting all the chapters and sections and creating objects
     while (query.next()) {
-
         Textbook textbook(query.value(0).toString(), // ISBN
                           query.value(1).toString(), // Title
                           query.value(2).toString(), // Publisher
@@ -331,13 +319,13 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
 
         // Loop through each chapter, getting all the sections and creating objects
         while (ch_query.next()) {
-            Chapter chapter(query.value(0).toString(),  // Name
-                            query.value(1).toInt(),     // Chapter Number
-                            &textbook,                  // Textbook
-                            query.value(3).toString(),  // Description
-                            query.value(4).toBool(),    // Availability
-                            query.value(5).toFloat(),   // Price
-                            query.value(6).toInt());    // Content ID
+            Chapter chapter(ch_query.value(0).toString(),  // Name
+                            ch_query.value(1).toInt(),     // Chapter Number
+                            &textbook,                     // Textbook
+                            ch_query.value(3).toString(),  // Description
+                            ch_query.value(4).toBool(),    // Availability
+                            ch_query.value(5).toFloat(),   // Price
+                            ch_query.value(6).toInt());    // Content ID
             QSqlQuery sec_query;
             if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn"))
                 throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up section info");
@@ -348,14 +336,14 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
                 throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving section info");
 
             while (sec_query.next()) {
-                Section section(query.value(0).toString(),  // Name
-                                query.value(1).toInt(),     // Section Number
-                                &chapter,                   // Chapter
-                                &textbook,                  // Textbook
-                                query.value(4).toString(),  // Description
-                                query.value(5).toBool(),    // Availability
-                                query.value(6).toFloat(),   // Price
-                                query.value(7).toInt());    // Content ID
+                Section section(sec_query.value(0).toString(),  // Name
+                                sec_query.value(1).toInt(),     // Section Number
+                                &chapter,                       // Chapter
+                                &textbook,                      // Textbook
+                                sec_query.value(4).toString(),  // Description
+                                sec_query.value(5).toBool(),    // Availability
+                                sec_query.value(6).toFloat(),   // Price
+                                sec_query.value(7).toInt());    // Content ID
 
                 chapter.addSection(&section);
             }
@@ -378,15 +366,15 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
 /***************************************************************************
  **                DISPLAY FIELDS IN A TABLE                              **
  **************************************************************************/
-/*void viewFields(QSqlDatabase* db, QString table) {
-    if (db->open()) {
-        QSqlRecord rec = db->record(table);
+void DBManager::viewFields(QString table) {
+    if (db.open()) {
+        QSqlRecord rec = db.record(table);
         for (int i=0; i < rec.count(); i++) {
             qDebug() << rec.fieldName(i);
         }
     }
 
-}*/
+}
 
 /***************************************************************************
  **                ADD NEW COURSE                                         **

@@ -105,6 +105,8 @@ class DBManager {
                   False - Fail
     ===================================================================== */
     bool RetrieveContentList (QString &, vector<Textbook> &);
+
+    void viewFields(QString table);
   private:
     QSqlDatabase db;
 };

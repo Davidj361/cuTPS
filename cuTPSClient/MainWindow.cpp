@@ -49,7 +49,7 @@ void MainWindow::runTests() {
 void MainWindow::runTest1() {
   qDebug() << "Running test 1 - Adding Content";
 
-  Textbook *t = new Textbook("Learning NodeJS", "1234567891", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
+  Textbook *t = new Textbook("1234567890", "Learning NodeJS", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
   Chapter  *c = new Chapter("V8 Engine", 1, t, "More horsepower!", true, 15);
   Section  *s = new Section("Many ponies", 1, c, t, "Ponies are funny looking", true, 5);
 

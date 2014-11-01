@@ -202,10 +202,11 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
 }
 
 void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
+
         QJsonObject textbook = json["content"].toObject();
 
         QString title( textbook["title"].toString() );
-        bool available( static_cast<bool>( textbook["available"].toDouble() ) );
+        bool available( textbook["available"].toBool() );
         float price( static_cast<float>( textbook["price"].toDouble() ) );
         QString author( textbook["author"].toString() );
         QString ISBN( textbook["ISBN"].toString() );
@@ -227,7 +228,7 @@ void Serializer::createChapter(const QJsonObject& json, void*& retData, QString&
         QJsonObject chapter = json["content"].toObject();
 
         QString title( chapter["title"].toString() );
-        bool available( static_cast<bool>( chapter["available"].toDouble() ) );
+        bool available( chapter["available"].toBool());
         float price( static_cast<float>( chapter["price"].toDouble() ) );
         int chapterNo( static_cast<int>( chapter["chapterNo"].toDouble() ) );
         QString description( chapter["description"].toString() );
@@ -247,7 +248,7 @@ void Serializer::createSection(const QJsonObject& json, void*& retData, QString&
         QJsonObject section = json["content"].toObject();
 
         QString title( section["title"].toString() );
-        bool available( static_cast<bool>( section["available"].toDouble() ) );
+        bool available( section["available"].toBool() );
         float price( static_cast<float>( section["price"].toDouble() ) );
         int sectionNo( static_cast<int>( section["chapterNo"].toDouble() ) );
         QString description( section["description"].toString() );

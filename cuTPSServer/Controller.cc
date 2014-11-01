@@ -38,13 +38,19 @@ void Controller::Run () {
   while (true) {
     try {
       connection->WaitForRequest(in);
+
+      qDebug() << "Variables:";
+      qDebug() << "Object*: " << object;
+
       qDebug() << "Received from client...";
       qDebug() << in;
+      qDebug() << "Deserializing...";
+
       command = serializer->Deserialize(in, object, str1, str2);
-      qDebug() << "Deserialized into...";
-      qDebug() << "Str1 - " << str1;
-      qDebug() << "Str2 - " << str2;
-      QJsonObject json;
+
+      qDebug() << "Done. Passing off to DBManager. Object being sent to DBManager is:";
+
+      QJsonObject json; // For debugging purposes
       switch (command) {
         case ADD_TEXTBOOK:
           (static_cast<Textbook*>(object))->serialize(json);
@@ -68,22 +74,49 @@ void Controller::Run () {
           break;
         case GET_CONTENT:
           result = dbManager->RetrieveContentList(str1, book_list);
+          object = &book_list;
           qDebug() << "We made it out!";
           break;
       }
 
-      serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
       qDebug() << "Serialized Response...";
+      serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
+      qDebug() << "Done. Serialized response is..";
       qDebug() << out;
       connection->SendResponse(out);
+      qDebug() << "Response sent";
 
-      delete object;
+      // Can't delete a void pointer in C++. Need to cast it so compiler knows which destructor to call
+      switch (command) {
+        case ADD_TEXTBOOK:
+          qDebug() << "Freeing textbook";
+          delete (static_cast<Textbook*>(object));
+          break;
+        case ADD_CHAPTER:
+          qDebug() << "Freeing chapter";
+          delete (static_cast<Chapter*>(object));
+          break;
+        case ADD_SECTION:
+          qDebug() << "Freeing section";
+          delete (static_cast<Section*>(object));
+          break;
+        case ADD_INVOICE:
+          qDebug() << "Freeing invoice";
+          delete (static_cast<Invoice*>(object));
+          break;
+      case GET_CONTENT:
+      default:
+          break;
+      }
+
       object = 0;
     }
     catch (exception &e) {
       cout << e.what() << endl;
+
       // On Exception send an error message to the client
-      delete object;
+      // serializer->Serialize(command, new QString(e.what()), ERROR, out);
+      // connection->SendResponse(out);
       object = 0;
     }
   }

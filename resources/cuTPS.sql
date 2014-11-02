@@ -332,10 +332,6 @@ INSERT INTO `Sections` (name, number, chapter, textbook, description, availabili
     
 INSERT INTO `Content` DEFAULT VALUES;
 INSERT INTO `Sections` (name, number, chapter, textbook, description, availability, price, content_id) 
-    VALUES ('Wiring, Arduino, and Fritzing', 2, 3, '0123736021', '', 1, 5, (SELECT last_insert_rowid()));
-    
-INSERT INTO `Content` DEFAULT VALUES;
-INSERT INTO `Sections` (name, number, chapter, textbook, description, availability, price, content_id) 
     VALUES ('Wiring, Arduino, and Fritzing', 3, 3, '0123736021', '', 1, 5, (SELECT last_insert_rowid()));
 
 INSERT INTO `Content` DEFAULT VALUES;

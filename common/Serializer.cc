@@ -197,14 +197,19 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
     //
     vector<Textbook> *tbs = static_cast<vector<Textbook>*>(in_object);
     QJsonArray tbarray;
+    qDebug()<<" there are"<<tbs->size()<<"textbooks";
 
     for(vector<Textbook>::iterator iter = tbs->begin(); iter != tbs->end(); ++iter){
       QJsonObject serializedTB;
 
       (*iter).serialize(serializedTB);
-      /*
+
       vector<Chapter*> chapters = (*iter).getChapters();
       QJsonArray chaparray;
+
+      qDebug() << (*iter).getTitle() << "has" << chapters.size() <<"chapters";
+
+      /*
       for(vector<Chapter*>::const_iterator chapIter= chapters.begin(); chapIter != chapters.end(); ++chapIter){
 
         QJsonObject serializedCh;

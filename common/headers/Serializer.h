@@ -67,6 +67,7 @@ class Serializer {
                 // Returns   : Nothing
                 // ===================================================================== */
                 void createChapter(const QJsonObject &, void *&, QString& outISBN) const;
+                void createChapter(const QJsonObject &, void *&) const;
 
                 /* =====================================================================
                 // Function  : createSection
@@ -80,6 +81,7 @@ class Serializer {
                 // Returns   : Nothing
                 // ===================================================================== */
                 void createSection(const QJsonObject &, void *&, QString& outISBN, QString& chapterNo) const;
+                void createSection(const QJsonObject &, void *&) const;
 
                 void createInvoice(const QJsonObject &, void *&) const;
 

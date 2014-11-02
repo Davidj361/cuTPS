@@ -122,6 +122,8 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                                         this->createContent(json, out_object);
                                         break;
                                 case ERROR:
+                                        // TODO Add a better error handler, perhaps a self made exception
+                                        throw runtime_error("Serializer::Deserialize, got ERROR status for GET_CONTENT command.");
                                         break;
                                 case REQUEST:
                                         // This is the server so we need to notify controller with command_t and ask for creation of all the objects and give back the user name
@@ -280,6 +282,26 @@ void Serializer::createChapter(const QJsonObject& json, void*& retData, QString&
         return;
 }
 
+void Serializer::createChapter(const QJsonObject& json, void*& retData) const {
+        QJsonObject chapter = json["content"].toObject();
+        if (chapter.empty())
+                throw runtime_error("Serializer::createChapter, improperly formatted json");
+
+        QString title( chapter["title"].toString() );
+        bool available( chapter["available"].toBool());
+        float price( static_cast<float>( chapter["price"].toDouble() ) );
+        int chapterNo( static_cast<int>( chapter["chapterNo"].toDouble() ) );
+        QString description( chapter["description"].toString() );
+
+        // XXX NEW MEMORY HERE
+        Chapter* pChapter = new Chapter(title, chapterNo, 0, description, available, price);
+        if (retData != 0)
+                throw runtime_error("Serializer::createChapter, void* retData was not set null beforehand");
+        else
+                retData = static_cast<void*>(pChapter);
+        return;
+}
+
 void Serializer::createSection(const QJsonObject& json, void*& retData, QString& outISBN, QString& outChapterNo) const {
         QJsonObject section = json["content"].toObject();
         if (section.empty())
@@ -290,9 +312,29 @@ void Serializer::createSection(const QJsonObject& json, void*& retData, QString&
         float price( static_cast<float>( section["price"].toDouble() ) );
         int sectionNo( static_cast<int>( section["chapterNo"].toDouble() ) );
         QString description( section["description"].toString() );
-        // We need to pass back ISBN through Serializer::Deserialize
+        // We need to pass back ISBN and the chapter number through Serializer::Deserialize
         outISBN = section["ISBN"].toString();
         outChapterNo = section["chapterNo"].toString();
+
+        // XXX NEW MEMORY HERE
+        Section* pSection = new Section(title, sectionNo, 0, 0, description, available, price);
+        if (retData != 0)
+                throw runtime_error("Serializer::createSection, void* retData was not set null beforehand");
+        else
+                retData = static_cast<void*>(pSection);
+        return;
+}
+
+void Serializer::createSection(const QJsonObject& json, void*& retData) const {
+        QJsonObject section = json["content"].toObject();
+        if (section.empty())
+                throw runtime_error("Serializer::createSection, improperly formatted json");
+
+        QString title( section["title"].toString() );
+        bool available( section["available"].toBool() );
+        float price( static_cast<float>( section["price"].toDouble() ) );
+        int sectionNo( static_cast<int>( section["chapterNo"].toDouble() ) );
+        QString description( section["description"].toString() );
 
         // XXX NEW MEMORY HERE
         Section* pSection = new Section(title, sectionNo, 0, 0, description, available, price);
@@ -334,9 +376,6 @@ void Serializer::createContent(const QJsonObject& json, void*& retData) const {
         vector<Textbook*>* textbooks = new vector<Textbook*>;
         QJsonArray content = json["content"].toArray();
 
-        // TODO Make an overloaded function to deal with these garbage holders
-        QString str1, str2;
-
         // XXX Multiple new memory creations
         for (QJsonArray::const_iterator book = content.begin(); book != content.end(); ++book) {
                 // We are at a textbook so we create a textbook with all the attributes then proceed to add the corresponding chapters
@@ -351,14 +390,14 @@ void Serializer::createContent(const QJsonObject& json, void*& retData) const {
 
                 for (QJsonArray::const_iterator chapter = chapters.begin(); chapter != chapters.end(); ++chapter) {
                         Chapter* pChapter;
-                        this->createChapter((*chapter).toObject(), temp, str1);
+                        this->createChapter((*chapter).toObject(), temp);
                         pChapter = static_cast<Chapter*>(temp);
                         temp = 0;
                         QJsonArray sections = (*chapter).toObject()["sections"].toArray();
 
                         for (QJsonArray::const_iterator section = sections.begin(); section != sections.end(); ++section) {
                                 Section* pSection;
-                                this->createSection((*section).toObject(), temp, str1, str2);
+                                this->createSection((*section).toObject(), temp);
                                 pSection = static_cast<Section*>(temp);
                                 temp = 0;
                                 pChapter->getSections().push_back(pSection);

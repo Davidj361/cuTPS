@@ -1,6 +1,6 @@
 #include "headers/Serializer.h"
 
-#define DEBUG
+
 #ifdef DEBUG
 #define DEBUG(X) qDebug() << X;
 #else
@@ -224,20 +224,18 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
 
           for(vector<Section*>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter){
 
-               QJsonObject serializedSec;
-               (*secIter)->serialize(serializedSec);
-                                secarray.append(serializedSec);
-                        }
+              QJsonObject serializedSec;
+              (*secIter)->serialize(serializedSec);
+              secarray.append(serializedSec);
+          }
 
-                        serializedCh["sections"] = secarray;
-                        chaparray.append(serializedCh);
-
-                }
-                serializedTB["chapters"] = chaparray;
-                tbarray.append(serializedTB);
-        }
-        DEBUG("****serializeContent's json at the end")
-        DEBUG(json)
+       serializedCh["sections"] = secarray;
+       chaparray.append(serializedCh);
+    }
+        serializedTB["chapters"] = chaparray;
+        */
+        tbarray.append(serializedTB);
+    }
     json["content"] = tbarray;
 }
 

@@ -18,20 +18,33 @@ ConnectionClient::ConnectionClient(QString *IPADDR, int PORT, QObject *parent) :
 
 void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
   /*  Connect to the server and write the request  */
-  //connect(sock, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(runTest3()));
   sock->connectToHost(*serverAddr, portno);
-  sock->write(inStr);
-  sock->waitForBytesWritten(-1);
+  if (sock->isWritable()) {
+    sock->write(inStr);
+    sock->waitForBytesWritten(-1);
+  }
+  else {
+      sock->abort();
+  }
 
   /*  Recieve response from the server  */
-  sock->waitForReadyRead(-1);
-  outStr = sock->readAll();
+  if (sock->isReadable()) {
+      sock->waitForReadyRead(-1);
+      outStr = sock->readAll();
+  }
+  else {
+      sock->abort();
+  }
+
+  sock->close();
   sock->disconnectFromHost();
 }
 
 void ConnectionClient::displayNetworkError(QAbstractSocket::SocketError socketError)
 {
     QString error = "";
+    sock->abort();
+    sock->close();
 
     switch (socketError) {
         case QAbstractSocket::RemoteHostClosedError:

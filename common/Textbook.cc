@@ -45,18 +45,14 @@ void Textbook::addChapter(Chapter * cha){
 
 vector<Chapter*>& Textbook::getChapters(){return chapters;}
 void Textbook::serialize(QJsonObject& textbookJson){
-        QJsonObject content;
-
-        content["title"] = title;
-        content["available"] = available;
-        content["price"] = price;
-        content["author"] = author;
-        content["publisher"] = publisher;
-        content["edition"] = edition;
-        content["year"] = year;
-        content["c_id"] = c_id;
-        content["ISBN"] = ISBN;
-        content["description"] = description;
-
-        textbookJson["content"] = content;
+        textbookJson["title"] = title;
+        textbookJson["available"] = available;
+        textbookJson["price"] = price;
+        textbookJson["author"] = author;
+        textbookJson["publisher"] = publisher;
+        textbookJson["edition"] = edition;
+        textbookJson["year"] = year;
+        textbookJson["c_id"] = c_id;
+        textbookJson["ISBN"] = ISBN;
+        textbookJson["description"] = description;
 }

@@ -1,5 +1,12 @@
 #include "headers/Controller.h"
 
+#define DEBUG
+#ifdef DEBUG
+#define DEBUG(X) qDebug() << X;
+#else
+#define DEBUG(X)
+#endif
+
 using namespace std;
 
 Controller::Controller (QObject *parent) : QObject(parent) {

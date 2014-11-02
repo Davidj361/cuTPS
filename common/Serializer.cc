@@ -25,9 +25,12 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                         switch (status) {
                                 case SUCCESS:
                                         qDebug() << "ADD_TEXTBOOK was a success";
+                                        str1 = "success";
                                         break;
                                 case ERROR:
                                         qDebug() << "ADD_TEXTBOOK was an error";
+                                        str1 = "error";
+                                        str2 = json["message"].toString();
                                         break;
                                 case REQUEST:
                                         createTextbook(json, out_object);
@@ -42,9 +45,12 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                         switch (status) {
                                 case SUCCESS:
                                         qDebug() << "ADD_CHAPTER was a success";
+                                        str1 = "success";
                                         break;
                                 case ERROR:
                                         qDebug() << "ADD_CHAPTER was an error";
+                                        str1 = "error";
+                                        str2 = json["message"].toString();
                                         break;
                                 case REQUEST:
                                         this->createChapter(json, out_object, str1);
@@ -59,9 +65,12 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                         switch (status) {
                                 case SUCCESS:
                                         qDebug() << "ADD_SECTION was a success";
+                                        str1 = "success";
                                         break;
                                 case ERROR:
                                         qDebug() << "ADD_SECTION was an error";
+                                        str1 = "error";
+                                        str2 = json["message"].toString();
                                         break;
                                 case REQUEST:
                                         this->createSection(json, out_object, str1, str2);
@@ -76,9 +85,12 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                         switch (status) {
                                 case SUCCESS:
                                         qDebug() << "ADD_INVOICE was a success";
+                                        str1 = "success";
                                         break;
                                 case ERROR:
                                         qDebug() << "ADD_INVOICE was an error";
+                                        str1 = "error";
+                                        str2 = json["message"].toString();
                                         break;
                                 case REQUEST:
                                         this->createInvoice(json, out_object);
@@ -138,7 +150,9 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
         //error?
         break;
     }
-    json["status"] = REQUEST;
+  }
+  else if (status == ERROR) {
+      json["message"] = *static_cast<QString*>(in_object);
   }
   else{
     switch(in_command){
@@ -151,8 +165,9 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
         break;
 
     }
-    json["status"] = status;
   }
+
+  json["status"] = REQUEST;
   
 
   // TODO - convert json object to bytearray

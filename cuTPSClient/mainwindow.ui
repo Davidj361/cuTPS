@@ -37,21 +37,21 @@
      <item>
       <widget class="QPushButton" name="btnRunTest1">
        <property name="text">
-        <string>Run Test 1</string>
+        <string>Add Content Test</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnRunTest2">
        <property name="text">
-        <string>Run Test 2</string>
+        <string>Get Content Test</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnRunTest3">
        <property name="text">
-        <string>Run Test 3</string>
+        <string>Add Invoice Test</string>
        </property>
       </widget>
      </item>

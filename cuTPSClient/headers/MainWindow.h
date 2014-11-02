@@ -23,13 +23,14 @@ class MainWindow : public QMainWindow {
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-  public slots:
+  private slots:
 
     void runTests();
     void runTest1();
     void runTest2();
     void runTest3();
 
+    void displayError(QString);
 
   private:
 
@@ -37,6 +38,9 @@ class MainWindow : public QMainWindow {
     ConnectionClient *connection;
     Serializer       *serializer;
     QString          *serverIP;
+
+    QByteArray       res;
+    QByteArray       req;
 
     int              portno;
 };

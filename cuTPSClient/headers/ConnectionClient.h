@@ -8,6 +8,7 @@
 using namespace std;
 
 class ConnectionClient : public QObject {
+    Q_OBJECT
 
   public:
     // default port is 60001
@@ -25,8 +26,11 @@ class ConnectionClient : public QObject {
     QString    *serverAddr;
     QTcpSocket *sock;
 
+  public slots:
+    void displayNetworkError(QAbstractSocket::SocketError socketError);
 
-
+  signals:
+    void ConnectionError (QString);
 };
 
 #endif // CONNECTIONCLIENT_H

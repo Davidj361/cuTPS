@@ -115,8 +115,8 @@ void Controller::Run () {
       cout << e.what() << endl;
 
       // On Exception send an error message to the client
-      // serializer->Serialize(command, new QString(e.what()), ERROR, out);
-      // connection->SendResponse(out);
+      serializer->Serialize(command, new QString(e.what()), ERROR, out);
+      connection->SendResponse(out);
       object = 0;
     }
   }

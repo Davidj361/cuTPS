@@ -35,7 +35,7 @@ HEADERS  += \
     ../common/headers/Content.h \
     ../common/headers/Chapter.h \
     ../common/headers/Serializer.h \
-    ../common/headers/Users.h \
+    ../common/headers/User.h \
     ../common/headers/Invoice.h
 
 FORMS    += mainwindow.ui

@@ -1,6 +1,6 @@
 #include "headers/Serializer.h"
 
-// #define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define DEBUG(X) qDebug() << X;
 #else
@@ -14,8 +14,8 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
         // Create a QJsonDocument from the QByteArray
         // DEBUG take out when done
         DEBUG("in_json")
-        DEBUG(in_json)
-        QJsonDocument jdoc = QJsonDocument::fromJson(in_json);
+                DEBUG(in_json)
+                QJsonDocument jdoc = QJsonDocument::fromJson(in_json);
         QJsonObject json;
 
         // Create a QJsonObject from the QJsonDocument
@@ -24,11 +24,11 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
         else
                 json = jdoc.object();
         DEBUG("json")
-        DEBUG(json)
-        
+                DEBUG(json)
 
-        // What command is being asked of us?
-        commands_t out_command = static_cast<commands_t>( json["command"].toDouble() );
+
+                // What command is being asked of us?
+                commands_t out_command = static_cast<commands_t>( json["command"].toDouble() );
         status_t status = static_cast<status_t>( json["status"].toDouble() );
 
         switch (out_command) {
@@ -141,55 +141,57 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
 }
 
 void Serializer::Serialize(const commands_t &in_command, void *in_object, status_t status, QByteArray &out) const {
-  QJsonObject json;
-  QJsonObject inJson;
+        QJsonObject json;
+        QJsonObject inJson;
 
-  json["command"] = in_command;
+        json["command"] = in_command;
 
-  if(status == REQUEST){
-    switch(in_command){
-      // Call serialize on the content object and adds it to the json object.
-      case ADD_TEXTBOOK:
-      case ADD_CHAPTER:
-      case ADD_SECTION:
-        static_cast<Content*>(in_object)->serialize(inJson);
-        json["content"] = inJson;
-        break;
-      case ADD_INVOICE:
-        static_cast<Invoice*>(in_object)->serialize(inJson);
-        json["invoice"] = inJson;
-        break;
-      case GET_CONTENT:
-        json["username"] = static_cast<User*>(in_object)->getUserName();
-        break;
-      default:
-        //error?
-        break;
-    }
-  }
-  else if (status == ERROR) {
-      json["message"] = *static_cast<QString*>(in_object);
-  }
-  else{
-    switch(in_command){
-      case GET_CONTENT:
-        if(status == SUCCESS)
-          serializeContent(in_object, json);
-        break;
-      default:
-        // ?
-        break;
+        if(status == REQUEST){
+                switch(in_command){
+                        // Call serialize on the content object and adds it to the json object.
+                        case ADD_TEXTBOOK:
+                        case ADD_CHAPTER:
+                        case ADD_SECTION:
+                                static_cast<Content*>(in_object)->serialize(inJson);
+                                json["content"] = inJson;
+                                break;
+                        case ADD_INVOICE:
+                                static_cast<Invoice*>(in_object)->serialize(inJson);
+                                json["invoice"] = inJson;
+                                break;
+                        case GET_CONTENT:
+                                json["username"] = static_cast<User*>(in_object)->getUserName();
+                                break;
+                        default:
+                                //error?
+                                break;
+                }
+        }
+        else if (status == ERROR) {
+                json["message"] = *static_cast<QString*>(in_object);
+        }
+        else{
+                switch(in_command){
+                        case GET_CONTENT:
+                                if(status == SUCCESS)
+                                        serializeContent(in_object, json);
+                                break;
+                        default:
+                                // ?
+                                break;
 
-    }
-  }
+                }
+        }
+
+        json["status"] = REQUEST;
 
   json["status"] = status;
   
 
-  // TODO - convert json object to bytearray
+        // TODO - convert json object to bytearray
 
-  QJsonDocument jdoc(json);
-  out = jdoc.toJson();
+        QJsonDocument jdoc(json);
+        out = jdoc.toJson();
 }
 
 void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
@@ -205,47 +207,43 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
       /*
       vector<Chapter*> chapters = (*iter).getChapters();
       QJsonArray chaparray;
-      for(vector<Chapter*>::const_iterator chapIter= chapters.begin(); chapIter != chapters.end(); ++chapIter){
+                for(vector<Chapter*>::const_iterator chapIter= chapters.begin(); chapIter != chapters.end(); ++chapIter){
 
-        QJsonObject serializedCh;
-        //(*chapIter)->serialize(serializedCh);
-        qDebug()<<(chapters.size());
+                        QJsonObject serializedCh;
+                        (*chapIter)->serialize(serializedCh);
 
-        qDebug()<<(*chapIter).;
+                        vector<Section*> sections = (*chapIter)->getSections();
+                        QJsonArray secarray;
 
-        vector<Section*> sections = (*chapIter)->getSections();
-        QJsonArray secarray;
+                        for(vector<Section*>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter){
 
-        for(vector<Section*>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter){
+                                QJsonObject serializedSec;
+                                (*secIter)->serialize(serializedSec);
+                                secarray.append(serializedSec);
+                        }
 
-            QJsonObject serializedSec;
-            (*secIter)->serialize(serializedSec);
-            secarray.append(serializedSec);
+                        serializedCh["sections"] = secarray;
+                        chaparray.append(serializedCh);
+
+                }
+                serializedTB["chapters"] = chaparray;
+                tbarray.append(serializedTB);
         }
-
-        serializedCh["sections"] = secarray;
-        chaparray.append(serializedCh);
-
-
-      }
-      serializedTB["chapters"] = chaparray;
-      */
-      tbarray.append(serializedTB);
-
-    }
+        DEBUG("****serializeContent's json at the end")
+        DEBUG(json)
     json["content"] = tbarray;
 }
 
 void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
 
         DEBUG("inside creatTextobok, json")
-        DEBUG(json)
-        QJsonObject textbook = json["content"].toObject();
+                DEBUG(json)
+                QJsonObject textbook = json["content"].toObject();
         if (textbook.empty())
                 throw runtime_error("Serializer::createTextbook, improperly formatted json");
         DEBUG(textbook)
 
-        QString title( textbook["title"].toString() );
+                QString title( textbook["title"].toString() );
         bool available( textbook["available"].toBool() );
         float price( static_cast<float>( textbook["price"].toDouble() ) );
         QString author( textbook["author"].toString() );
@@ -361,7 +359,7 @@ void Serializer::createInvoice(const QJsonObject& json, void *& retData) const {
         QJsonObject temp;
         for (QJsonArray::iterator iter = arr.begin(); iter != arr.end(); ++iter) {
                 temp = (*iter).toObject();
-                pInvoice->addContent( static_cast<int>(temp["cid"].toDouble() ) );
+                pInvoice->addContent( static_cast<int>(temp["c_id"].toDouble() ) );
         }
 
         if (retData != 0)
@@ -386,8 +384,8 @@ void Serializer::createContent(const QJsonObject& json, void*& retData) const {
                 Textbook* pTextbook;
                 void* temp = 0;
                 DEBUG("for book")
-                DEBUG((*book).toObject())
-                this->createTextbook((*book).toObject(), temp);
+                        DEBUG((*book).toObject())
+                        this->createTextbook((*book).toObject(), temp);
                 pTextbook = static_cast<Textbook*>(temp);
                 temp = 0;
                 QJsonArray chapters = (*book).toObject()["chapters"].toArray();
@@ -406,7 +404,7 @@ void Serializer::createContent(const QJsonObject& json, void*& retData) const {
                                 temp = 0;
                                 pChapter->getSections().push_back(pSection);
                         }
-                       pTextbook->getChapters().push_back(pChapter);
+                        pTextbook->getChapters().push_back(pChapter);
                 }
                 textbooks->push_back(pTextbook);
         }

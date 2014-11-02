@@ -347,12 +347,12 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
                                 sec_query.value(7).toInt());    // Content ID
 
                 chapter.addSection(&section);
-                qDebug() << "Section: " << section.getTitle() << " added to chapter " << chapter.getTitle() << " of book " << textbook.getTitle();
+                // qDebug() << "Section: " << section.getTitle() << " added to chapter " << chapter.getTitle() << " of book " << textbook.getTitle();
             }
             textbook.addChapter(&chapter);
-            qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
+            // qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
         }
-        qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
+        // qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
         list.push_back(textbook);
     }
     return true;

@@ -1,10 +1,20 @@
 #include "headers/Serializer.h"
 
+// #define DEBUG
+#ifdef DEBUG
+#define DEBUG(X) qDebug() << X;
+#else
+#define DEBUG(X)
+#endif
+
 using namespace std;
 
 commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object, QString& str1, QString& str2) const {
 
         // Create a QJsonDocument from the QByteArray
+        // DEBUG take out when done
+        DEBUG("in_json")
+        DEBUG(in_json)
         QJsonDocument jdoc = QJsonDocument::fromJson(in_json);
         QJsonObject json;
 
@@ -13,6 +23,9 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                 throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
         else
                 json = jdoc.object();
+        DEBUG("json")
+        DEBUG(json)
+        
 
         // What command is being asked of us?
         commands_t out_command = static_cast<commands_t>( json["command"].toDouble() );
@@ -106,6 +119,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                                 // SUCCESS and ERROR are for the client
                                 case SUCCESS:
                                         // Success for obtaining a content list for the client, we need to create all the textbooks, section, chapters
+                                        this->createContent(json, out_object);
                                         break;
                                 case ERROR:
                                         break;
@@ -218,7 +232,12 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
 
 void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
 
+        DEBUG("inside creatTextobok, json")
+        DEBUG(json)
         QJsonObject textbook = json["content"].toObject();
+        if (textbook.empty())
+                throw runtime_error("Serializer::createTextbook, improperly formatted json");
+        DEBUG(textbook)
 
         QString title( textbook["title"].toString() );
         bool available( textbook["available"].toBool() );
@@ -241,6 +260,8 @@ void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
 
 void Serializer::createChapter(const QJsonObject& json, void*& retData, QString& ISBN) const {
         QJsonObject chapter = json["content"].toObject();
+        if (chapter.empty())
+                throw runtime_error("Serializer::createChapter, improperly formatted json");
 
         QString title( chapter["title"].toString() );
         bool available( chapter["available"].toBool());
@@ -261,6 +282,8 @@ void Serializer::createChapter(const QJsonObject& json, void*& retData, QString&
 
 void Serializer::createSection(const QJsonObject& json, void*& retData, QString& outISBN, QString& outChapterNo) const {
         QJsonObject section = json["content"].toObject();
+        if (section.empty())
+                throw runtime_error("Serializer::createSection, improperly formatted json");
 
         QString title( section["title"].toString() );
         bool available( section["available"].toBool() );
@@ -302,39 +325,48 @@ void Serializer::createInvoice(const QJsonObject& json, void *& retData) const {
         return;
 }
 
-void Serializer::createContent(const QJsonObject& json, vector<Textbook*>& textbooks) const {
+void Serializer::createContent(const QJsonObject& json, void*& retData) const {
         // Check if textbooks is empty if not then throw an error
-        if (!textbooks.empty())
-                throw runtime_error("Serializer::createContent, vector<Textbook>& textbooks is not empty");
+        if (retData != 0)
+                throw runtime_error("Serializer::createContent, void*& retData is not empty");
         // For this we will have 3 levels of arrays, top level is textbooks, 2nd is chapters, 3rd is sections
+        // XXX NEW MEMORY HERE
+        vector<Textbook*>* textbooks = new vector<Textbook*>;
         QJsonArray content = json["content"].toArray();
 
         // TODO Make an overloaded function to deal with these garbage holders
         QString str1, str2;
 
+        // XXX Multiple new memory creations
         for (QJsonArray::const_iterator book = content.begin(); book != content.end(); ++book) {
                 // We are at a textbook so we create a textbook with all the attributes then proceed to add the corresponding chapters
                 Textbook* pTextbook;
-                void* temp;
+                void* temp = 0;
+                DEBUG("for book")
+                DEBUG((*book).toObject())
                 this->createTextbook((*book).toObject(), temp);
                 pTextbook = static_cast<Textbook*>(temp);
+                temp = 0;
                 QJsonArray chapters = (*book).toObject()["chapters"].toArray();
 
                 for (QJsonArray::const_iterator chapter = chapters.begin(); chapter != chapters.end(); ++chapter) {
                         Chapter* pChapter;
                         this->createChapter((*chapter).toObject(), temp, str1);
                         pChapter = static_cast<Chapter*>(temp);
-                        QJsonArray sections = (*chapter).toObject()["chapters"].toArray();
+                        temp = 0;
+                        QJsonArray sections = (*chapter).toObject()["sections"].toArray();
 
                         for (QJsonArray::const_iterator section = sections.begin(); section != sections.end(); ++section) {
                                 Section* pSection;
                                 this->createSection((*section).toObject(), temp, str1, str2);
                                 pSection = static_cast<Section*>(temp);
+                                temp = 0;
                                 pChapter->getSections().push_back(pSection);
                         }
                        pTextbook->getChapters().push_back(pChapter);
                 }
-                textbooks.push_back(pTextbook);
+                textbooks->push_back(pTextbook);
         }
+        retData = static_cast<void*>(textbooks);
 }
 

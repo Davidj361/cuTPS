@@ -22,7 +22,7 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
   // You have to make sure you're connected before you try to write anything. 
   // This was causing client spam because the program was doing write() and waitForBytesWritten() when it was still connecting.
   // TODO Add a #define that corresponds to non-functional requirement for maximum wait time of client
-  if (sock->waitForConnected(1000))
+  if (!sock->waitForConnected(1000))
           qDebug() << "************************* COULD NOT CONNECT TO SERVER! *************************";
   if (sock->isValid() && sock->isWritable()) {
     sock->write(inStr);

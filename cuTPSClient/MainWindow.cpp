@@ -44,8 +44,41 @@ void MainWindow::runTests() {
   //    runTest3();
 }
 
+void * MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, void *in_object, QString message) {
+
+    QString result;
+    QString errorMsg;
+    void *object = 0;
+
+    try {
+        listItem->setText(message);
+        qDebug() << "Serializing Request...";
+        serializer->Serialize(in_command, in_object, REQUEST, req);
+        qDebug() << "Serialized request is:";
+        qDebug() << req;
+        qDebug() << "Sending request to server...";
+        connection->request(req, res);
+        qDebug() << "Response from server size is:";
+        qDebug() << res.size();
+        qDebug() << "Deserializing request...";
+        serializer->Deserialize(res, object, result, errorMsg);
+        listItem->setText(message + " " + result);
+        if (result == "error")
+            listItem->setText(listItem->text() + " " + errorMsg);
+        listItem->setForeground( (result == "success") ? QBrush(Qt::green) : QBrush(Qt::red) );
+    }
+    catch (exception &e) {
+        qDebug() << "Exception!";
+        qDebug() << e.what();
+        listItem->setText(message + "Exception! " + e.what());
+        listItem->setForeground(QBrush(Qt::red));
+    }
+    return object;
+}
+
 // Add Content test
 void MainWindow::runTest1() {
+
   qDebug() << "Running test 1 - Adding Content";
 
   ui->btnRunTest1->setEnabled(false);
@@ -58,93 +91,17 @@ void MainWindow::runTest1() {
   ui->resultsListWidget->addItem(test2);
   ui->resultsListWidget->addItem(test3);
 
-  QString result;
-  QString errorMsg;
-  void* object = 0;
-
   Textbook *t = new Textbook("1234567890", "Learning NodeJS", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
   Chapter  *c = new Chapter("V8 Engine", 1, t, "More horsepower!", true, 15);
   Section  *s = new Section("Many ponies", 1, c, t, "Ponies are funny looking", true, 5);
 
-  try {
-      test1->setText("Performing add textbook test...");
-
-      qDebug() << "=========================";
-      serializer->Serialize(ADD_TEXTBOOK, t, REQUEST, req);
-      qDebug() << req;
-      connection->request(req, res);
-      qDebug() << res;
-      serializer->Deserialize(res, object, result, errorMsg);
-
-      qDebug() << "Result: " << result;
-      if (result == "success") {
-          test1->setText( test1->text() + "PASSED" );
-          test1->setForeground(QBrush(Qt::green));
-      }
-      else {
-          test1->setText( test1->text() + "FAILED" );
-          test1->setForeground(QBrush(Qt::red));
-      }
-  }
-  catch (exception &e) {
-      qDebug() << e.what();
-  }
-
-  try {
-      test2->setText("Performing add chapter test...");
-
-      qDebug() << "=========================";
-      serializer->Serialize(ADD_CHAPTER, c, REQUEST, req);
-      qDebug() << req;
-      connection->request(req, res);
-      qDebug() << res;
-      serializer->Deserialize(res, object, result, errorMsg);
-
-      qDebug() << "Result: " << result;
-      if (result == "success") {
-          test2->setText( test2->text() + "PASSED" );
-          test2->setForeground(QBrush(Qt::green));
-      }
-      else {
-          test2->setText( test2->text() + "FAILED" );
-          test2->setForeground(QBrush(Qt::red));
-      }
-  }
-  catch (exception &e) {
-      qDebug() << e.what();
-  }
-
-  
-  try {
-      test3->setText("Performing add section test...");
-
-      qDebug() << "=========================";
-      serializer->Serialize(ADD_SECTION, s, REQUEST, req);
-      qDebug() << req;
-      connection->request(req, res);
-      qDebug() << res;
-      serializer->Deserialize(res, object, result, errorMsg);
-
-      qDebug() << "Result: " << result;
-      if (result == "success") {
-          test3->setText( test3->text() + "PASSED" );
-          test3->setForeground(QBrush(Qt::green));
-      }
-      else {
-          test3->setText( test3->text() + "FAILED" );
-          test3->setForeground(QBrush(Qt::red));
-      }
-  }
-  catch (exception &e) {
-      qDebug() << e.what();
-  }
-  
+  runTest(test1, ADD_TEXTBOOK, t, "Performing add textbook test...");
+  runTest(test2, ADD_CHAPTER, c, "Performing add chapter test...");
+  runTest(test3, ADD_SECTION, s, "Performing add section test...");
 
   ui->btnRunTest1->setEnabled(true);
 }
 
-// BUG Found a bug where if you spam test 2 a lot and even wait after spamming and clicking normally
-// then test2 stops working all together. Make sure to fix this.
 void MainWindow::runTest2() {
   qDebug() << "Running test 2 - Retrieve Content";
 
@@ -154,39 +111,10 @@ void MainWindow::runTest2() {
 
   ui->resultsListWidget->addItem(test1);
 
-  QString result;
-  QString errorMsg;
-  void *object = 0;
-
   User user("peter","", "", "");
-  vector<Textbook*> book_list;
+  vector<Textbook*> *book_list = new vector<Textbook*>();
 
-  try {
-      test1->setText ("Performing Retrieve Content test...");
-      serializer->Serialize(GET_CONTENT, &user, REQUEST, req);
-      qDebug() << req;
-      connection->request(req, res);
-      qDebug() << res;
-      serializer->Deserialize(res, object, result, errorMsg);
-      book_list = *(static_cast<vector<Textbook*>*>(object));
-
-      // NOTE: Nothing is returned from Deserialize for result currently.
-      qDebug() << "Result: " << result;
-      if (result == "success") {
-          test1->setText( test1->text() + "PASSED" );
-          test1->setForeground(QBrush(Qt::green));
-      }
-      else {
-          test1->setText( test1->text() + "FAILED" );
-          test1->setForeground(QBrush(Qt::red));
-      }
-
-  }
-  catch (exception &e) {
-      test1->setText( test1->text() + "FAILED - " + e.what() );
-      test1->setForeground(QBrush(Qt::red));
-      qDebug() << e.what();
-  }
+  runTest(test1, GET_CONTENT, &user, "Performing Retrieve Content test...");
 
   ui->btnRunTest2->setEnabled(true);
 }

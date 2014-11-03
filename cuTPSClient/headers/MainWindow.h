@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QString>
 #include <QScrollBar>
+#include <QListWidgetItem>
 
 #include "headers/ConnectionClient.h"
 #include "../common/headers/Textbook.h"
@@ -22,6 +23,9 @@ class MainWindow : public QMainWindow {
 
   public:
     explicit MainWindow(QWidget *parent = 0);
+
+    void * runTest(QListWidgetItem*, commands_t, void*, QString);
+
     ~MainWindow();
 
   private slots:

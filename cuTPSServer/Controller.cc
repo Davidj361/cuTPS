@@ -83,14 +83,13 @@ void Controller::Run () {
         case GET_CONTENT:
           result = dbManager->RetrieveContentList(str1, book_list);
           object = &book_list;
-          qDebug() << "We made it out!";
           break;
       }
 
       qDebug() << "Serialized Response...";
       serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
-      qDebug() << "Done. Serialized response is..";
-      qDebug() << out;
+      qDebug() << "Done. Serialized response size is..";
+      qDebug() << out.size();
       connection->SendResponse(out);
       qDebug() << "Response sent";
 
@@ -119,6 +118,7 @@ void Controller::Run () {
 
       in = 0;
       out = 0;
+      book_list.clear();
       object = 0;
     }
     catch (exception &e) {

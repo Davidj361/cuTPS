@@ -5,29 +5,29 @@ Invoice::Invoice(QString cUsername) {
   contentList = new vector<int>();
 }
 
-vector<int>* Invoice::getContentList(){
-    return contentList;
+vector<int> *Invoice::getContentList() {
+  return contentList;
 }
 
-void Invoice::addContent(Content *c){
-    contentList->push_back(c->getcid());
-    return;
+void Invoice::addContent(Content *c) {
+  contentList->push_back(c->getcid());
 }
 
 QString Invoice::getUsername() {
   return username;
 }
 
-void Invoice::serialize(QJsonObject& inJson){
-    inJson["username"] = getUsername();
-    QJsonArray cidArray;
-    for(vector<int>::const_iterator iter= contentList->begin(); iter != contentList->end(); ++iter){
-        QJsonObject cid;
-        cid["cid"] = *iter;
-        cidArray.append(cid);
-    }
-    inJson["contents"] = cidArray;
-
+void Invoice::serialize(QJsonObject &inJson) {
+  inJson["username"] = getUsername();
+  QJsonArray cidArray;
+  for (vector<int>::const_iterator iter = contentList->begin(); iter != contentList->end(); ++iter) {
+    QJsonObject cid;
+    cid["cid"] = *iter;
+    cidArray.append(cid);
+  }
+  inJson["contents"] = cidArray;
 }
 
-void Invoice::addContent(int i) { contentList->push_back(i); }
+void Invoice::addContent(int i) {
+  contentList->push_back(i);
+}

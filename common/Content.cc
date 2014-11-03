@@ -12,10 +12,10 @@ bool Content::isAvailable() {
   return available;
 }
 
-QString Content::getDescription(){
-    return description;
+QString Content::getDescription() {
+  return description;
 }
 
-int Content::getcid(){
-    return c_id;
+int Content::getcid() {
+  return c_id;
 }

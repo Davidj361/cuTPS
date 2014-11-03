@@ -1,12 +1,5 @@
 #include "headers/Controller.h"
 
-#define DEBUG
-#ifdef DEBUG
-#define DEBUG(X) qDebug() << X;
-#else
-#define DEBUG(X)
-#endif
-
 using namespace std;
 
 Controller::Controller (QObject *parent) : QObject(parent) {
@@ -60,25 +53,25 @@ void Controller::Run () {
       QJsonObject json; // For debugging purposes
       switch (command) {
         case ADD_TEXTBOOK:
-          (static_cast<Textbook*>(object))->serialize(json);
+          (static_cast<Textbook *>(object))->serialize(json);
           qDebug() << json;
-          result = dbManager->StoreTextbook(static_cast<Textbook*>(object));
+          result = dbManager->StoreTextbook(static_cast<Textbook *>(object));
           break;
         case ADD_CHAPTER:
-          DEBUG((static_cast<Chapter*>(object))->getTitle())
-          (static_cast<Chapter*>(object))->serialize(json);
+          DEBUG((static_cast<Chapter *>(object))->getTitle())
+          (static_cast<Chapter *>(object))->serialize(json);
           qDebug() << json;
-          result = dbManager->StoreChapter(static_cast<Chapter*>(object), str1);
+          result = dbManager->StoreChapter(static_cast<Chapter *>(object), str1);
           break;
         case ADD_SECTION:
-          (static_cast<Section*>(object))->serialize(json);
+          (static_cast<Section *>(object))->serialize(json);
           qDebug() << json;
-          result = dbManager->StoreSection(static_cast<Section*>(object), str1, str2);
+          result = dbManager->StoreSection(static_cast<Section *>(object), str1, str2);
           break;
         case ADD_INVOICE:
-          (static_cast<Invoice*>(object))->serialize(json);
+          (static_cast<Invoice *>(object))->serialize(json);
           qDebug() << json;
-          result = dbManager->StoreInvoice(static_cast<Invoice*>(object));
+          result = dbManager->StoreInvoice(static_cast<Invoice *>(object));
           break;
         case GET_CONTENT:
           result = dbManager->RetrieveContentList(str1, book_list);
@@ -97,22 +90,22 @@ void Controller::Run () {
       switch (command) {
         case ADD_TEXTBOOK:
           qDebug() << "Freeing textbook";
-          delete (static_cast<Textbook*>(object));
+          delete (static_cast<Textbook *>(object));
           break;
         case ADD_CHAPTER:
           qDebug() << "Freeing chapter";
-          delete (static_cast<Chapter*>(object));
+          delete (static_cast<Chapter *>(object));
           break;
         case ADD_SECTION:
           qDebug() << "Freeing section";
-          delete (static_cast<Section*>(object));
+          delete (static_cast<Section *>(object));
           break;
         case ADD_INVOICE:
           qDebug() << "Freeing invoice";
-          delete (static_cast<Invoice*>(object));
+          delete (static_cast<Invoice *>(object));
           break;
-      case GET_CONTENT:
-      default:
+        case GET_CONTENT:
+        default:
           break;
       }
 

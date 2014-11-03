@@ -10,9 +10,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
   connection = new ConnectionClient(serverIP, portno);
   serializer = new Serializer();
 
-  userStu = new User("peter","", "", "");
+  userStu = new User("peter", "", "", "");
   userCM = new User("gandalf", "", "", "");
-  book_list = new vector<Textbook*>();
+  book_list = new vector<Textbook *>();
 
   connect(ui->actionQuit,     SIGNAL(triggered()), this, SLOT(close()));
 
@@ -27,14 +27,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
   // For autscrolling to the bottom of the list
-  connect(ui->resultsListWidget->verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(scrollDown()));
+  connect(ui->resultsListWidget->verticalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(scrollDown()));
 
   connect(connection, SIGNAL(ConnectionError(QString)), this, SLOT(displayError(QString)));
 }
 
 MainWindow::~MainWindow() {
-    for (int i = 0; i < ui->resultsListWidget->count(); i++)
-        delete ui->resultsListWidget->item(i);
+  for (int i = 0; i < ui->resultsListWidget->count(); i++)
+    delete ui->resultsListWidget->item(i);
   delete ui;
   delete connection;
   delete serverIP;
@@ -48,12 +48,12 @@ void MainWindow::scrollDown() {
 }
 
 void MainWindow::clearList() {
-    ui->resultsListWidget->clear();
+  ui->resultsListWidget->clear();
 }
 
 void MainWindow::setServerIP() {
-    *serverIP = ui->txtServerIP->text();
-    ui->statusBar->showMessage("Server IP address set");
+  *serverIP = ui->txtServerIP->text();
+  ui->statusBar->showMessage("Server IP address set");
 }
 
 void MainWindow::runTests() {
@@ -64,39 +64,39 @@ void MainWindow::runTests() {
 
 }
 
-void * MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, void *in_object, QString message) {
+void *MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, void *in_object, QString message) {
 
-    QString result;
-    QString errorMsg;
-    void *object = 0;
+  QString result;
+  QString errorMsg;
+  void *object = 0;
 
-    res.clear();
-    req.clear();
+  res.clear();
+  req.clear();
 
-    try {
-        listItem->setText(message);
-        qDebug() << "Serializing Request...";
-        serializer->Serialize(in_command, in_object, REQUEST, req);
-        qDebug() << "Serialized request is:";
-        qDebug() << req;
-        qDebug() << "Sending request to server...";
-        connection->request(req, res);
-        qDebug() << "Response from server size is:";
-        qDebug() << res.size();
-        qDebug() << "Deserializing request...";
-        serializer->Deserialize(res, object, result, errorMsg);
-        listItem->setText(message + " " + result);
-        if (result == "error")
-            listItem->setText(listItem->text() + "\n " + errorMsg);
-        listItem->setForeground( (result == "success") ? QBrush(Qt::green) : QBrush(Qt::red) );
-    }
-    catch (exception &e) {
-        qDebug() << "Exception!";
-        qDebug() << e.what();
-        listItem->setText(message + "\n  Exception! " + e.what());
-        listItem->setForeground(QBrush(Qt::red));
-    }
-    return object;
+  try {
+    listItem->setText(message);
+    qDebug() << "Serializing Request...";
+    serializer->Serialize(in_command, in_object, REQUEST, req);
+    qDebug() << "Serialized request is:";
+    qDebug() << req;
+    qDebug() << "Sending request to server...";
+    connection->request(req, res);
+    qDebug() << "Response from server size is:";
+    qDebug() << res.size();
+    qDebug() << "Deserializing request...";
+    serializer->Deserialize(res, object, result, errorMsg);
+    listItem->setText(message + " " + result);
+    if (result == "error")
+      listItem->setText(listItem->text() + "\n " + errorMsg);
+    listItem->setForeground( (result == "success") ? QBrush(Qt::green) : QBrush(Qt::red) );
+  }
+  catch (exception &e) {
+    qDebug() << "Exception!";
+    qDebug() << e.what();
+    listItem->setText(message + "\n  Exception! " + e.what());
+    listItem->setForeground(QBrush(Qt::red));
+  }
+  return object;
 }
 
 // Add Content test
@@ -125,9 +125,9 @@ void MainWindow::addContentTest() {
   ui->btnRunTest1->setEnabled(true);
 }
 
-void MainWindow::getContentTest(){
-    getContentStudentTest();
-    getContentCMTest();
+void MainWindow::getContentTest() {
+  getContentStudentTest();
+  getContentCMTest();
 }
 
 void MainWindow::getContentStudentTest() {
@@ -138,13 +138,13 @@ void MainWindow::getContentStudentTest() {
 
   ui->resultsListWidget->addItem(test1);
 
-  book_list = static_cast<vector<Textbook*>*>(runTest(test1, GET_CONTENT, userStu, "Performing Retrieve Content test for a Student..."));
+  book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userStu, "Performing Retrieve Content test for a Student..."));
 
   if (book_list != 0) {
-      if(book_list->size() != 4){
+    if (book_list->size() != 4) {
 
-      }
-      ui->btnRunTest3->setEnabled(true);
+    }
+    ui->btnRunTest3->setEnabled(true);
   }
 
   ui->btnRunTest2->setEnabled(true);
@@ -158,11 +158,11 @@ void MainWindow::getContentCMTest() {
 
   ui->resultsListWidget->addItem(test1);
 
-  book_list = static_cast<vector<Textbook*>*>(runTest(test1, GET_CONTENT, userCM, "Performing Retrieve Content test for a Content Manager..."));
+  book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userCM, "Performing Retrieve Content test for a Content Manager..."));
 
   if (book_list != 0) {
-      qDebug() << "Book list size: " << book_list->size();
-      ui->btnRunTest3->setEnabled(true);
+    qDebug() << "Book list size: " << book_list->size();
+    ui->btnRunTest3->setEnabled(true);
   }
 
   ui->btnRunTest2->setEnabled(true);
@@ -189,5 +189,5 @@ void MainWindow::addInvoiceTest() {
 }
 
 void MainWindow::displayError(QString error) {
-    ui->statusBar->showMessage(error);
+  ui->statusBar->showMessage(error);
 }

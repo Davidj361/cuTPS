@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  serverIP = new QString("172.17.131.205");
+  serverIP = new QString("127.0.0.1");
   portno = 60001;
 
   connection = new ConnectionClient(serverIP, portno);
@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
   connect(ui->btnRunTest1,    SIGNAL(clicked()),   this, SLOT(addContentTest()));
   connect(ui->btnRunTest2,    SIGNAL(clicked()),   this, SLOT(getContentTest()));
   connect(ui->btnRunTest3,    SIGNAL(clicked()),   this, SLOT(addInvoiceTest()));
+  connect(ui->btnClear,       SIGNAL(clicked()),   this, SLOT(clearList()));
+  connect(ui->btnSetIP,       SIGNAL(clicked()),   this, SLOT(setServerIP()));
 
   ui->btnRunTest3->setEnabled(false);
 
@@ -43,6 +45,15 @@ MainWindow::~MainWindow() {
 
 void MainWindow::scrollDown() {
   ui->resultsListWidget->scrollToBottom();
+}
+
+void MainWindow::clearList() {
+    ui->resultsListWidget->clear();
+}
+
+void MainWindow::setServerIP() {
+    *serverIP = ui->txtServerIP->text();
+    ui->statusBar->showMessage("Server IP address set");
 }
 
 void MainWindow::runTests() {

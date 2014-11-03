@@ -32,6 +32,8 @@ class MainWindow : public QMainWindow {
     void addContentTest();
     void getContentTest();
     void addInvoiceTest();
+    void clearList();
+    void setServerIP();
 
     void scrollDown();
 

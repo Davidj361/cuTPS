@@ -82,7 +82,7 @@ void * MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, voi
     catch (exception &e) {
         qDebug() << "Exception!";
         qDebug() << e.what();
-        listItem->setText(message + "Exception! " + e.what());
+        listItem->setText(message + "\n  Exception! " + e.what());
         listItem->setForeground(QBrush(Qt::red));
     }
     return object;

@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDebug>
 #include <QTcpSocket>
+#include <stdexcept>
+
 
 using namespace std;
 

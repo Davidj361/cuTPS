@@ -24,8 +24,10 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
   /*  Connect to the server and write the request  */
   sock->connectToHost(*serverAddr, portno);
 
-  if (!sock->waitForConnected(1000))
+  if (!sock->waitForConnected(1000)){
       emit ConnectionError("Could not connect to server");
+      throw runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
+  }
   if (sock->isValid() && sock->isWritable()) {
     sock->write(inStr);
     sock->waitForBytesWritten(-1);

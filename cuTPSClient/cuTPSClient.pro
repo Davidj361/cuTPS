@@ -38,4 +38,4 @@ HEADERS  += \
     ../common/headers/User.h \
     ../common/headers/Invoice.h
 
-FORMS    +=
+FORMS    += mainwindow.ui

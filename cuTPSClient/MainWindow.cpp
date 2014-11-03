@@ -17,6 +17,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
   connect(ui->btnRunTest2,    SIGNAL(clicked()),   this, SLOT(runTest2()));
   connect(ui->btnRunTest3,    SIGNAL(clicked()),   this, SLOT(runTest3()));
 
+
+  // For autscrolling to the bottom of the list
+  connect(ui->resultsListWidget->verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(scrollDown()));
+
   connect(connection, SIGNAL(ConnectionError(QString)), this, SLOT(displayError(QString)));
 }
 
@@ -25,6 +29,10 @@ MainWindow::~MainWindow() {
   delete connection;
   delete serverIP;
   delete serializer;
+}
+
+void MainWindow::scrollDown() {
+        ui->resultsListWidget->scrollToBottom();
 }
 
 void MainWindow::runTests() {
@@ -106,6 +114,7 @@ void MainWindow::runTest1() {
       qDebug() << e.what();
   }
 
+  
   try {
       test3->setText("Performing add section test...");
 
@@ -129,10 +138,13 @@ void MainWindow::runTest1() {
   catch (exception &e) {
       qDebug() << e.what();
   }
+  
 
   ui->btnRunTest1->setEnabled(true);
 }
 
+// BUG Found a bug where if you spam test 2 a lot and even wait after spamming and clicking normally
+// then test2 stops working all together. Make sure to fix this.
 void MainWindow::runTest2() {
   qDebug() << "Running test 2 - Retrieve Content";
 

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <QString>
+#include <QScrollBar>
 
 #include "headers/ConnectionClient.h"
 #include "../common/headers/Textbook.h"
@@ -29,6 +30,8 @@ class MainWindow : public QMainWindow {
     void runTest1();
     void runTest2();
     void runTest3();
+
+    void scrollDown();
 
     void displayError(QString);
 

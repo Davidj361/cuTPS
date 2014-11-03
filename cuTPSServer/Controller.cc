@@ -117,6 +117,8 @@ void Controller::Run () {
           break;
       }
 
+      in = 0;
+      out = 0;
       object = 0;
     }
     catch (exception &e) {

@@ -16,17 +16,13 @@ Textbook* Chapter::getTextbook() {
 }
 
 void Chapter::serialize(QJsonObject & chapterJson){
-        QJsonObject content;
-
-        content["title"] = title;
-        content["available"] = available;
-        content["price"] = price;
-        content["chapterNo"] = chapterNo;
-        content["description"] = description;
-        content["c_id"] = c_id;
-        content["ISBN"] = textbook->getISBN();
-
-        chapterJson["content"] = content;
+        chapterJson["title"] = title;
+        chapterJson["available"] = available;
+        chapterJson["price"] = price;
+        chapterJson["chapterNo"] = chapterNo;
+        chapterJson["description"] = description;
+        chapterJson["c_id"] = c_id;
+        chapterJson["ISBN"] = textbook->getISBN();
 }
 
 void Chapter::addSection(Section* sec){

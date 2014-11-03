@@ -213,7 +213,6 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
 
       for(vector<Chapter*>::const_iterator chapIter= chapters.begin(); chapIter != chapters.end(); ++chapIter){
 
-      
           QJsonObject serializedCh;
           (*chapIter)->serialize(serializedCh);
 

@@ -45,11 +45,24 @@ void ConnectionServer::WaitForRequest(QByteArray &str) {
 }
 
 void ConnectionServer::SendResponse(QByteArray &str) {
+  // Turn size of message into QByteArray
+  QString outSize = QString::number(str.size());
+  QByteArray outSizearr;
+  outSizearr.append(outSize);
+  qDebug()<<"size of response"<<outSizearr;
 
-  // Write message to client
+  // Send size of message
+  if (sock->write(outSizearr) < 0)
+    throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while writing to socket");
+  if (!sock->waitForBytesWritten(-1))
+      throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while waiting for writing to socket to finish");
+
+  sock->waitForReadyRead(-1);
+  sock->readAll();
+
+  // Send Message
   if (sock->write(str) < 0)
     throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while writing to socket");
-
   if (!sock->waitForBytesWritten(-1))
     throw runtime_error("ERROR: ConnectionServer::SendResponse(), Error while waiting for writing to socket to finish");
 

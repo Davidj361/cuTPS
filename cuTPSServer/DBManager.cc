@@ -283,19 +283,25 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
 
     QSqlQuery query;
 
-    // Make sure user is a student
+    // Get user from db
     if (!query.exec("SELECT type FROM Users WHERE username='" + username + "'"))
         throw runtime_error("ERROR DBManager::RetrieveContentList()  Error while performing user lookup");
 
-    // Check if username is a Student
-    if ( !query.first() || query.value(0) != "student")
+    // Check if user is a student or content manager
+    if ( !query.first() || (query.value(0) != "student" && query.value(0) != "content_manager") )
         throw runtime_error("User is not a student or does not exist");
 
-    // Get textbook list for courses the student is registered in
-    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username AND Textbooks.availability = 1;"))
-        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
-
-    query.bindValue(":username", username);
+    if(query.value(0) == "student"){
+      // Get textbook list for courses the student is registered in
+      if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
+           throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
+      query.bindValue(":username", username);
+    }
+    else{
+        // Get all the content in the db for the content manager
+        if (!query.prepare("SELECT * FROM Textbooks"))
+             throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving all textbooks");
+    }
 
     if (!query.exec())
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving user's textbook list");

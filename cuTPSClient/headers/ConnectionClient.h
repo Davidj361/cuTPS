@@ -17,6 +17,8 @@ class ConnectionClient : public QObject {
     /*  IN: int = port  */
     ConnectionClient(QString *, int, QObject *parent = 0);
 
+    ~ConnectionClient();
+
     /*  IN: str* = pointer to json object to be recieved or sent  */
     void request(QByteArray&, QByteArray&);
 

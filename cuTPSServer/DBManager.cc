@@ -319,7 +319,7 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
 
         // Loop through each chapter, getting all the sections and creating objects
         while (ch_query.next()) {
-            Chapter chapter(ch_query.value(0).toString(),  // Name
+            Chapter *chapter = new Chapter(ch_query.value(0).toString(),  // Name
                             ch_query.value(1).toInt(),     // Chapter Number
                             &textbook,                     // Textbook
                             ch_query.value(3).toString(),  // Description
@@ -337,22 +337,22 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
                 throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving section info");
 
             while (sec_query.next()) {
-                Section section(sec_query.value(0).toString(),  // Name
+                Section *section = new Section(sec_query.value(0).toString(),  // Name
                                 sec_query.value(1).toInt(),     // Section Number
-                                &chapter,                       // Chapter
+                                chapter,                       // Chapter
                                 &textbook,                      // Textbook
                                 sec_query.value(4).toString(),  // Description
                                 sec_query.value(5).toBool(),    // Availability
                                 sec_query.value(6).toFloat(),   // Price
                                 sec_query.value(7).toInt());    // Content ID
 
-                chapter.addSection(&section);
-                qDebug() << "Section: " << section.getTitle() << " added to chapter " << chapter.getTitle() << " of book " << textbook.getTitle();
+                chapter->addSection(section);
+                //qDebug() << "Section: " << section->getTitle() << " added to chapter " << chapter-getTitle() << " of book " << textbook.getTitle();
             }
-            textbook.addChapter(&chapter);
-            qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
+            textbook.addChapter(chapter);
+            //qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
         }
-        qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
+        //qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
         list.push_back(textbook);
     }
     return true;

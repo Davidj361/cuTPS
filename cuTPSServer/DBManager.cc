@@ -244,9 +244,6 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     if (!query.prepare("INSERT INTO Invoices (student, date_purchased) VALUES (:student, :date);"))
         throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT invoice statement");
 
-    qDebug() << invoice->getUsername();
-    qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz");
-
     query.bindValue(":student", invoice->getUsername());
     query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz"));
 
@@ -269,7 +266,7 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     }
 
     // Commit the transaction
-    db.commit();
+    result = db.commit();
 
     // Close the database
     db.close();

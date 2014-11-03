@@ -12,10 +12,7 @@ using namespace std;
 commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object, QString& str1, QString& str2) const {
 
         // Create a QJsonDocument from the QByteArray
-        // DEBUG take out when done
-        DEBUG("in_json")
-                DEBUG(in_json)
-                QJsonDocument jdoc = QJsonDocument::fromJson(in_json);
+        QJsonDocument jdoc = QJsonDocument::fromJson(in_json);
         QJsonObject json;
 
         // Create a QJsonObject from the QJsonDocument
@@ -23,12 +20,10 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                 throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
         else
                 json = jdoc.object();
-        DEBUG("json")
-                DEBUG(json)
 
 
-                // What command is being asked of us?
-                commands_t out_command = static_cast<commands_t>( json["command"].toDouble() );
+        // What command is being asked of us?
+        commands_t out_command = static_cast<commands_t>( json["command"].toDouble() );
         status_t status = static_cast<status_t>( json["status"].toDouble() );
 
         switch (out_command) {
@@ -77,11 +72,9 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                         // As for client we just see if it was a success or error
                         switch (status) {
                                 case SUCCESS:
-                                        qDebug() << "ADD_SECTION was a success";
                                         str1 = "success";
                                         break;
                                 case ERROR:
-                                        qDebug() << "ADD_SECTION was an error";
                                         str1 = "error";
                                         str2 = json["message"].toString();
                                         break;
@@ -97,11 +90,9 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                         // As for client we just see if it was a success or error
                         switch (status) {
                                 case SUCCESS:
-                                        qDebug() << "ADD_INVOICE was a success";
                                         str1 = "success";
                                         break;
                                 case ERROR:
-                                        qDebug() << "ADD_INVOICE was an error";
                                         str1 = "error";
                                         str2 = json["message"].toString();
                                         break;
@@ -184,13 +175,7 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
                 }
         }
 
-        json["status"] = REQUEST;
-
-  json["status"] = status;
-  
-
-        // TODO - convert json object to bytearray
-
+        json["status"] = status;
         QJsonDocument jdoc(json);
         out = jdoc.toJson();
 }
@@ -238,14 +223,11 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
 
 void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
 
-        DEBUG("inside creatTextobok, json")
-                DEBUG(json)
-                QJsonObject textbook = json["content"].toObject();
+        QJsonObject textbook = json["content"].toObject();
         if (textbook.empty())
                 throw runtime_error("Serializer::createTextbook, improperly formatted json");
-        DEBUG(textbook)
 
-                QString title( textbook["title"].toString() );
+        QString title( textbook["title"].toString() );
         bool available( textbook["available"].toBool() );
         float price( static_cast<float>( textbook["price"].toDouble() ) );
         QString author( textbook["author"].toString() );
@@ -267,7 +249,7 @@ void Serializer::createTextbook(const QJsonObject& json, void*& retData) const {
 void Serializer::createChapter(const QJsonObject& json, void*& retData, QString& ISBN) const {
         QJsonObject chapter = json["content"].toObject();
         if (chapter.empty())
-                throw runtime_error("Serializer::createChapter, improperly formatted json");
+          throw runtime_error("Serializer::createChapter, improperly formatted json");
 
         QString title( chapter["title"].toString() );
         bool available( chapter["available"].toBool());

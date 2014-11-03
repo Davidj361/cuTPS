@@ -24,7 +24,6 @@ void Chapter::serialize(QJsonObject & chapterJson){
         content["chapterNo"] = chapterNo;
         content["description"] = description;
         content["c_id"] = c_id;
-        if (textbook != 0)
                 content["ISBN"] = textbook->getISBN();
 
         chapterJson["content"] = content;

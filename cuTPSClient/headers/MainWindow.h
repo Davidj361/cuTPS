@@ -41,10 +41,12 @@ class MainWindow : public QMainWindow {
 
   private:
 
-    Ui::MainWindow   *ui;
-    ConnectionClient *connection;
-    Serializer       *serializer;
-    QString          *serverIP;
+    Ui::MainWindow    *ui;
+    ConnectionClient  *connection;
+    Serializer        *serializer;
+    QString           *serverIP;
+    User              *user;
+    vector<Textbook*> *book_list;
 
     QByteArray       res;
     QByteArray       req;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QDebug>
 #include <iterator>
 
 using namespace std;

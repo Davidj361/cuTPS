@@ -10,12 +10,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
   connection = new ConnectionClient(serverIP, portno);
   serializer = new Serializer();
 
+  user = new User("peter","", "", "");
+  book_list = new vector<Textbook*>();
+
   connect(ui->actionQuit,     SIGNAL(triggered()), this, SLOT(close()));
 
   connect(ui->runTestsButton, SIGNAL(clicked()),   this, SLOT(runTests()));
   connect(ui->btnRunTest1,    SIGNAL(clicked()),   this, SLOT(runTest1()));
   connect(ui->btnRunTest2,    SIGNAL(clicked()),   this, SLOT(runTest2()));
   connect(ui->btnRunTest3,    SIGNAL(clicked()),   this, SLOT(runTest3()));
+
+  ui->btnRunTest3->setEnabled(false);
 
 
   // For autscrolling to the bottom of the list
@@ -25,14 +30,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 MainWindow::~MainWindow() {
+    for (int i = 0; i < ui->resultsListWidget->count(); i++)
+        delete ui->resultsListWidget->item(i);
   delete ui;
   delete connection;
   delete serverIP;
   delete serializer;
+  delete user;
+  delete book_list;
 }
 
 void MainWindow::scrollDown() {
-        ui->resultsListWidget->scrollToBottom();
+  ui->resultsListWidget->scrollToBottom();
 }
 
 void MainWindow::runTests() {
@@ -49,6 +58,9 @@ void * MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, voi
     QString result;
     QString errorMsg;
     void *object = 0;
+
+    res.clear();
+    req.clear();
 
     try {
         listItem->setText(message);
@@ -91,18 +103,19 @@ void MainWindow::runTest1() {
   ui->resultsListWidget->addItem(test2);
   ui->resultsListWidget->addItem(test3);
 
-  Textbook *t = new Textbook("1234567890", "Learning NodeJS", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
-  Chapter  *c = new Chapter("V8 Engine", 1, t, "More horsepower!", true, 15);
-  Section  *s = new Section("Many ponies", 1, c, t, "Ponies are funny looking", true, 5);
+  Textbook t("1234567890", "Learning NodeJS", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
+  Chapter  c("V8 Engine", 1, &t, "More horsepower!", true, 15);
+  Section  s("Many ponies", 1, &c, &t, "Ponies are funny looking", true, 5);
 
-  runTest(test1, ADD_TEXTBOOK, t, "Performing add textbook test...");
-  runTest(test2, ADD_CHAPTER, c, "Performing add chapter test...");
-  runTest(test3, ADD_SECTION, s, "Performing add section test...");
+  runTest(test1, ADD_TEXTBOOK, &t, "Performing add textbook test...");
+  runTest(test2, ADD_CHAPTER, &c, "Performing add chapter test...");
+  runTest(test3, ADD_SECTION, &s, "Performing add section test...");
 
   ui->btnRunTest1->setEnabled(true);
 }
 
 void MainWindow::runTest2() {
+
   qDebug() << "Running test 2 - Retrieve Content";
 
   ui->btnRunTest2->setEnabled(false);
@@ -111,16 +124,34 @@ void MainWindow::runTest2() {
 
   ui->resultsListWidget->addItem(test1);
 
-  User user("peter","", "", "");
-  vector<Textbook*> *book_list = new vector<Textbook*>();
+  book_list = static_cast<vector<Textbook*>*>(runTest(test1, GET_CONTENT, user, "Performing Retrieve Content test..."));
 
-  runTest(test1, GET_CONTENT, &user, "Performing Retrieve Content test...");
+  if (book_list != 0) {
+      qDebug() << "Book list size: " << book_list->size();
+      ui->btnRunTest3->setEnabled(true);
+  }
 
   ui->btnRunTest2->setEnabled(true);
 }
 
 void MainWindow::runTest3() {
-  qDebug() << "Running test 3";
+  qDebug() << "Running test 3 - Adding Invoice";
+
+  ui->btnRunTest3->setEnabled(false);
+
+  QListWidgetItem *test1 = new QListWidgetItem; // Retrieve content
+
+  ui->resultsListWidget->addItem(test1);
+
+  Invoice invoice (user->getUserName());
+
+  Textbook *t = book_list->front();
+
+  invoice.addContent(t);
+
+  runTest(test1, ADD_INVOICE, &invoice, "Performing Add Invoice test...");
+
+  ui->btnRunTest3->setEnabled(true);
 }
 
 void MainWindow::displayError(QString error) {

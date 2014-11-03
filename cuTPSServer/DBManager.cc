@@ -244,11 +244,16 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     if (!query.prepare("INSERT INTO Invoices (student, date_purchased) VALUES (:student, :date);"))
         throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT invoice statement");
 
-    query.bindValue(":student", invoice->getUsername());
-    query.bindValue(":date", QDateTime::fromString("yyyy-MM-dd HH:mm:ss:zzz"));
+    qDebug() << invoice->getUsername();
+    qDebug() << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz");
 
-    if (!query.exec())
+    query.bindValue(":student", invoice->getUsername());
+    query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz"));
+
+    if (!query.exec()) {
+        qDebug() << query.executedQuery();
         throw runtime_error("ERROR DBManager::StoreInvoice() Error while inserting invoice");
+    }
 
     // Get the invoice id from the purchases table
     int invoice_id = query.lastInsertId().toInt();
@@ -287,7 +292,7 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
         throw runtime_error("User is not a student or does not exist");
 
     // Get textbook list for courses the student is registered in
-    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
+    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username AND Textbooks.availability = 1;"))
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
 
     query.bindValue(":username", username);
@@ -309,7 +314,7 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
                           query.value(9).toInt());   // Content ID
 
         QSqlQuery ch_query;
-        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn"))
+        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
             throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up chapter info");
 
         ch_query.bindValue(":isbn", query.value(0).toString());
@@ -327,7 +332,7 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
                             ch_query.value(5).toFloat(),   // Price
                             ch_query.value(6).toInt());    // Content ID
             QSqlQuery sec_query;
-            if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter"))
+            if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
                 throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up section info");
 
             sec_query.bindValue(":isbn", query.value(0));

@@ -2,6 +2,7 @@
 
 Invoice::Invoice(QString cUsername) {
   username = cUsername;
+  contentList = new vector<int>();
 }
 
 vector<int>* Invoice::getContentList(){

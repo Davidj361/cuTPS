@@ -4,21 +4,22 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  serverIP = new QString("127.0.0.1");
+  serverIP = new QString("172.17.131.205");
   portno = 60001;
 
   connection = new ConnectionClient(serverIP, portno);
   serializer = new Serializer();
 
-  user = new User("peter","", "", "");
+  userStu = new User("peter","", "", "");
+  userCM = new User("gandalf", "", "", "");
   book_list = new vector<Textbook*>();
 
   connect(ui->actionQuit,     SIGNAL(triggered()), this, SLOT(close()));
 
   connect(ui->runTestsButton, SIGNAL(clicked()),   this, SLOT(runTests()));
-  connect(ui->btnRunTest1,    SIGNAL(clicked()),   this, SLOT(runTest1()));
-  connect(ui->btnRunTest2,    SIGNAL(clicked()),   this, SLOT(runTest2()));
-  connect(ui->btnRunTest3,    SIGNAL(clicked()),   this, SLOT(runTest3()));
+  connect(ui->btnRunTest1,    SIGNAL(clicked()),   this, SLOT(addContentTest()));
+  connect(ui->btnRunTest2,    SIGNAL(clicked()),   this, SLOT(getContentTest()));
+  connect(ui->btnRunTest3,    SIGNAL(clicked()),   this, SLOT(addInvoiceTest()));
 
   ui->btnRunTest3->setEnabled(false);
 
@@ -36,7 +37,7 @@ MainWindow::~MainWindow() {
   delete connection;
   delete serverIP;
   delete serializer;
-  delete user;
+  delete userStu;
   delete book_list;
 }
 
@@ -45,12 +46,11 @@ void MainWindow::scrollDown() {
 }
 
 void MainWindow::runTests() {
-  qDebug() << "Running all tests!";
-  ui->resultsListWidget->clear();
 
-  //    runTest1();
-  //    runTest2();
-  //    runTest3();
+  addContentTest();
+  getContentTest();
+  addInvoiceTest();
+
 }
 
 void * MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, void *in_object, QString message) {
@@ -76,7 +76,7 @@ void * MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, voi
         serializer->Deserialize(res, object, result, errorMsg);
         listItem->setText(message + " " + result);
         if (result == "error")
-            listItem->setText(listItem->text() + " " + errorMsg);
+            listItem->setText(listItem->text() + "\n " + errorMsg);
         listItem->setForeground( (result == "success") ? QBrush(Qt::green) : QBrush(Qt::red) );
     }
     catch (exception &e) {
@@ -89,7 +89,7 @@ void * MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, voi
 }
 
 // Add Content test
-void MainWindow::runTest1() {
+void MainWindow::addContentTest() {
 
   qDebug() << "Running test 1 - Adding Content";
 
@@ -114,9 +114,12 @@ void MainWindow::runTest1() {
   ui->btnRunTest1->setEnabled(true);
 }
 
-void MainWindow::runTest2() {
+void MainWindow::getContentTest(){
+    getContentStudentTest();
+    getContentCMTest();
+}
 
-  qDebug() << "Running test 2 - Retrieve Content";
+void MainWindow::getContentStudentTest() {
 
   ui->btnRunTest2->setEnabled(false);
 
@@ -124,7 +127,27 @@ void MainWindow::runTest2() {
 
   ui->resultsListWidget->addItem(test1);
 
-  book_list = static_cast<vector<Textbook*>*>(runTest(test1, GET_CONTENT, user, "Performing Retrieve Content test..."));
+  book_list = static_cast<vector<Textbook*>*>(runTest(test1, GET_CONTENT, userStu, "Performing Retrieve Content test for a Student..."));
+
+  if (book_list != 0) {
+      if(book_list->size() != 4){
+
+      }
+      ui->btnRunTest3->setEnabled(true);
+  }
+
+  ui->btnRunTest2->setEnabled(true);
+}
+
+void MainWindow::getContentCMTest() {
+
+  ui->btnRunTest2->setEnabled(false);
+
+  QListWidgetItem *test1 = new QListWidgetItem; // Retrieve content
+
+  ui->resultsListWidget->addItem(test1);
+
+  book_list = static_cast<vector<Textbook*>*>(runTest(test1, GET_CONTENT, userCM, "Performing Retrieve Content test for a Content Manager..."));
 
   if (book_list != 0) {
       qDebug() << "Book list size: " << book_list->size();
@@ -134,7 +157,7 @@ void MainWindow::runTest2() {
   ui->btnRunTest2->setEnabled(true);
 }
 
-void MainWindow::runTest3() {
+void MainWindow::addInvoiceTest() {
   qDebug() << "Running test 3 - Adding Invoice";
 
   ui->btnRunTest3->setEnabled(false);
@@ -143,7 +166,7 @@ void MainWindow::runTest3() {
 
   ui->resultsListWidget->addItem(test1);
 
-  Invoice invoice (user->getUserName());
+  Invoice invoice (userStu->getUserName());
 
   Textbook *t = book_list->front();
 

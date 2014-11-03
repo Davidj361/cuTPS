@@ -24,16 +24,14 @@ class MainWindow : public QMainWindow {
   public:
     explicit MainWindow(QWidget *parent = 0);
 
-    void * runTest(QListWidgetItem*, commands_t, void*, QString);
-
     ~MainWindow();
 
   private slots:
 
     void runTests();
-    void runTest1();
-    void runTest2();
-    void runTest3();
+    void addContentTest();
+    void getContentTest();
+    void addInvoiceTest();
 
     void scrollDown();
 
@@ -45,13 +43,18 @@ class MainWindow : public QMainWindow {
     ConnectionClient  *connection;
     Serializer        *serializer;
     QString           *serverIP;
-    User              *user;
+    User              *userStu;
+    User              *userCM;
     vector<Textbook*> *book_list;
 
     QByteArray       res;
     QByteArray       req;
 
     int              portno;
+
+    void * runTest(QListWidgetItem*, commands_t, void*, QString);
+    void getContentStudentTest();
+    void getContentCMTest();
 };
 
 #endif // MAINWINDOW_H

@@ -16,14 +16,16 @@ ConnectionClient::ConnectionClient(QString *IPADDR, int PORT, QObject *parent) :
           this, SLOT(displayNetworkError(QAbstractSocket::SocketError)));
 }
 
+ConnectionClient::~ConnectionClient(){
+    delete sock;
+}
+
 void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
   /*  Connect to the server and write the request  */
   sock->connectToHost(*serverAddr, portno);
-  // You have to make sure you're connected before you try to write anything. 
-  // This was causing client spam because the program was doing write() and waitForBytesWritten() when it was still connecting.
-  // TODO Add a #define that corresponds to non-functional requirement for maximum wait time of client
+
   if (!sock->waitForConnected(1000))
-          qDebug() << "************************* COULD NOT CONNECT TO SERVER! *************************";
+      emit ConnectionError("Could not connect to server");
   if (sock->isValid() && sock->isWritable()) {
     sock->write(inStr);
     sock->waitForBytesWritten(-1);
@@ -36,7 +38,14 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
   /*  Recieve response from the server  */
   if (sock->isValid() && sock->isReadable()) {
       sock->waitForReadyRead(-1);
-      outStr = sock->readAll();
+      QByteArray inSize = sock->readAll();
+      qDebug()<< "size of respons"<<inSize;
+      sock->write("ready");
+      sock->waitForBytesWritten(-1);
+      while(outStr.size() < inSize.toInt()){
+          sock->waitForReadyRead(-1);
+          outStr.append(sock->readAll());
+      }
   }
   else {
       sock->abort();

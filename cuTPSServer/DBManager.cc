@@ -281,16 +281,20 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
     // Make sure user is a student
     if (!query.exec("SELECT type FROM Users WHERE username='" + username + "'"))
         throw runtime_error("ERROR DBManager::RetrieveContentList()  Error while performing user lookup");
-
     // Check if username is a Student
-    if ( !query.first() || query.value(0) != "student")
+    if ( !query.first() || (query.value(0) != "student" && query.value(0) != "content_manager") )
         throw runtime_error("User is not a student or does not exist");
+    if(query.value(0) == "student"){
+      // Get textbook list for courses the student is registered in
+      if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
+           throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
+      query.bindValue(":username", username);
+    }
+    else{
+        if (!query.prepare("SELECT * FROM Textbooks"))
+             throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving all textbooks");
+    }
 
-    // Get textbook list for courses the student is registered in
-    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
-        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
-
-    query.bindValue(":username", username);
 
     if (!query.exec())
         throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving user's textbook list");

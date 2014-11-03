@@ -158,6 +158,7 @@ void MainWindow::runTest2() {
       serializer->Deserialize(res, object, result, errorMsg);
       book_list = *(static_cast<vector<Textbook*>*>(object));
 
+      // NOTE: Nothing is returned from Deserialize for result currently.
       qDebug() << "Result: " << result;
       if (result == "success") {
           test1->setText( test1->text() + "PASSED" );

@@ -119,10 +119,12 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
                                 // SUCCESS and ERROR are for the client
                                 case SUCCESS:
                                         // Success for obtaining a content list for the client, we need to create all the textbooks, section, chapters
+                                        str1 = "success";
                                         this->createContent(json, out_object);
                                         break;
                                 case ERROR:
                                         // TODO Add a better error handler, perhaps a self made exception
+                                        str2 = "error";
                                         throw runtime_error("Serializer::Deserialize, got ERROR status for GET_CONTENT command.");
                                         break;
                                 case REQUEST:
@@ -152,8 +154,7 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
                         case ADD_TEXTBOOK:
                         case ADD_CHAPTER:
                         case ADD_SECTION:
-                                static_cast<Content*>(in_object)->serialize(inJson);
-                                json["content"] = inJson;
+                                static_cast<Content*>(in_object)->serialize(json);
                                 break;
                         case ADD_INVOICE:
                                 static_cast<Invoice*>(in_object)->serialize(inJson);

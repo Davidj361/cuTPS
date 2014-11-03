@@ -65,6 +65,7 @@ void Controller::Run () {
           result = dbManager->StoreTextbook(static_cast<Textbook*>(object));
           break;
         case ADD_CHAPTER:
+          DEBUG((static_cast<Chapter*>(object))->getTitle())
           (static_cast<Chapter*>(object))->serialize(json);
           qDebug() << json;
           result = dbManager->StoreChapter(static_cast<Chapter*>(object), str1);

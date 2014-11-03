@@ -32,6 +32,8 @@ void Section::serialize(QJsonObject& sectionJson){
         sectionJson["sectionNo"] = sectionNo;
         sectionJson["description"] = description;
         sectionJson["c_id"] = c_id;
-        sectionJson["ISBN"] = textbook->getISBN();
-        sectionJson["chapterNo"] = chapter->getChapterNo();
+        if (textbook != 0)
+                sectionJson["ISBN"] = textbook->getISBN();
+        if (chapter != 0)
+                sectionJson["chapterNo"] = chapter->getChapterNo();
 }

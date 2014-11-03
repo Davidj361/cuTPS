@@ -22,7 +22,8 @@ void Chapter::serialize(QJsonObject & chapterJson){
         chapterJson["chapterNo"] = chapterNo;
         chapterJson["description"] = description;
         chapterJson["c_id"] = c_id;
-        chapterJson["ISBN"] = textbook->getISBN();
+        if (textbook != 0)
+                chapterJson["ISBN"] = textbook->getISBN();
 }
 
 void Chapter::addSection(Section* sec){

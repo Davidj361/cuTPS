@@ -64,6 +64,7 @@ class DBManager {
       Function  : StoreChapter
       Purpose   : Stores a chapter in the DB
       Variables : In - Chapter* - The chapter to store
+                  In - ISBN
       Returns   : - True if successful
                   - False otherwise
     ===================================================================== */
@@ -73,6 +74,8 @@ class DBManager {
       Function  : StoreSection
       Purpose   : Stores a section in the DB
       Variables : In - Section* - The section to store
+                  In - ISBN
+                  In - Chapter
       Returns   : - True if successful
                   - False otherwise
     ===================================================================== */

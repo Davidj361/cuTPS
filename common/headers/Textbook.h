@@ -11,13 +11,24 @@ class Chapter;
 class Textbook: public Content {
 
   public:
+
     /* =====================================================================
     Function  : Constructor
     Purpose   : Constructs a Textbook
-    Variables : TODO
+    Variables : IN  -  ISBN
+                    -  Title
+                    -  Publisher
+                    -  Author
+                    -  Year
+                    -  Edition
+                    -  Description
+                    -  Whether it is available
+                    -  Price
+                    -  c_id
     Returns   : void
     ===================================================================== */
     Textbook(QString, QString, QString, QString, int, QString, QString, bool, float, int cC_id = 0);
+
     QString getAuthor();
     QString getISBN();
     QString getPublisher();
@@ -35,6 +46,7 @@ class Textbook: public Content {
     QString edition;
     int     year;
     vector<Chapter*> chapters;
+
 };
 
 #endif // TEXTBOOK_H

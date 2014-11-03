@@ -26,7 +26,7 @@ class ConnectionServer : public QObject {
     /* =====================================================================
     Function  : WaitForRequest
     Purpose   : Waits for and receives a connection from a client
-    Variables : None
+    Variables : In/Out -QByteArray to be written to
     Returns   : The message received from the client
     ===================================================================== */
     void WaitForRequest(QByteArray&);
@@ -44,7 +44,6 @@ class ConnectionServer : public QObject {
     int         portno;
     QTcpServer *server;
     QTcpSocket *sock;
-
 
 };
 

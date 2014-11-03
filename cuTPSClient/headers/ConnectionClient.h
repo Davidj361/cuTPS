@@ -16,12 +16,24 @@ class ConnectionClient : public QObject {
     // default port is 60001
     ConnectionClient(QString *, QObject *parent = 0);
 
-    /*  IN: int = port  */
+    /* =====================================================================
+    Function  : ConnectionClient
+    Purpose   : Constructor for ConnectionClient object
+    Variables : In  -  IP address as a string
+                In  -  Port to be set
+    Returns   : The message received from the client
+    ===================================================================== */
     ConnectionClient(QString *, int, QObject *parent = 0);
 
     ~ConnectionClient();
 
-    /*  IN: str* = pointer to json object to be recieved or sent  */
+    /* =====================================================================
+    Function  : request
+    Purpose   : Sends and recieves messages
+    Variables : In  -  Message to be writtern
+                In  -  Message recieved
+    Returns   : The message received from the client
+    ===================================================================== */
     void request(QByteArray&, QByteArray&);
 
 

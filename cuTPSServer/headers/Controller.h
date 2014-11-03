@@ -60,5 +60,6 @@ class Controller : public QObject {
     ConnectionServer *connection;
     Serializer *serializer;
     DBManager *dbManager;
+
 };
 #endif

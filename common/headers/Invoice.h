@@ -11,16 +11,27 @@
 using namespace std;
 
 class Invoice {
+
   public:
+
+    /* =====================================================================
+    Function  : Invoice
+    Purpose   : Constructs an Invoice object
+    Variables : IN  -  Username
+    Returns   : void
+    ===================================================================== */
     Invoice(QString);
+
     vector<int> *getContentList();
     void addContent(Content*);
     void addContent(int);
     QString getUsername();
     void serialize(QJsonObject&);
+
   private:
     vector<int> *contentList;
     QString username;
+
 };
 
 #endif // INVOICE_H

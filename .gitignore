@@ -25,6 +25,7 @@ cuTPSServer/cuTPSServer
 cuTPSClient/cuTPSClient
 *.swp
 *~
+*.db-journal
 
 # QtCreator
 

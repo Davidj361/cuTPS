@@ -31,16 +31,6 @@ void MainWindow::runTests() {
   qDebug() << "Running all tests!";
   ui->resultsListWidget->clear();
 
-  QListWidgetItem *test1 = new QListWidgetItem;
-  QListWidgetItem *test2 = new QListWidgetItem;
-
-  test1->setForeground(QBrush(Qt::green));
-
-  test2->setText("Testing something else...");
-  test2->setForeground(QBrush(Qt::red));
-
-  ui->resultsListWidget->addItem(test2);
-
   //    runTest1();
   //    runTest2();
   //    runTest3();

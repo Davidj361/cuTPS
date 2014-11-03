@@ -1,6 +1,6 @@
 #include "headers/Serializer.h"
 
-#define DEBUG
+
 #ifdef DEBUG
 #define DEBUG(X) qDebug() << X;
 #else
@@ -199,38 +199,43 @@ void Serializer::serializeContent(void* in_object, QJsonObject& json) const{
     //
     vector<Textbook> *tbs = static_cast<vector<Textbook>*>(in_object);
     QJsonArray tbarray;
+    qDebug()<<" there are"<<tbs->size()<<"textbooks";
 
     for(vector<Textbook>::iterator iter = tbs->begin(); iter != tbs->end(); ++iter){
       QJsonObject serializedTB;
 
       (*iter).serialize(serializedTB);
-      
+/*
       vector<Chapter*> chapters = (*iter).getChapters();
       QJsonArray chaparray;
-                for(vector<Chapter*>::const_iterator chapIter= chapters.begin(); chapIter != chapters.end(); ++chapIter){
 
-                        QJsonObject serializedCh;
-                        (*chapIter)->serialize(serializedCh);
+      qDebug() << (*iter).getTitle() << "has" << chapters.size() <<"chapters";
 
-                        vector<Section*> sections = (*chapIter)->getSections();
-                        QJsonArray secarray;
 
-                        for(vector<Section*>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter){
+      for(vector<Chapter*>::const_iterator chapIter= chapters.begin(); chapIter != chapters.end(); ++chapIter){
 
-                                QJsonObject serializedSec;
-                                (*secIter)->serialize(serializedSec);
-                                secarray.append(serializedSec);
-                        }
+      
 
-                        serializedCh["sections"] = secarray;
-                        chaparray.append(serializedCh);
+          QJsonObject serializedCh;
+          (*chapIter)->serialize(serializedCh);
 
-                }
-                serializedTB["chapters"] = chaparray;
-                tbarray.append(serializedTB);
-        }
-        DEBUG("****serializeContent's json at the end")
-        DEBUG(json)
+          vector<Section*> sections = (*chapIter)->getSections();
+          QJsonArray secarray;
+
+          for(vector<Section*>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter){
+
+              QJsonObject serializedSec;
+              (*secIter)->serialize(serializedSec);
+              secarray.append(serializedSec);
+          }
+
+       serializedCh["sections"] = secarray;
+       chaparray.append(serializedCh);
+    }
+        serializedTB["chapters"] = chaparray;
+        */
+        tbarray.append(serializedTB);
+    }
     json["content"] = tbarray;
 }
 

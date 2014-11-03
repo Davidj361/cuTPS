@@ -327,10 +327,11 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
                             ch_query.value(5).toFloat(),   // Price
                             ch_query.value(6).toInt());    // Content ID
             QSqlQuery sec_query;
-            if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn"))
+            if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter"))
                 throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up section info");
 
             sec_query.bindValue(":isbn", query.value(0));
+            sec_query.bindValue(":chapter", ch_query.value(1));
 
             if (!sec_query.exec())
                 throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving section info");
@@ -346,9 +347,12 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
                                 sec_query.value(7).toInt());    // Content ID
 
                 chapter.addSection(&section);
+                // qDebug() << "Section: " << section.getTitle() << " added to chapter " << chapter.getTitle() << " of book " << textbook.getTitle();
             }
             textbook.addChapter(&chapter);
+            // qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
         }
+        // qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
         list.push_back(textbook);
     }
     return true;

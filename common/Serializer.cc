@@ -49,7 +49,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
           str2 = json["message"].toString();
           break;
         case REQUEST:
-          this->createChapter(json, out_object, str1);
+          this->createChapter(json, out_object, &str1);
           break;
         default:
           throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
@@ -67,7 +67,7 @@ commands_t Serializer::Deserialize(const QByteArray &in_json, void *&out_object,
           str2 = json["message"].toString();
           break;
         case REQUEST:
-          this->createSection(json, out_object, str1, str2);
+          this->createSection(json, out_object, &str1, &str2);
           break;
         default:
           throw runtime_error("ERROR: Serializer::Deserialize(), Invalid JSON['status']");
@@ -227,7 +227,7 @@ void Serializer::createTextbook(const QJsonObject &json, void *&retData) const {
     retData = pTextbook;
 }
 
-void Serializer::createChapter(const QJsonObject &json, void *&retData, QString &ISBN) const {
+void Serializer::createChapter(const QJsonObject &json, void *&retData, QString *ISBN) const {
 
   QJsonObject chapter = json["content"].toObject();
 
@@ -239,7 +239,8 @@ void Serializer::createChapter(const QJsonObject &json, void *&retData, QString 
   float price( static_cast<float>( chapter["price"].toDouble() ) );
   int chapterNo( static_cast<int>( chapter["chapterNo"].toDouble() ) );
   QString description( chapter["description"].toString() );
-  ISBN = chapter["ISBN"].toString();
+  if(ISBN != 0)
+    *ISBN = chapter["ISBN"].toString();
 
   // XXX NEW MEMORY HERE
   Chapter *pChapter = new Chapter(title, chapterNo, 0, description, available, price);
@@ -250,29 +251,8 @@ void Serializer::createChapter(const QJsonObject &json, void *&retData, QString 
   return;
 }
 
-void Serializer::createChapter(const QJsonObject &json, void *&retData) const {
 
-  QJsonObject chapter = json["content"].toObject();
-
-  if (chapter.empty())
-    throw runtime_error("Serializer::createChapter, improperly formatted json");
-
-  QString title( chapter["title"].toString() );
-  bool available( chapter["available"].toBool());
-  float price( static_cast<float>( chapter["price"].toDouble() ) );
-  int chapterNo( static_cast<int>( chapter["chapterNo"].toDouble() ) );
-  QString description( chapter["description"].toString() );
-
-  // XXX NEW MEMORY HERE
-  Chapter *pChapter = new Chapter(title, chapterNo, 0, description, available, price);
-  if (retData != 0)
-    throw runtime_error("Serializer::createChapter, void* retData was not set null beforehand");
-  else
-    retData = static_cast<void *>(pChapter);
-  return;
-}
-
-void Serializer::createSection(const QJsonObject &json, void *&retData, QString &outISBN, QString &outChapterNo) const {
+void Serializer::createSection(const QJsonObject &json, void *&retData, QString *outISBN, QString *outChapterNo) const {
 
   QJsonObject section = json["content"].toObject();
 
@@ -284,30 +264,10 @@ void Serializer::createSection(const QJsonObject &json, void *&retData, QString 
   float price( static_cast<float>( section["price"].toDouble() ) );
   int sectionNo( static_cast<int>( section["sectionNo"].toDouble() ) );
   QString description( section["description"].toString() );
-  outISBN = section["ISBN"].toString();
-  outChapterNo = section["chapterNo"].toString();
-
-  // XXX NEW MEMORY HERE
-  Section *pSection = new Section(title, sectionNo, 0, 0, description, available, price);
-  if (retData != 0)
-    throw runtime_error("Serializer::createSection, void* retData was not set null beforehand");
-  else
-    retData = static_cast<void *>(pSection);
-  return;
-}
-
-void Serializer::createSection(const QJsonObject &json, void *&retData) const {
-
-  QJsonObject section = json["content"].toObject();
-
-  if (section.empty())
-    throw runtime_error("Serializer::createSection, improperly formatted json");
-
-  QString title( section["title"].toString() );
-  bool available( section["available"].toBool() );
-  float price( static_cast<float>( section["price"].toDouble() ) );
-  int sectionNo( static_cast<int>( section["sectionNo"].toDouble() ) );
-  QString description( section["description"].toString() );
+  if(outISBN != 0 && outChapterNo != 0){
+    *outISBN = section["ISBN"].toString();
+    *outChapterNo = section["chapterNo"].toString();
+  }
 
   // XXX NEW MEMORY HERE
   Section *pSection = new Section(title, sectionNo, 0, 0, description, available, price);

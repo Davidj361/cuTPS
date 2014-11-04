@@ -1,6 +1,236 @@
 # cuTPS
 ---
 
+## Folder Structure
+
+- common - Contains all classes that are common between the client and server
+- resources - Contains all non source code files eg. SQL and DB files
+- cuTPSServer - Contains all source code for the cuTPS server
+- cuTPSClient - Contains all source code for the cuTPS client
+
+## Build Instructions
+
+- From a terminal, enter the cuTPSServer folder
+ 1. `$ qmake cuTPSServer.pro && make && ./cuTPSServer`
+- From another terminal, enter the cuTPSClient folder
+
+
+## JSON API Reference
+
+Note that in all cases where an enum is used in the JSON examples below, 
+it is referring to the value of the enum (ie. an integer) and not the enum
+as a string.
+
+### Retrieve Content
+
+**Request**
+
+Retrieves a list of content (textbooks, chapters, sections) for a user
+
+```json
+{
+  command : GET_CONTENT,
+  status : REQUEST,
+  username: "bob"
+}
+```
+
+**Response**
+
+```json
+{
+  command : GET_CONTENT,
+  status : SUCCESS,
+  content: [ // Array of textbooks
+    {
+      isbn : "1234567890",
+      title : "Book title",
+      publisher : "John Doe",
+      author : "Jane Doe",
+      year : 2014,
+      edition : "1",
+      description : "Here is a book description",
+      available : true,
+      price : 25.75,
+      content_id : 1,
+      chapters : [ // Array of chapters
+        {
+          title : "Chapter 1",
+          chapterNo : 1,
+          description : "Chapter 1 description",
+          available : true,
+          price : 15.50,
+          content_id : 2,
+          sections : [ // Array of sections
+            {
+              title : "Section 1"
+              sectionNo : 1,
+              description : "Section 1 description",
+              available : true,
+              price : 5.15,
+              content_id : 3
+            },
+            // More sections
+          ]
+        },
+        // More chapters
+      ]
+    },
+    // More textbooks...
+  ]
+}
+```
+
+### Add Textbook
+
+**Request**
+
+Stores a textbook in the database
+
+```json
+{
+  command : ADD_TEXTBOOK,
+  status : REQUEST,
+  content : {
+      isbn : "1234567890",
+      title : "Book title",
+      publisher : "John Doe",
+      author : "Jane Doe",
+      year : 2014,
+      edition : "1",
+      description : "Here is a book description",
+      available : true,
+      price : 25.75,
+      content_id : 1,
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  command : ADD_TEXTBOOK,
+  status : SUCCESS
+}
+```
+
+### Add Chapter
+
+**Request**
+
+Stores a chapter in the database
+
+```json
+{
+  command : ADD_CHAPTER,
+  status : REQUEST,
+  content : {
+      title : "Chapter 1",
+      chapterNo : 1,
+      description : "Chapter 1 description",
+      available : true,
+      price : 15.50,
+      content_id : 2,
+      ISBN : "1234567890"
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  command : ADD_CHAPTER,
+  status : SUCCESS
+}
+```
+
+### Add Section
+
+**Request**
+
+Stores a section in the database
+
+```json
+{
+  command : ADD_SECTION,
+  status : REQUEST,
+  content : {
+      title : "Section 1"
+      sectionNo : 1,
+      description : "Section 1 description",
+      available : true,
+      price : 5.15,
+      content_id : 3
+      ISBN : "1234567890",
+      chapterNo : 1
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  command : ADD_SECTION,
+  status : SUCCESS
+}
+```
+
+### Add Invoice
+
+**Request**
+
+Stores an invoice in the database
+
+```json
+{
+  command : ADD_INVOICE,
+  status : REQUEST,
+  invoice : {
+    username : "bob",
+    contents : [ // Array of content IDs
+      {
+        cid : 1
+      },
+      {
+        cid : 2
+      },
+      // More cid objects...
+    ]
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  command : ADD_INVOICE,
+  status : SUCCESS
+}
+```
+
+### Errors
+
+If the status of a response is ERROR instead of SUCCESS it will be formatted as follows:
+
+**Response**
+
+```json
+{
+  command : [COMMAND_T],
+  status : ERROR,
+  message : "A useful and informative error message"
+}
+```
+
+... More to follow in deliverable 4
+
+# Useful info
+---
+
 ## Git Setup
 
 1. Set your name `git config --global user.name "John Doe"`
@@ -25,26 +255,14 @@ There's LOTS of documentation.
   - If you're in the 3004 VM `git branch --set-upstream master origin/master`
   - If your're **not** in the 3004 VM `git branch -u origin/master`
 
-## Repository Structure
+## IRC 
 
-- common - Contains all classes that are common between the client and server
-- resources - Contains all non source code files eg. SQL and DB files
-- cuTPSServer - Contains all source code for the cuTPS server
-- cuTPSClient - Contains all source code for the cuTPS client
+Server: irc.freenode.net  
+Room: #stickinear  
+Logger: http://104.236.54.27/  
 
-## API Reference
 
-Todo - Add API reference here
+## Teamspeak 3 
 
-## IRC/TEAMSPEAK 3
-
-- irc.freenode.net #stickinear
-        Currently has a logger, the URL is in the topic
-        Logger: http://104.236.54.27/
-        Teamspeak 3 info is also in the topic
-- Teamspeak 3 
-        104.236.54.27 
-        password: btfo
-        note: btfo = blown the fuck out
-        note 2: btfo for random people coming onto TS3
-        
+Server: 104.236.54.27  
+password: btfo  

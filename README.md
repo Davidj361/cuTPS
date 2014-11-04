@@ -35,3 +35,16 @@ There's LOTS of documentation.
 ## API Reference
 
 Todo - Add API reference here
+
+## IRC/TEAMSPEAK 3
+
+- irc.freenode.net #stickinear
+        Currently has a logger, the URL is in the topic
+        Logger: http://104.236.54.27/
+        Teamspeak 3 info is also in the topic
+- Teamspeak 3 
+        104.236.54.27 
+        password: btfo
+        note: btfo = blown the fuck out
+        note 2: btfo for random people coming onto TS3
+        

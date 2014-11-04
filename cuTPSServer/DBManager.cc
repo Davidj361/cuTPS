@@ -274,7 +274,7 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
   return result;
 }
 
-bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) {
+bool DBManager::RetrieveContentList (QString &username, vector<Textbook*> &list) {
   if (!db.open())
     throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing db.open()");
 
@@ -361,7 +361,7 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook> &list) 
       // qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
     }
     // qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
-    list.push_back(*textbook);
+    list.push_back(textbook);
   }
   return true;
 }

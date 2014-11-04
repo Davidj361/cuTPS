@@ -10,8 +10,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
   connection = new ConnectionClient(serverIP, portno);
   serializer = new Serializer();
 
-  userStu = new User("peter", "", "", "");
-  userCM = new User("gandalf", "", "", "");
+  userStu   = new User("peter", "", "", "");
+  userCM    = new User("gandalf", "", "", "");
+
   book_list = new vector<Textbook *>();
 
   connect(ui->actionQuit,     SIGNAL(triggered()), this, SLOT(close()));
@@ -56,12 +57,16 @@ void MainWindow::setServerIP() {
   ui->statusBar->showMessage("Server IP address set");
 }
 
-void MainWindow::runTests() {
+void MainWindow::freeBookList() {
+    for(vector<Textbook *>::iterator it = book_list->begin(); it != book_list->end(); ++it) {
+        delete *it;
+    }
+}
 
+void MainWindow::runTests() {
   addContentTest();
   getContentTest();
   addInvoiceTest();
-
 }
 
 void *MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, void *in_object, QString message) {
@@ -81,10 +86,10 @@ void *MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, void
     qDebug() << req;
     qDebug() << "Sending request to server...";
     connection->request(req, res);
-    qDebug() << "Response from server size is:";
-    qDebug() << res.size();
+    qDebug() << "Response from server size is: " << res.size();
     qDebug() << "Deserializing request...";
     serializer->Deserialize(res, object, result, errorMsg);
+    qDebug() << "Deserializing done. Displaying results to GUI";
     listItem->setText(message + " " + result);
     if (result == "error")
       listItem->setText(listItem->text() + "\n " + errorMsg);
@@ -141,10 +146,8 @@ void MainWindow::getContentStudentTest() {
   book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userStu, "Performing Retrieve Content test for a Student..."));
 
   if (book_list != 0) {
-    if (book_list->size() != 4) {
-
-    }
     ui->btnRunTest3->setEnabled(true);
+    freeBookList();
   }
 
   ui->btnRunTest2->setEnabled(true);
@@ -161,8 +164,8 @@ void MainWindow::getContentCMTest() {
   book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userCM, "Performing Retrieve Content test for a Content Manager..."));
 
   if (book_list != 0) {
-    qDebug() << "Book list size: " << book_list->size();
     ui->btnRunTest3->setEnabled(true);
+    freeBookList();
   }
 
   ui->btnRunTest2->setEnabled(true);

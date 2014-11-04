@@ -13,10 +13,9 @@ TARGET = cuTPSClient
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
+SOURCES += main.cc\
     ConnectionClient.cc \
-    MainWindow.cpp \
-    SettingsDialog.cc \
+    MainWindow.cc \
     ../common/Textbook.cc \
     ../common/Section.cc \
     ../common/Content.cc \
@@ -28,7 +27,6 @@ SOURCES += main.cpp\
 HEADERS  += \
     headers/ConnectionClient.h \
     headers/MainWindow.h \
-    headers/SettingsDialog.h \
     ../common/headers/Textbook.h \
     ../common/headers/Section.h \
     ../common/headers/Definitions.h \

@@ -21,7 +21,7 @@ ConnectionServer::ConnectionServer(int PORT, QObject *parent) : QObject(parent) 
 }
 
 ConnectionServer::~ConnectionServer() {
-  free(server);
+  delete server;
 }
 
 
@@ -49,7 +49,6 @@ void ConnectionServer::SendResponse(QByteArray &str) {
   QString outSize = QString::number(str.size());
   QByteArray outSizearr;
   outSizearr.append(outSize);
-  qDebug() << "size of response" << outSizearr;
 
   // Send size of message
   if (sock->write(outSizearr) < 0)

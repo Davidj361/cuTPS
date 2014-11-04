@@ -7,20 +7,16 @@ Controller::Controller (QObject *parent) : QObject(parent) {
 }
 
 Controller::~Controller () {
-  delete connection;
-  delete dbManager;
-  // delete app; ?
 }
 
 void Controller::Run () {
-
   QByteArray in;
   QByteArray out;
   commands_t command;
   QString str1;
   QString str2;
   void *object = 0;
-  vector<Textbook> book_list;
+  vector<Textbook*> book_list;
   bool result;
 
   try {
@@ -39,9 +35,6 @@ void Controller::Run () {
     try {
       connection->WaitForRequest(in);
 
-      qDebug() << "Variables:";
-      qDebug() << "Object*: " << object;
-
       qDebug() << "Received from client...";
       qDebug() << in;
       qDebug() << "Deserializing...";
@@ -58,7 +51,6 @@ void Controller::Run () {
           result = dbManager->StoreTextbook(static_cast<Textbook *>(object));
           break;
         case ADD_CHAPTER:
-          DEBUG((static_cast<Chapter *>(object))->getTitle())
           (static_cast<Chapter *>(object))->serialize(json);
           qDebug() << json;
           result = dbManager->StoreChapter(static_cast<Chapter *>(object), str1);
@@ -81,8 +73,7 @@ void Controller::Run () {
 
       qDebug() << "Serialized Response...";
       serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
-      qDebug() << "Done. Serialized response size is..";
-      qDebug() << out.size();
+      qDebug() << "Done. Serialized response size is.." << out.size();
       connection->SendResponse(out);
       qDebug() << "Response sent";
 
@@ -105,13 +96,16 @@ void Controller::Run () {
           delete (static_cast<Invoice *>(object));
           break;
         case GET_CONTENT:
+          qDebug() << "Freeing content list";
+          for(vector<Textbook *>::iterator it = book_list.begin(); it != book_list.end(); ++it)
+            delete *it;
+          book_list.clear();
         default:
           break;
       }
 
       in = 0;
       out = 0;
-      book_list.clear();
       object = 0;
     }
     catch (exception &e) {
@@ -138,8 +132,8 @@ void Controller::Quit() {
 // this is a good place to delete any objects that were created in the
 // constructor and/or to stop any threads
 void Controller::AboutToQuitApp() {
-  // stop threads
-  // sleep(1);   // wait for threads to stop.
-  // delete any objects
+  delete connection;
+  delete dbManager;
+  delete app;
   qDebug() << "In Controller::AboutToQuitApp";
 }

@@ -57,6 +57,7 @@ class MainWindow : public QMainWindow {
     void * runTest(QListWidgetItem*, commands_t, void*, QString);
     void getContentStudentTest();
     void getContentCMTest();
+    void freeBookList();
 };
 
 #endif // MAINWINDOW_H

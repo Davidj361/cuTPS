@@ -107,7 +107,7 @@ class DBManager {
       Returns   : True - Success
                   False - Fail
     ===================================================================== */
-    bool RetrieveContentList (QString &, vector<Textbook> &);
+    bool RetrieveContentList (QString &, vector<Textbook*> &);
 
     void viewFields(QString table);
   private:

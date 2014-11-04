@@ -136,7 +136,10 @@ bool DBManager::StoreTextbook(Textbook *textbook) {
     result = true;
   else {
     qDebug() << query.lastError().text();
-    throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
+    if(query.lastError().number() == 19)
+      throw runtime_error("ERROR DBManager::StoreTextbook(), Textbook already exists");
+    else 
+      throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
   }
 
   db.commit();
@@ -177,7 +180,10 @@ bool DBManager::StoreChapter(Chapter *chapter, QString &isbn) {
     result = true;
   else {
     qDebug() << query.lastError().text();
-    throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
+    if(query.lastError().number() == 19)
+      throw runtime_error("ERROR DBManager::StoreChapter(), Chapter already exists");
+    else 
+      throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
   }
 
   db.commit();
@@ -220,7 +226,10 @@ bool DBManager::StoreSection(Section *section, QString &isbn, QString &ch_number
     result = true;
   else {
     qDebug() << query.lastError().text();
-    throw runtime_error("ERROR DBManager::StoreSection() Error while inserting section");
+    if(query.lastError().number() == 19)
+      throw runtime_error("ERROR DBManager::StoreSection(), Section already exists");
+    else 
+      throw runtime_error("ERROR DBManager::StoreSection() Error while inserting section");
   }
 
   db.commit();

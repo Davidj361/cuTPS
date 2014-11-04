@@ -15,6 +15,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
   book_list = new vector<Textbook *>();
 
+  anISBN = "1232467890";
+  aChapterNumber = 1;
+  aSectionNumber = 1;
+
+
   connect(ui->actionQuit,     SIGNAL(triggered()), this, SLOT(close()));
 
   connect(ui->runTestsButton, SIGNAL(clicked()),   this, SLOT(runTests()));
@@ -114,18 +119,35 @@ void MainWindow::addContentTest() {
   QListWidgetItem *test1 = new QListWidgetItem; // Add textbook test
   QListWidgetItem *test2 = new QListWidgetItem; // Add chapter test
   QListWidgetItem *test3 = new QListWidgetItem; // Add section test
+  QListWidgetItem *test4 = new QListWidgetItem; // Add textbook test
+  QListWidgetItem *test5 = new QListWidgetItem; // Add chapter test
+  QListWidgetItem *test6 = new QListWidgetItem; // Add section test
 
   ui->resultsListWidget->addItem(test1);
   ui->resultsListWidget->addItem(test2);
   ui->resultsListWidget->addItem(test3);
+  ui->resultsListWidget->addItem(test4);
+  ui->resultsListWidget->addItem(test5);
+  ui->resultsListWidget->addItem(test6);
 
-  Textbook t("1234567890", "Learning NodeJS", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
-  Chapter  c("V8 Engine", 1, &t, "More horsepower!", true, 15);
-  Section  s("Many ponies", 1, &c, &t, "Ponies are funny looking", true, 5);
 
-  runTest(test1, ADD_TEXTBOOK, &t, "Performing add textbook test...");
-  runTest(test2, ADD_CHAPTER, &c, "Performing add chapter test...");
-  runTest(test3, ADD_SECTION, &s, "Performing add section test...");
+
+  Textbook t(anISBN, "Learning NodeJS", "David J", "Graeme J", 2014, "1", "Everything you need to know about NodeJS", true, 50);
+  Chapter  c("V8 Engine", aChapterNumber, &t, "More horsepower!", true, 15);
+  Section  s("Many ponies", aSectionNumber, &c, &t, "Ponies are funny looking", true, 5);
+
+
+  runTest(test1, ADD_TEXTBOOK, &t, "Attempting to add a textbook with isbn "+anISBN);
+  runTest(test2, ADD_CHAPTER, &c, "Attempting to add chapter number "+QString::number(aChapterNumber)+" of "+anISBN);
+  runTest(test3, ADD_SECTION, &s, "Attempting to add section number "+QString::number(aSectionNumber)+" of chapter "+QString::number(aChapterNumber)+" of "+anISBN);
+
+  runTest(test4, ADD_TEXTBOOK, &t, "Attempting to add a textbook with isbn "+anISBN);
+  runTest(test5, ADD_CHAPTER, &c, "Attempting to add chapter number "+QString::number(aChapterNumber)+" of "+anISBN);
+  runTest(test6, ADD_SECTION, &s, "Attempting to add section number "+QString::number(aSectionNumber)+" of chapter "+QString::number(aChapterNumber)+" of "+anISBN);
+
+  anISBN=QString::number(anISBN.toInt()+1);
+  ++aChapterNumber;
+  ++aSectionNumber;
 
   ui->btnRunTest1->setEnabled(true);
 }

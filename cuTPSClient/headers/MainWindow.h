@@ -49,6 +49,10 @@ class MainWindow : public QMainWindow {
     User              *userCM;
     vector<Textbook*> *book_list;
 
+    QString anISBN;
+    int     aChapterNumber;
+    int     aSectionNumber;
+
     QByteArray       res;
     QByteArray       req;
 

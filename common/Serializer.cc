@@ -282,7 +282,7 @@ void Serializer::createSection(const QJsonObject &json, void *&retData, QString 
   QString title( section["title"].toString() );
   bool available( section["available"].toBool() );
   float price( static_cast<float>( section["price"].toDouble() ) );
-  int sectionNo( static_cast<int>( section["chapterNo"].toDouble() ) );
+  int sectionNo( static_cast<int>( section["sectionNo"].toDouble() ) );
   QString description( section["description"].toString() );
   outISBN = section["ISBN"].toString();
   outChapterNo = section["chapterNo"].toString();
@@ -306,7 +306,7 @@ void Serializer::createSection(const QJsonObject &json, void *&retData) const {
   QString title( section["title"].toString() );
   bool available( section["available"].toBool() );
   float price( static_cast<float>( section["price"].toDouble() ) );
-  int sectionNo( static_cast<int>( section["chapterNo"].toDouble() ) );
+  int sectionNo( static_cast<int>( section["sectionNo"].toDouble() ) );
   QString description( section["description"].toString() );
 
   // XXX NEW MEMORY HERE

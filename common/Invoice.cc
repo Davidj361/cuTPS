@@ -6,10 +6,10 @@ Invoice::Invoice(QString cUsername) {
 }
 
 Invoice::~Invoice() {
-        if (contentList != 0) {
-            delete contentList;
-            contentList = 0;
-        }
+    if (contentList != 0) {
+        delete contentList;
+        contentList = 0;
+    }
 }
 
 vector<int> *Invoice::getContentList() {

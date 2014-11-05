@@ -15,55 +15,55 @@
 #include "../../common/headers/Student.h"
 
 class Controller : public QObject {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    Controller(QObject *parent = 0);
-    ~Controller();
+    public:
+        Controller(QObject *parent = 0);
+        ~Controller();
 
-    /* =====================================================================
-    Function  : Quit
-    Purpose   : Tells the main application to quit
-    Variables : None
-    Returns   : void
-    ===================================================================== */
-    void Quit();
+        /* =====================================================================
+        Function  : Quit
+        Purpose   : Tells the main application to quit
+        Variables : None
+        Returns   : void
+        ===================================================================== */
+        void Quit();
 
-  signals:
-    /* =====================================================================
-    Function  : Finished
-    Purpose   : Signal telling to finished();
-    Variables : None
-    Returns   : void
-    ===================================================================== */
-    void Finished();
+    signals:
+        /* =====================================================================
+        Function  : Finished
+        Purpose   : Signal telling to finished();
+        Variables : None
+        Returns   : void
+        ===================================================================== */
+        void Finished();
 
-  public slots:
-    /* =====================================================================
-    Function  : Run
-    Purpose   : The main loop of the server process
-    Variables : None
-    Returns   : void
-    ===================================================================== */
-    void Run();
+    public slots:
+        /* =====================================================================
+        Function  : Run
+        Purpose   : The main loop of the server process
+        Variables : None
+        Returns   : void
+        ===================================================================== */
+        void Run();
 
-    /* =====================================================================
-    Function  : AboutToQuitApp
-    Purpose   : Slot for when application is about to quit
-    Variables : None
-    Returns   : void
-    ===================================================================== */
-    void AboutToQuitApp();
+        /* =====================================================================
+        Function  : AboutToQuitApp
+        Purpose   : Slot for when application is about to quit
+        Variables : None
+        Returns   : void
+        ===================================================================== */
+        void AboutToQuitApp();
 
-  private:
+    private:
 
-    // Adding a cleanup function for the void* object depending on command type
-    int cleanup(commands_t, void*&);
+        // Adding a cleanup function for the void* object depending on command type
+        int cleanup(commands_t, void *&);
 
-    QCoreApplication *app;
-    ConnectionServer *connection;
-    Serializer *serializer;
-    DBManager *dbManager;
+        QCoreApplication *app;
+        ConnectionServer *connection;
+        Serializer *serializer;
+        DBManager *dbManager;
 
 };
 #endif

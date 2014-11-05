@@ -5,18 +5,18 @@
 
 class Student: public User {
 
-  public:
+    public:
 
-    /* =====================================================================
-    Function  : Section
-    Purpose   : Constructs an Section object
-    Variables : IN  -  Username
-                    -  Password
-                    -  Name
-    Returns   : void
-    ===================================================================== */
+        /* =====================================================================
+        Function  : Section
+        Purpose   : Constructs an Section object
+        Variables : IN  -  Username
+                        -  Password
+                        -  Name
+        Returns   : void
+        ===================================================================== */
 
-    Student(QString, QString, QString);
+        Student(QString, QString, QString);
 
 };
 

@@ -10,7 +10,6 @@ class Chapter;
 
 class Textbook: public Content {
 
-  public:
 
     /* =====================================================================
     Function  : Constructor
@@ -30,23 +29,23 @@ class Textbook: public Content {
     Textbook(QString, QString, QString, QString, int, QString, QString, bool, float, int cC_id = 0);
     ~Textbook();
 
-    QString getAuthor();
-    QString getISBN();
-    QString getPublisher();
-    QString getEdition();
-    QString getDescription();
-    int     getYear();
-    void serialize(QJsonObject&);
-    void addChapter(Chapter *);
-    vector<Chapter*>& getChapters();
+        QString getAuthor();
+        QString getISBN();
+        QString getPublisher();
+        QString getEdition();
+        QString getDescription();
+        int     getYear();
+        void serialize(QJsonObject &);
+        void addChapter(Chapter *);
+        vector<Chapter *> &getChapters();
 
-  private:
-    QString author;
-    QString ISBN;
-    QString publisher;
-    QString edition;
-    int     year;
-    vector<Chapter*> chapters;
+    private:
+        QString author;
+        QString ISBN;
+        QString publisher;
+        QString edition;
+        int     year;
+        vector<Chapter *> chapters;
 
 };
 

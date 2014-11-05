@@ -12,7 +12,6 @@ class Textbook;
 
 class Chapter: public Content {
 
-  public:
 
     /* =====================================================================
     Function  : Chapter
@@ -34,10 +33,6 @@ class Chapter: public Content {
     void addSection(Section*);
     vector<Section*>& getSections();
 
-  private:
-    int chapterNo;
-    Textbook *textbook;
-    vector<Section*> sections;
 
 };
 

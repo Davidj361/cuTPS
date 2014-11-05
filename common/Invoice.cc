@@ -1,8 +1,8 @@
 #include "headers/Invoice.h"
 
 Invoice::Invoice(QString cUsername) {
-  username = cUsername;
-  contentList = new vector<int>();
+    username = cUsername;
+    contentList = new vector<int>();
 }
 
 Invoice::~Invoice() {
@@ -13,28 +13,28 @@ Invoice::~Invoice() {
 }
 
 vector<int> *Invoice::getContentList() {
-  return contentList;
+    return contentList;
 }
 
 void Invoice::addContent(Content *c) {
-  contentList->push_back(c->getcid());
+    contentList->push_back(c->getcid());
 }
 
 QString Invoice::getUsername() {
-  return username;
+    return username;
 }
 
 void Invoice::serialize(QJsonObject &inJson) {
-  inJson["username"] = getUsername();
-  QJsonArray cidArray;
-  for (vector<int>::const_iterator iter = contentList->begin(); iter != contentList->end(); ++iter) {
-    QJsonObject cid;
-    cid["cid"] = *iter;
-    cidArray.append(cid);
-  }
-  inJson["contents"] = cidArray;
+    inJson["username"] = getUsername();
+    QJsonArray cidArray;
+    for (vector<int>::const_iterator iter = contentList->begin(); iter != contentList->end(); ++iter) {
+        QJsonObject cid;
+        cid["cid"] = *iter;
+        cidArray.append(cid);
+    }
+    inJson["contents"] = cidArray;
 }
 
 void Invoice::addContent(int i) {
-  contentList->push_back(i);
+    contentList->push_back(i);
 }

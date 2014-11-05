@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS `Chapters` (
 );
 
 CREATE TABLE IF NOT EXISTS `Sections` (
--- exi    `id` INTEGER UNIQUE,
     `name` TEXT NOT NULL,
     `number` INTEGER NOT NULL,
     `chapter` INTEGER NOT NULL,

@@ -265,7 +265,9 @@ bool DBManager::StoreInvoice(Invoice *invoice) {
     int invoice_id = query.lastInsertId().toInt();
 
     // For each content in the invoice, add it to the purchases table
-    for (vector<int>::const_iterator iter = invoice->getContentList()->begin(); iter != invoice->getContentList()->end(); ++iter) {
+    qDebug() << invoice->getUsername();
+    for (vector<int>::const_iterator iter = invoice->getContentList().begin(); iter != invoice->getContentList().end(); ++iter) {
+        qDebug() << *iter;
         if (!query.prepare("INSERT INTO Purchases (invoice_id, content_id) VALUES(:invoice_id, :content_id);"))
             throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT purchase statement");
         query.bindValue(":invoice_id", invoice_id);

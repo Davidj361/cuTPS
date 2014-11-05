@@ -21,16 +21,15 @@ class Invoice {
         Returns   : void
         ===================================================================== */
         Invoice(QString);
-        ~Invoice();
 
-        vector<int> *getContentList();
+        vector<int>& getContentList();
         void addContent(Content *);
         void addContent(int);
         QString getUsername();
         void serialize(QJsonObject &);
 
     private:
-        vector<int> *contentList;
+        vector<int> contentList;
         QString username;
 
 };

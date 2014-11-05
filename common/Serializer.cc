@@ -290,7 +290,7 @@ void Serializer::createInvoice(const QJsonObject &json, void  *&retData) const {
     QJsonObject temp;
     for (QJsonArray::iterator iter = arr.begin(); iter != arr.end(); ++iter) {
         temp = (*iter).toObject();
-        pInvoice->addContent( static_cast<int>(temp["c_id"].toDouble() ) );
+        pInvoice->addContent( static_cast<int>(temp["cid"].toDouble() ) );
     }
 
     if (retData != 0)

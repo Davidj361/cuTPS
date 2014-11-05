@@ -12,8 +12,37 @@
 
 - From a terminal, enter the cuTPSServer folder
  1. `$ qmake cuTPSServer.pro && make && ./cuTPSServer`
+ 
+  or
+ 1.  `$ qmake cuTPSServer.pro`
+ 2.  `$ make`
+ 3.  `$ ./cuTPSServer`
 - From another terminal, enter the cuTPSClient folder
+ 1. `$ qmake cuTPSClient.pro && make && ./cuTPSClient`
+ 
+  or
+ 1.  `$ qmake cuTPSClient.pro`
+ 2.  `$ make`
+ 3.  `$ ./cuTPSClient`
 
+
+## Test Cases
+
+####1. Add Content
+ This test case first adds a new textbook, chapter and then section to the database. It then tries to add the same ones again and should fail at doing so. Chapters and sections have a dependancy on a textbook (and a section on a chapter). We assume that on the client side it is not possible for a chapter or section to exist without it's proper dependancies.
+ 
+####2. GetContent
+ This test case first retrieves all of the content that would be retrieved for a student (in this case named peter). It then retrieves all of the content in the database.
+ 
+####3. Add Invoice:
+ This test case adds a student to an invoice object and adds the first textbook on the list retrieved by the get content test and adds it to the database. We assume that when a shopping cart is purchased this is the only information that will be stored on the database and that the client will not let a user try to purchase an empty cart.
+ 
+####4. Run All tests
+ This test case runs each test in the order presented here.
+ 
+## Other functionality
+- Field for setting IP address: default is local loopback, apply sets a new one
+- Clear button: clears the response list
 
 ## JSON API Reference
 

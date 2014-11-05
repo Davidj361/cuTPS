@@ -5,6 +5,10 @@ Invoice::Invoice(QString cUsername) {
   contentList = new vector<int>();
 }
 
+Invoice::~Invoice() {
+        delete contentList;
+}
+
 vector<int> *Invoice::getContentList() {
   return contentList;
 }

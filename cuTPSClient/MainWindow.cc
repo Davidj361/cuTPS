@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     userStu   = new User("peter", "", "", "");
     userCM    = new User("gandalf", "", "", "");
 
-    book_list = new vector<Textbook *>();
+    book_list = 0;
 
     anISBN = "1232467890";
     aChapterNumber = 1;
@@ -46,6 +46,8 @@ MainWindow::~MainWindow() {
     delete serverIP;
     delete serializer;
     delete userStu;
+    delete userCM;
+    freeBookList();
     delete book_list;
 }
 
@@ -63,9 +65,16 @@ void MainWindow::setServerIP() {
 }
 
 void MainWindow::freeBookList() {
+    if (book_list == 0)
+        return;
     for (vector<Textbook *>::iterator it = book_list->begin(); it != book_list->end(); ++it) {
-        delete *it;
+        if (*it != 0) {
+            delete *it;
+            *it = 0;
+        }
     }
+    delete book_list;
+    book_list = 0;
 }
 
 void MainWindow::runTests() {
@@ -165,12 +174,10 @@ void MainWindow::getContentStudentTest() {
 
     ui->resultsListWidget->addItem(test1);
 
+    freeBookList();
     book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userStu, "Performing Retrieve Content test for a Student..."));
 
-    if (book_list != 0) {
-        ui->btnRunTest3->setEnabled(true);
-        freeBookList();
-    }
+    ui->btnRunTest3->setEnabled(true);
 
     ui->btnRunTest2->setEnabled(true);
 }
@@ -183,12 +190,10 @@ void MainWindow::getContentCMTest() {
 
     ui->resultsListWidget->addItem(test1);
 
+    freeBookList();
     book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userCM, "Performing Retrieve Content test for a Content Manager..."));
 
-    if (book_list != 0) {
-        ui->btnRunTest3->setEnabled(true);
-        freeBookList();
-    }
+    ui->btnRunTest3->setEnabled(true);
 
     ui->btnRunTest2->setEnabled(true);
 }

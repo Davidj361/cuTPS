@@ -16,7 +16,7 @@ void Controller::Run () {
     QString str1;
     QString str2;
     void *object = 0;
-    vector<Textbook*> book_list;
+    vector<Textbook *> book_list;
     bool result;
 
     try {
@@ -99,7 +99,7 @@ void Controller::Run () {
             object = 0;
         }
     }
-Quit();
+    Quit();
 }
 
 void Controller::Quit() {
@@ -119,11 +119,11 @@ void Controller::AboutToQuitApp() {
     qDebug() << "In Controller::AboutToQuitApp";
 }
 
-int Controller::cleanup(commands_t command, void*& object) {
+int Controller::cleanup(commands_t command, void *&object) {
     if (object == 0)
         return 0;
     // Can't delete a void pointer in C++. Need to cast it so compiler knows which destructor to call
-    vector<Textbook*>* book_list;
+    vector<Textbook *> *book_list;
     switch (command) {
         case ADD_TEXTBOOK:
             qDebug() << "Freeing textbook";
@@ -143,9 +143,20 @@ int Controller::cleanup(commands_t command, void*& object) {
             break;
         case GET_CONTENT:
             qDebug() << "Freeing content list";
-            book_list = static_cast<vector<Textbook*>*>(object);
+            book_list = static_cast<vector<Textbook *>*>(object);
             for (vector<Textbook *>::iterator it = book_list->begin(); it != book_list->end(); ++it) {
-                // Got rid of deletes for the chapters and sections due destructors on Textbook and Chapter
+                for (vector<Chapter *>::iterator it2 = (*it)->getChapters().begin(); it2 != (*it)->getChapters().end(); ++it2) {
+                    for (vector<Section *>::iterator it3 = (*it2)->getSections().begin(); it3 != (*it2)->getSections().end(); ++it3) {
+                        if ( (*it3) != 0) {
+                            delete *it3;
+                            (*it3) = 0;
+                        }
+                    }
+                    if ( (*it2) != 0) {
+                        delete *it2;
+                        (*it2) = 0;
+                    }
+                }
                 if ( (*it) != 0) {
                     delete *it;
                     (*it) = 0;
@@ -154,7 +165,7 @@ int Controller::cleanup(commands_t command, void*& object) {
             book_list->clear();
             break;
         default:
-            return 1;
+            throw runtime_error("Controller::cleanup, Couldn't cleanup due to object being non-null and not receiving valid command");
     }
     return 0;
 }

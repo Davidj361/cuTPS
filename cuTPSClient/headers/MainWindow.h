@@ -15,53 +15,53 @@
 #include "../common/headers/Serializer.h"
 
 namespace Ui {
-    class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit MainWindow(QWidget *parent = 0);
+    public:
+        explicit MainWindow(QWidget *parent = 0);
 
-    ~MainWindow();
+        ~MainWindow();
 
-  private slots:
+    private slots:
 
-    void runTests();
-    void addContentTest();
-    void getContentTest();
-    void addInvoiceTest();
-    void clearList();
-    void setServerIP();
+        void runTests();
+        void addContentTest();
+        void getContentTest();
+        void addInvoiceTest();
+        void clearList();
+        void setServerIP();
 
-    void scrollDown();
+        void scrollDown();
 
-    void displayError(QString);
+        void displayError(QString);
 
-  private:
+    private:
 
-    Ui::MainWindow    *ui;
-    ConnectionClient  *connection;
-    Serializer        *serializer;
-    QString           *serverIP;
-    User              *userStu;
-    User              *userCM;
-    vector<Textbook*> *book_list;
+        Ui::MainWindow    *ui;
+        ConnectionClient  *connection;
+        Serializer        *serializer;
+        QString           *serverIP;
+        User              *userStu;
+        User              *userCM;
+        vector<Textbook *> *book_list;
 
-    QString anISBN;
-    int     aChapterNumber;
-    int     aSectionNumber;
+        QString anISBN;
+        int     aChapterNumber;
+        int     aSectionNumber;
 
-    QByteArray       res;
-    QByteArray       req;
+        QByteArray       res;
+        QByteArray       req;
 
-    int              portno;
+        int              portno;
 
-    void * runTest(QListWidgetItem*, commands_t, void*, QString);
-    void getContentStudentTest();
-    void getContentCMTest();
-    void freeBookList();
+        void *runTest(QListWidgetItem *, commands_t, void *, QString);
+        void getContentStudentTest();
+        void getContentCMTest();
+        void freeBookList();
 };
 
 #endif // MAINWINDOW_H

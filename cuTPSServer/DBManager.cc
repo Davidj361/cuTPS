@@ -6,8 +6,8 @@ using namespace std;
  **                INITILIZE DATABASE                                     **
  **************************************************************************/
 DBManager::DBManager() {
-  db = QSqlDatabase::addDatabase("QSQLITE");
-  db.setDatabaseName("./../resources/cuTPS.db"); // Connect to the database
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("./../resources/cuTPS.db"); // Connect to the database
 }
 
 /***************************************************************************
@@ -21,82 +21,82 @@ DBManager::~DBManager() {
  **                ADD A USER TO DATABASE                                 **
  **************************************************************************/
 bool DBManager::AddUser(User *user) {
-  bool result = false;
+    bool result = false;
 
-  if (!db.open())
-    throw runtime_error("ERROR DBManager::AddUser() Error while performing db.open()");
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::AddUser() Error while performing db.open()");
 
-  QSqlQuery query;
+    QSqlQuery query;
 
-  QString username = user->getUserName();
-  QString password = user->getPassword();
-  QString type = user->getType();
-  QString name = user->getName();
+    QString username = user->getUserName();
+    QString password = user->getPassword();
+    QString type = user->getType();
+    QString name = user->getName();
 
-  if (!query.exec("SELECT * FROM Users WHERE username = '" + username + "'"))
-    throw runtime_error("ERROR DBManager::AddUser() Error while searching for user");
+    if (!query.exec("SELECT * FROM Users WHERE username = '" + username + "'"))
+        throw runtime_error("ERROR DBManager::AddUser() Error while searching for user");
 
-  if (query.first()) {
-    result = false;
-  } else {
-    if (!query.prepare("INSERT INTO Users VALUES (:username,:password,:type,:name)"))
-      throw runtime_error("ERROR DBManager::AddUser() Error while preparing INSERT statement");
+    if (query.first()) {
+        result = false;
+    } else {
+        if (!query.prepare("INSERT INTO Users VALUES (:username,:password,:type,:name)"))
+            throw runtime_error("ERROR DBManager::AddUser() Error while preparing INSERT statement");
 
-    query.bindValue(":username", username);
-    query.bindValue(":password", password);
-    query.bindValue(":type", type);
-    query.bindValue(":name", name);
+        query.bindValue(":username", username);
+        query.bindValue(":password", password);
+        query.bindValue(":type", type);
+        query.bindValue(":name", name);
 
-    if (query.exec())
-      result = true;
-    else
-      throw runtime_error("ERROR DBManager::AddUser() Error while inserting user");
-  }
-  db.close();
+        if (query.exec())
+            result = true;
+        else
+            throw runtime_error("ERROR DBManager::AddUser() Error while inserting user");
+    }
+    db.close();
 
-  return result;
+    return result;
 }
 
 /***************************************************************************
  **                REMOVE A USER TO DATABASE                              **
  **************************************************************************/
 bool DBManager::RemoveUser(User *user) {
-  bool result = false;
+    bool result = false;
 
-  if (!db.open())
-    throw runtime_error("ERROR DBManager::RemoveUser() Error while performing db.open()");
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::RemoveUser() Error while performing db.open()");
 
-  QSqlQuery query;
+    QSqlQuery query;
 
-  QString username = user->getUserName();
+    QString username = user->getUserName();
 
-  if (!query.exec("SELECT * FROM Users WHERE username ='" + username + "'"))
-    throw runtime_error("ERROR DBManager::RemoveUser() Error while searching for user");
+    if (!query.exec("SELECT * FROM Users WHERE username ='" + username + "'"))
+        throw runtime_error("ERROR DBManager::RemoveUser() Error while searching for user");
 
-  if (!query.first())
-    result = false;
-  else {
-    if (query.exec("DELETE FROM Users WHERE username = '" + username + "'"))
-      result = true;
-    else
-      throw runtime_error("ERROR DBManager::RemoveUser() Error while deleting user");
-  }
-  db.close();
+    if (!query.first())
+        result = false;
+    else {
+        if (query.exec("DELETE FROM Users WHERE username = '" + username + "'"))
+            result = true;
+        else
+            throw runtime_error("ERROR DBManager::RemoveUser() Error while deleting user");
+    }
+    db.close();
 
-  return result;
+    return result;
 }
 
 /***************************************************************************
  **                SHOWS USERS IN THE DATABASE                            **
  **************************************************************************/
 void DBManager::ShowUsers() {
-  if (db.open()) {
-    QSqlQuery query;
-    query.exec("SELECT * FROM Users");
-    while (query.next()) {
-      qDebug() << query.value(0).toString();
+    if (db.open()) {
+        QSqlQuery query;
+        query.exec("SELECT * FROM Users");
+        while (query.next()) {
+            qDebug() << query.value(0).toString();
+        }
     }
-  }
 }
 
 /***************************************************************************
@@ -104,275 +104,275 @@ void DBManager::ShowUsers() {
  **************************************************************************/
 bool DBManager::StoreTextbook(Textbook *textbook) {
 
-  bool result = false;
+    bool result = false;
 
-  if (!db.open())
-    throw runtime_error("ERROR DBManager::StoreTextbook() Error while performing db.open()");
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreTextbook() Error while performing db.open()");
 
-  // Start a new transaction
-  db.transaction();
+    // Start a new transaction
+    db.transaction();
 
-  QSqlQuery query;
-  int content_id = GetNewContentId();
+    QSqlQuery query;
+    int content_id = GetNewContentId();
 
-  if (!query.prepare("INSERT INTO Textbooks (isbn, title, publisher, author, "
-                     "year, edition, description, availability, price, content_id)"
-                     "VALUES (:isbn,:title,:publisher,:author, :year, :edition, "
-                     ":description, :availability, :price, :content_id);"))
-    throw runtime_error("ERROR DBManager::StoreTextbook() Error while preparing INSERT statement");
+    if (!query.prepare("INSERT INTO Textbooks (isbn, title, publisher, author, "
+                       "year, edition, description, availability, price, content_id)"
+                       "VALUES (:isbn,:title,:publisher,:author, :year, :edition, "
+                       ":description, :availability, :price, :content_id);"))
+        throw runtime_error("ERROR DBManager::StoreTextbook() Error while preparing INSERT statement");
 
-  query.bindValue(":isbn", textbook->getISBN());
-  query.bindValue(":title", textbook->getTitle());
-  query.bindValue(":publisher", textbook->getPublisher());
-  query.bindValue(":author", textbook->getAuthor());
-  query.bindValue(":year", textbook->getYear());
-  query.bindValue(":edition", textbook->getEdition());
-  query.bindValue(":description", textbook->getDescription());
-  query.bindValue(":availability", int(textbook->isAvailable()));
-  query.bindValue(":price", textbook->getPrice());
-  query.bindValue(":content_id", content_id);
+    query.bindValue(":isbn", textbook->getISBN());
+    query.bindValue(":title", textbook->getTitle());
+    query.bindValue(":publisher", textbook->getPublisher());
+    query.bindValue(":author", textbook->getAuthor());
+    query.bindValue(":year", textbook->getYear());
+    query.bindValue(":edition", textbook->getEdition());
+    query.bindValue(":description", textbook->getDescription());
+    query.bindValue(":availability", int(textbook->isAvailable()));
+    query.bindValue(":price", textbook->getPrice());
+    query.bindValue(":content_id", content_id);
 
-  if (query.exec())
-    result = true;
-  else {
-    qDebug() << query.lastError().text();
-    if(query.lastError().number() == 19)
-      throw runtime_error("ERROR DBManager::StoreTextbook(), Textbook already exists");
-    else 
-      throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
-  }
+    if (query.exec())
+        result = true;
+    else {
+        qDebug() << query.lastError().text();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::StoreTextbook(), Textbook already exists");
+        else
+            throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
+    }
 
-  db.commit();
-  db.close();
+    db.commit();
+    db.close();
 
-  return result;
+    return result;
 }
 
 /***************************************************************************
  **                STORE CHAPTER IN THE DATABASE                          **
  **************************************************************************/
 bool DBManager::StoreChapter(Chapter *chapter, QString &isbn) {
-  bool result = false;
+    bool result = false;
 
-  if (!db.open())
-    throw runtime_error("ERROR DBManager::StoreChapter() Error while performing db.open()");
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreChapter() Error while performing db.open()");
 
-  // Start a new transaction
-  db.transaction();
+    // Start a new transaction
+    db.transaction();
 
-  QSqlQuery query;
-  int content_id = GetNewContentId();
+    QSqlQuery query;
+    int content_id = GetNewContentId();
 
-  if (!query.prepare("INSERT INTO Chapters (name, number, textbook, description, "
-                     "availability, price, content_id) VALUES (:name, :number, "
-                     ":textbook,:description,:availability, :price, :content_id);"))
-    throw runtime_error("ERROR DBManager::StoreChapter() Error while preparing INSERT statement");
+    if (!query.prepare("INSERT INTO Chapters (name, number, textbook, description, "
+                       "availability, price, content_id) VALUES (:name, :number, "
+                       ":textbook,:description,:availability, :price, :content_id);"))
+        throw runtime_error("ERROR DBManager::StoreChapter() Error while preparing INSERT statement");
 
-  query.bindValue(":name", chapter->getTitle());
-  query.bindValue(":number", chapter->getChapterNo());
-  query.bindValue(":textbook", isbn);
-  query.bindValue(":description", chapter->getDescription());
-  query.bindValue(":availability", int(chapter->isAvailable()));
-  query.bindValue(":price", chapter->getPrice());
-  query.bindValue(":content_id", content_id);
+    query.bindValue(":name", chapter->getTitle());
+    query.bindValue(":number", chapter->getChapterNo());
+    query.bindValue(":textbook", isbn);
+    query.bindValue(":description", chapter->getDescription());
+    query.bindValue(":availability", int(chapter->isAvailable()));
+    query.bindValue(":price", chapter->getPrice());
+    query.bindValue(":content_id", content_id);
 
-  if (query.exec())
-    result = true;
-  else {
-    qDebug() << query.lastError().text();
-    if(query.lastError().number() == 19)
-      throw runtime_error("ERROR DBManager::StoreChapter(), Chapter already exists");
-    else 
-      throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
-  }
+    if (query.exec())
+        result = true;
+    else {
+        qDebug() << query.lastError().text();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::StoreChapter(), Chapter already exists");
+        else
+            throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
+    }
 
-  db.commit();
-  db.close();
+    db.commit();
+    db.close();
 
-  return result;
+    return result;
 }
 
 /***************************************************************************
  **                STORE SECTION IN THE DATABASE                          **
  **************************************************************************/
 bool DBManager::StoreSection(Section *section, QString &isbn, QString &ch_number) {
-  bool result = false;
+    bool result = false;
 
-  if (!db.open())
-    throw runtime_error("ERROR DBManager::StoreSection() Error while performing db.open()");
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreSection() Error while performing db.open()");
 
-  // Start a new transaction
-  db.transaction();
+    // Start a new transaction
+    db.transaction();
 
-  QSqlQuery query;
-  int content_id = GetNewContentId();
+    QSqlQuery query;
+    int content_id = GetNewContentId();
 
-  if (!query.prepare("INSERT INTO Sections (name, number, chapter, textbook, "
-                     "description, availability, price, content_id) VALUES "
-                     "(:name, :number, :chapter, :textbook, :description,:availability, "
-                     ":price, :content_id);"))
-    throw runtime_error("ERROR DBManager::StoreSection() Error while preparing INSERT statement");
+    if (!query.prepare("INSERT INTO Sections (name, number, chapter, textbook, "
+                       "description, availability, price, content_id) VALUES "
+                       "(:name, :number, :chapter, :textbook, :description,:availability, "
+                       ":price, :content_id);"))
+        throw runtime_error("ERROR DBManager::StoreSection() Error while preparing INSERT statement");
 
-  query.bindValue(":name", section->getTitle());
-  query.bindValue(":number", section->getSectionNo());
-  query.bindValue(":chapter", ch_number.toInt());
-  query.bindValue(":textbook", isbn);
-  query.bindValue(":description", section->getDescription());
-  query.bindValue(":availability", int(section->isAvailable()));
-  query.bindValue(":price", section->getPrice());
-  query.bindValue(":content_id", content_id);
+    query.bindValue(":name", section->getTitle());
+    query.bindValue(":number", section->getSectionNo());
+    query.bindValue(":chapter", ch_number.toInt());
+    query.bindValue(":textbook", isbn);
+    query.bindValue(":description", section->getDescription());
+    query.bindValue(":availability", int(section->isAvailable()));
+    query.bindValue(":price", section->getPrice());
+    query.bindValue(":content_id", content_id);
 
-  if (query.exec())
-    result = true;
-  else {
-    qDebug() << query.lastError().text();
-    if(query.lastError().number() == 19)
-      throw runtime_error("ERROR DBManager::StoreSection(), Section already exists");
-    else 
-      throw runtime_error("ERROR DBManager::StoreSection() Error while inserting section");
-  }
+    if (query.exec())
+        result = true;
+    else {
+        qDebug() << query.lastError().text();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::StoreSection(), Section already exists");
+        else
+            throw runtime_error("ERROR DBManager::StoreSection() Error while inserting section");
+    }
 
-  db.commit();
-  db.close();
+    db.commit();
+    db.close();
 
-  return result;
+    return result;
 }
 
 bool DBManager::StoreInvoice(Invoice *invoice) {
-  bool result = false;
+    bool result = false;
 
-  if (!db.open())
-    throw runtime_error("ERROR DBManager::StoreInvoice() Error while performing db.open()");
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::StoreInvoice() Error while performing db.open()");
 
-  // Start a new transaction
-  db.transaction();
+    // Start a new transaction
+    db.transaction();
 
-  QSqlQuery query;
+    QSqlQuery query;
 
-  // Add a new record to the invoices table
-  if (!query.prepare("INSERT INTO Invoices (student, date_purchased) VALUES (:student, :date);"))
-    throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT invoice statement");
+    // Add a new record to the invoices table
+    if (!query.prepare("INSERT INTO Invoices (student, date_purchased) VALUES (:student, :date);"))
+        throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT invoice statement");
 
-  query.bindValue(":student", invoice->getUsername());
-  query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz"));
+    query.bindValue(":student", invoice->getUsername());
+    query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz"));
 
-  if (!query.exec()) {
-    qDebug() << query.executedQuery();
-    throw runtime_error("ERROR DBManager::StoreInvoice() Error while inserting invoice");
-  }
+    if (!query.exec()) {
+        qDebug() << query.executedQuery();
+        throw runtime_error("ERROR DBManager::StoreInvoice() Error while inserting invoice");
+    }
 
-  // Get the invoice id from the purchases table
-  int invoice_id = query.lastInsertId().toInt();
+    // Get the invoice id from the purchases table
+    int invoice_id = query.lastInsertId().toInt();
 
-  // For each content in the invoice, add it to the purchases table
-  for (vector<int>::const_iterator iter = invoice->getContentList()->begin(); iter != invoice->getContentList()->end(); ++iter) {
-    if (!query.prepare("INSERT INTO Purchases (invoice_id, content_id) VALUES(:invoice_id, :content_id);"))
-      throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT purchase statement");
-    query.bindValue(":invoice_id", invoice_id);
-    query.bindValue(":content_id", *iter);
-    if (!query.exec())
-      throw runtime_error("ERROR DBManager::StoreInvoice() Error while inserting purchase");
-  }
+    // For each content in the invoice, add it to the purchases table
+    for (vector<int>::const_iterator iter = invoice->getContentList()->begin(); iter != invoice->getContentList()->end(); ++iter) {
+        if (!query.prepare("INSERT INTO Purchases (invoice_id, content_id) VALUES(:invoice_id, :content_id);"))
+            throw runtime_error("ERROR DBManager::StoreInvoice() Error while preparing INSERT purchase statement");
+        query.bindValue(":invoice_id", invoice_id);
+        query.bindValue(":content_id", *iter);
+        if (!query.exec())
+            throw runtime_error("ERROR DBManager::StoreInvoice() Error while inserting purchase");
+    }
 
-  // Commit the transaction
-  result = db.commit();
+    // Commit the transaction
+    result = db.commit();
 
-  // Close the database
-  db.close();
+    // Close the database
+    db.close();
 
-  return result;
+    return result;
 }
 
-bool DBManager::RetrieveContentList (QString &username, vector<Textbook*> &list) {
-  if (!db.open())
-    throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing db.open()");
+bool DBManager::RetrieveContentList (QString &username, vector<Textbook *> &list) {
+    if (!db.open())
+        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while performing db.open()");
 
-  QSqlQuery query;
+    QSqlQuery query;
 
-  // Get user from db
-  if (!query.exec("SELECT type FROM Users WHERE username='" + username + "'"))
-    throw runtime_error("ERROR DBManager::RetrieveContentList()  Error while performing user lookup");
+    // Get user from db
+    if (!query.exec("SELECT type FROM Users WHERE username='" + username + "'"))
+        throw runtime_error("ERROR DBManager::RetrieveContentList()  Error while performing user lookup");
 
-  // Check if user is a student or content manager
-  if ( !query.first() || (query.value(0) != "student" && query.value(0) != "content_manager") )
-    throw runtime_error("User is not a student or does not exist");
+    // Check if user is a student or content manager
+    if ( !query.first() || (query.value(0) != "student" && query.value(0) != "content_manager") )
+        throw runtime_error("User is not a student or does not exist");
 
-  if (query.value(0) == "student") {
-    // Get textbook list for courses the student is registered in
-    if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
-      throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
-    query.bindValue(":username", username);
-  }
-  else {
-    // Get all the content in the db for the content manager
-    if (!query.prepare("SELECT * FROM Textbooks"))
-      throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving all textbooks");
-  }
-
-  if (!query.exec())
-    throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving user's textbook list");
-
-  // Loop through each textbook, getting all the chapters and sections and creating objects
-  while (query.next()) {
-    Textbook *textbook = new Textbook(query.value(0).toString(), // ISBN
-                                      query.value(1).toString(), // Title
-                                      query.value(2).toString(), // Publisher
-                                      query.value(3).toString(), // Author
-                                      query.value(4).toInt(),    // year
-                                      query.value(5).toString(), // Edition
-                                      query.value(6).toString(), // Description
-                                      query.value(7).toBool(),   // Availability
-                                      query.value(8).toFloat(),  // Price
-                                      query.value(9).toInt());   // Content ID
-
-    QSqlQuery ch_query;
-    if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
-      throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up chapter info");
-
-    ch_query.bindValue(":isbn", query.value(0).toString());
-
-    if (!ch_query.exec())
-      throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving chapter info");
-
-    // Loop through each chapter, getting all the sections and creating objects
-    while (ch_query.next()) {
-      Chapter *chapter = new Chapter(ch_query.value(0).toString(),  // Name
-                                     ch_query.value(1).toInt(),     // Chapter Number
-                                     textbook,                      // Textbook
-                                     ch_query.value(3).toString(),  // Description
-                                     ch_query.value(4).toBool(),    // Availability
-                                     ch_query.value(5).toFloat(),   // Price
-                                     ch_query.value(6).toInt());    // Content ID
-      QSqlQuery sec_query;
-      if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
-        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up section info");
-
-      sec_query.bindValue(":isbn", query.value(0));
-      sec_query.bindValue(":chapter", ch_query.value(1));
-
-      if (!sec_query.exec())
-        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving section info");
-
-      while (sec_query.next()) {
-        Section *section = new Section(sec_query.value(0).toString(),  // Name
-                                       sec_query.value(1).toInt(),     // Section Number
-                                       chapter,                       // Chapter
-                                       textbook,                      // Textbook
-                                       sec_query.value(4).toString(),  // Description
-                                       sec_query.value(5).toBool(),    // Availability
-                                       sec_query.value(6).toFloat(),   // Price
-                                       sec_query.value(7).toInt());    // Content ID
-
-        chapter->addSection(section);
-        // qDebug() << "Section: " << section.getTitle() << " added to chapter " << chapter.getTitle() << " of book " << textbook.getTitle();
-      }
-      textbook->addChapter(chapter);
-      // qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
+    if (query.value(0) == "student") {
+        // Get textbook list for courses the student is registered in
+        if (!query.prepare("SELECT Textbooks.* FROM Class_list INNER JOIN Book_List ON Class_List.course_code = Book_List.course_code INNER JOIN Textbooks ON Book_List.textbook_id = Textbooks.isbn WHERE Class_List.student = :username;"))
+            throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing join statement to get user's class list");
+        query.bindValue(":username", username);
     }
-    // qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
-    list.push_back(textbook);
-  }
-  return true;
+    else {
+        // Get all the content in the db for the content manager
+        if (!query.prepare("SELECT * FROM Textbooks"))
+            throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving all textbooks");
+    }
+
+    if (!query.exec())
+        throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving user's textbook list");
+
+    // Loop through each textbook, getting all the chapters and sections and creating objects
+    while (query.next()) {
+        Textbook *textbook = new Textbook(query.value(0).toString(), // ISBN
+                                          query.value(1).toString(), // Title
+                                          query.value(2).toString(), // Publisher
+                                          query.value(3).toString(), // Author
+                                          query.value(4).toInt(),    // year
+                                          query.value(5).toString(), // Edition
+                                          query.value(6).toString(), // Description
+                                          query.value(7).toBool(),   // Availability
+                                          query.value(8).toFloat(),  // Price
+                                          query.value(9).toInt());   // Content ID
+
+        QSqlQuery ch_query;
+        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
+            throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up chapter info");
+
+        ch_query.bindValue(":isbn", query.value(0).toString());
+
+        if (!ch_query.exec())
+            throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving chapter info");
+
+        // Loop through each chapter, getting all the sections and creating objects
+        while (ch_query.next()) {
+            Chapter *chapter = new Chapter(ch_query.value(0).toString(),  // Name
+                                           ch_query.value(1).toInt(),     // Chapter Number
+                                           textbook,                      // Textbook
+                                           ch_query.value(3).toString(),  // Description
+                                           ch_query.value(4).toBool(),    // Availability
+                                           ch_query.value(5).toFloat(),   // Price
+                                           ch_query.value(6).toInt());    // Content ID
+            QSqlQuery sec_query;
+            if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
+                throw runtime_error("ERROR DBManager::RetrieveContentList() Error while preparing statement to look up section info");
+
+            sec_query.bindValue(":isbn", query.value(0));
+            sec_query.bindValue(":chapter", ch_query.value(1));
+
+            if (!sec_query.exec())
+                throw runtime_error("ERROR DBManager::RetrieveContentList() Error while retrieving section info");
+
+            while (sec_query.next()) {
+                Section *section = new Section(sec_query.value(0).toString(),  // Name
+                                               sec_query.value(1).toInt(),     // Section Number
+                                               chapter,                       // Chapter
+                                               textbook,                      // Textbook
+                                               sec_query.value(4).toString(),  // Description
+                                               sec_query.value(5).toBool(),    // Availability
+                                               sec_query.value(6).toFloat(),   // Price
+                                               sec_query.value(7).toInt());    // Content ID
+
+                chapter->addSection(section);
+                // qDebug() << "Section: " << section.getTitle() << " added to chapter " << chapter.getTitle() << " of book " << textbook.getTitle();
+            }
+            textbook->addChapter(chapter);
+            // qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
+        }
+        // qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
+        list.push_back(textbook);
+    }
+    return true;
 }
 
 /***************************************************************************
@@ -388,12 +388,12 @@ bool DBManager::RetrieveContentList (QString &username, vector<Textbook*> &list)
  **                DISPLAY FIELDS IN A TABLE                              **
  **************************************************************************/
 void DBManager::viewFields(QString table) {
-  if (db.open()) {
-    QSqlRecord rec = db.record(table);
-    for (int i = 0; i < rec.count(); i++) {
-      qDebug() << rec.fieldName(i);
+    if (db.open()) {
+        QSqlRecord rec = db.record(table);
+        for (int i = 0; i < rec.count(); i++) {
+            qDebug() << rec.fieldName(i);
+        }
     }
-  }
 
 }
 
@@ -463,12 +463,12 @@ void DBManager::viewFields(QString table) {
  **                NEW RECORD IN CONTENT                                  **
  **************************************************************************/
 int DBManager::GetNewContentId() {
-  QSqlQuery query;
+    QSqlQuery query;
 
-  if (!query.exec("INSERT INTO Content DEFAULT VALUES;"))
-    throw runtime_error("ERROR DBManager::GetNewContentId() Error while creating new content id");
+    if (!query.exec("INSERT INTO Content DEFAULT VALUES;"))
+        throw runtime_error("ERROR DBManager::GetNewContentId() Error while creating new content id");
 
-  return query.lastInsertId().toInt();
+    return query.lastInsertId().toInt();
 }
 
 /***************************************************************************

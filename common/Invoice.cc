@@ -17,7 +17,8 @@ vector<int> *Invoice::getContentList() {
 }
 
 void Invoice::addContent(Content *c) {
-    contentList->push_back(c->getcid());
+    if (c != 0)
+        contentList->push_back(c->getcid());
 }
 
 QString Invoice::getUsername() {

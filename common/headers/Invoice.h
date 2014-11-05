@@ -22,7 +22,7 @@ class Invoice {
         ===================================================================== */
         Invoice(QString);
 
-        vector<int>& getContentList();
+        vector<int> &getContentList();
         void addContent(Content *);
         void addContent(int);
         QString getUsername();

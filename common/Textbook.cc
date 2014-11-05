@@ -20,7 +20,7 @@ Textbook::~Textbook() {
         if ( (*iter) != 0) {
             delete *iter;
             (*iter) = 0;
-        }   
+        }
     }
 }
 

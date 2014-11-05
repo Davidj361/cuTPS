@@ -16,7 +16,7 @@ Chapter::~Chapter() {
         if ( (*iter) != 0) {
             delete *iter;
             (*iter) = 0;
-        }   
+        }
     }
 }
 

@@ -4,7 +4,7 @@ Invoice::Invoice(QString cUsername) {
     username = cUsername;
 }
 
-vector<int>& Invoice::getContentList() {
+vector<int> &Invoice::getContentList() {
     return contentList;
 }
 

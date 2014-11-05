@@ -15,6 +15,15 @@ Textbook::Textbook(QString cISBN, QString cTitle, QString cPublisher, QString cA
     c_id = cC_id;
 }
 
+Textbook::~Textbook() {
+    for (vector<Chapter *>::iterator iter = chapters.begin(); iter != chapters.end(); ++iter) {
+        if ( (*iter) != 0) {
+            delete *iter;
+            (*iter) = 0;
+        }   
+    }
+}
+
 QString Textbook::getAuthor() {
     return author;
 }

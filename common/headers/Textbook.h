@@ -28,6 +28,7 @@ class Textbook: public Content {
         Returns   : void
         ===================================================================== */
         Textbook(QString, QString, QString, QString, int, QString, QString, bool, float, int cC_id = 0);
+        ~Textbook();
 
         QString getAuthor();
         QString getISBN();

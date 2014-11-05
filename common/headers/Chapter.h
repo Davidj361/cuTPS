@@ -27,6 +27,8 @@ class Chapter: public Content {
         Returns   : void
         ===================================================================== */
         Chapter(QString, int, Textbook * = 0, QString = "", bool = false, float = 0, int cC_id = 0);
+        ~Chapter();
+
         Textbook *getTextbook();
         void serialize(QJsonObject &);
         int getChapterNo();

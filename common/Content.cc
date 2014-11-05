@@ -1,21 +1,21 @@
 #include "headers/Content.h"
 
 QString Content::getTitle() {
-    return title;
+  return title;
 }
 
 float Content::getPrice() {
-    return price;
+  return price;
 }
 
 bool Content::isAvailable() {
-    return available;
+  return available;
 }
 
 QString Content::getDescription() {
-    return description;
+  return description;
 }
 
 int Content::getcid() {
-    return c_id;
+  return c_id;
 }

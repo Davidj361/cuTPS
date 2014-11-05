@@ -7,29 +7,29 @@
 
 class User {
 
-    public:
+  public:
 
-        /* =====================================================================
-        Function  : Section
-        Purpose   : Constructs an Section object
-        Variables : IN  -  Username
-                        -  Password
-                        -  Type of user
-                        -  Name
-        Returns   : void
-        ===================================================================== */
-        User(QString, QString, QString, QString);
+    /* =====================================================================
+    Function  : Section
+    Purpose   : Constructs an Section object
+    Variables : IN  -  Username
+                    -  Password
+                    -  Type of user
+                    -  Name
+    Returns   : void
+    ===================================================================== */
+    User(QString, QString, QString, QString);
 
-        QString getUserName();
-        QString getName();
-        QString getPassword();
-        QString getType();
+    QString getUserName();
+    QString getName();
+    QString getPassword();
+    QString getType();
 
-    private:
-        QString username;
-        QString name;
-        QString password;
-        QString type;
+  private:
+    QString username;
+    QString name;
+    QString password;
+    QString type;
 
 };
 #endif

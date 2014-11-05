@@ -22,12 +22,7 @@
 ## Test Cases
 
 ### 1. Add Content
- This test case first adds a new textbook, chapter and then section to the database.
- It then tries to add the same ones again and should fail at doing so. Chapters and
- sections have a dependancy on a textbook (and a section on a chapter). We assume that 
- on the client side it is not possible for a chapter or section to exist without it's
- proper dependancies.  
- *Note*: The fail error messages are expected when attempting to add the same content.
+ This test case first adds a new textbook, chapter and then section to the database. It then tries to add the same ones again and should fail at doing so. Chapters and sections have a dependancy on a textbook (and a section on a chapter). We assume that on the client side it is not possible for a chapter or section to exist without it's proper dependancies.
  
 ### 2. GetContent
 This test case first retrieves all of the content that would be retrieved for a student (in this case named peter). It then retrieves all of the content that would be retrieved for a content manager.

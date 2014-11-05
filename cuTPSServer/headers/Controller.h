@@ -56,6 +56,10 @@ class Controller : public QObject {
     void AboutToQuitApp();
 
   private:
+
+    // Adding a cleanup function for the void* object depending on command type
+    int cleanup(commands_t, void*&);
+
     QCoreApplication *app;
     ConnectionServer *connection;
     Serializer *serializer;

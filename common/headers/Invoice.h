@@ -21,6 +21,7 @@ class Invoice {
     Returns   : void
     ===================================================================== */
     Invoice(QString);
+    ~Invoice();
 
     vector<int> *getContentList();
     void addContent(Content*);

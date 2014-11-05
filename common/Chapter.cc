@@ -11,6 +11,15 @@ Chapter::Chapter(QString cTitle, int cChapterno, Textbook *cParent,
   c_id = cC_id;
 }
 
+Chapter::~Chapter() {
+    for (vector<Section*>::iterator iter = this->sections.begin(); iter != this->sections.end(); ++iter) {
+        if ( (*iter) != 0) {
+            delete *iter;
+            (*iter) = 0;
+        }
+    }
+}
+
 Textbook *Chapter::getTextbook() {
   return textbook;
 }

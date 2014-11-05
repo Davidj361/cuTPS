@@ -145,18 +145,7 @@ int Controller::cleanup(commands_t command, void*& object) {
             qDebug() << "Freeing content list";
             book_list = static_cast<vector<Textbook*>*>(object);
             for (vector<Textbook *>::iterator it = book_list->begin(); it != book_list->end(); ++it) {
-                for (vector<Chapter*>::iterator it2 = (*it)->getChapters().begin(); it2 != (*it)->getChapters().end(); ++it2) {
-                    for (vector<Section*>::iterator it3 = (*it2)->getSections().begin(); it3 != (*it2)->getSections().end(); ++it3) {
-                        if ( (*it3) != 0) {
-                            delete *it3;
-                            (*it3) = 0;
-                        }
-                    }
-                    if ( (*it2) != 0) {
-                        delete *it2;
-                        (*it2) = 0;
-                    }
-                }
+                // Got rid of deletes for the chapters and sections due destructors on Textbook and Chapter
                 if ( (*it) != 0) {
                     delete *it;
                     (*it) = 0;
@@ -165,7 +154,7 @@ int Controller::cleanup(commands_t command, void*& object) {
             book_list->clear();
             break;
         default:
-            throw runtime_error("Controller::cleanup, Couldn't cleanup due to object being non-null and not receiving valid command");
+            return 1;
     }
     return 0;
 }

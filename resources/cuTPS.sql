@@ -1,10 +1,15 @@
 PRAGMA foreign_keys = ON;
 
+CREATE TABLE IF NOT EXISTS `User_Types` (
+    `type` TEXT NOT NULL PRIMARY KEY
+);
+
 CREATE TABLE IF NOT EXISTS `Users` (
     `username` TEXT NOT NULL PRIMARY KEY,
     `password` TEXT NOT NULL,
     `type` TEXT NOT NULL,
-    `name` TEXT NOT NULL
+    `name` TEXT NOT NULL,
+    FOREIGN KEY(`type`) REFERENCES User_Types(`type`)
 );
 
 CREATE TABLE IF NOT EXISTS `Courses` (
@@ -12,8 +17,22 @@ CREATE TABLE IF NOT EXISTS `Courses` (
     `name` TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS `Classes` (
+    `id` INTEGER NOT NULL UNIQUE,
+    `semester` TEXT NOT NULL,
+    `course` TEXT NOT NULL,
+    PRIMARY KEY(`semester`, `course`),
+    FOREIGN KEY(`course`) REFERENCES Courses(`code`)
+);
+
+CREATE TABLE IF NOT EXISTS `Content_Types` (
+    `type` TEXT NOT NULL PRIMARY KEY
+);
+
 CREATE TABLE IF NOT EXISTS `Content` (
-    `id` INTEGER NOT NULL PRIMARY KEY
+    `id` INTEGER NOT NULL PRIMARY KEY,
+    `type` TEXT NOT NULL,
+    FOREIGN KEY(`type`) REFERENCES Content_Types(`type`)
 );
 
 CREATE TABLE IF NOT EXISTS `Textbooks` (
@@ -53,23 +72,25 @@ CREATE TABLE IF NOT EXISTS `Sections` (
     `price` REAL NOT NULL,
     `content_id` INTEGER NOT NULL,
     PRIMARY KEY(`number`, `chapter`, `textbook`),
+    FOREIGN KEY(`textbook`) REFERENCES Textbooks(`isbn`),
+    FOREIGN KEY(`chapter`) REFERENCES Chapters(`number`),
     FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `Book_List` (
     `textbook_id` TEXT NOT NULL,
-    `course_code` TEXT NOT NULL,
-    PRIMARY KEY(`textbook_id`, `course_code`),
+    `class` INTEGER NOT NULL,
+    PRIMARY KEY(`textbook_id`, `class`),
     FOREIGN KEY(`textbook_id`) REFERENCES Textbooks(`isbn`),
-    FOREIGN KEY(`course_code`) REFERENCES Courses(`code`)
+    FOREIGN KEY(`class`) REFERENCES Classes(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `Class_List` (
     `student` TEXT NOT NULL,
-    `course_code` TEXT NOT NULL,
-    PRIMARY KEY(`student`, `course_code`),
+    `class` INTEGER NOT NULL,
+    PRIMARY KEY(`student`, `class`),
     FOREIGN KEY(`student`) REFERENCES Users(`username`),
-    FOREIGN KEY(`course_code`) REFERENCES Courses(`code`)
+    FOREIGN KEY(`class`) REFERENCES Classes(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `Invoices` (
@@ -82,12 +103,18 @@ CREATE TABLE IF NOT EXISTS `Invoices` (
 CREATE TABLE IF NOT EXISTS `Purchases` (
     `invoice_id` INTEGER NOT NULL,
     `content_id` INTEGER NOT NULL,
+    `purchase_price` REAL NOT NULL,
     PRIMARY KEY(`invoice_id`, `content_id`),
     FOREIGN KEY(`invoice_id`) REFERENCES Invoices(`id`),
     FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
 );
 
 BEGIN TRANSACTION;
+
+-- Create user types
+INSERT INTO `User_Types` (type) VALUES ('administrator');
+INSERT INTO `User_Types` (type) VALUES ('content_manager');
+INSERT INTO `User_Types` (type) VALUES ('student');
 
 -- Create an administrator
 INSERT INTO `Users` (username, password, type, name) VALUES ('admin', 'password', 'administrator', 'Administrator');

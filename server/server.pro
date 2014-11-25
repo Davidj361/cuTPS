@@ -8,7 +8,7 @@ QT       += core
 QT       += network
 QT       += sql
 
-TARGET = cuTPSServer
+TARGET = server
 # CONFIG   += console # might not be needed
 CONFIG   += qt
 CONFIG   += debug 

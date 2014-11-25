@@ -22,7 +22,10 @@ SOURCES += main.cc\
     ../common/Chapter.cc \
     ../common/Serializer.cc \
     ../common/User.cc \
-    ../common/Invoice.cc
+    ../common/Invoice.cc \
+    storage/StorageControl.cc \
+    ../common/Course.cc \
+    storage/ClientSerializer.cc
 
 HEADERS  += \
     headers/ConnectionClient.h \
@@ -35,6 +38,8 @@ HEADERS  += \
     ../common/headers/Serializer.h \
     ../common/headers/User.h \
     ../common/headers/Invoice.h \
-    storage/StorageControl.h
+    storage/StorageControl.h \
+    ../common/headers/Course.h \
+    storage/ClientSerializer.h
 
 FORMS    += mainwindow.ui

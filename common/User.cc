@@ -24,3 +24,10 @@ QString User::getName() {
     return name;
 }
 
+void User::serialize(QJsonObject &json){
+    json.insert("username", username);
+    json.insert("password", password);
+    json.insert("type", type);
+    json.insert("name", name);
+}
+

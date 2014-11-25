@@ -3,6 +3,7 @@
 
 #include "Definitions.h"
 #include <QString>
+#include <QJsonObject>
 
 
 class User {
@@ -24,6 +25,7 @@ class User {
         QString getName();
         QString getPassword();
         QString getType();
+        void serialize(QJsonObject&);
 
     private:
         QString username;

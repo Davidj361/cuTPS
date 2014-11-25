@@ -2,9 +2,11 @@
 #define COURSE_H
 #include "Textbook.h"
 #include <QJsonObject>
+#include <QJsonArray>
 #include <vector>
 #include <QString>
 #include <QList>
+
 
 using namespace std;
 
@@ -18,7 +20,7 @@ class Course {
         Variables : 
         Returns   : 
         ===================================================================== */
-        Course(QString, QString);
+        Course(QString, QString, QString);
         ~Course();
 
         QString getCourseTitle();
@@ -27,6 +29,7 @@ class Course {
         QList<Textbook> getTextbooks();
         void addTextbook(Textbook);
         void removeTextbook(Textbook); 
+        void serialize(QJsonObject&);
 
     private:
         QString courseTitle;

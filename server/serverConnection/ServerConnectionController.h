@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#ifndef SERVERCONNECTIONCONTROLLER_H
+#define SERVERCONNECTIONCONTROLLER_H
 
 #include <QObject>
 #include <QCoreApplication>
@@ -8,18 +8,18 @@
 #include <QString>
 
 #include "ConnectionServer.h"
-#include "DBManager.h"
+#include "../databaseManagement/DBManager.h"
 #include "../../common/headers/Serializer.h"
 #include "../../common/headers/Definitions.h"
 #include "../../common/headers/User.h"
 #include "../../common/headers/Student.h"
 
-class Controller : public QObject {
+class ServerConnectionController : public QObject {
         Q_OBJECT
 
     public:
-        Controller(QObject *parent = 0);
-        ~Controller();
+        ServerConnectionController(QObject *parent = 0);
+        ~ServerConnectionController();
 
         /* =====================================================================
         Function  : Quit

@@ -1,7 +1,7 @@
 #include <QCoreApplication>
 #include <QTimer>
 
-#include "headers/Controller.h"
+#include "serverConnection/ServerConnectionController.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Team Do Not Stick In Ear");
 
     // TODO Definite memory leak here, fix it
-    Controller *controller = new Controller();
+    ServerConnectionController *controller = new ServerConnectionController();
 
     // connect the signals
     QObject::connect(controller, SIGNAL(Finished()),

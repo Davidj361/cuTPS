@@ -40,6 +40,7 @@ HEADERS  += \
     ../common/headers/Invoice.h \
     storage/StorageControl.h \
     ../common/headers/Course.h \
-    storage/ClientSerializer.h
+    storage/ClientSerializer.h \
+    ../common/headers/Serializable.h
 
 FORMS    += mainwindow.ui

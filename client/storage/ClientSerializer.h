@@ -15,6 +15,7 @@
 #include "../../common/headers/Definitions.h"
 #include "../../common/headers/Textbook.h"
 #include "../../common/headers/Invoice.h"
+#include "../../common/headers/Serializable.h"
 
 using namespace std;
 
@@ -40,7 +41,7 @@ class ClientSerializer {
         //             In  - The outcome of the operation (1 = Success, 0 = Fail)
         // Returns   : The serialized object to send to the connection class
         // ===================================================================== */
-        void Serialize(const QJsonObject &, commands_t) const;
+        void Serialize(Serializable&, commands_t, QJsonObject&) const;
 
     private:
         // This is deprecated since we changed commands_t to be more seperate i.e ADD_CHAPTER, ADD_TEXTBOOK, ADD_SECTION

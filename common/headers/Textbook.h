@@ -4,11 +4,12 @@
 #include "Chapter.h"
 #include <QJsonObject>
 #include <vector>
+#include "Serializable.h"
 
 using namespace std;
 class Chapter;
 
-class Textbook: public Content {
+class Textbook: public Content, public Serializable{
 
     public:
 

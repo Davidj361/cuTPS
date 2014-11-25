@@ -1,6 +1,7 @@
 #ifndef COURSE_H
 #define COURSE_H
 #include "Textbook.h"
+#include "Serializable.h"
 #include <QJsonObject>
 #include <QJsonArray>
 #include <vector>
@@ -10,7 +11,7 @@
 
 using namespace std;
 
-class Course {
+class Course : public Serializable{
 
     public:
 

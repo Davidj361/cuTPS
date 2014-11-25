@@ -2,6 +2,7 @@
 #define INVOICE_H
 #include "Content.h"
 #include "User.h"
+#include "Serializable.h"
 #include <vector>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -10,7 +11,7 @@
 
 using namespace std;
 
-class Invoice {
+class Invoice: public Serializable{
 
     public:
 

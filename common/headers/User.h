@@ -2,11 +2,12 @@
 #define USER_H
 
 #include "Definitions.h"
+#include "Serializable.h"
 #include <QString>
 #include <QJsonObject>
 
 
-class User {
+class User : public Serializable{
 
     public:
 

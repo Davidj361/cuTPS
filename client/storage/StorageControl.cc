@@ -2,50 +2,61 @@
 
 
 StorageControl::StorageControl(){
-
+    // TODO figure out how to retrieve ip
+    QString ip = "127.0.0.1";
+    connection = new ConnectionClient(&ip);
+    serializer = new ClientSerializer();
 }
 
 StorageControl::~StorageControl(){
-
+    delete connection;
+    delete serializer;
 }
 
 void StorageControl::addTextbook(Textbook &tb){
-    QJsonObject request;
-    serializer.Serialize(tb, ADD_TEXTBOOK, request);
+    updateStorage(tb, ADD_TEXTBOOK);
 }
 
 void StorageControl::editTextbook(Textbook &tb){
-    QJsonObject request;
-    serializer.Serialize(tb, EDIT_TEXTBOOK, request);
+    updateStorage(tb, EDIT_TEXTBOOK);
+
 }
 
 void StorageControl::removeTextbook(Textbook &tb){
-    QJsonObject request;
-    serializer.Serialize(tb, REMOVE_TEXTBOOK, request);
+    updateStorage(tb, REMOVE_TEXTBOOK);
+
 }
 
 void StorageControl::addCourse(Course &c){
-    QJsonObject request;
-    serializer.Serialize(c, ADD_COURSE, request);
+    updateStorage(c, ADD_COURSE);
+
 }
 
 void StorageControl::editCourse(Course &c){
-    QJsonObject request;
-    serializer.Serialize(c, EDIT_COURSE, request);
+    updateStorage(c, EDIT_COURSE);
 }
 
 void StorageControl::removeCourse(Course &c){
-    QJsonObject request;
-    serializer.Serialize(c, REMOVE_COURSE, request);
+    updateStorage(c, REMOVE_COURSE);
+
 }
 
 void StorageControl::checkout(Invoice &i){
-    QJsonObject request;
-    serializer.Serialize(i, ADD_INVOICE, request);
+    updateStorage(i, ADD_INVOICE);
 }
 
 void StorageControl::refreshContent(User &u, QList<Textbook> &tbs, QList<Course> &cs){
-    QJsonObject request;
-    serializer.Serialize(u, GET_CONTENT, request);
+    QByteArray *req = new QByteArray();
+    QByteArray *res = new QByteArray();
+    serializer->serialize(u, GET_CONTENT, *req);
+}
+
+QByteArray* StorageControl::updateStorage(Serializable& obj, commands_t command){
+    QByteArray *req = new QByteArray();
+    QByteArray *res = new QByteArray();
+    serializer->serialize(obj, command, *req);
+    connection->request(*req, *res);
+    delete req;
+    return res;
 }
 

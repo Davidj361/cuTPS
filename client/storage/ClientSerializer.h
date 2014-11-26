@@ -14,6 +14,7 @@
 
 #include "../../common/headers/Definitions.h"
 #include "../../common/headers/Textbook.h"
+#include "../../common/headers/Course.h"
 #include "../../common/headers/Invoice.h"
 #include "../../common/headers/Serializable.h"
 
@@ -41,7 +42,10 @@ class ClientSerializer {
         //             In  - The outcome of the operation (1 = Success, 0 = Fail)
         // Returns   : The serialized object to send to the connection class
         // ===================================================================== */
-        void Serialize(Serializable&, commands_t, QJsonObject&) const;
+        void serialize(Serializable&, commands_t, QByteArray&) const;
+
+        bool deserialize(QByteArray&);
+        bool deserialize(QByteArray&, QList<Textbook>, QList<Course>);
 
     private:
         // This is deprecated since we changed commands_t to be more seperate i.e ADD_CHAPTER, ADD_TEXTBOOK, ADD_SECTION

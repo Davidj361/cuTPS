@@ -7,7 +7,7 @@
 #include <QScrollBar>
 #include <QListWidgetItem>
 
-#include "headers/ConnectionClient.h"
+#include "storage/ConnectionClient.h"
 #include "../common/headers/Textbook.h"
 #include "../common/headers/Chapter.h"
 #include "../common/headers/Section.h"

@@ -14,7 +14,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cc\
-    ConnectionClient.cc \
     MainWindow.cc \
     ../common/Textbook.cc \
     ../common/Section.cc \
@@ -25,10 +24,10 @@ SOURCES += main.cc\
     ../common/Invoice.cc \
     storage/StorageControl.cc \
     ../common/Course.cc \
-    storage/ClientSerializer.cc
+    storage/ClientSerializer.cc \
+    storage/ConnectionClient.cc
 
 HEADERS  += \
-    headers/ConnectionClient.h \
     headers/MainWindow.h \
     ../common/headers/Textbook.h \
     ../common/headers/Section.h \
@@ -41,6 +40,7 @@ HEADERS  += \
     storage/StorageControl.h \
     ../common/headers/Course.h \
     storage/ClientSerializer.h \
-    ../common/headers/Serializable.h
+    ../common/headers/Serializable.h \
+    storage/ConnectionClient.h
 
 FORMS    += mainwindow.ui

@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <stdexcept>
 #include "ClientSerializer.h"
+#include "ConnectionClient.h"
 #include "../../common/headers/Course.h"
 #include "../../common/headers/Textbook.h"
 #include "../../common/headers/Invoice.h"
@@ -31,9 +32,12 @@ class StorageControl : public QObject {
         void checkout(Invoice&);
         void refreshContent(User&, QList<Textbook>&, QList<Course>&);
 
-
     private:
-        ClientSerializer serializer;
+        ClientSerializer *serializer;
+        ConnectionClient *connection;
+
+        QByteArray* updateStorage(Serializable&, commands_t);
+
 
 };
 

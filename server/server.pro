@@ -8,7 +8,7 @@ QT       += core
 QT       += network
 QT       += sql
 
-TARGET = cuTPSServer
+TARGET = server
 # CONFIG   += console # might not be needed
 CONFIG   += qt
 CONFIG   += debug 
@@ -18,10 +18,10 @@ CONFIG   -= app_bundle
 
 
 SOURCES += \
-    DBManager.cc \
-    Controller.cc \
     main.cc \
-    ConnectionServer.cc \
+    databaseManagement/DBManager.cc \
+    serverConnection/ConnectionServer.cc \
+    serverConnection/ServerConnectionController.cc \
     ../common/Serializer.cc \
     ../common/Student.cc \
     ../common/Textbook.cc \
@@ -34,9 +34,9 @@ SOURCES += \
 OTHER_FILES +=
 
 HEADERS += \
-    headers/DBManager.h \
-    headers/Controller.h \
-    headers/ConnectionServer.h \
+    databaseManagement/DBManager.h \
+    serverConnection/ConnectionServer.h \
+    serverConnection/ServerConnectionController.h \
     ../common/headers/Serializer.h \
     ../common/headers/Student.h \
     ../common/headers/Content.h \

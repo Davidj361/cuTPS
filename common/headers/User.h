@@ -2,10 +2,12 @@
 #define USER_H
 
 #include "Definitions.h"
+#include "Serializable.h"
 #include <QString>
+#include <QJsonObject>
 
 
-class User {
+class User : public Serializable{
 
     public:
 
@@ -24,6 +26,7 @@ class User {
         QString getName();
         QString getPassword();
         QString getType();
+        void serialize(QJsonObject&);
 
     private:
         QString username;

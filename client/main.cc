@@ -1,7 +1,7 @@
 #include <QApplication>
 
 #include "headers/MainWindow.h"
-#include "headers/ConnectionClient.h"
+#include "storage/ConnectionClient.h"
 
 int main(int argc, char *argv[])
 {

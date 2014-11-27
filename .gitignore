@@ -21,11 +21,12 @@ ui_*.h
 Makefile*
 *-build-*
 *build-*
-cuTPSServer/cuTPSServer
-cuTPSClient/cuTPSClient
 *.swp
 *~
 *.db-journal
+
+server/server
+client/client
 
 # QtCreator
 

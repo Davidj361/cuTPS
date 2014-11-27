@@ -1,4 +1,4 @@
-#include "headers/ConnectionServer.h"
+#include "ConnectionServer.h"
 
 ConnectionServer::ConnectionServer(QObject *parent): QObject(parent) {
     portno = 60001;

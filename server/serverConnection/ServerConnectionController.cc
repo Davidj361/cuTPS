@@ -1,15 +1,15 @@
-#include "headers/Controller.h"
+#include "ServerConnectionController.h"
 
 using namespace std;
 
-Controller::Controller (QObject *parent) : QObject(parent) {
+ServerConnectionController::ServerConnectionController (QObject *parent) : QObject(parent) {
     app = QCoreApplication::instance();
 }
 
-Controller::~Controller () {
+ServerConnectionController::~ServerConnectionController () {
 }
 
-void Controller::Run () {
+void ServerConnectionController::Run () {
     QByteArray in;
     QByteArray out;
     commands_t command;
@@ -30,7 +30,7 @@ void Controller::Run () {
         cout << e.what() << endl;
     }
 
-    // Main controller loop
+    // Main ServerConnectionController loop
     while (true) {
         try {
             connection->WaitForRequest(in);
@@ -102,7 +102,7 @@ void Controller::Run () {
     Quit();
 }
 
-void Controller::Quit() {
+void ServerConnectionController::Quit() {
     // you can do some cleanup here
     // then do emit finished to signal CoreApplication to quit
     qDebug() << "Emitting the finished signal";
@@ -112,14 +112,14 @@ void Controller::Quit() {
 // shortly after quit is called the CoreApplication will signal this routine
 // this is a good place to delete any objects that were created in the
 // constructor and/or to stop any threads
-void Controller::AboutToQuitApp() {
+void ServerConnectionController::AboutToQuitApp() {
     delete connection;
     delete dbManager;
     delete app;
-    qDebug() << "In Controller::AboutToQuitApp";
+    qDebug() << "In ServerConnectionController::AboutToQuitApp";
 }
 
-int Controller::cleanup(commands_t command, void *&object) {
+int ServerConnectionController::cleanup(commands_t command, void *&object) {
     if (object == 0)
         return 0;
     // Can't delete a void pointer in C++. Need to cast it so compiler knows which destructor to call

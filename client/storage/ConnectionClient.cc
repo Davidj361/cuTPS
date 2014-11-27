@@ -1,4 +1,4 @@
-#include "headers/ConnectionClient.h"
+#include "ConnectionClient.h"
 
 ConnectionClient::ConnectionClient(QString *IPADDR, QObject *parent): QObject(parent) {
 

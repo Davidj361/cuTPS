@@ -9,12 +9,11 @@ QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = cuTPSClient
+TARGET = client
 TEMPLATE = app
 
 
 SOURCES += main.cc\
-    ConnectionClient.cc \
     MainWindow.cc \
     ../common/Textbook.cc \
     ../common/Section.cc \
@@ -22,10 +21,13 @@ SOURCES += main.cc\
     ../common/Chapter.cc \
     ../common/Serializer.cc \
     ../common/User.cc \
-    ../common/Invoice.cc
+    ../common/Invoice.cc \
+    storage/StorageControl.cc \
+    ../common/Course.cc \
+    storage/ClientSerializer.cc \
+    storage/ConnectionClient.cc
 
 HEADERS  += \
-    headers/ConnectionClient.h \
     headers/MainWindow.h \
     ../common/headers/Textbook.h \
     ../common/headers/Section.h \
@@ -34,6 +36,11 @@ HEADERS  += \
     ../common/headers/Chapter.h \
     ../common/headers/Serializer.h \
     ../common/headers/User.h \
-    ../common/headers/Invoice.h
+    ../common/headers/Invoice.h \
+    storage/StorageControl.h \
+    ../common/headers/Course.h \
+    storage/ClientSerializer.h \
+    ../common/headers/Serializable.h \
+    storage/ConnectionClient.h
 
 FORMS    += mainwindow.ui

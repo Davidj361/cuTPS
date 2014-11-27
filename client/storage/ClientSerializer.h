@@ -45,9 +45,14 @@ class ClientSerializer {
         void serialize(Serializable&, commands_t, QByteArray&) const;
 
         bool deserialize(QByteArray&);
-        bool deserialize(QByteArray&, QList<Textbook>, QList<Course>);
+        bool deserialize(QByteArray&, QList<Course*>&);
 
     private:
+
+        void createCourse(QJsonObject &, Course *&);
+        void createTextbook(const QJsonObject &, Textbook *&) const;
+        void createChapter(QJsonObject &, Chapter *&, Textbook&);
+        void createSection(const QJsonObject &json, Section *&newSection, Chapter &parentCh, Textbook &parentTb);
         // This is deprecated since we changed commands_t to be more seperate i.e ADD_CHAPTER, ADD_TEXTBOOK, ADD_SECTION
         // void createContent(const QJsonObject &, void *) const;
 

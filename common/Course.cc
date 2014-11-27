@@ -10,16 +10,16 @@ void Course::serialize(QJsonObject &json){
     json.insert("courseTitle", courseTitle);
     json.insert("term", term);
     QJsonArray textbooksJson;
-    foreach(Textbook t, textbooks){
+    foreach(Textbook *t, textbooks){
         QJsonObject tJson;
-        t.serialize(tJson);
+        t->serialize(tJson);
         textbooksJson.append(tJson);
     }
     json.insert("textbooks", textbooksJson);
 }
 
 Course::~Course(){
-    // TODO Delete textbooks?
+    // TODO Delete textbooks
 }
 
 QString Course::getCourseTitle(){
@@ -34,11 +34,11 @@ QString Course::getTerm(){
     return term;
 }
 
-QList<Textbook> Course::getTextbooks(){
+QList<Textbook*> Course::getTextbooks(){
     return textbooks;
  }
 
-void Course::addTextbook(Textbook tb){
+void Course::addTextbook(Textbook *tb){
     textbooks.append(tb);
 }
 

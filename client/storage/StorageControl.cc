@@ -45,10 +45,12 @@ void StorageControl::checkout(Invoice &i){
     updateStorage(i, ADD_INVOICE);
 }
 
-void StorageControl::refreshContent(User &u, QList<Textbook> &tbs, QList<Course> &cs){
+void StorageControl::refreshContent(User &u, QList<Course*> &cs){
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(u, GET_CONTENT, *req);
+    connection->request(*req, *res);
+    serializer->deserialize(*res, cs);
 }
 
 QByteArray* StorageControl::updateStorage(Serializable& obj, commands_t command){

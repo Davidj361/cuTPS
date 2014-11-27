@@ -27,16 +27,16 @@ class Course : public Serializable{
         QString getCourseTitle();
         QString getCourseCode();
         QString getTerm();
-        QList<Textbook> getTextbooks();
-        void addTextbook(Textbook);
-        void removeTextbook(Textbook); 
+        QList<Textbook*> getTextbooks();
+        void addTextbook(Textbook*);
+        void removeTextbook(Textbook);
         void serialize(QJsonObject&);
 
     private:
         QString courseTitle;
         QString courseCode;
         QString term;
-        QList<Textbook> textbooks;
+        QList<Textbook*> textbooks;
 
 };
 

@@ -30,7 +30,7 @@ class StorageControl : public QObject {
         void editCourse(Course&);
         void removeCourse(Course&);
         void checkout(Invoice&);
-        void refreshContent(User&, QList<Textbook>&, QList<Course>&);
+        void refreshContent(User&, QList<Course*>&);
 
     private:
         ClientSerializer *serializer;

@@ -4,7 +4,7 @@
 #include "Section.h"
 #include "Textbook.h"
 #include <QJsonObject>
-#include <vector>
+#include <QList>
 
 using namespace std;
 class Section;
@@ -33,12 +33,12 @@ class Chapter: public Content {
         void serialize(QJsonObject &);
         int getChapterNo();
         void addSection(Section *);
-        vector<Section *> &getSections();
+        QList<Section *>& getSections();
 
     private:
         int chapterNo;
         Textbook *textbook;
-        vector<Section *> sections;
+        QList<Section *> sections;
 
 };
 

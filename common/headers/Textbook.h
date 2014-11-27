@@ -2,14 +2,14 @@
 #define TEXTBOOK_H
 #include "Content.h"
 #include "Chapter.h"
-#include <QJsonObject>
-#include <vector>
 #include "Serializable.h"
+#include <QJsonObject>
+#include <QList>
 
 using namespace std;
 class Chapter;
 
-class Textbook: public Content, public Serializable{
+class Textbook: public Content, public Serializable {
 
     public:
 
@@ -39,7 +39,7 @@ class Textbook: public Content, public Serializable{
         int     getYear();
         void serialize(QJsonObject &);
         void addChapter(Chapter *);
-        vector<Chapter *> &getChapters();
+        QList<Chapter *>& getChapters();
 
     private:
         QString author;
@@ -47,7 +47,7 @@ class Textbook: public Content, public Serializable{
         QString publisher;
         QString edition;
         int     year;
-        vector<Chapter *> chapters;
+        QList<Chapter *> chapters;
 
 };
 

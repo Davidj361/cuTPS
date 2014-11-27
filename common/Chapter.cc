@@ -12,7 +12,7 @@ Chapter::Chapter(QString cTitle, int cChapterno, Textbook *cParent,
 }
 
 Chapter::~Chapter() {
-    for (vector<Section *>::iterator iter = sections.begin(); iter != sections.end(); ++iter) {
+    for (QList<Section *>::iterator iter = sections.begin(); iter != sections.end(); ++iter) {
         if ( (*iter) != 0) {
             delete *iter;
             (*iter) = 0;
@@ -42,7 +42,7 @@ void Chapter::addSection(Section *sec) {
     sections.push_back(sec);
 }
 
-vector<Section *> &Chapter::getSections() {
+QList<Section *> &Chapter::getSections() {
     return this->sections;
 }
 

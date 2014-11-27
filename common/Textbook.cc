@@ -16,7 +16,7 @@ Textbook::Textbook(QString cISBN, QString cTitle, QString cPublisher, QString cA
 }
 
 Textbook::~Textbook() {
-    for (vector<Chapter *>::iterator iter = chapters.begin(); iter != chapters.end(); ++iter) {
+    for (QList<Chapter *>::iterator iter = chapters.begin(); iter != chapters.end(); ++iter) {
         if ( (*iter) != 0) {
             delete *iter;
             (*iter) = 0;
@@ -52,7 +52,7 @@ void Textbook::addChapter(Chapter *cha) {
     chapters.push_back(cha);
 }
 
-vector<Chapter *> &Textbook::getChapters() {
+QList<Chapter *> &Textbook::getChapters() {
     return chapters;
 }
 void Textbook::serialize(QJsonObject &textbookJson) {

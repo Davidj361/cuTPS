@@ -168,26 +168,26 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
 
 void Serializer::serializeContent(void *in_object, QJsonObject &json) const {
 
-    vector<Textbook *> *tbs = static_cast<vector<Textbook *>*>(in_object);
+    QList<Textbook *> *tbs = static_cast<QList<Textbook *>*>(in_object);
     QJsonArray tbarray;
 
-    for (vector<Textbook *>::iterator iter = tbs->begin(); iter != tbs->end(); ++iter) {
+    for (QList<Textbook *>::iterator iter = tbs->begin(); iter != tbs->end(); ++iter) {
         QJsonObject serializedTB;
 
         (*iter)->serialize(serializedTB);
 
-        vector<Chapter *> chapters = (*iter)->getChapters();
+        QList<Chapter *> chapters = (*iter)->getChapters();
         QJsonArray chaparray;
 
-        for (vector<Chapter *>::const_iterator chapIter = chapters.begin(); chapIter != chapters.end(); ++chapIter) {
+        for (QList<Chapter *>::const_iterator chapIter = chapters.begin(); chapIter != chapters.end(); ++chapIter) {
 
             QJsonObject serializedCh;
             (*chapIter)->serialize(serializedCh);
 
-            vector<Section *> sections = (*chapIter)->getSections();
+            QList<Section *> sections = (*chapIter)->getSections();
             QJsonArray secarray;
 
-            for (vector<Section *>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter) {
+            for (QList<Section *>::const_iterator secIter = sections.begin(); secIter != sections.end(); ++secIter) {
                 QJsonObject serializedSec;
                 (*secIter)->serialize(serializedSec);
                 secarray.append(serializedSec);
@@ -306,7 +306,7 @@ void Serializer::createContent(const QJsonObject &json, void *&retData) const {
         throw runtime_error("Serializer::createContent, void*& retData is not empty");
     // For this we will have 3 levels of arrays, top level is textbooks, 2nd is chapters, 3rd is sections
     // XXX NEW MEMORY HERE
-    vector<Textbook *> *textbooks = new vector<Textbook *>;
+    QList<Textbook *> *textbooks = new QList<Textbook *>;
     QJsonArray content = json["content"].toArray();
 
     // XXX Multiple new memory creations

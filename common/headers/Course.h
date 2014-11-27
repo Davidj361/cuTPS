@@ -4,7 +4,6 @@
 #include "Serializable.h"
 #include <QJsonObject>
 #include <QJsonArray>
-#include <vector>
 #include <QString>
 #include <QList>
 
@@ -27,8 +26,8 @@ class Course : public Serializable{
         QString getCourseTitle();
         QString getCourseCode();
         QString getTerm();
-        QList<Textbook> getTextbooks();
-        void addTextbook(Textbook);
+        QList<Textbook*> getTextbooks();
+        void addTextbook(Textbook*);
         void removeTextbook(Textbook); 
         void serialize(QJsonObject&);
 
@@ -36,7 +35,8 @@ class Course : public Serializable{
         QString courseTitle;
         QString courseCode;
         QString term;
-        QList<Textbook> textbooks;
+        // FIXME This might need to utilize ContentList
+        QList<Textbook*> textbooks;
 
 };
 

@@ -20,6 +20,7 @@ class User : public Serializable{
                         -  Name
         Returns   : void
         ===================================================================== */
+        User() {}; // This is required when you have defined other constructors;
         User(QString, QString, QString, QString);
 
         QString getUserName();

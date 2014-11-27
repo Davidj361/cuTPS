@@ -293,3 +293,18 @@ Logger: http://104.236.54.27/
 
 Server: 104.236.54.27  
 password: btfo  
+
+## TODO
+
+Possible executable name change which doesn't have the same name as in deployment diagram of D3.
+
+Change D3 
+        class interfaces
+                To have the type QList instead of vector
+                Possible mismatch of types due to const
+                Change return type of getContentList to have type QList<Textbook*>
+                Delete the interface function getContentList, we're not using it anymore
+        LocalStorage
+                Take out ContentList, it has the same functionality as LocalStorage
+                Change that courses holds textbooks instead of being separate
+                Make "Users" into "User"

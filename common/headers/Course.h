@@ -28,7 +28,7 @@ class Course : public Serializable{
         QString getTerm();
         QList<Textbook*> getTextbooks();
         void addTextbook(Textbook*);
-        void removeTextbook(Textbook); 
+        void removeTextbook(Textbook);
         void serialize(QJsonObject&);
 
     private:

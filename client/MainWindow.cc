@@ -4,6 +4,9 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    ui->Testpage->setVisible(false);
+    ui->LoginPage->setVisible(true);
+    ui->MainStudent->setVisible(false);
 
     serverIP = new QString("127.0.0.1");
     portno = 60001;
@@ -30,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->btnClear,       SIGNAL(clicked()),   this, SLOT(clearList()));
     connect(ui->btnSetIP,       SIGNAL(clicked()),   this, SLOT(setServerIP()));
 
+
+
     ui->btnRunTest3->setEnabled(false);
 
 
@@ -37,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->resultsListWidget->verticalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(scrollDown()));
 
     connect(connection, SIGNAL(ConnectionError(QString)), this, SLOT(displayError(QString)));
+
 }
 
 MainWindow::~MainWindow() {
@@ -221,4 +227,24 @@ void MainWindow::addInvoiceTest() {
 
 void MainWindow::displayError(QString error) {
     ui->statusBar->showMessage(error);
+}
+
+
+
+void MainWindow::on_BtnClear_clicked()
+{
+    ui->UsernameBox->clear();
+    ui->PasswordBox->clear();
+}
+
+void MainWindow::on_BtnLogin_clicked()
+{
+    ui->LoginPage->setVisible(false);
+    ui->MainStudent->setVisible(true);
+}
+
+void MainWindow::on_BtnLogout_clicked()
+{
+    ui->MainStudent->setVisible(false);
+    ui->LoginPage->setVisible(true);
 }

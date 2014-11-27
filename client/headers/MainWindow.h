@@ -39,7 +39,14 @@ class MainWindow : public QMainWindow {
 
         void displayError(QString);
 
-    private:
+
+        void on_BtnClear_clicked();
+
+        void on_BtnLogin_clicked();
+
+        void on_BtnLogout_clicked();
+
+private:
 
         Ui::MainWindow    *ui;
         ConnectionClient  *connection;

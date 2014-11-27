@@ -255,6 +255,76 @@ If the status of a response is ERROR instead of SUCCESS it will be formatted as 
 
 ... More to follow in deliverable 4
 
+## Database Structure
+
+### Users
+
+| username | password | type | name |
+| --- | --- | --- | --- |
+| text - not null | text - not null | text - not null | text - not null |
+
+*Note*: We need another table for user types. Make it a foreign key dependency of Users.type
+
+### Courses
+
+| code | name |
+| --- | --- |
+| text - not null| text - not null |
+
+*Note*: We need a new table for semesters. This also means we need a new entity object possible called class.
+A class will have a course, the semester its in and the students in it.
+
+### Content
+
+This table is used as a way to uniquely identify each textbook, chapter, section
+across all their tables.
+
+| id |
+|---|
+|int|
+
+*Note*: We may need to add a column to this table that specifies type but only if
+we can use that column to specify what table to look in when querying content by
+its content id.  If it's not possible and the only way is to look in each content
+table (Textbooks, Chapter, Sections) until the content id is found then the type
+column is irrelevant.
+
+### Textbooks
+
+|isbn|title|publisher|author|year|edition|description|availability|price|content_id|
+|---|---|---|---|---|---|---|---|---|---|
+|text - not null|text - not null| text - not null|text - not null|integer - not null|text|text|integer (bool) - not null|real (float) - not null|integer - not null|
+
+### Chapters
+
+|name|number|textbook|description|availability|price|content_id|
+|---|---|---|---|---|---|---|
+|text - not null|integer - not null|text - not null|text|integer (bool) - not null|real (float) - not null|integer - not null|
+
+### Sections
+
+|name|number|chapter|textbook|description|availability|price|content_id|
+|---|---|---|---|---|---|---|---|
+|text - not null|integer - not null|integer - not null|text - not null|text|integer (bool) - not null|real (float) - not null|integer - not null|
+
+### Book_List
+
+|textbook_id|course_code|
+|---|---|
+|text - not null|text - not null|
+
+*Note*: The course code will change so it references a class and not a course
+since the books for a course may vary by semester
+
+### Class_list
+
+|student|course_code|
+|---|---|
+|text - not null|text - not null|
+
+*Note* - We need to add a semester column to this table
+
+
 # Useful info
 ---
 

@@ -1,6 +1,7 @@
 #include "headers/MainWindow.h"
 #include "ui_mainwindow.h"
 //#include "storage/StorageControl.h"
+#include <QList>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -229,6 +230,11 @@ void MainWindow::displayError(QString error) {
     ui->statusBar->showMessage(error);
 }
 
+void MainWindow::studentCourseListPopulate() {
+    ui->courseList->addItem("COMP1001");
+    ui->courseList->addItem("PSYC1001");
+}
+
 
 
 void MainWindow::on_BtnClear_clicked()
@@ -241,10 +247,38 @@ void MainWindow::on_BtnLogin_clicked()
 {
     ui->LoginPage->setVisible(false);
     ui->MainStudent->setVisible(true);
+    MainWindow::studentCourseListPopulate();
+    ui->courseDescription->setReadOnly(true);
 }
 
 void MainWindow::on_BtnLogout_clicked()
 {
     ui->MainStudent->setVisible(false);
     ui->LoginPage->setVisible(true);
+}
+
+void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
+{
+    while (ui->contentList->count() > 0) {
+        ui->contentList->takeItem(0);
+    }
+    QListWidgetItem* course1 = new QListWidgetItem(item->text());
+    course1->setFlags(course1->flags() | Qt::ItemIsUserCheckable);
+    course1->setCheckState(Qt::Unchecked);
+
+    ui->courseDescription->setText(item->text());
+    ui->contentList->addItem(course1);
+}
+
+void MainWindow::on_contentList_doubleClicked(const QModelIndex &index)
+{
+
+}
+
+void MainWindow::on_contentList_itemDoubleClicked(QListWidgetItem *item)
+{
+    if (item->checkState() == Qt::Checked)
+        item->setCheckState(Qt::Unchecked);
+    else
+        item->setCheckState(Qt::Checked);
 }

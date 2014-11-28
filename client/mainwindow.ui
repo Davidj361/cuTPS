@@ -88,7 +88,7 @@
        </layout>
       </widget>
       <widget class="QWidget" name="LoginPage">
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>120</x>
@@ -148,7 +148,7 @@
        </widget>
       </widget>
       <widget class="QWidget" name="MainStudent">
-       <widget class="QListWidget" name="listWidget">
+       <widget class="QListWidget" name="courseList">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -158,13 +158,13 @@
          </rect>
         </property>
        </widget>
-       <widget class="QTextEdit" name="textEdit">
+       <widget class="QTextEdit" name="courseDescription">
         <property name="geometry">
          <rect>
           <x>180</x>
           <y>50</y>
           <width>391</width>
-          <height>291</height>
+          <height>91</height>
          </rect>
         </property>
        </widget>
@@ -194,7 +194,18 @@
          <string>Logout</string>
         </property>
        </widget>
+       <widget class="QListWidget" name="contentList">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>151</y>
+          <width>391</width>
+          <height>191</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
+      <widget class="QWidget" name="page"/>
      </widget>
     </item>
    </layout>

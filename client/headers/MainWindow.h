@@ -34,6 +34,7 @@ class MainWindow : public QMainWindow {
         void addInvoiceTest();
         void clearList();
         void setServerIP();
+        void studentCourseListPopulate();
 
         void scrollDown();
 
@@ -45,6 +46,12 @@ class MainWindow : public QMainWindow {
         void on_BtnLogin_clicked();
 
         void on_BtnLogout_clicked();
+
+        void on_courseList_itemPressed(QListWidgetItem *item);
+
+        void on_contentList_doubleClicked(const QModelIndex &index);
+
+        void on_contentList_itemDoubleClicked(QListWidgetItem *item);
 
 private:
 

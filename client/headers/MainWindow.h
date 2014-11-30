@@ -36,6 +36,8 @@ class MainWindow : public QMainWindow {
         void setServerIP();
         void studentCourseListPopulate();
 
+        void clearStudentCourseList();
+
         void scrollDown();
 
         void displayError(QString);
@@ -48,8 +50,6 @@ class MainWindow : public QMainWindow {
         void on_BtnLogout_clicked();
 
         void on_courseList_itemPressed(QListWidgetItem *item);
-
-        void on_contentList_doubleClicked(const QModelIndex &index);
 
         void on_contentList_itemDoubleClicked(QListWidgetItem *item);
 

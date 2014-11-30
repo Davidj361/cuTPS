@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->LoginPage->setVisible(true);
     ui->MainStudent->setVisible(false);
 
+    ui->loginStatus->setVisible(false);
+
     serverIP = new QString("127.0.0.1");
     portno = 60001;
 
@@ -235,26 +237,37 @@ void MainWindow::studentCourseListPopulate() {
     ui->courseList->addItem("PSYC1001");
 }
 
+void MainWindow::clearStudentCourseList() {
+    while (ui->courseList->count() > 0) {
+        ui->courseList->takeItem(0);
+    }
+}
 
 
 void MainWindow::on_BtnClear_clicked()
 {
     ui->UsernameBox->clear();
     ui->PasswordBox->clear();
+    ui->loginStatus->setVisible(true);
+    ui->loginStatus->setText("Invalid Password");
 }
 
 void MainWindow::on_BtnLogin_clicked()
 {
+
     ui->LoginPage->setVisible(false);
     ui->MainStudent->setVisible(true);
     MainWindow::studentCourseListPopulate();
     ui->courseDescription->setReadOnly(true);
+    ui->loginStatus->setText("Invalid Password");
 }
 
 void MainWindow::on_BtnLogout_clicked()
 {
     ui->MainStudent->setVisible(false);
     ui->LoginPage->setVisible(true);
+    MainWindow::clearStudentCourseList();
+    ui->loginStatus->setVisible(false);
 }
 
 void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
@@ -270,11 +283,6 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
     ui->contentList->addItem(course1);
 }
 
-void MainWindow::on_contentList_doubleClicked(const QModelIndex &index)
-{
-
-}
-
 void MainWindow::on_contentList_itemDoubleClicked(QListWidgetItem *item)
 {
     if (item->checkState() == Qt::Checked)
@@ -282,3 +290,4 @@ void MainWindow::on_contentList_itemDoubleClicked(QListWidgetItem *item)
     else
         item->setCheckState(Qt::Checked);
 }
+

@@ -36,7 +36,7 @@ class StorageControl : public QObject {
         ClientSerializer *serializer;
         ConnectionClient *connection;
 
-        QByteArray* updateStorage(Serializable&, commands_t);
+        bool updateStorage(Serializable&, commands_t);
 
 
 };

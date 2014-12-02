@@ -12,6 +12,7 @@
 #include "../../common/headers/Chapter.h"
 #include "../../common/headers/Textbook.h"
 #include "../../common/headers/Invoice.h"
+#include "../../common/headers/Course.h"
 
 using namespace std;
 
@@ -26,6 +27,9 @@ class ServerSerializer : public QObject {
         void deserialize(QJsonObject&, Chapter*&);
         void deserialize(QJsonObject&, Invoice*&);
         void deserialize(QJsonObject&, Section*&);
+
+        void serialize(QList<Course>&, QByteArray&);
+        void serialize(QString&, QByteArray&);
 
 
     private:

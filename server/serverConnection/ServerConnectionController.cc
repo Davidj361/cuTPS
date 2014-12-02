@@ -120,7 +120,7 @@ void ServerConnectionController::Run () {
             if (this->cleanup(command, object))
                 throw runtime_error("Couldn't cleanup application");
             QString temp(e.what());
-            //serializer->Serialize(command, &temp, ERROR, out);
+            //serializer->Serialize(e.what(), out);
             connection->SendResponse(out);
             object = 0;
         }

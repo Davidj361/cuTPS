@@ -24,6 +24,7 @@ commands_t ServerSerializer::deserialize(QByteArray & bytes, QJsonObject &json){
 }
 
 void ServerSerializer::deserialize(QJsonObject &json,Textbook *&tb){
+
     tb = new Textbook(json["isbn"].toString(), json["title"].toString(), json["publisher"].toString(),
             json["author"].toString(), (int)json["year"].toDouble(), json["edition"].toString(),
             json["descrition"].toString(), json["available"].toBool(), (float)json["price"].toDouble(),
@@ -32,6 +33,7 @@ void ServerSerializer::deserialize(QJsonObject &json,Textbook *&tb){
 
 
 void ServerSerializer::deserialize(QJsonObject &json, Chapter *&ch){
+
     ch = new Chapter(json["title"].toString(), (int)json["chapterNo"].toDouble(), 0, json["description"].toString(),
             json["available"].toBool(), (float)json["price"].toDouble(), (int)json["c_id"].toDouble());
 }
@@ -41,8 +43,21 @@ void ServerSerializer::deserialize(QJsonObject &json, Invoice *&in){
 }
 
 void ServerSerializer::deserialize(QJsonObject &json, Section *&s){
+
     s = new Section(json["title"].toString(), (int)json["sectionNo"].toDouble(), 0,
             0, json["description"].toString(), json["available"].toBool(),
             (float)json["price"].toDouble(), (int)json["c_id"].toDouble());
 
+}
+
+void ServerSerializer::serialize(QList<Course>&, QByteArray&){
+    // TODO serialize the content here
+}
+
+void ServerSerializer::serialize(QString& error, QByteArray& out){
+    QJsonObject json;
+    json.insert("status", ERROR);
+    json.insert("message", error);
+    QJsonDocument doc(json);
+    out = doc.toJson();
 }

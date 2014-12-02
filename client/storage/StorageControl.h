@@ -7,6 +7,8 @@
 #include "ClientSerializer.h"
 #include "ConnectionClient.h"
 #include "../../common/headers/Course.h"
+#include "../../common/headers/Chapter.h"
+#include "../../common/headers/Section.h"
 #include "../../common/headers/Textbook.h"
 #include "../../common/headers/Invoice.h"
 #include "../../common/headers/User.h"
@@ -26,6 +28,12 @@ class StorageControl : public QObject {
         void addTextbook(Textbook&);
         void editTextbook(Textbook&);
         void removeTextbook(Textbook&);
+        void addChapter(Chapter&);
+        void editChapter(Chapter&);
+        void removeChapter(Chapter&);
+        void addSection(Section&);
+        void editSection(Section&);
+        void removeSection(Section&);
         void addCourse(Course&);
         void editCourse(Course&);
         void removeCourse(Course&);
@@ -36,6 +44,7 @@ class StorageControl : public QObject {
     private:
         ClientSerializer *serializer;
         ConnectionClient *connection;
+        QString ip;
 
         bool updateStorage(Serializable&, commands_t);
 

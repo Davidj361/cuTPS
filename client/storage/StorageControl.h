@@ -31,12 +31,13 @@ class StorageControl : public QObject {
         void removeCourse(Course&);
         void checkout(Invoice&);
         void refreshContent(User&, QList<Course*>&);
+        User* logIn(User&);
 
     private:
         ClientSerializer *serializer;
         ConnectionClient *connection;
 
-        QByteArray* updateStorage(Serializable&, commands_t);
+        bool updateStorage(Serializable&, commands_t);
 
 
 };

@@ -45,6 +45,11 @@ void StorageControl::checkout(Invoice &i){
     updateStorage(i, ADD_INVOICE);
 }
 
+User* StorageControl::logIn(User &u){
+    u.setType("student");
+    return &u;
+}
+
 void StorageControl::refreshContent(User &u, QList<Course*> &cs){
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
@@ -53,12 +58,12 @@ void StorageControl::refreshContent(User &u, QList<Course*> &cs){
     serializer->deserialize(*res, cs);
 }
 
-QByteArray* StorageControl::updateStorage(Serializable& obj, commands_t command){
+bool StorageControl::updateStorage(Serializable& obj, commands_t command){
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(obj, command, *req);
     connection->request(*req, *res);
     delete req;
-    return res;
+    return serializer->deserialize(*res);
 }
 

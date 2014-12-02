@@ -48,26 +48,30 @@ void ServerConnectionController::Run () {
                 case ADD_TEXTBOOK:
                     (static_cast<Textbook *>(object))->serialize(json);
                     qDebug() << json;
-                    dbController->StoreTextbook(static_cast<Textbook *>(object));
+                    dbController->AddTextbook(static_cast<Textbook *>(object));
                     result = true;
                     break;
                 case ADD_CHAPTER:
                     (static_cast<Chapter *>(object))->serialize(json);
                     qDebug() << json;
-                    result = dbController->StoreChapter(static_cast<Chapter *>(object), str1);
+                    dbController->AddChapter(static_cast<Chapter *>(object));
+                    result = true;
                     break;
                 case ADD_SECTION:
                     (static_cast<Section *>(object))->serialize(json);
                     qDebug() << json;
-                    result = dbController->StoreSection(static_cast<Section *>(object), str1, str2);
+                    dbController->AddSection(static_cast<Section *>(object));
+                    result = true;
                     break;
                 case ADD_INVOICE:
                     (static_cast<Invoice *>(object))->serialize(json);
                     qDebug() << json;
-                    result = dbController->StoreInvoice(static_cast<Invoice *>(object));
+                    dbController->AddInvoice(static_cast<Invoice *>(object));
+                    result = true;
                     break;
                 case GET_CONTENT:
-                    result = dbController->RetrieveContentList(str1, book_list);
+                    dbController->RetrieveContentList(str1, book_list);
+                    result = true;
                     object = &book_list;
                     break;
             }

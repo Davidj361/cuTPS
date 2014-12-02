@@ -22,34 +22,31 @@ class DBController {
         ~DBController();
 
         /* =====================================================================
-          Function  : StoreTextbook
+          Function  : AddTextbook
           Purpose   : Stores a textbook in the DB
           Variables : In - Textbook* - The textbook to store
-          Returns   : - True if successful
-                      - False otherwise
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        void StoreTextbook (Textbook *);
+        void AddTextbook (Textbook *);
 
         /* =====================================================================
-          Function  : StoreChapter
+          Function  : AddChapter
           Purpose   : Stores a chapter in the DB
           Variables : In - Chapter* - The chapter to store
-                      In - ISBN
-          Returns   : - True if successful
-                      - False otherwise
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        bool StoreChapter (Chapter *, QString &);
+        void AddChapter(Chapter *);
 
         /* =====================================================================
-          Function  : StoreSection
+          Function  : AddSection
           Purpose   : Stores a section in the DB
           Variables : In - Section* - The section to store
-                      In - ISBN
-                      In - Chapter
-          Returns   : - True if successful
-                      - False otherwise
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        bool StoreSection (Section *, QString &, QString &);
+        void AddSection (Section *);
 
         /* =====================================================================
           Function  : StoreInvoice
@@ -58,7 +55,7 @@ class DBController {
           Returns   : - True if successful
                       - False otherwise
         ===================================================================== */
-        bool StoreInvoice (Invoice *);
+        bool AddInvoice (Invoice *);
 
         /* =====================================================================
           Function  : GetNewContentId

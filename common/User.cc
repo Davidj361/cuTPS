@@ -8,7 +8,7 @@ User::User(QString cUsername, QString cPassword, QString cType, QString cName) {
 }
 
 
-QString User::getUserName() {
+QString User::getUsername() {
     return username;
 }
 

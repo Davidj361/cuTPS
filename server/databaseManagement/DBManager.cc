@@ -165,7 +165,7 @@ void DBManager::AddSection(QString title, int section, int chapter, QString text
     db.commit();
 }
 
-void DBManager::AddInvoice(QString username, vector<int> cart) {
+void DBManager::AddInvoice(QString username, QList<int> cart) {
     if (username == "")
         throw runtime_error("ERROR DBManager::AddInvoice() username cannot be empty");
 
@@ -194,7 +194,7 @@ void DBManager::AddInvoice(QString username, vector<int> cart) {
     query.clear();
 
     // For each content in the invoice, add it to the purchases table
-    for (vector<int>::const_iterator iter = cart.begin(); iter != cart.end(); ++iter) {
+    foreach(int content_id , cart) {
 
         // Get the price of the content being added
         if (!query.prepare("SELECT price FROM textbooks WHERE content_id = :t_id UNION"
@@ -203,9 +203,9 @@ void DBManager::AddInvoice(QString username, vector<int> cart) {
             throw runtime_error("ERROR DBManager::AddInvoice() Error while prepraing SELECT price query");
 
         // Bind the content id to the query
-        query.bindValue(":t_id", *iter);
-        query.bindValue(":c_id", *iter);
-        query.bindValue(":s_id", *iter);
+        query.bindValue(":t_id", content_id);
+        query.bindValue(":c_id", content_id);
+        query.bindValue(":s_id", content_id);
 
         if (!query.exec()) {
             db.rollback();
@@ -213,7 +213,7 @@ void DBManager::AddInvoice(QString username, vector<int> cart) {
         }
 
         if (!query.first())
-            throw runtime_error("ERROR DBManager::AddInvoice() Unable to find content id " + *iter);
+            throw runtime_error("ERROR DBManager::AddInvoice() Unable to find content id " + content_id);
 
         float price = query.value(0).toFloat();
 
@@ -222,7 +222,7 @@ void DBManager::AddInvoice(QString username, vector<int> cart) {
         if (!query.prepare("INSERT INTO Purchases (invoice_id, content_id, purchase_price) VALUES(:invoice_id, :content_id, :purchase_price);"))
             throw runtime_error("ERROR DBManager::AddInvoice() Error while preparing INSERT purchase statement");
         query.bindValue(":invoice_id", invoice_id);
-        query.bindValue(":content_id", *iter);
+        query.bindValue(":content_id", content_id);
         query.bindValue(":purchase_price", price);
 
         if (!query.exec())
@@ -232,6 +232,114 @@ void DBManager::AddInvoice(QString username, vector<int> cart) {
     }
 
     db.commit();
+}
+
+void DBManager::RetrieveContentList(QString username, QList<Course *> &list) {
+    QSqlQuery query;
+
+    // Get user from db
+    if (!query.exec("SELECT type FROM Users WHERE username='" + username + "'"))
+        throw runtime_error("ERROR DBController::RetrieveContentList()  Error while performing user lookup");
+
+    // Check if user is a student or content manager
+    if ( !query.first() || (query.value(0) != "student" && query.value(0) != "content_manager") )
+        throw runtime_error("User is not a student or content manager or does not exist");
+
+    if (query.value(0) == "student") {
+        // Get textbook list for courses the student is registered in
+        if (!query.prepare("SELECT Textbooks.*, Courses.*, Book_List.semester FROM Book_List "
+                           "JOIN Textbooks ON Textbooks.isbn = Book_List.textbook_id "
+                           "JOIN Courses ON Book_List.course = Courses.code "
+                           "JOIN Class_List ON Class_List.course = Book_List.course "
+                           "WHERE Class_List.student = :username GROUP BY Book_List.course;"))
+            throw runtime_error("ERROR DBController::RetrieveContentList() Error while preparing join statement to get user's class list");
+        query.bindValue(":username", username);
+    }
+    else {
+        // Get all the content in the db for the content manager
+        if (!query.prepare("SELECT Textbooks.*, Courses.*, Book_List.semester FROM Book_List JOIN Textbooks ON Textbooks.isbn = Book_List.textbook_id JOIN Courses ON Book_List.course = Courses.code GROUP BY Book_List.course;"))
+            throw runtime_error("ERROR DBController::RetrieveContentList() Error while retrieving all textbooks");
+    }
+
+    if (!query.exec())
+        throw runtime_error("ERROR DBController::RetrieveContentList() Error while retrieving user's textbook list");
+
+    // Loop through each textbook, getting all the chapters and sections and creating objects
+    while (query.next()) {
+
+        Course *course = new Course(query.value(0).toString(),
+                                    query.value(1).toString(),
+                                    query.value(2).toString());
+
+        int i = list.indexOf(course);
+
+        if (i == -1) {
+            list.append(course);
+        }
+        else {
+            delete course;
+            course = list.at(i);
+        }
+
+
+        Textbook *textbook = new Textbook(query.value(3).toString(), // ISBN
+                                          query.value(4).toString(), // Title
+                                          query.value(5).toString(), // Publisher
+                                          query.value(6).toString(), // Author
+                                          query.value(7).toInt(),    // year
+                                          query.value(8).toString(), // Edition
+                                          query.value(9).toString(), // Description
+                                          query.value(10).toBool(),  // Availability
+                                          query.value(11).toFloat(), // Price
+                                          query.value(12).toInt());  // Content ID
+
+        QSqlQuery ch_query;
+        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
+            throw runtime_error("ERROR DBController::RetrieveContentList() Error while preparing statement to look up chapter info");
+
+        ch_query.bindValue(":isbn", query.value(0).toString());
+
+        if (!ch_query.exec())
+            throw runtime_error("ERROR DBController::RetrieveContentList() Error while retrieving chapter info");
+
+        // Loop through each chapter, getting all the sections and creating objects
+        while (ch_query.next()) {
+            Chapter *chapter = new Chapter(ch_query.value(0).toString(),  // Name
+                                           ch_query.value(1).toInt(),     // Chapter Number
+                                           textbook,                      // Textbook
+                                           ch_query.value(3).toString(),  // Description
+                                           ch_query.value(4).toBool(),    // Availability
+                                           ch_query.value(5).toFloat(),   // Price
+                                           ch_query.value(6).toInt());    // Content ID
+            QSqlQuery sec_query;
+            if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
+                throw runtime_error("ERROR DBController::RetrieveContentList() Error while preparing statement to look up section info");
+
+            sec_query.bindValue(":isbn", query.value(0));
+            sec_query.bindValue(":chapter", ch_query.value(1));
+
+            if (!sec_query.exec())
+                throw runtime_error("ERROR DBController::RetrieveContentList() Error while retrieving section info");
+
+            while (sec_query.next()) {
+                Section *section = new Section(sec_query.value(0).toString(),  // Name
+                                               sec_query.value(1).toInt(),     // Section Number
+                                               chapter,                       // Chapter
+                                               textbook,                      // Textbook
+                                               sec_query.value(4).toString(),  // Description
+                                               sec_query.value(5).toBool(),    // Availability
+                                               sec_query.value(6).toFloat(),   // Price
+                                               sec_query.value(7).toInt());    // Content ID
+
+                chapter->addSection(section);
+                // qDebug() << "Section: " << section.getTitle() << " added to chapter " << chapter.getTitle() << " of book " << textbook.getTitle();
+            }
+            textbook->addChapter(chapter);
+            // qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
+        }
+        // qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
+        course->addTextbook(textbook);
+    }
 }
 
 int DBManager::GetNewContentId() {

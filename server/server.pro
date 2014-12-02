@@ -23,6 +23,7 @@ SOURCES += \
     databaseManagement/DBController.cc \
     serverConnection/ConnectionServer.cc \
     serverConnection/ServerConnectionController.cc \
+    serverConnection/ServerSerializer.cc \
     ../common/Serializer.cc \
     ../common/Student.cc \
     ../common/Textbook.cc \
@@ -31,7 +32,7 @@ SOURCES += \
     ../common/Content.cc \
     ../common/Invoice.cc \
     ../common/User.cc \
-    serverConnection/ServerSerializer.cc
+    ../common/Course.cc \
 
 OTHER_FILES +=
 
@@ -40,6 +41,7 @@ HEADERS += \
     databaseManagement/DBController.h \
     serverConnection/ConnectionServer.h \
     serverConnection/ServerConnectionController.h \
+    serverConnection/ServerSerializer.h \
     ../common/headers/Serializer.h \
     ../common/headers/Student.h \
     ../common/headers/Content.h \
@@ -49,4 +51,4 @@ HEADERS += \
     ../common/headers/User.h \
     ../common/headers/Definitions.h \
     ../common/headers/Invoice.h \
-    serverConnection/ServerSerializer.h
+    ../common/headers/Course.h

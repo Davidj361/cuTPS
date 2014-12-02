@@ -8,6 +8,10 @@
 #include <QString>
 #include <QDateTime>
 #include <QSqlError>
+#include <QList>
+
+#include "../../common/headers/Textbook.h"
+#include "../../common/headers/Course.h"
 
 #include <stdexcept>
 
@@ -63,7 +67,16 @@ class DBManager {
           Returns   : void
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        void AddInvoice(QString username, vector<int> cart);
+        void AddInvoice(QString username, QList<int> cart);
+
+        /* =====================================================================
+          Function  : RetrieveContentList
+          Purpose   : Retrieves the list of content for a user
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void RetrieveContentList(QString username, QList<Course *> &list);
 
         /* =====================================================================
           Function  : GetNewContentId

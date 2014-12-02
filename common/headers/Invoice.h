@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QList>
 #include <iterator>
 
 using namespace std;
@@ -23,14 +24,14 @@ class Invoice: public Serializable{
         ===================================================================== */
         Invoice(QString);
 
-        vector<int> &getContentList();
+        QList<int> &getContentList();
         void addContent(Content *);
         void addContent(int);
         QString getUsername();
         void serialize(QJsonObject &);
 
     private:
-        vector<int> contentList;
+        QList<int> contentList;
         QString username;
 
 };

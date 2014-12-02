@@ -9,6 +9,7 @@
 
 #include "DBManager.h"
 #include "../../common/headers/User.h"
+#include "../../common/headers/Course.h"
 #include "../../common/headers/Textbook.h"
 #include "../../common/headers/Chapter.h"
 #include "../../common/headers/Section.h"
@@ -20,6 +21,17 @@ class DBController {
     public:
         DBController();
         ~DBController();
+
+        /* =====================================================================
+          Function  : Login
+          Purpose   : Checks whether the username/password combination is
+                        correct and fills in the user's type if successful.
+          Variables : User* - The user attempting to login
+          Returns   : void
+          Throws    : Throws runtime_error if username/password combination
+                        is incorrect
+        ===================================================================== */
+        void Login (User *);
 
         /* =====================================================================
           Function  : AddTextbook
@@ -55,16 +67,7 @@ class DBController {
           Returns   : - True if successful
                       - False otherwise
         ===================================================================== */
-        bool AddInvoice (Invoice *);
-
-        /* =====================================================================
-          Function  : GetNewContentId
-          Purpose   : Gets a new content id from the DB.
-                      Note: This method assumes the DB is already open
-          Variables : None
-          Returns   : The new content id
-        ===================================================================== */
-        int GetNewContentId();
+        void AddInvoice (Invoice *);
 
         /* =====================================================================
           Function  : RetrieveContentList
@@ -74,18 +77,16 @@ class DBController {
           Returns   : True - Success
                       False - Fail
         ===================================================================== */
-        bool RetrieveContentList (QString &, vector<Textbook *> &);
+        void RetrieveContentList (QString &, QList<Course *> &);
 
         /* =====================================================================
-          Function  : Login
-          Purpose   : Checks whether the username/password combination is
-                        correct and fills in the user's type if successful.
-          Variables : User* - The user attempting to login
-          Returns   : void
-          Throws    : Throws runtime_error if username/password combination
-                        is incorrect
+          Function  : GetNewContentId
+          Purpose   : Gets a new content id from the DB.
+                      Note: This method assumes the DB is already open
+          Variables : None
+          Returns   : The new content id
         ===================================================================== */
-        void Login (User *);
+        int GetNewContentId();
     private:
         DBManager *dbManager;
 };

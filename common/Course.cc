@@ -1,6 +1,6 @@
 #include "headers/Course.h"
 
-Course::Course(QString courseTitle, QString courseCode, QString term){
+Course::Course(QString courseCode, QString courseTitle, QString term){
     this->courseCode = courseCode;
     this->courseTitle = courseTitle;
     this->term = term;

@@ -1,22 +1,39 @@
 #include "headers/MainWindow.h"
 #include "ui_mainwindow.h"
-//#include "storage/StorageControl.h"
+#include "storage/StorageControl.h"
 #include <QList>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
+    /*  Set Background Image  */
+    /*
+    QPalette* palette = new QPalette();
+    palette->setBrush(QPalette::Background,*(new QBrush(*(new QPixmap("images/red.jpg")))));
+    setPalette(*palette);
+    */
+
     ui->Testpage->setVisible(false);
     ui->LoginPage->setVisible(true);
     ui->MainStudent->setVisible(false);
+    ui->MainContentManager->setVisible(false);
+    ui->ShoppingCartStudent->setVisible(false);
+    ui->ShoppingCartGatherCreditCardInfo->setVisible(false);
+    ui->ShoppingCartOrderConfirmed->setVisible(false);
 
     ui->loginStatus->setVisible(false);
+    ui->UsernameBox->setFocus();
+
+
 
     serverIP = new QString("127.0.0.1");
     portno = 60001;
 
     connection = new ConnectionClient(serverIP, portno);
+    storageControl = new StorageControl();
     serializer = new Serializer();
 
+    user = new User("student","pass","","");
     userStu   = new User("peter", "", "", "");
     userCM    = new User("gandalf", "", "", "");
 
@@ -59,6 +76,7 @@ MainWindow::~MainWindow() {
     delete userCM;
     freeBookList();
     delete book_list;
+    delete storageControl;
 }
 
 void MainWindow::scrollDown() {
@@ -217,7 +235,7 @@ void MainWindow::addInvoiceTest() {
 
     ui->resultsListWidget->addItem(test1);
 
-    Invoice invoice (userStu->getUserName());
+    Invoice invoice (userStu->getUsername());
 
     Textbook *t = book_list->front();
 
@@ -233,14 +251,20 @@ void MainWindow::displayError(QString error) {
 }
 
 void MainWindow::studentCourseListPopulate() {
+    /*
+    for (int i = 0; i < studentCourseList->size(); i++ )
+        ui->courseList->addItem(studentCourseList->at(0));
+        */
     ui->courseList->addItem("COMP1001");
-    ui->courseList->addItem("PSYC1001");
+    ui->courseList->addItem("PSYCH2002");
+    ui->courseList->addItem("POLI3003");
 }
 
 void MainWindow::clearStudentCourseList() {
+
     while (ui->courseList->count() > 0) {
         ui->courseList->takeItem(0);
-    }
+        }
 }
 
 
@@ -248,18 +272,35 @@ void MainWindow::on_BtnClear_clicked()
 {
     ui->UsernameBox->clear();
     ui->PasswordBox->clear();
+    ui->loginStatus->setText("");
     ui->loginStatus->setVisible(true);
-    ui->loginStatus->setText("Invalid Password");
 }
 
 void MainWindow::on_BtnLogin_clicked()
 {
+    if (ui->UsernameBox->text() == "student") {
+        ui->LoginPage->setVisible(false);
+        ui->MainStudent->setVisible(true);
+        MainWindow::studentCourseListPopulate();
+        ui->courseDescription->setReadOnly(true); // set counrse Description textbox to read-only
+    }
 
-    ui->LoginPage->setVisible(false);
-    ui->MainStudent->setVisible(true);
-    MainWindow::studentCourseListPopulate();
-    ui->courseDescription->setReadOnly(true);
-    ui->loginStatus->setText("Invalid Password");
+    if (ui->UsernameBox->text() == "cm") {
+        ui->LoginPage->setVisible(false);
+        ui->MainContentManager->setVisible(true);
+    }
+    /*
+    if (MainWindow::validUsernamePassword() && MainWindow::isStudent()) {
+        ui->LoginPage->setVisible(false);
+        ui->MainStudent->setVisible(true);
+        MainWindow::studentCourseListPopulate();
+        ui->courseDescription->setReadOnly(true); // set counrse Description textbox to read-only
+    } else {
+        //ui->loginStatus->setText(ui->UsernameBox->text());
+        ui->loginStatus->setText(storageControl->logIn(*user)->getUsername());
+        ui->loginStatus->setVisible(true);
+    }
+    */
 }
 
 void MainWindow::on_BtnLogout_clicked()
@@ -291,3 +332,10 @@ void MainWindow::on_contentList_itemDoubleClicked(QListWidgetItem *item)
         item->setCheckState(Qt::Checked);
 }
 
+bool MainWindow::validUsernamePassword() {
+    return true;
+}
+
+bool MainWindow::isStudent() {
+    return true;
+}

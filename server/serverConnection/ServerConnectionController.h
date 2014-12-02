@@ -8,7 +8,7 @@
 #include <QString>
 
 #include "ConnectionServer.h"
-#include "../databaseManagement/DBManager.h"
+#include "../databaseManagement/DBController.h"
 #include "../../common/headers/Serializer.h"
 #include "../../common/headers/Definitions.h"
 #include "../../common/headers/User.h"
@@ -63,7 +63,7 @@ class ServerConnectionController : public QObject {
         QCoreApplication *app;
         ConnectionServer *connection;
         Serializer *serializer;
-        DBManager *dbManager;
+        DBController *dbController;
 
 };
 #endif

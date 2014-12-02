@@ -16,8 +16,16 @@ DBController::~DBController() {
     delete dbManager;
 }
 
+/***************************************************************************
+ **                LOGIN                                                  **
+ **************************************************************************/
 void DBController::Login(User *user) {
-    user->setType("student");
+    try {
+        user->setType(dbManager->Login(user->getUserName(), user->getPassword()));
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
 }
 
 /***************************************************************************
@@ -35,7 +43,7 @@ void DBController::StoreTextbook(Textbook *textbook) {
                               textbook->isAvailable(),
                               textbook->getPrice());
     }
-    catch (runtime_error e) {
+    catch(runtime_error e) {
         throw e;
     }
 }

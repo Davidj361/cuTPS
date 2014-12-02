@@ -19,6 +19,17 @@ class DBManager {
         ~DBManager();
 
         /* =====================================================================
+          Function  : Login
+          Purpose   : Checks whether the username/password combination is
+                        correct and fills in the user's type if successful.
+          Variables :
+          Returns   : The user type
+          Throws    : Throws runtime_error if username/password combination
+                        is incorrect
+        ===================================================================== */
+        QString Login(QString username, QString password);
+
+        /* =====================================================================
           Function  : AddTextbook
           Purpose   : Stores a textbook in the DB
           Variables :

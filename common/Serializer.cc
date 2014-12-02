@@ -140,7 +140,7 @@ void Serializer::Serialize(const commands_t &in_command, void *in_object, status
                 json["invoice"] = inJson;
                 break;
             case GET_CONTENT:
-                json["username"] = static_cast<User *>(in_object)->getUserName();
+                json["username"] = static_cast<User *>(in_object)->getUsername();
                 break;
             default:
                 break;

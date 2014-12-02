@@ -8,6 +8,7 @@
 #include <QListWidgetItem>
 
 #include "storage/ConnectionClient.h"
+#include "storage/StorageControl.h"
 #include "../common/headers/Textbook.h"
 #include "../common/headers/Chapter.h"
 #include "../common/headers/Section.h"
@@ -53,15 +54,21 @@ class MainWindow : public QMainWindow {
 
         void on_contentList_itemDoubleClicked(QListWidgetItem *item);
 
+        bool validUsernamePassword();
+
+        bool isStudent();
+
 private:
 
         Ui::MainWindow    *ui;
         ConnectionClient  *connection;
         Serializer        *serializer;
         QString           *serverIP;
+        User *user;
         User              *userStu;
         User              *userCM;
         vector<Textbook *> *book_list;
+        StorageControl *storageControl;
 
         QString anISBN;
         int     aChapterNumber;

@@ -23,7 +23,7 @@ class User : public Serializable{
         User() {}; // This is required when you have defined other constructors;
         User(QString, QString, QString, QString);
 
-        QString getUserName();
+        QString getUsername();
         QString getName();
         QString getPassword();
         QString getType();

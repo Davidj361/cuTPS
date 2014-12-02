@@ -24,6 +24,10 @@ QString User::getName() {
     return name;
 }
 
+void User::setType(QString type) {
+    this->type = type;
+}
+
 void User::serialize(QJsonObject &json){
     json.insert("username", username);
     json.insert("password", password);

@@ -20,6 +20,7 @@ CONFIG   -= app_bundle
 SOURCES += \
     main.cc \
     databaseManagement/DBManager.cc \
+    databaseManagement/DBController.cc \
     serverConnection/ConnectionServer.cc \
     serverConnection/ServerConnectionController.cc \
     ../common/Serializer.cc \
@@ -35,6 +36,7 @@ OTHER_FILES +=
 
 HEADERS += \
     databaseManagement/DBManager.h \
+    databaseManagement/DBController.h \
     serverConnection/ConnectionServer.h \
     serverConnection/ServerConnectionController.h \
     ../common/headers/Serializer.h \

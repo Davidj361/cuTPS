@@ -23,8 +23,8 @@ void ServerConnectionController::Run () {
         // Create new ConnectionServer to handle incoming requests
         connection = new ConnectionServer();
 
-        // Create new DBManager to handle all storage operations
-        dbManager = new DBManager();
+        // Create new dbController to handle all storage operations
+        dbController = new DBController();
     }
     catch (exception &e) {
         cout << e.what() << endl;
@@ -41,32 +41,33 @@ void ServerConnectionController::Run () {
 
             command = serializer->Deserialize(in, object, str1, str2);
 
-            qDebug() << "Done. Passing off to DBManager. Object being sent to DBManager is:";
+            qDebug() << "Done. Passing off to dbController. Object being sent to dbController is:";
 
             QJsonObject json; // For debugging purposes
             switch (command) {
                 case ADD_TEXTBOOK:
                     (static_cast<Textbook *>(object))->serialize(json);
                     qDebug() << json;
-                    result = dbManager->StoreTextbook(static_cast<Textbook *>(object));
+                    dbController->StoreTextbook(static_cast<Textbook *>(object));
+                    result = true;
                     break;
                 case ADD_CHAPTER:
                     (static_cast<Chapter *>(object))->serialize(json);
                     qDebug() << json;
-                    result = dbManager->StoreChapter(static_cast<Chapter *>(object), str1);
+                    result = dbController->StoreChapter(static_cast<Chapter *>(object), str1);
                     break;
                 case ADD_SECTION:
                     (static_cast<Section *>(object))->serialize(json);
                     qDebug() << json;
-                    result = dbManager->StoreSection(static_cast<Section *>(object), str1, str2);
+                    result = dbController->StoreSection(static_cast<Section *>(object), str1, str2);
                     break;
                 case ADD_INVOICE:
                     (static_cast<Invoice *>(object))->serialize(json);
                     qDebug() << json;
-                    result = dbManager->StoreInvoice(static_cast<Invoice *>(object));
+                    result = dbController->StoreInvoice(static_cast<Invoice *>(object));
                     break;
                 case GET_CONTENT:
-                    result = dbManager->RetrieveContentList(str1, book_list);
+                    result = dbController->RetrieveContentList(str1, book_list);
                     object = &book_list;
                     break;
             }
@@ -114,7 +115,7 @@ void ServerConnectionController::Quit() {
 // constructor and/or to stop any threads
 void ServerConnectionController::AboutToQuitApp() {
     delete connection;
-    delete dbManager;
+    delete dbController;
     delete app;
     qDebug() << "In ServerConnectionController::AboutToQuitApp";
 }

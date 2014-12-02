@@ -27,6 +27,8 @@ class User : public Serializable{
         QString getName();
         QString getPassword();
         QString getType();
+
+        void setType(QString);
         void serialize(QJsonObject&);
 
     private:

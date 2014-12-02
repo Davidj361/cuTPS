@@ -47,7 +47,7 @@ void StorageControl::checkout(Invoice &i){
 
 User* StorageControl::logIn(User &u){
     u.setType("student");
-    return u;
+    return &u;
 }
 
 void StorageControl::refreshContent(User &u, QList<Course*> &cs){

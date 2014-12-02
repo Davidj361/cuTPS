@@ -13,7 +13,7 @@ void Course::serialize(QJsonObject &json){
     foreach(Textbook* t, textbooks) {
         QJsonObject tJson;
         t->serialize(tJson);
-        textbooksJson.append(Json);
+        textbooksJson.append(tJson);
     }
     json.insert("textbooks", textbooksJson);
 }

@@ -5,14 +5,15 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QByteArray>
+#include <QJsonObject>
 #include <QString>
 
 #include "ConnectionServer.h"
 #include "../databaseManagement/DBController.h"
-#include "../../common/headers/Serializer.h"
 #include "../../common/headers/Definitions.h"
 #include "../../common/headers/User.h"
 #include "../../common/headers/Student.h"
+#include "ServerSerializer.h"
 
 class ServerConnectionController : public QObject {
         Q_OBJECT
@@ -62,7 +63,7 @@ class ServerConnectionController : public QObject {
 
         QCoreApplication *app;
         ConnectionServer *connection;
-        Serializer *serializer;
+        ServerSerializer *serializer;
         DBController *dbController;
 
 };

@@ -4,9 +4,11 @@ using namespace std;
 
 ServerConnectionController::ServerConnectionController (QObject *parent) : QObject(parent) {
     app = QCoreApplication::instance();
+    serializer = new ServerSerializer();
 }
 
 ServerConnectionController::~ServerConnectionController () {
+    delete serializer;
 }
 
 void ServerConnectionController::Run () {
@@ -27,7 +29,7 @@ void ServerConnectionController::Run () {
         dbController = new DBController();
     }
     catch (exception &e) {
-        cout << e.what() << endl;
+        qDebug()<< e.what();
     }
 
     // Main ServerConnectionController loop
@@ -39,41 +41,64 @@ void ServerConnectionController::Run () {
             qDebug() << in;
             qDebug() << "Deserializing...";
 
-            command = serializer->Deserialize(in, object, str1, str2);
+            QJsonObject objJson;
 
-            qDebug() << "Done. Passing off to dbController. Object being sent to dbController is:";
+            command = serializer->deserialize(in, objJson);
 
-            QJsonObject json; // For debugging purposes
-            switch (command) {
-                case ADD_TEXTBOOK:
-                    (static_cast<Textbook *>(object))->serialize(json);
-                    qDebug() << json;
-                    dbController->StoreTextbook(static_cast<Textbook *>(object));
-                    result = true;
-                    break;
-                case ADD_CHAPTER:
-                    (static_cast<Chapter *>(object))->serialize(json);
-                    qDebug() << json;
-                    result = dbController->StoreChapter(static_cast<Chapter *>(object), str1);
-                    break;
-                case ADD_SECTION:
-                    (static_cast<Section *>(object))->serialize(json);
-                    qDebug() << json;
-                    result = dbController->StoreSection(static_cast<Section *>(object), str1, str2);
-                    break;
-                case ADD_INVOICE:
-                    (static_cast<Invoice *>(object))->serialize(json);
-                    qDebug() << json;
-                    result = dbController->StoreInvoice(static_cast<Invoice *>(object));
-                    break;
-                case GET_CONTENT:
-                    result = dbController->RetrieveContentList(str1, book_list);
-                    object = &book_list;
-                    break;
+            if(command = GET_CONTENT){
+                //get content
+            }
+
+            else if (command == ADD_TEXTBOOK || command == EDIT_TEXTBOOK || command == REMOVE_TEXTBOOK) {
+
+                Textbook *tb;
+                serializer->deserialize(objJson, tb);
+                if(command == ADD_TEXTBOOK)
+                    // add textbook here
+                    1+1;
+                if(command == EDIT_TEXTBOOK)
+                    //edit here
+                    1+1;
+                if(command == REMOVE_TEXTBOOK)
+                    // remove here
+                    1+1;
+
+            }
+
+            else if (command == ADD_CHAPTER || command == EDIT_CHAPTER || command == REMOVE_CHAPTER) {
+
+                Chapter *ch;
+                serializer->deserialize(objJson, ch);
+                if(command == ADD_CHAPTER)
+                    // add textbook here
+                    1+1;
+                if(command == EDIT_CHAPTER)
+                    //edit here
+                    1+1;
+                if(command == REMOVE_CHAPTER)
+                    // remove here
+                    1+1;
+
+            }
+
+            else if (command == ADD_SECTION || command == EDIT_SECTION || command == REMOVE_SECTION) {
+
+                Section *s;
+                serializer->deserialize(objJson, s);
+                if(command == ADD_SECTION)
+                    // add textbook here
+                    1+1;
+                if(command == EDIT_SECTION)
+                    //edit here
+                    1+1;
+                if(command == REMOVE_SECTION)
+                    // remove here
+                    1+1;
+
             }
 
             qDebug() << "Serialized Response...";
-            serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
+            //serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
             qDebug() << "Done. Serialized response size is.." << out.size();
             connection->SendResponse(out);
             qDebug() << "Response sent";
@@ -88,14 +113,14 @@ void ServerConnectionController::Run () {
             object = 0;
         }
         catch (exception &e) {
-            cout << e.what() << endl;
+            qDebug() << e.what();
 
             // On Exception send an error message to the client
             // Don't forget to cleanup!
             if (this->cleanup(command, object))
                 throw runtime_error("Couldn't cleanup application");
             QString temp(e.what());
-            serializer->Serialize(command, &temp, ERROR, out);
+            //serializer->Serialize(command, &temp, ERROR, out);
             connection->SendResponse(out);
             object = 0;
         }

@@ -4,12 +4,13 @@
 #include "Content.h"
 #include "Textbook.h"
 #include "Chapter.h"
+#include "Serializable.h"
 #include <QJsonObject>
 
 class Chapter;
 class Textbook;
 
-class Section: public Content {
+class Section: public Content, public Serializable {
 
     public:
         /* =====================================================================

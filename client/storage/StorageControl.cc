@@ -27,6 +27,34 @@ void StorageControl::removeTextbook(Textbook &tb){
 
 }
 
+void StorageControl::addChapter(Chapter &ch){
+    updateStorage(ch, ADD_CHAPTER);
+}
+
+void StorageControl::editChapter(Chapter &ch){
+    updateStorage(ch, EDIT_CHAPTER);
+
+}
+
+void StorageControl::removeChapter(Chapter &ch){
+    updateStorage(ch, REMOVE_CHAPTER);
+
+}
+
+void StorageControl::addSection(Section &s){
+    updateStorage(s, ADD_SECTION);
+}
+
+void StorageControl::editSection(Section &s){
+    updateStorage(s, EDIT_SECTION);
+
+}
+
+void StorageControl::removeSection(Section &s){
+    updateStorage(s, REMOVE_SECTION);
+
+}
+
 void StorageControl::addCourse(Course &c){
     updateStorage(c, ADD_COURSE);
 

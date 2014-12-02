@@ -1,4 +1,4 @@
-#include "headers/Textbook.h"
+    #include "headers/Textbook.h"
 
 Textbook::Textbook(QString cISBN, QString cTitle, QString cPublisher, QString cAuthor,
                    int cYear, QString cEdition, QString cDescription,
@@ -55,8 +55,7 @@ void Textbook::addChapter(Chapter *cha) {
 QList<Chapter *> &Textbook::getChapters() {
     return chapters;
 }
-void Textbook::serialize(QJsonObject &textbookJson) {
-    QJsonObject content;
+void Textbook::serialize(QJsonObject &content) {
 
     content["title"] = title;
     content["available"] = available;
@@ -68,6 +67,4 @@ void Textbook::serialize(QJsonObject &textbookJson) {
     content["c_id"] = c_id;
     content["ISBN"] = ISBN;
     content["description"] = description;
-
-    textbookJson["content"] = content;
 }

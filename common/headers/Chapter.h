@@ -3,6 +3,7 @@
 #include "Content.h"
 #include "Section.h"
 #include "Textbook.h"
+#include "Serializable.h"
 #include <QJsonObject>
 #include <QList>
 
@@ -10,7 +11,7 @@ using namespace std;
 class Section;
 class Textbook;
 
-class Chapter: public Content {
+class Chapter: public Content, public Serializable {
 
     public:
 

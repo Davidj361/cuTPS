@@ -21,7 +21,7 @@ DBController::~DBController() {
  **************************************************************************/
 void DBController::Login(User *user) {
     try {
-        user->setType(dbManager->Login(user->getUserName(), user->getPassword()));
+        user->setType(dbManager->Login(user->getUsername(), user->getPassword()));
     }
     catch(runtime_error e) {
         throw e;

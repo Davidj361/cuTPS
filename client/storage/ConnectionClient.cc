@@ -3,6 +3,8 @@
 ConnectionClient::ConnectionClient(QString *IPADDR, QObject *parent): QObject(parent) {
 
     serverAddr = IPADDR;
+    qDebug()<<*serverAddr;
+
     portno = 60001;
     sock = new QTcpSocket(this);
 
@@ -29,7 +31,13 @@ ConnectionClient::~ConnectionClient() {
 void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
 
     /*  Connect to the server and write the request  */
+    qDebug()<<portno;
+
+    qDebug()<<*serverAddr;
+    qDebug()<<"here";
+
     sock->connectToHost(*serverAddr, portno);
+    qDebug()<<"here";
 
     if (!sock->waitForConnected(1000)) {
         emit ConnectionError("Could not connect to server");
@@ -43,7 +51,6 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
         sock->abort();
         return;
     }
-
     /*  Recieve response from the server  */
     if (sock->isValid() && sock->isReadable()) {
         sock->waitForReadyRead(-1);

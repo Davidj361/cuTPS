@@ -3,7 +3,7 @@
 
 StorageControl::StorageControl(){
     // TODO figure out how to retrieve ip
-    QString ip = "127.0.0.1";
+    ip = "127.0.0.1";
     connection = new ConnectionClient(&ip);
     serializer = new ClientSerializer();
 }
@@ -90,6 +90,7 @@ bool StorageControl::updateStorage(Serializable& obj, commands_t command){
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(obj, command, *req);
+    qDebug()<<*req;
     connection->request(*req, *res);
     delete req;
     return serializer->deserialize(*res);

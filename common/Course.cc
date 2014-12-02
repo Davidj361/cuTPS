@@ -9,13 +9,6 @@ void Course::serialize(QJsonObject &json){
     json.insert("courseCode", courseCode);
     json.insert("courseTitle", courseTitle);
     json.insert("term", term);
-    QJsonArray textbooksJson;
-    foreach(Textbook* t, textbooks) {
-        QJsonObject tJson;
-        t->serialize(tJson);
-        textbooksJson.append(tJson);
-    }
-    json.insert("textbooks", textbooksJson);
 }
 
 Course::~Course() {

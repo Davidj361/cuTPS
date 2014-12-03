@@ -43,6 +43,24 @@ class DBController {
         void AddTextbook (Textbook *);
 
         /* =====================================================================
+          Function  : EditTextbook
+          Purpose   : Edits a textbook in the DB
+          Variables : In - Textbook* - The textbook to edit
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void EditTextbook (Textbook *);
+
+        /* =====================================================================
+          Function  : DeleteTextbook
+          Purpose   : Deletes a textbook from the DB
+          Variables : In - Textbook* - The textbook to delete
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteTextbook (Textbook *);
+
+        /* =====================================================================
           Function  : AddChapter
           Purpose   : Stores a chapter in the DB
           Variables : In - Chapter* - The chapter to store
@@ -52,6 +70,25 @@ class DBController {
         void AddChapter(Chapter *);
 
         /* =====================================================================
+          Function  : EditChapter
+          Purpose   : Edits a chapter in the DB
+          Variables : In - Chapter* - The chapter to edit
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void EditChapter(Chapter *);
+
+        /* =====================================================================
+          Function  : DeleteChapter
+          Purpose   : Deletes a chapter from the DB
+          Variables : In - Chapter* - The chapter to delete
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteChapter(Chapter *);
+
+
+        /* =====================================================================
           Function  : AddSection
           Purpose   : Stores a section in the DB
           Variables : In - Section* - The section to store
@@ -59,6 +96,24 @@ class DBController {
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
         void AddSection (Section *);
+
+        /* =====================================================================
+          Function  : EditSection
+          Purpose   : Edits a section in the DB
+          Variables : In - Section* - The section to edit
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void EditSection (Section *);
+
+        /* =====================================================================
+          Function  : DeleteSection
+          Purpose   : Deletes a section from the DB
+          Variables : In - Section* - The section to delete
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteSection (Section *);
 
         /* =====================================================================
           Function  : StoreInvoice
@@ -77,16 +132,9 @@ class DBController {
           Returns   : True - Success
                       False - Fail
         ===================================================================== */
-        void RetrieveContentList (QString &, QList<Course *> &);
+        void RetrieveContentList (QString &, QList<Class *> &);
 
-        /* =====================================================================
-          Function  : GetNewContentId
-          Purpose   : Gets a new content id from the DB.
-                      Note: This method assumes the DB is already open
-          Variables : None
-          Returns   : The new content id
-        ===================================================================== */
-        int GetNewContentId();
+        void AddCourse();
     private:
         DBManager *dbManager;
 };

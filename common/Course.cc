@@ -1,21 +1,15 @@
 #include "headers/Course.h"
 
-Course::Course(QString courseCode, QString courseTitle, QString term){
+Course::Course(QString courseCode, QString courseTitle){
     this->courseCode = courseCode;
     this->courseTitle = courseTitle;
-    this->term = term;
 }
 void Course::serialize(QJsonObject &json){
     json.insert("courseCode", courseCode);
     json.insert("courseTitle", courseTitle);
-    json.insert("term", term);
 }
 
 Course::~Course() {
-        for (QList<Textbook*>::iterator iter = this->textbooks.begin(); iter != this->textbooks.end(); ++iter) {
-                delete *iter;
-                *iter = 0;
-        }
 }
 
 QString Course::getCourseTitle(){
@@ -24,22 +18,5 @@ QString Course::getCourseTitle(){
 
 QString Course::getCourseCode(){
     return courseCode;
-}
-
-QString Course::getTerm(){
-    return term;
-}
-
-QList<Textbook*> Course::getTextbooks(){
-    return textbooks;
- }
-
-void Course::addTextbook(Textbook* tb){
-    textbooks.append(tb);
-}
-
-void Course::removeTextbook(Textbook tb){
-    // TODO textbooks need operator== overwritten
-    //textbooks.removeOne(tb);
 }
 

@@ -11,6 +11,7 @@
 #include <QList>
 
 #include "../../common/headers/Textbook.h"
+#include "../../common/headers/Class.h"
 #include "../../common/headers/Course.h"
 
 #include <stdexcept>
@@ -43,6 +44,15 @@ class DBManager {
         void AddTextbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool availability, float price);
 
         /* =====================================================================
+          Function  : EditTextbook
+          Purpose   : Edits a textbook in the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void EditTextbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool availability, float price, int content_id);
+
+        /* =====================================================================
           Function  : AddChapter
           Purpose   : Stores a chapter in the DB
           Variables :
@@ -52,6 +62,15 @@ class DBManager {
         void AddChapter(QString title, int number, QString textbook, QString description, bool available, float price);
 
         /* =====================================================================
+          Function  : EditChapter
+          Purpose   : Edits a chapter in the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void EditChapter(QString title, int number, QString textbook, QString description, bool available, float price, int content_id);
+
+        /* =====================================================================
           Function  : AddSection
           Purpose   : Stores a section in the DB
           Variables :
@@ -59,6 +78,24 @@ class DBManager {
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
         void AddSection(QString title, int number, int chapter, QString textbook, QString description, bool available, float price);
+
+        /* =====================================================================
+          Function  : EditSection
+          Purpose   : Edits a section in the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void EditSection(QString title, int number, int chapter, QString textbook, QString description, bool available, float price, int content_id);
+
+        /* =====================================================================
+          Function  : DeleteContent
+          Purpose   : Deletes a piece of content from the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteContent(int content_id);
 
         /* =====================================================================
           Function  : AddInvoice
@@ -76,7 +113,7 @@ class DBManager {
           Returns   : void
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        void RetrieveContentList(QString username, QList<Course *> &list);
+        void RetrieveContentList(QString username, QList<Class *> &list);
 
         /* =====================================================================
           Function  : GetNewContentId

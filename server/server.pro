@@ -33,6 +33,7 @@ SOURCES += \
     ../common/Invoice.cc \
     ../common/User.cc \
     ../common/Course.cc \
+    ../common/Class.cpp
 
 OTHER_FILES +=
 
@@ -51,4 +52,5 @@ HEADERS += \
     ../common/headers/User.h \
     ../common/headers/Definitions.h \
     ../common/headers/Invoice.h \
-    ../common/headers/Course.h
+    ../common/headers/Course.h \
+    ../common/headers/Class.h

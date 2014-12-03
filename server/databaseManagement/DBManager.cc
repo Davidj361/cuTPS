@@ -81,9 +81,53 @@ void DBManager::AddTextbook(QString isbn, QString title, QString publisher, QStr
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::StoreTextbook(), Textbook already exists");
+            throw runtime_error("ERROR DBManager::AddTextbook(), Textbook already exists");
         else
-            throw runtime_error("ERROR DBManager::StoreTextbook() Error while inserting textbook");
+            throw runtime_error("ERROR DBManager::AddTextbook() Error while inserting textbook");
+    }
+
+    db.commit();
+}
+
+void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool availability, float price, int content_id) {
+    if (isbn == "")
+        throw runtime_error("ERROR DBManager::EditTextbook() isbn cannot be empty");
+
+    if (title == "")
+        throw runtime_error("ERROR DBManager::EditTextbook() title cannot be empty");
+
+    if (publisher == "")
+        throw runtime_error("ERROR DBManager::EditTextbook() publisher cannot be empty");
+
+    if (author == "")
+        throw runtime_error("ERROR DBManager::EditTextbook() author cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("UPDATE Textbook SET isbn = :isbn, title = :title, publisher = :publisher, author = :author,"
+                       "year = :year, edition = :edition, description = :description, availability = :availability "
+                       "price = :price WHERE content_id = :content_id;"))
+        throw runtime_error("ERROR DBManager::EditTextbook() Error while preparing INSERT statement");
+
+    query.bindValue(":isbn", isbn);
+    query.bindValue(":title", title);
+    query.bindValue(":publisher", publisher);
+    query.bindValue(":author", author);
+    query.bindValue(":year", year);
+    query.bindValue(":edition", edition);
+    query.bindValue(":description", description);
+    query.bindValue(":availability", availability);
+    query.bindValue(":price", price);
+    query.bindValue(":content_id", content_id);
+
+    if (!query.exec()) {
+        db.rollback();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::EditTextbook(), Textbook with that isbn already exists");
+        else
+            throw runtime_error("ERROR DBManager::EditTextbook() Error while inserting textbook");
     }
 
     db.commit();
@@ -118,9 +162,43 @@ void DBManager::AddChapter(QString title, int chapter, QString textbook, QString
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::StoreChapter(), Chapter already exists");
+            throw runtime_error("ERROR DBManager::AddChapter(), Chapter already exists");
         else
-            throw runtime_error("ERROR DBManager::StoreChapter() Error while inserting chapter");
+            throw runtime_error("ERROR DBManager::AddChapter() Error while inserting chapter");
+    }
+
+    db.commit();
+}
+
+void DBManager::EditChapter(QString title, int chapter, QString textbook, QString description, bool available, float price, int content_id) {
+    if (title == "")
+        throw runtime_error("ERROR DBManager::EditChapter() title cannot be empty");
+
+    if (textbook == "")
+        throw runtime_error("ERROR DBManager::EditChapter() textbook cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (query.prepare("UPDATE Chapters SET name = :name, number = :number, textbook = :textbook, description = :description, "
+                      "availability = :availability, price = :price WHERE content_id = :content_id;"))
+        throw runtime_error("ERROR DBManager::EditChapter() Error while preparing UPDATE statement");
+
+        query.bindValue(":name", title);
+        query.bindValue(":number", chapter);
+        query.bindValue(":textbook", textbook);
+        query.bindValue(":description", description);
+        query.bindValue(":availability", available);
+        query.bindValue(":price", price);
+        query.bindValue(":content_id", content_id);
+
+    if (!query.exec()) {
+        db.rollback();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::EditChapter(), Chapter already exists");
+        else
+            throw runtime_error("ERROR DBManager::EditChapter() Error while updating chapter");
     }
 
     db.commit();
@@ -157,11 +235,63 @@ void DBManager::AddSection(QString title, int section, int chapter, QString text
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::StoreSection(), Section already exists");
+            throw runtime_error("ERROR DBManager::AddSection(), Section already exists");
         else
-            throw runtime_error("ERROR DBManager::StoreSection() Error while inserting section");
+            throw runtime_error("ERROR DBManager::AddSection() Error while inserting section");
     }
 
+    db.commit();
+}
+
+void DBManager::EditSection(QString title, int section, int chapter, QString textbook, QString description, bool available, float price, int content_id) {
+    if (title == "")
+        throw runtime_error("ERROR DBManager::EditSection() title cannot be empty");
+
+    if (textbook == "")
+        throw runtime_error("ERROR DBManager::EditSection() textbook cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (query.prepare("UPDATE Sections SET name = :name, number = :number, chapter = :chapter, textbook = :textbook, description = :description "
+                      " availability = :availability, price = :price WHERE content_id = :content_id;"))
+        throw runtime_error("ERROR DBManager::EditSection() Error while preparing UPDATE statement");
+
+    query.bindValue(":name", title);
+    query.bindValue(":number", section);
+    query.bindValue(":chapter", chapter);
+    query.bindValue(":textbook", textbook);
+    query.bindValue(":description", description);
+    query.bindValue(":availability", available);
+    query.bindValue(":price", price);
+    query.bindValue(":content_id", content_id);
+
+    if (!query.exec()) {
+        db.rollback();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::EditSection(), Section already exists");
+        else
+            throw runtime_error("ERROR DBManager::EditSection() Error while updating section");
+    }
+
+    db.commit();
+}
+
+void DBManager::DeleteContent(int content_id) {
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("DELETE FROM Content WHERE id = :content_id;"))
+        throw runtime_error("ERROR DBManager::DeleteContent() Error while preparing DELETE statement");
+
+    query.bindValue(":content_id", content_id);
+
+    if (!query.exec()) {
+        db.rollback();
+        throw runtime_error("ERROR DBManager::DeleteContent() Error while executing DELETE statement");
+    }
     db.commit();
 }
 
@@ -234,7 +364,7 @@ void DBManager::AddInvoice(QString username, QList<int> cart) {
     db.commit();
 }
 
-void DBManager::RetrieveContentList(QString username, QList<Course *> &list) {
+void DBManager::RetrieveContentList(QString username, QList<Class *> &list) {
     QSqlQuery query;
 
     // Get user from db
@@ -247,7 +377,7 @@ void DBManager::RetrieveContentList(QString username, QList<Course *> &list) {
 
     if (query.value(0) == "student") {
         // Get textbook list for courses the student is registered in
-        if (!query.prepare("SELECT Textbooks.*, Courses.*, Book_List.semester FROM Book_List "
+        if (!query.prepare("SELECT Courses.*, Book_List.semester, Textbooks.* FROM Book_List "
                            "JOIN Textbooks ON Textbooks.isbn = Book_List.textbook_id "
                            "JOIN Courses ON Book_List.course = Courses.code "
                            "JOIN Class_List ON Class_List.course = Book_List.course "
@@ -257,7 +387,7 @@ void DBManager::RetrieveContentList(QString username, QList<Course *> &list) {
     }
     else {
         // Get all the content in the db for the content manager
-        if (!query.prepare("SELECT Textbooks.*, Courses.*, Book_List.semester FROM Book_List JOIN Textbooks ON Textbooks.isbn = Book_List.textbook_id JOIN Courses ON Book_List.course = Courses.code GROUP BY Book_List.course;"))
+        if (!query.prepare("SELECT Courses.*, Book_List.semester, Textbooks.* FROM Book_List JOIN Textbooks ON Textbooks.isbn = Book_List.textbook_id JOIN Courses ON Book_List.course = Courses.code GROUP BY Book_List.course;"))
             throw runtime_error("ERROR DBController::RetrieveContentList() Error while retrieving all textbooks");
     }
 
@@ -268,17 +398,19 @@ void DBManager::RetrieveContentList(QString username, QList<Course *> &list) {
     while (query.next()) {
 
         Course *course = new Course(query.value(0).toString(),
-                                    query.value(1).toString(),
-                                    query.value(2).toString());
+                                    query.value(1).toString());
 
-        int i = list.indexOf(course);
+        Class *clss = new Class(query.value(2).toString(),
+                                course);
+
+        int i = list.indexOf(clss);
 
         if (i == -1) {
-            list.append(course);
+            list.append(clss);
         }
         else {
-            delete course;
-            course = list.at(i);
+            delete clss;
+            clss = list.at(i);
         }
 
 
@@ -338,7 +470,7 @@ void DBManager::RetrieveContentList(QString username, QList<Course *> &list) {
             // qDebug() << "Chapter: " << chapter.getTitle() << " added to book " << textbook.getTitle();
         }
         // qDebug() << "Textbook "  << textbook.getTitle() << " added to vector list";
-        course->addTextbook(textbook);
+        clss->addTextbook(textbook);
     }
 }
 

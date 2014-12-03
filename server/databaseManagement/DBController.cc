@@ -231,7 +231,7 @@ void DBController::AddClass(Class *clss) {
 //
 
 /***************************************************************************
- **                DELETE CLASS FROM THE DATABASE                        **
+ **                DELETE CLASS FROM THE DATABASE                         **
  **************************************************************************/
 void DBController::DeleteClass(Class *clss) {
     try {
@@ -243,11 +243,23 @@ void DBController::DeleteClass(Class *clss) {
 }
 
 /***************************************************************************
- **                ADD STUDENTS TO CLASS                                   **
+ **                ADD STUDENTS TO CLASS                                  **
  **************************************************************************/
 void DBController::AddStudentsToClass (Class *clss) {
     try {
         dbManager->AddStudentsToClass(clss->getClasslist(), clss->getCourse()->getCourseCode(), clss->getSemester());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
+ **                REMOVE STUDENTS FROM CLASS                             **
+ **************************************************************************/
+void DBController::RemoveStudentsFromClass (Class *clss) {
+    try {
+        dbManager->RemoveStudentsFromClass(clss->getClasslist(), clss->getCourse()->getCourseCode(), clss->getSemester());
     }
     catch(runtime_error e) {
         throw e;

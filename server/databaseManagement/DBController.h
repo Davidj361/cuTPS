@@ -171,6 +171,16 @@ class DBController {
         void AddStudentsToClass (Class *);
 
         /* =====================================================================
+          Function  : RemoveStudentsFromClass
+          Purpose   : Removes a list of Students from a Class
+          Variables : In - Class* - The Class being removed from containing
+                      the list of Students to remove from it.
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void RemoveStudentsFromClass (Class *);
+
+        /* =====================================================================
           Function  : StoreInvoice
           Purpose   : Stores an invoice in the database
           Variables : In - Invoice* - The invoice to store

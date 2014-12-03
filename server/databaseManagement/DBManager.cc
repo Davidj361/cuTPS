@@ -455,6 +455,34 @@ void DBManager::AddStudentsToClass (QList<Student *> &list, QString course, QStr
     db.commit();
 }
 
+void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, QString semester) {
+    if (list.empty())
+        throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() list of Students cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    Student *student;
+    foreach (student, list) {
+        if (!query.prepare("DELETE FROM Class_List WHERE student = :student, semester = :semester, course = :course;"))
+            throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while preparing INSERT statement");
+
+        query.bindValue(":student", student->getUsername());
+        query.bindValue(":course", course);
+        query.bindValue(":semester", semester);
+
+        if (!query.exec()) {
+            db.rollback();
+            if (query.lastError().number() == 19)
+                throw runtime_error("ERROR DBManager::RemoveStudentsFromClass(), Student already registerd in class");
+            else
+                throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding studen to class");
+        }
+    }
+    db.commit();
+}
+
 void DBManager::AddInvoice(QString username, QList<int> cart) {
     if (username == "")
         throw runtime_error("ERROR DBManager::AddInvoice() username cannot be empty");

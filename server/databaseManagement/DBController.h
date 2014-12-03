@@ -191,6 +191,16 @@ class DBController {
         void AddTextbooksToClass (Class *);
 
         /* =====================================================================
+          Function  : RemoveTextbooksFromClass
+          Purpose   : Removes a list of Textbooks from a Class
+          Variables : In - Class* - The Class being removed from containing
+                      the list of Textbooks to remove from it.
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void RemoveTextbooksFromClass (Class *);
+
+        /* =====================================================================
           Function  : StoreInvoice
           Purpose   : Stores an invoice in the database
           Variables : In - Invoice* - The invoice to store

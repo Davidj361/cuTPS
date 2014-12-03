@@ -170,6 +170,15 @@ class DBManager {
         void AddTextbooksToClass (QList<Textbook *> &list, QString course, QString semester);
 
         /* =====================================================================
+          Function  : RemoveTextbooksFromClass
+          Purpose   : Removes a list of Textbooks from a Class
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void RemoveTextbooksFromClass (QList<Textbook *> &list, QString course, QString semester);
+
+        /* =====================================================================
           Function  : AddInvoice
           Purpose   : Stores an invoice in the DB
           Variables :

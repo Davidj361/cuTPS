@@ -466,7 +466,7 @@ void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, 
     Student *student;
     foreach (student, list) {
         if (!query.prepare("DELETE FROM Class_List WHERE student = :student, semester = :semester, course = :course;"))
-            throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while preparing INSERT statement");
+            throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while preparing DELETE statement");
 
         query.bindValue(":student", student->getUsername());
         query.bindValue(":course", course);
@@ -474,10 +474,7 @@ void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, 
 
         if (!query.exec()) {
             db.rollback();
-            if (query.lastError().number() == 19)
-                throw runtime_error("ERROR DBManager::RemoveStudentsFromClass(), Student already registerd in class");
-            else
-                throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding student to class");
+            throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding student to class");
         }
     }
     db.commit();
@@ -507,6 +504,31 @@ void DBManager::AddTextbooksToClass (QList<Textbook *> &list, QString course, QS
                 throw runtime_error("ERROR DBManager::AddTextbooksToClass(), Textbook already registerd in class");
             else
                 throw runtime_error("ERROR DBManager::AddTextbooksToClass() Error while adding textbook to class");
+        }
+    }
+    db.commit();
+}
+
+void DBManager::RemoveTextbooksFromClass(QList<Textbook *> &list, QString course, QString semester) {
+    if (list.empty())
+        throw runtime_error("ERROR DBManager::RemoveTextbooksFromClass() list of Textbooks cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    Textbook *textbook;
+    foreach (textbook, list) {
+        if (!query.prepare("DELETE FROM Book_List WHERE textbook_id = :textbook, semester = :semester, course = :course;"))
+            throw runtime_error("ERROR DBManager::RemoveTextbooksFromClass() Error while preparing DELETE statement");
+
+        query.bindValue(":textbook", textbook->getISBN());
+        query.bindValue(":course", course);
+        query.bindValue(":semester", semester);
+
+        if (!query.exec()) {
+            db.rollback();
+            throw runtime_error("ERROR DBManager::RemoveTextbooksFromClass() Error while adding student to class");
         }
     }
     db.commit();

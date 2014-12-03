@@ -279,6 +279,18 @@ void DBController::RemoveStudentsFromClass (Class *clss) {
 }
 
 /***************************************************************************
+ **                REMOVE TEXTBOOKS FROM CLASS                            **
+ **************************************************************************/
+void DBController::RemoveTextbooksFromClass (Class *clss) {
+    try {
+        dbManager->RemoveTextbooksFromClass(clss->getBooklist(), clss->getCourse()->getCourseCode(), clss->getSemester());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
  **                STORE INVOICE IN THE DATABASE                          **
  **************************************************************************/
 void DBController::AddInvoice(Invoice *invoice) {

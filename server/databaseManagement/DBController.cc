@@ -243,6 +243,18 @@ void DBController::DeleteClass(Class *clss) {
 }
 
 /***************************************************************************
+ **                ADD STUDENTS TO CLASS                                   **
+ **************************************************************************/
+void DBController::AddStudentsToClass (Class *clss) {
+    try {
+        dbManager->AddStudentsToClass(clss->getClasslist(), clss->getCourse()->getCourseCode(), clss->getSemester());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
  **                STORE INVOICE IN THE DATABASE                          **
  **************************************************************************/
 void DBController::AddInvoice(Invoice *invoice) {

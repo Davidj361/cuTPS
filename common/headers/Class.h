@@ -22,8 +22,8 @@ class Class : public Serializable {
 
         QString getSemester();
         Course* getCourse();
-        QList<Textbook*> getBooklist();
-        QList<Student *> getClasslist();
+        QList<Textbook*> &getBooklist();
+        QList<Student *> &getClasslist();
         void addTextbook(Textbook *);
         void addStudent(Student *);
         void serialize(QJsonObject &);

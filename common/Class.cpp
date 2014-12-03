@@ -37,11 +37,11 @@ Course* Class::getCourse() {
     return course;
 }
 
-QList<Textbook *> Class::getBooklist() {
+QList<Textbook *> &Class::getBooklist() {
     return booklist;
 }
 
-QList<Student *> Class::getClasslist() {
+QList<Student *> &Class::getClasslist() {
     return classlist;
 }
 

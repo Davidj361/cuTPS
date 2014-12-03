@@ -125,6 +125,24 @@ class DBManager {
         void DeleteCourse(QString coursecode);
 
         /* =====================================================================
+          Function  : AddClass
+          Purpose   : Stores a Class in the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void AddClass(QString classcode, QString classtitle);
+
+        /* =====================================================================
+          Function  : DeleteClass
+          Purpose   : Deletes a Class from the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteClass(QString classcode, QString semester);
+
+        /* =====================================================================
           Function  : AddInvoice
           Purpose   : Stores an invoice in the DB
           Variables :

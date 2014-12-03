@@ -211,6 +211,38 @@ void DBController::DeleteCourse(Course *course) {
 }
 
 /***************************************************************************
+ **                STORE CLASS IN THE DATABASE                           **
+ **************************************************************************/
+void DBController::AddClass(Class *clss) {
+    try {
+        dbManager->AddClass(clss->getSemester(),
+                            clss->getCourse()->getCourseCode());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+//
+// There's no edit class because the table consists of only 2 foreign keys.
+// There is no easy way to update this as each column is required to identify
+// the class.  If a user wants to 'edit' a class they must delete it and
+// create a new class.
+//
+
+/***************************************************************************
+ **                DELETE CLASS FROM THE DATABASE                        **
+ **************************************************************************/
+void DBController::DeleteClass(Class *clss) {
+    try {
+        dbManager->DeleteClass(clss->getCourse()->getCourseCode(), clss->getSemester());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
  **                STORE INVOICE IN THE DATABASE                          **
  **************************************************************************/
 void DBController::AddInvoice(Invoice *invoice) {

@@ -143,6 +143,24 @@ class DBController {
         void DeleteCourse (Course *);
 
         /* =====================================================================
+          Function  : AddClass
+          Purpose   : Stores a Class in the DB
+          Variables : In - Class* - The Class to store
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void AddClass (Class *);
+
+        /* =====================================================================
+          Function  : DeleteClass
+          Purpose   : Deletes a Class from the DB
+          Variables : In - Class* - The Class to delete
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteClass (Class *);
+
+        /* =====================================================================
           Function  : StoreInvoice
           Purpose   : Stores an invoice in the database
           Variables : In - Invoice* - The invoice to store

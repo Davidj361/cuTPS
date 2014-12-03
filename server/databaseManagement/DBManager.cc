@@ -354,6 +354,9 @@ void DBManager::EditCourse(QString coursecode, QString coursetitle, QString newc
 }
 
 void DBManager::DeleteCourse(QString coursecode) {
+    if (coursecode == "null")
+        throw runtime_error("ERROR DBManager::DeleteClass() Course code cannot be empty");
+
     QSqlQuery query;
 
     db.transaction();
@@ -366,6 +369,59 @@ void DBManager::DeleteCourse(QString coursecode) {
     if (!query.exec()) {
         db.rollback();
         throw runtime_error("ERROR DBManager::DeleteCourse() Error while executing DELETE statement");
+    }
+    db.commit();
+}
+
+void DBManager::AddClass(QString course, QString semester) {
+    if (course == "null")
+        throw runtime_error("ERROR DBManager::AddClass() Course code cannot be empty");
+
+    if (semester == "null")
+        throw runtime_error("ERROR DBManager::AddClass() Semester cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("INSERT INTO Classes (course, semester)"
+                       "VALUES (:course, :semester);"))
+        throw runtime_error("ERROR DBManager::AddClass() Error while preparing INSERT statement");
+
+    query.bindValue(":course", course);
+    query.bindValue(":semester", semester);
+
+    if (!query.exec()) {
+        db.rollback();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::AddClass(), Class already exists");
+        else
+            throw runtime_error("ERROR DBManager::AddClass() Error while inserting Class");
+    }
+
+    db.commit();
+}
+
+void DBManager::DeleteClass(QString course, QString semester) {
+    if (course == "null")
+        throw runtime_error("ERROR DBManager::DeleteClass() Course code cannot be empty");
+
+    if (semester == "null")
+        throw runtime_error("ERROR DBManager::DeleteClass() Semester cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("DELETE FROM Classes WHERE course = :course AND semester = :semester;"))
+        throw runtime_error("ERROR DBManager::DeleteClass() Error while preparing DELETE statement");
+
+    query.bindValue(":course", course);
+    query.bindValue(":semester", semester);
+
+    if (!query.exec()) {
+        db.rollback();
+        throw runtime_error("ERROR DBManager::DeleteClass() Error while executing DELETE statement");
     }
     db.commit();
 }

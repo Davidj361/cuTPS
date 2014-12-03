@@ -1,5 +1,19 @@
 PRAGMA foreign_keys = ON;
 
+DROP TABLE IF EXISTS `Purchases`;
+DROP TABLE IF EXISTS `Invoices`;
+DROP TABLE IF EXISTS `Book_List`;
+DROP TABLE IF EXISTS `Sections`;
+DROP TABLE IF EXISTS `Chapters`;
+DROP TABLE IF EXISTS `Textbooks`;
+DROP TABLE IF EXISTS `Content`;
+DROP TABLE IF EXISTS `Content_Types`;
+DROP TABLE IF EXISTS `Class_List`;
+DROP TABLE IF EXISTS `Classes`;
+DROP TABLE IF EXISTS `Courses`;
+DROP TABLE IF EXISTS `Users`;
+DROP TABLE IF EXISTS `User_Types`;
+
 CREATE TABLE IF NOT EXISTS `User_Types` (
     `type` TEXT NOT NULL PRIMARY KEY
 );
@@ -9,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
     `password` TEXT NOT NULL,
     `type` TEXT NOT NULL,
     `name` TEXT NOT NULL,
-    FOREIGN KEY(`type`) REFERENCES User_Types(`type`)
+    FOREIGN KEY(`type`) REFERENCES User_Types(`type`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Courses` (
@@ -21,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `Classes` (
     `semester` TEXT NOT NULL,
     `course` TEXT NOT NULL,
     PRIMARY KEY(`semester`, `course`),
-    FOREIGN KEY(`course`) REFERENCES Courses(`code`)
+    FOREIGN KEY(`course`) REFERENCES Courses(`code`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Class_List` (
@@ -29,8 +43,8 @@ CREATE TABLE IF NOT EXISTS `Class_List` (
     `semester` TEXT NOT NULL,
     `course` TEXT NOT NULL,
     PRIMARY KEY(`student`, `semester`, `course`),
-    FOREIGN KEY(`student`) REFERENCES Users(`username`),
-    FOREIGN KEY(`semester`, `course`) REFERENCES Classes(`semester`, `course`)
+    FOREIGN KEY(`student`) REFERENCES Users(`username`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`semester`, `course`) REFERENCES Classes(`semester`, `course`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Content_Types` (
@@ -40,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `Content_Types` (
 CREATE TABLE IF NOT EXISTS `Content` (
     `id` INTEGER NOT NULL PRIMARY KEY,
     `type` TEXT NOT NULL,
-    FOREIGN KEY(`type`) REFERENCES Content_Types(`type`)
+    FOREIGN KEY(`type`) REFERENCES Content_Types(`type`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Textbooks` (
@@ -54,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `Textbooks` (
     `availability` INTEGER NOT NULL,
     `price` REAL NOT NULL,
     `content_id` INTEGER NOT NULL,
-    FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
+    FOREIGN KEY(`content_id`) REFERENCES Content(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Chapters` (
@@ -66,8 +80,8 @@ CREATE TABLE IF NOT EXISTS `Chapters` (
     `price` REAL NOT NULL,
     `content_id` INTEGER NOT NULL,
     PRIMARY KEY(`number`, `textbook`),
-    FOREIGN KEY(`textbook`) REFERENCES Textbooks(`isbn`),
-    FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
+    FOREIGN KEY(`textbook`) REFERENCES Textbooks(`isbn`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`content_id`) REFERENCES Content(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Sections` (
@@ -80,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `Sections` (
     `price` REAL NOT NULL,
     `content_id` INTEGER NOT NULL,
     PRIMARY KEY(`number`, `chapter`, `textbook`),
-    FOREIGN KEY(`textbook`) REFERENCES Textbooks(`isbn`),
-    FOREIGN KEY(`chapter`, `textbook`) REFERENCES Chapters(`number`, `textbook`),
-    FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
+    FOREIGN KEY(`textbook`) REFERENCES Textbooks(`isbn`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`chapter`, `textbook`) REFERENCES Chapters(`number`, `textbook`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`content_id`) REFERENCES Content(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Book_List` (
@@ -90,15 +104,15 @@ CREATE TABLE IF NOT EXISTS `Book_List` (
     `semester` TEXT NOT NULL,
     `course` TEXT NOT NULL,
     PRIMARY KEY(`textbook_id`, `semester`, `course`),
-    FOREIGN KEY(`textbook_id`) REFERENCES Textbooks(`isbn`),
-    FOREIGN KEY(`semester`, `course`) REFERENCES Classes(`semester`, `course`)
+    FOREIGN KEY(`textbook_id`) REFERENCES Textbooks(`isbn`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`semester`, `course`) REFERENCES Classes(`semester`, `course`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Invoices` (
     `id` INTEGER NOT NULL PRIMARY KEY,
     `student` TEXT NOT NULL,
     `date_purchased` TEXT NOT NULL,
-    FOREIGN KEY(`student`) REFERENCES Users(`username`)
+    FOREIGN KEY(`student`) REFERENCES Users(`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Purchases` (
@@ -106,8 +120,8 @@ CREATE TABLE IF NOT EXISTS `Purchases` (
     `content_id` INTEGER NOT NULL,
     `purchase_price` REAL NOT NULL,
     PRIMARY KEY(`invoice_id`, `content_id`),
-    FOREIGN KEY(`invoice_id`) REFERENCES Invoices(`id`),
-    FOREIGN KEY(`content_id`) REFERENCES Content(`id`)
+    FOREIGN KEY(`invoice_id`) REFERENCES Invoices(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(`content_id`) REFERENCES Content(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 BEGIN TRANSACTION;

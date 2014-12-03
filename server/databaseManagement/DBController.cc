@@ -255,6 +255,18 @@ void DBController::AddStudentsToClass (Class *clss) {
 }
 
 /***************************************************************************
+ **                ADD TEXTBOOKS TO CLASS                                 **
+ **************************************************************************/
+void DBController::AddTextbooksToClass (Class *clss) {
+    try {
+        dbManager->AddTextbooksToClass(clss->getBooklist(), clss->getCourse()->getCourseCode(), clss->getSemester());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
  **                REMOVE STUDENTS FROM CLASS                             **
  **************************************************************************/
 void DBController::RemoveStudentsFromClass (Class *clss) {

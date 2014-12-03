@@ -477,7 +477,36 @@ void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, 
             if (query.lastError().number() == 19)
                 throw runtime_error("ERROR DBManager::RemoveStudentsFromClass(), Student already registerd in class");
             else
-                throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding studen to class");
+                throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding student to class");
+        }
+    }
+    db.commit();
+}
+
+void DBManager::AddTextbooksToClass (QList<Textbook *> &list, QString course, QString semester) {
+    if (list.empty())
+        throw runtime_error("ERROR DBManager::AddTextbooksToClass() list of Textbooks cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    Textbook *textbook;
+    foreach (textbook, list) {
+        if (!query.prepare("INSERT INTO Book_List (textbook_id, semester, course)"
+                           "VALUES (:textbook, :semester, :course);"))
+            throw runtime_error("ERROR DBManager::AddTextbooksToClass() Error while preparing INSERT statement");
+
+        query.bindValue(":textbook", textbook->getISBN());
+        query.bindValue(":course", course);
+        query.bindValue(":semester", semester);
+
+        if (!query.exec()) {
+            db.rollback();
+            if (query.lastError().number() == 19)
+                throw runtime_error("ERROR DBManager::AddTextbooksToClass(), Textbook already registerd in class");
+            else
+                throw runtime_error("ERROR DBManager::AddTextbooksToClass() Error while adding textbook to class");
         }
     }
     db.commit();

@@ -295,6 +295,81 @@ void DBManager::DeleteContent(int content_id) {
     db.commit();
 }
 
+void DBManager::AddCourse(QString coursecode, QString coursetitle) {
+    if (coursecode == "null")
+        throw runtime_error("ERROR DBManager::AddCourse() course code cannot be empty");
+
+    if (coursetitle == "null")
+        throw runtime_error("ERROR DBManager::AddCourse() course title cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("INSERT INTO Courses (code, name)"
+                       "VALUES (:code, :name);"))
+        throw runtime_error("ERROR DBManager::AddCourse() Error while preparing INSERT statement");
+
+    query.bindValue(":code", coursecode);
+    query.bindValue(":name", coursetitle);
+
+    if (!query.exec()) {
+        db.rollback();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::AddCourse(), Course already exists");
+        else
+            throw runtime_error("ERROR DBManager::AddCourse() Error while inserting course");
+    }
+
+    db.commit();
+}
+
+void DBManager::EditCourse(QString coursecode, QString coursetitle, QString newcoursecode) {
+    if (coursecode == "")
+        throw runtime_error("ERROR DBManager::EditCourse() course code cannot be empty");
+
+    if (coursetitle == "")
+        throw runtime_error("ERROR DBManager::EditCourse() course title cannot be empty");
+
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (query.prepare("UPDATE Courses SET code = :newcode, name = :name WHERE code = :code;"))
+        throw runtime_error("ERROR DBManager::EditCourse() Error while preparing UPDATE statement");
+
+    query.bindValue(":newcode", newcoursecode.isEmpty() ? coursecode : newcoursecode);
+    query.bindValue(":name", coursetitle);
+    query.bindValue(":code", coursecode);
+
+    if (!query.exec()) {
+        db.rollback();
+        if (query.lastError().number() == 19)
+            throw runtime_error("ERROR DBManager::EditCourse(), Course already exists");
+        else
+            throw runtime_error("ERROR DBManager::EditCourse() Error while updating course");
+    }
+
+    db.commit();
+}
+
+void DBManager::DeleteCourse(QString coursecode) {
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("DELETE FROM Courses WHERE code = :code;"))
+        throw runtime_error("ERROR DBManager::DeleteCourse() Error while preparing DELETE statement");
+
+    query.bindValue(":code", coursecode);
+
+    if (!query.exec()) {
+        db.rollback();
+        throw runtime_error("ERROR DBManager::DeleteCourse() Error while executing DELETE statement");
+    }
+    db.commit();
+}
+
 void DBManager::AddInvoice(QString username, QList<int> cart) {
     if (username == "")
         throw runtime_error("ERROR DBManager::AddInvoice() username cannot be empty");

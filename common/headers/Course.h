@@ -20,11 +20,14 @@ class Course : public Serializable{
 
         QString getCourseTitle();
         QString getCourseCode();
+        QString getNewCourseCode();
+        void setNewCourseCode(QString);
         void serialize(QJsonObject&);
 
     private:
         QString courseTitle;
         QString courseCode;
+        QString updatedCourseCode;
 };
 
 #endif // COURSE_H

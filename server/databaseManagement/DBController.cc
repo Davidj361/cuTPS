@@ -172,6 +172,45 @@ void DBController::DeleteSection(Section *section) {
 }
 
 /***************************************************************************
+ **                STORE COURSE IN THE DATABASE                           **
+ **************************************************************************/
+void DBController::AddCourse(Course *course) {
+    try {
+        dbManager->AddCourse(course->getCourseCode(),
+                             course->getCourseTitle());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
+ **                EDIT COURSE IN THE DATABASE                            **
+ **************************************************************************/
+void DBController::EditCourse(Course *course) {
+    try {
+        dbManager->EditCourse(course->getCourseCode(),
+                              course->getCourseTitle(),
+                              course->getNewCourseCode());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
+ **                DELETE COURSE FROM THE DATABASE                        **
+ **************************************************************************/
+void DBController::DeleteCourse(Course *course) {
+    try {
+        dbManager->DeleteCourse(course->getCourseCode());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}
+
+/***************************************************************************
  **                STORE INVOICE IN THE DATABASE                          **
  **************************************************************************/
 void DBController::AddInvoice(Invoice *invoice) {
@@ -183,6 +222,9 @@ void DBController::AddInvoice(Invoice *invoice) {
     }
 }
 
+/***************************************************************************
+ **                RETRIEVE CONTENT FROM THE DATABASE                     **
+ **************************************************************************/
 void DBController::RetrieveContentList (QString &username, QList<Class *> &list) {
     try {
         dbManager->RetrieveContentList(username, list);

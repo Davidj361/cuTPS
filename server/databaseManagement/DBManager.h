@@ -98,6 +98,33 @@ class DBManager {
         void DeleteContent(int content_id);
 
         /* =====================================================================
+          Function  : AddCourse
+          Purpose   : Stores a Course in the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void AddCourse(QString coursecode, QString coursetitle);
+
+        /* =====================================================================
+          Function  : EditCourse
+          Purpose   : Edits a Course in the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void EditCourse(QString coursecode, QString coursetitle, QString newcoursecode);
+
+        /* =====================================================================
+          Function  : DeleteCourse
+          Purpose   : Deletes a course from the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteCourse(QString coursecode);
+
+        /* =====================================================================
           Function  : AddInvoice
           Purpose   : Stores an invoice in the DB
           Variables :

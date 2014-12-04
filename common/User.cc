@@ -7,6 +7,12 @@ User::User(QString cUsername, QString cPassword, QString cType, QString cName) {
     name = cName;
 }
 
+User::User(QString cUsername, QString cPassword){
+    username = cUsername;
+    password = cPassword;
+    type = "";
+    name = "";
+}
 
 const QString User::getUsername() const {
     return username;

@@ -99,9 +99,6 @@ void ServerConnectionController::Run () {
                     1+1;
                 if(command == ADD_CLASS)
                     //edit here
-                    db->AddCourse(course);
-
-                    db->addclass;
                     1+1;
                 if(command == REMOVE_SECTION)
                     // remove here

@@ -36,7 +36,7 @@ class StorageControl : public QObject {
         void addClass(Class&);
         void editClass(Class&);
         void removeClass(Class&);
-        void checkout(Invoice&);
+        void checkout(Invoice&) const;
         void refreshContent(User&, QList<Class*>&);
         User* logIn(User&);
 
@@ -45,7 +45,7 @@ class StorageControl : public QObject {
         ConnectionClient *connection;
         QString ip;
 
-        bool updateStorage(Serializable&, commands_t);
+        bool updateStorage(Serializable&, commands_t) const;
 
 
 };

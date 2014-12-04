@@ -51,7 +51,7 @@ void ServerConnectionController::Run () {
                 User* user;
                 serializer->deserialize(objJson, user);
                 QList<Class *> list;
-                QString username = user->getName();
+                QString username = user->getUsername();
                 db->RetrieveContentList(username, list);
                 serializer->serializeClasses(list, command, out);
 

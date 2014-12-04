@@ -313,3 +313,12 @@ void DBController::RetrieveContentList (QString &username, QList<Class *> &list)
         throw e;
     }
 }
+
+bool DBController::CourseExists(Course *course) {
+    try {
+        return dbManager->CourseExists(course->getCourseCode());
+    }
+    catch(runtime_error e) {
+        throw e;
+    }
+}

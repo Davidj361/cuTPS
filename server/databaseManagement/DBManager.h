@@ -204,6 +204,15 @@ class DBManager {
           Returns   : The new content id
         ===================================================================== */
         int GetNewContentId();
+
+        /* =====================================================================
+          Function  : CourseExists
+          Purpose   : Checks whether the course exists already
+          Variables : In  - QString* - The course code
+          Returns   : True - The course exists
+                      False - The course doesn't exist
+        ===================================================================== */
+        bool CourseExists(QString);
     private:
 
         void GetClassesForStudent(QList<Class *> &list, QString username);

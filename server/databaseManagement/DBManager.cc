@@ -767,3 +767,20 @@ int DBManager::GetNewContentId() {
 
     return query.lastInsertId().toInt();
 }
+
+bool DBManager::CourseExists(QString courseCode) {
+    QSqlQuery query;
+
+    // Get the price of the content being added
+    if (!query.prepare("SELECT code FROM Courses WHERE code = :code;"))
+        throw runtime_error("ERROR DBManager::CourseExists() Error while prepraing SELECT query");
+
+    // Bind the content id to the query
+    query.bindValue(":code", courseCode);
+
+    if (!query.exec()) {
+        throw runtime_error("ERROR DBManager::CourseExists() Error while retrieving course");
+    }
+
+    return query.first();
+}

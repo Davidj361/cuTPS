@@ -213,13 +213,19 @@ class DBController {
           Function  : RetrieveContentList
           Purpose   : Retrieves the list of content for a user
           Variables : In  - string* - The username of the student
-                    : Out - vector<Content>* - The list of content objects
-          Returns   : True - Success
-                      False - Fail
+                    : Out - QList<Class *>& - The list of class objects
+          Returns   : void
         ===================================================================== */
         void RetrieveContentList (QString &, QList<Class *> &);
 
-        void AddCourse();
+        /* =====================================================================
+          Function  : CourseExists
+          Purpose   : Checks whether the course exists already
+          Variables : In  - Course* - The course
+          Returns   : True - The course exists
+                      False - The course doesn't exist
+        ===================================================================== */
+        bool CourseExists(Course *);
     private:
         DBManager *dbManager;
 };

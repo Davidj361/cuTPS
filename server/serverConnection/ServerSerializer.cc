@@ -39,8 +39,14 @@ void ServerSerializer::deserialize(QJsonObject &json, Chapter *&ch){
 }
 
 void ServerSerializer::deserialize(QJsonObject &json, Invoice *&in){
-
+        // TODO deserialze invoice
 }
+
+void ServerSerializer::deserialize(QJsonObject &json, User*& u){
+    u = new User(json["username"].toString(), json["password"].toString(), json["type"].toString(),
+            json["name"].toString());
+}
+
 
 void ServerSerializer::deserialize(QJsonObject &json, Section *&s){
 
@@ -61,3 +67,11 @@ void ServerSerializer::serialize(QString& error, QByteArray& out){
     QJsonDocument doc(json);
     out = doc.toJson();
 }
+
+void ServerSerializer::serialize(Serializable &obj, QByteArray & out){
+    QJsonObject json;
+    obj.serialize(json);
+    QJsonDocument doc(json);
+    out = doc.toJson();
+}
+

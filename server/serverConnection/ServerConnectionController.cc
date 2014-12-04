@@ -115,6 +115,7 @@ void ServerConnectionController::Run () {
             }
 
             qDebug() << "Serialized Response...";
+            qDebug() << out;
             //serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
             qDebug() << "Done.  Serialized response size is.." << out.size();
             connection->SendResponse(out);

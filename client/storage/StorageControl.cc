@@ -65,7 +65,7 @@ void StorageControl::checkout(Invoice &i) const {
     updateStorage(i, ADD_INVOICE);
 }
 
-void StorageControl::logIn(User &u){
+void StorageControl::logIn(User &u) const {
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(u, LOGIN, *req);
@@ -82,7 +82,7 @@ void StorageControl::logIn(User &u){
     delete res;
 }
 
-void StorageControl::refreshContent(User &u, QList<Class*> &cs){
+void StorageControl::refreshContent(User &u, QList<Class*> &cs) const {
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(u, GET_CONTENT, *req);

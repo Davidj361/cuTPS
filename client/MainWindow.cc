@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "storage/StorageControl.h"
 #include <QList>
+#include <QStackedWidget>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -279,8 +280,15 @@ void MainWindow::on_BtnLogin_clicked()
 {
     //user = storageControl->logIn(User(ui->UsernameBox->text(), ui->PasswordBox->text(),"",""));
     user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
-    storageControl->logIn(user);
-    ui->loginStatus->setText(user.getUsername());
+    try {
+        storageControl->logIn(user);
+        ui->loginStatus->setText(user.getUsername());
+        ui->loginStatus->setVisible(true);
+        MainWindow::displayMainStudent();
+    } catch(runtime_error e) {
+        ui->loginStatus->setText("Invalid Username and Password");
+        ui->loginStatus->setVisible(true);
+    }
     /*
     if (ui->UsernameBox->text() == "student") {
         ui->LoginPage->setVisible(false);
@@ -343,4 +351,9 @@ bool MainWindow::validUsernamePassword() {
 
 bool MainWindow::isStudent() {
     return true;
+}
+
+void MainWindow::displayMainStudent() {
+    ui->stackedWidget->currentWidget()->setVisible(false);
+    ui->MainStudent->setVisible(true);
 }

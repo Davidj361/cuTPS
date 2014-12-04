@@ -55,16 +55,16 @@ void StorageControl::removeSection(Section &s){
 
 }
 
-void StorageControl::addCourse(Course &c){
+void StorageControl::addClass(Class &c){
     updateStorage(c, ADD_COURSE);
 
 }
 
-void StorageControl::editCourse(Course &c){
+void StorageControl::editClass(Class &c){
     updateStorage(c, EDIT_COURSE);
 }
 
-void StorageControl::removeCourse(Course &c){
+void StorageControl::removeClass(Class   &c){
     updateStorage(c, REMOVE_COURSE);
 
 }
@@ -74,11 +74,17 @@ void StorageControl::checkout(Invoice &i){
 }
 
 User* StorageControl::logIn(User &u){
-    u.setType("student");
-    return &u;
+    QByteArray *req = new QByteArray();
+    QByteArray *res = new QByteArray();
+    serializer->serialize(u, LOGIN, *req);
+    connection->request(*req, *res);
+    User *user;
+    serializer->deserialize(*res, &user);
+
+    return user;
 }
 
-void StorageControl::refreshContent(User &u, QList<Course*> &cs){
+void StorageControl::refreshContent(User &u, QList<Class*> &cs){
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(u, GET_CONTENT, *req);

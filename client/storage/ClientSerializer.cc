@@ -38,7 +38,7 @@ bool ClientSerializer::deserialize(QByteArray& inJson, QList<Course*> &courses){
         json = jdoc.object();
     if(json.value("command").toDouble() != GET_CONTENT)
         throw runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
-    QJsonArray content = json.value("content").toArray();
+ /*   QJsonArray content = json.value("content").toArray();
     int i,j,k,l;
     for(i = 0; i < content.size(); i++){
         QJsonObject coursej = content.at(i).toObject();
@@ -74,6 +74,7 @@ bool ClientSerializer::deserialize(QByteArray& inJson, QList<Course*> &courses){
                 }
             }
         }
+        */
 
     }
 // TODO deserialize arrays
@@ -81,6 +82,25 @@ bool ClientSerializer::deserialize(QByteArray& inJson, QList<Course*> &courses){
 
 
 }
+
+bool deserialize(QByteArray&, User *& user){
+    // Create a QJsonDocument from the QByteArray
+    QJsonDocument jdoc = QJsonDocument::fromJson(inJson);
+    QJsonObject json;
+
+    // Create a QJsonObject from the QJsonDocument
+    if (jdoc.isNull())
+        throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
+    else
+        json = jdoc.object();
+    if(json.value("command").toDouble() != LOGIN)
+        throw runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
+    try
+    user = new User(json["username"].toString(), json["password"].toString(), json["type"].toString(), json["name"].toString());
+
+
+}
+
 
 void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse){
     QString courseTitle = json["courseTitle"].toString();

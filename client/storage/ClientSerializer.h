@@ -46,6 +46,7 @@ class ClientSerializer {
 
         bool deserialize(QByteArray&);
         bool deserialize(QByteArray&, QList<Course*>&);
+        bool deserialize(QByteArray&, User *&);
 
     private:
 

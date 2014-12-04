@@ -97,8 +97,11 @@ void ServerConnectionController::Run () {
                 if(command == ADD_SECTION)
                     // add textbook here
                     1+1;
-                if(command == EDIT_SECTION)
+                if(command == ADD_CLASS)
                     //edit here
+                    db->AddCourse(course);
+
+                    db->addclass;
                     1+1;
                 if(command == REMOVE_SECTION)
                     // remove here

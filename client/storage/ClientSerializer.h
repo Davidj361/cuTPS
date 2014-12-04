@@ -13,6 +13,7 @@
 #include <QDebug>
 
 #include "../../common/headers/Definitions.h"
+#include "../../common/headers/Class.h"
 #include "../../common/headers/Textbook.h"
 #include "../../common/headers/Course.h"
 #include "../../common/headers/Invoice.h"
@@ -45,8 +46,8 @@ class ClientSerializer {
         void serialize(Serializable&, commands_t, QByteArray&) const;
 
         bool deserialize(QByteArray&);
-        bool deserialize(QByteArray&, QList<Course*>&);
-        bool deserialize(QByteArray&, User *&);
+        bool deserialize(QByteArray&, QList<Class*>&);
+        bool deserialize(QByteArray&, User **);
 
     private:
 

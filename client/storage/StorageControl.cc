@@ -19,7 +19,6 @@ void StorageControl::addTextbook(Textbook &tb){
 
 void StorageControl::editTextbook(Textbook &tb){
     updateStorage(tb, EDIT_TEXTBOOK);
-
 }
 
 void StorageControl::removeTextbook(Textbook &tb){
@@ -33,12 +32,10 @@ void StorageControl::addChapter(Chapter &ch){
 
 void StorageControl::editChapter(Chapter &ch){
     updateStorage(ch, EDIT_CHAPTER);
-
 }
 
 void StorageControl::removeChapter(Chapter &ch){
     updateStorage(ch, REMOVE_CHAPTER);
-
 }
 
 void StorageControl::addSection(Section &s){
@@ -47,25 +44,23 @@ void StorageControl::addSection(Section &s){
 
 void StorageControl::editSection(Section &s){
     updateStorage(s, EDIT_SECTION);
-
 }
 
 void StorageControl::removeSection(Section &s){
     updateStorage(s, REMOVE_SECTION);
-
 }
 
 void StorageControl::addClass(Class &c){
-    updateStorage(c, ADD_COURSE);
+    updateStorage(c, ADD_CLASS);
 
 }
 
 void StorageControl::editClass(Class &c){
-    updateStorage(c, EDIT_COURSE);
+    updateStorage(c, EDIT_CLASS);
 }
 
 void StorageControl::removeClass(Class   &c){
-    updateStorage(c, REMOVE_COURSE);
+    updateStorage(c, DELETE_CLASS);
 
 }
 

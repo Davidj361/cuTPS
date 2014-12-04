@@ -25,7 +25,7 @@ bool ClientSerializer::deserialize(QByteArray& inJson){
     return true;
 }
 
-bool ClientSerializer::deserialize(QByteArray& inJson, QList<Course*> &courses){
+bool ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
 
     // Create a QJsonDocument from the QByteArray
     QJsonDocument jdoc = QJsonDocument::fromJson(inJson);
@@ -81,9 +81,9 @@ bool ClientSerializer::deserialize(QByteArray& inJson, QList<Course*> &courses){
 
 
 
-}
+// }
 
-bool deserialize(QByteArray&, User *& user){
+bool ClientSerializer::deserialize(QByteArray& inJson, User ** user){
     // Create a QJsonDocument from the QByteArray
     QJsonDocument jdoc = QJsonDocument::fromJson(inJson);
     QJsonObject json;
@@ -95,24 +95,20 @@ bool deserialize(QByteArray&, User *& user){
         json = jdoc.object();
     if(json.value("command").toDouble() != LOGIN)
         throw runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
-    try
-    user = new User(json["username"].toString(), json["password"].toString(), json["type"].toString(), json["name"].toString());
+
+    *user = new User(json["username"].toString(), json["password"].toString(), json["type"].toString(), json["name"].toString());
 
 
 }
 
-
-void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse){
+void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse) {
     QString courseTitle = json["courseTitle"].toString();
     QString courseCode = json["courseCode"].toString();
     QString term = json["term"].toString();
-    newCourse = new Course(courseTitle, courseCode, term);
+    // newCourse = new Course(courseTitle, courseCode, term);
 }
 
 void ClientSerializer::createTextbook(const QJsonObject &json, Textbook *&newTextbook) const {
-
-
-
     QString title( json["title"].toString() );
     bool available( json["available"].toBool() );
     float price( (float)( json["price"].toDouble() ) );

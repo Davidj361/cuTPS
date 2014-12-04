@@ -29,7 +29,7 @@ void Class::serialize(QJsonObject &json) {
     json.insert("courseTitle", course->getCourseTitle());
     QJsonObject jcourse;
     course->serialize(jcourse);
-    json.insert("course", jcourse)
+    json.insert("course", jcourse);
 }
 
 QString Class::getSemester() {

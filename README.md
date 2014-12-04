@@ -79,12 +79,12 @@ Retrieves a list of content (textbooks, chapters, sections) for a user
 {
   command : GET_CONTENT,
   status : SUCCESS,
-  content: [ // Array of classes
+  classes: [ // Array of classes
     {
       semester : "FALL 2014",
       course : {
-        code : "COMP 3004",
-        title : "Intro to Software Engineering"
+        courseCode : "COMP 3004",
+        courseTitle : "Intro to Software Engineering"
       },
       booklist : [
       {

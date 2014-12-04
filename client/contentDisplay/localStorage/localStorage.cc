@@ -1,5 +1,7 @@
 #include "localStorage.h"
 
+LocalStorage::LocalStorage(const StorageControl& storageControl) : storageControl(&storageControl), user("", "") {}
+
 LocalStorage::~LocalStorage() {
         this->cleanup();
 }
@@ -12,10 +14,9 @@ const QList<Class*>& LocalStorage::getClasses() const {
         return this->classes;
 }
 
-void LocalStorage::update(User& inUser, QList<Class*>& inClasses) {
+void LocalStorage::update(QList<Class*>& inClasses) {
         this->cleanup();
         this->classes = inClasses;
-        this->user = inUser;
 }
 
 void LocalStorage::cleanup() {
@@ -24,4 +25,19 @@ void LocalStorage::cleanup() {
                 delete *iter;
         }
         this->classes.clear(); // Make classes have 0 elements
+}
+
+void LocalStorage::refresh() {
+        if (storageControl == 0)
+                throw runtime_error("LocalStorage::refresh(), storageControl is null");
+        storageControl->refreshContent(user, classes);
+}
+
+void LocalStorage::login(const QString& username, const QString& password) {
+        user = User(username, password);
+        try {
+                this->storageControl->logIn(user);
+        } catch(const runtime_error e) {
+                throw e;
+        }
 }

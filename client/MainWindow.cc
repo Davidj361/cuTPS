@@ -4,7 +4,7 @@
 #include <QList>
 #include <QStackedWidget>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), localStorage(storageControl) {
     ui->setupUi(this);
 
     /*  Set Background Image  */
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     portno = 60001;
 
     connection = new ConnectionClient(serverIP, portno);
-    storageControl = new StorageControl();
+    // storageControl = new StorageControl(); // no longer pointer
     serializer = new Serializer();
 
 
@@ -72,11 +72,9 @@ MainWindow::~MainWindow() {
     delete connection;
     delete serverIP;
     delete serializer;
-    delete userStu;
-    delete userCM;
     freeBookList();
     delete book_list;
-    delete storageControl;
+    // delete storageControl; // No longer a pointer
 }
 
 void MainWindow::scrollDown() {
@@ -203,7 +201,7 @@ void MainWindow::getContentStudentTest() {
     ui->resultsListWidget->addItem(test1);
 
     freeBookList();
-    book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userStu, "Performing Retrieve Content test for a Student..."));
+    // book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userStu, "Performing Retrieve Content test for a Student..."));
 
     ui->btnRunTest3->setEnabled(true);
 
@@ -219,7 +217,7 @@ void MainWindow::getContentCMTest() {
     ui->resultsListWidget->addItem(test1);
 
     freeBookList();
-    book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userCM, "Performing Retrieve Content test for a Content Manager..."));
+    // book_list = static_cast<vector<Textbook *>*>(runTest(test1, GET_CONTENT, userCM, "Performing Retrieve Content test for a Content Manager..."));
 
     ui->btnRunTest3->setEnabled(true);
 
@@ -235,7 +233,8 @@ void MainWindow::addInvoiceTest() {
 
     ui->resultsListWidget->addItem(test1);
 
-    Invoice invoice (userStu->getUsername());
+    // Invoice invoice (userStu->getUsername());
+    /*
 
     Textbook *t = book_list->front();
 
@@ -244,6 +243,7 @@ void MainWindow::addInvoiceTest() {
     runTest(test1, ADD_INVOICE, &invoice, "Performing Add Invoice test...");
 
     ui->btnRunTest3->setEnabled(true);
+    */
 }
 
 void MainWindow::displayError(QString error) {
@@ -254,10 +254,14 @@ void MainWindow::studentCourseListPopulate() {
     /*
     for (int i = 0; i < studentCourseList->size(); i++ )
         ui->courseList->addItem(studentCourseList->at(0));
-        */
+
     ui->courseList->addItem("COMP1001");
     ui->courseList->addItem("PSYCH2002");
     ui->courseList->addItem("POLI3003");
+    */
+    for (int i=0; i < localStorage.getClasses().size(); i++ ){
+        ui->courseList->addItem(localStorage.getClasses().at(0)->getCourse()->getCourseTitle());
+    }
 }
 
 void MainWindow::clearStudentCourseList() {
@@ -279,14 +283,16 @@ void MainWindow::on_BtnClear_clicked()
 void MainWindow::on_BtnLogin_clicked()
 {
     //user = storageControl->logIn(User(ui->UsernameBox->text(), ui->PasswordBox->text(),"",""));
-    user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
+    // user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
     try {
-        storageControl->logIn(user);
-        ui->loginStatus->setText(user.getUsername());
+        localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
+        ui->loginStatus->setText(localStorage.getUser().getUsername());
         ui->loginStatus->setVisible(true);
+        localStorage.refresh();
         MainWindow::displayMainStudent();
     } catch(runtime_error e) {
         ui->loginStatus->setText(e.what());
+        qDebug() << e.what();
         //ui->loginStatus->setText("Invalid Username and Password");
 
         ui->loginStatus->setVisible(true);

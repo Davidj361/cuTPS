@@ -38,9 +38,9 @@ class StorageControl : public QObject {
         void editClass(Class&);
         void removeClass(Class&);
         void checkout(Invoice&) const;
-        void refreshContent(User&, QList<Class*>&);
+        void refreshContent(User&, QList<Class*>&) const;
 
-        void logIn(User&);
+        void logIn(User&) const;
 
     private:
         ClientSerializer *serializer;

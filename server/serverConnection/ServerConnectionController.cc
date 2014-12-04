@@ -48,6 +48,12 @@ void ServerConnectionController::Run () {
 
             if(command = GET_CONTENT){
                 //get content
+                User* user;
+                serializer->deserialize(objJson, user);
+                QList<Class *> list;
+                QString username = user->getName();
+                db->RetrieveContentList(username, list);
+
             }
 
             //
@@ -109,7 +115,7 @@ void ServerConnectionController::Run () {
 
             qDebug() << "Serialized Response...";
             //serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
-            qDebug() << "Done. Serialized response size is.." << out.size();
+            qDebug() << "Done.  Serialized response size is.." << out.size();
             connection->SendResponse(out);
             qDebug() << "Response sent";
 
@@ -130,7 +136,7 @@ void ServerConnectionController::Run () {
             if (this->cleanup(command, object))
                 throw runtime_error("Couldn't cleanup application");
             QString temp(e.what());
-            //serializer->Serialize(e.what(), out);
+            serializer->serializeError(temp, command, out);
             connection->SendResponse(out);
             object = 0;
         }

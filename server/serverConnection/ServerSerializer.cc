@@ -56,12 +56,13 @@ void ServerSerializer::deserialize(QJsonObject &json, Section *&s){
 
 }
 
-void ServerSerializer::serialize(QList<Course>&,commands_t command, QByteArray&){
+void ServerSerializer::serializeClasses(QList<Class*>&,commands_t command, QByteArray&){
     // TODO serialize the content here
+
 
 }
 
-void ServerSerializer::serialize(QString& error, commands_t, QByteArray& out){
+void ServerSerializer::serializeError(QString& error, commands_t, QByteArray& out){
     QJsonObject json;
     json.insert("status", ERROR);
     json.insert("message", error);
@@ -75,7 +76,7 @@ void ServerSerializer::serializeUser(Serializable &obj, commands_t command ,QByt
 
     QJsonObject objjson;
     obj.serialize(objjson);
-
+    res["status"] = SUCCESS;
     res["user"] = objjson;
 
     QJsonDocument doc(res);

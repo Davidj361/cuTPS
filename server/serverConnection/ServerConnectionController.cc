@@ -46,7 +46,7 @@ void ServerConnectionController::Run () {
 
             command = serializer->deserialize(in, objJson);
 
-            if(command = GET_CONTENT){
+            if(command == GET_CONTENT){
                 //get content
                 User* user;
                 serializer->deserialize(objJson, user);

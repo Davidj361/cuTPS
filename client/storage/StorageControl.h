@@ -40,7 +40,7 @@ class StorageControl : public QObject {
         void checkout(Invoice&) const;
         void refreshContent(User&, QList<Class*>&);
 
-        User* logIn(User&);
+        void logIn(User&);
 
     private:
         ClientSerializer *serializer;

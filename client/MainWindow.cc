@@ -280,12 +280,12 @@ void MainWindow::on_BtnLogin_clicked()
     //user = storageControl->logIn(User(ui->UsernameBox->text(), ui->PasswordBox->text(),"",""));
     user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
     storageControl->logIn(user);
-    ui->loginStatus->setText(user->getName());
+    ui->loginStatus->setText(user.getUsername());
     /*
     if (ui->UsernameBox->text() == "student") {
         ui->LoginPage->setVisible(false);
         ui->MainStudent->setVisible(true);
-        MainWindow::studentCourseListPopulate();
+        MainWindow::studentClassListPopulate();
         ui->courseDescription->setReadOnly(true); // set counrse Description textbox to read-only
     }
 

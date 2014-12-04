@@ -1,6 +1,6 @@
 #include "shoppingCart.h"
 
-void ShoppingCart::addToCart(Textbook* content) {
+void ShoppingCart::addToCart(const Textbook* content) {
         // we need to duplicate the data due when user clicks refresh
         // our cart should keep everything
 
@@ -8,7 +8,7 @@ void ShoppingCart::addToCart(Textbook* content) {
         cartContents.push_back(newContent);
 }
 
-void ShoppingCart::addToCart(Chapter* content) {
+void ShoppingCart::addToCart(const Chapter* content) {
         // we need to duplicate the data due when user clicks refresh
         // our cart should keep everything
 
@@ -16,7 +16,7 @@ void ShoppingCart::addToCart(Chapter* content) {
         cartContents.push_back(newContent);
 }
 
-void ShoppingCart::addToCart(Section* content) {
+void ShoppingCart::addToCart(const Section* content) {
         // we need to duplicate the data due when user clicks refresh
         // our cart should keep everything
 

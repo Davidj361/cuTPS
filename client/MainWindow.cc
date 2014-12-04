@@ -279,8 +279,8 @@ void MainWindow::on_BtnLogin_clicked()
 {
     //user = storageControl->logIn(User(ui->UsernameBox->text(), ui->PasswordBox->text(),"",""));
     user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
-    userStu = storageControl->logIn(user);
-    ui->loginStatus->setText(userStu->getName());
+    storageControl->logIn(user);
+    ui->loginStatus->setText(user->getName());
     /*
     if (ui->UsernameBox->text() == "student") {
         ui->LoginPage->setVisible(false);

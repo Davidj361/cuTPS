@@ -29,7 +29,8 @@ SOURCES += main.cc\
     storage/ConnectionClient.cc \
     purchase/checkout/checkout.cc \
     purchase/shoppingCartManagement/shoppingCart.cc \
-    ../common/Class.cpp
+    ../common/Class.cpp \
+    courseManagement/CourseManagement.cc
 
 HEADERS  += \
     headers/MainWindow.h \
@@ -49,6 +50,7 @@ HEADERS  += \
     storage/ConnectionClient.h \
     purchase/checkout/checkout.h \
     purchase/shoppingCartManagement/shoppingCart.h \
-    ../common/headers/Class.h
+    ../common/headers/Class.h \
+    courseManagement/CourseManagement.h
 
 FORMS    += mainwindow.ui

@@ -58,6 +58,8 @@ class MainWindow : public QMainWindow {
 
         bool isStudent();
 
+        void displayMainStudent();
+
 private:
 
         Ui::MainWindow    *ui;

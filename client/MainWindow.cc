@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->ShoppingCartStudent->setVisible(false);
     ui->ShoppingCartGatherCreditCardInfo->setVisible(false);
     ui->ShoppingCartOrderConfirmed->setVisible(false);
+    ui->UsernameBox->setText("bruce");
+    ui->PasswordBox->setText("password");
 
     ui->loginStatus->setVisible(false);
     ui->UsernameBox->setFocus();
@@ -33,9 +35,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     storageControl = new StorageControl();
     serializer = new Serializer();
 
-    user = new User("student","pass","","");
-    userStu   = new User("peter", "", "", "");
-    userCM    = new User("gandalf", "", "", "");
 
     book_list = 0;
 
@@ -278,6 +277,11 @@ void MainWindow::on_BtnClear_clicked()
 
 void MainWindow::on_BtnLogin_clicked()
 {
+    //user = storageControl->logIn(User(ui->UsernameBox->text(), ui->PasswordBox->text(),"",""));
+    user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
+    userStu = storageControl->logIn(user);
+    ui->loginStatus->setText(userStu->getName());
+    /*
     if (ui->UsernameBox->text() == "student") {
         ui->LoginPage->setVisible(false);
         ui->MainStudent->setVisible(true);
@@ -289,6 +293,7 @@ void MainWindow::on_BtnLogin_clicked()
         ui->LoginPage->setVisible(false);
         ui->MainContentManager->setVisible(true);
     }
+    */
     /*
     if (MainWindow::validUsernamePassword() && MainWindow::isStudent()) {
         ui->LoginPage->setVisible(false);

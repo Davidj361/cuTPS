@@ -64,7 +64,7 @@ private:
         ConnectionClient  *connection;
         Serializer        *serializer;
         QString           *serverIP;
-        User *user;
+        User user;
         User              *userStu;
         User              *userCM;
         vector<Textbook *> *book_list;

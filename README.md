@@ -19,29 +19,6 @@
   2.  `$ make`
   3.  `$ ./cuTPSClient`
 
-## Test Cases
-
-### 1. Add Content
- This test case first adds a new textbook, chapter and then section to the database.
- It then tries to add the same ones again and should fail at doing so. Chapters and
- sections have a dependancy on a textbook (and a section on a chapter). We assume that 
- on the client side it is not possible for a chapter or section to exist without it's
- proper dependancies.  
- *Note*: The fail error messages are expected when attempting to add the same content.
- 
-### 2. GetContent
-This test case first retrieves all of the content that would be retrieved for a student (in this case named peter). It then retrieves all of the content that would be retrieved for a content manager.
- 
-### 3. Add Invoice
-This test case adds a student to an invoice object and adds the first textbook on the list retrieved by the get content test and adds it to the database. We assume that when a shopping cart is purchased this is the only information that will be stored on the database and that the client will not let a user try to purchase an empty cart.
- 
-### 4. Run All tests
- This test case runs each test in the order presented here.
- 
-## Other functionality
-- Field for setting IP address: default is local loopback, apply sets a new one (checking for a valid IP address is not done)
-- Clear button: clears the test response list
-
 ## JSON API Reference
 
 Note that in all cases where an enum is used in the JSON examples below, 
@@ -68,19 +45,26 @@ Retrieves a list of content (textbooks, chapters, sections) for a user
 {
   command : GET_CONTENT,
   status : SUCCESS,
-  content: [ // Array of textbooks
+  content: [ // Array of classes
     {
-      isbn : "1234567890",
-      title : "Book title",
-      publisher : "John Doe",
-      author : "Jane Doe",
-      year : 2014,
-      edition : "1",
-      description : "Here is a book description",
-      available : true,
-      price : 25.75,
-      content_id : 1,
-      chapters : [ // Array of chapters
+      semester : "FALL 2014",
+      course : {
+        code : "COMP 3004",
+        title : "Intro to Software Engineering"
+      },
+      booklist : [
+      {
+        isbn : "1234567890",
+        title : "Book title",
+        publisher : "John Doe",
+        author : "Jane Doe",
+        year : 2014,
+        edition : "1",
+        description : "Here is a book description",
+        available : true,
+        price : 25.75,
+        content_id : 1,
+        chapters : [ // Array of chapters
         {
           title : "Chapter 1",
           chapterNo : 1,
@@ -89,22 +73,30 @@ Retrieves a list of content (textbooks, chapters, sections) for a user
           price : 15.50,
           content_id : 2,
           sections : [ // Array of sections
-            {
-              title : "Section 1"
-              sectionNo : 1,
-              description : "Section 1 description",
-              available : true,
-              price : 5.15,
-              content_id : 3
-            },
-            // More sections
+          {
+            title : "Section 1"
+            sectionNo : 1,
+            description : "Section 1 description",
+            available : true,
+            price : 5.15,
+            content_id : 3
+          },
+          // More sections
           ]
         },
         // More chapters
+        ]
+      },
+      // More textbooks...
+      ],
+      studentlist : [
+      {
+        username : "bob",
+        name : "Bobby Boucher"
+      },
+      // More students (unless this request was for a student, then that student will be the only user in this list
       ]
-    },
-    // More textbooks...
-  ]
+    }
 }
 ```
 

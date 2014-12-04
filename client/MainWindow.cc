@@ -254,10 +254,14 @@ void MainWindow::studentCourseListPopulate() {
     /*
     for (int i = 0; i < studentCourseList->size(); i++ )
         ui->courseList->addItem(studentCourseList->at(0));
-        */
+
     ui->courseList->addItem("COMP1001");
     ui->courseList->addItem("PSYCH2002");
     ui->courseList->addItem("POLI3003");
+    */
+    for (int i=0; i < localStorage.getClasses().size(); i++ ){
+        ui->courseList->addItem(localStorage.getClasses().at(0)->getCourse()->getCourseTitle());
+    }
 }
 
 void MainWindow::clearStudentCourseList() {
@@ -284,9 +288,11 @@ void MainWindow::on_BtnLogin_clicked()
         localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
         ui->loginStatus->setText(localStorage.getUser().getUsername());
         ui->loginStatus->setVisible(true);
+        localStorage.refresh();
         MainWindow::displayMainStudent();
     } catch(runtime_error e) {
         ui->loginStatus->setText(e.what());
+        qDebug() << e.what();
         //ui->loginStatus->setText("Invalid Username and Password");
 
         ui->loginStatus->setVisible(true);

@@ -27,6 +27,8 @@ SOURCES += main.cc\
     storage/ClientSerializer.cc \
     contentDisplay/localStorage/localStorage.cc \
     storage/ConnectionClient.cc \
+    purchase/checkout/checkout.cc \
+    purchase/shoppingCartManagement/shoppingCart.cc \
     ../common/Class.cpp
 
 HEADERS  += \
@@ -45,6 +47,8 @@ HEADERS  += \
     ../common/headers/Serializable.h \
     contentDisplay/localStorage/localStorage.h \
     storage/ConnectionClient.h \
+    purchase/checkout/checkout.h \
+    purchase/shoppingCartManagement/shoppingCart.h \
     ../common/headers/Class.h
 
 FORMS    += mainwindow.ui

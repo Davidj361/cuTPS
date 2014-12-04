@@ -6,6 +6,7 @@
 #include <QString>
 #include <QScrollBar>
 #include <QListWidgetItem>
+#include <exception>
 
 #include "storage/ConnectionClient.h"
 #include "storage/StorageControl.h"
@@ -14,6 +15,7 @@
 #include "../common/headers/Section.h"
 #include "../common/headers/Definitions.h"
 #include "../common/headers/Serializer.h"
+#include "contentDisplay/localStorage/localStorage.h"
 
 namespace Ui {
 class MainWindow;
@@ -61,16 +63,18 @@ class MainWindow : public QMainWindow {
         void displayMainStudent();
 
 private:
+        // Subsystems
+        StorageControl storageControl; // TODO make non-pointer
+        LocalStorage   localStorage;
 
         Ui::MainWindow    *ui;
         ConnectionClient  *connection;
         Serializer        *serializer;
         QString           *serverIP;
-        User user;
-        User              *userStu;
-        User              *userCM;
+        // User              *user;
+        // User              *userStu;
+        // User              *userCM;
         vector<Textbook *> *book_list;
-        StorageControl *storageControl;
         QWidget *popup;
 
         QString anISBN;

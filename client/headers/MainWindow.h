@@ -71,6 +71,7 @@ private:
         User              *userCM;
         vector<Textbook *> *book_list;
         StorageControl *storageControl;
+        QWidget *popup;
 
         QString anISBN;
         int     aChapterNumber;

@@ -286,7 +286,9 @@ void MainWindow::on_BtnLogin_clicked()
         ui->loginStatus->setVisible(true);
         MainWindow::displayMainStudent();
     } catch(runtime_error e) {
-        ui->loginStatus->setText("Invalid Username and Password");
+        ui->loginStatus->setText(e.what());
+        //ui->loginStatus->setText("Invalid Username and Password");
+
         ui->loginStatus->setVisible(true);
     }
     /*

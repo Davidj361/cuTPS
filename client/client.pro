@@ -25,7 +25,8 @@ SOURCES += main.cc\
     storage/StorageControl.cc \
     ../common/Course.cc \
     storage/ClientSerializer.cc \
-    storage/ConnectionClient.cc
+    contentDisplay/localStorage/localStorage.cc \
+    storage/ConnectionClient.cc \
 
 HEADERS  += \
     headers/MainWindow.h \
@@ -41,6 +42,7 @@ HEADERS  += \
     ../common/headers/Course.h \
     storage/ClientSerializer.h \
     ../common/headers/Serializable.h \
-    storage/ConnectionClient.h
+    contentDisplay/localStorage/localStorage.h \
+    storage/ConnectionClient.h \
 
 FORMS    += mainwindow.ui

@@ -25,6 +25,7 @@ SOURCES += main.cc\
     storage/StorageControl.cc \
     ../common/Course.cc \
     storage/ClientSerializer.cc \
+    contentDisplay/localStorage/localStorage.cc \
     storage/ConnectionClient.cc \
     ../common/Class.cpp
 
@@ -42,6 +43,7 @@ HEADERS  += \
     ../common/headers/Course.h \
     storage/ClientSerializer.h \
     ../common/headers/Serializable.h \
+    contentDisplay/localStorage/localStorage.h \
     storage/ConnectionClient.h \
     ../common/headers/Class.h
 

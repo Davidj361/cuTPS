@@ -366,6 +366,7 @@ Change D3
                 Possible mismatch of types due to const
                 Change return type of getContentList to have type QList<Textbook*>
                 Delete the interface function getContentList, we're not using it anymore
+                Fix return types and update functions for ShoppingCartManagement
         LocalStorage
                 Take out ContentList, it has the same functionality as LocalStorage
                 Change that courses holds textbooks instead of being separate

@@ -45,8 +45,8 @@ class ClientSerializer {
         // ===================================================================== */
         void serialize(Serializable&, commands_t, QByteArray&) const;
 
-        bool deserialize(QByteArray&);
-        bool deserialize(QByteArray&, QList<Class*>&);
+        void deserialize(QByteArray&);
+        void deserialize(QByteArray&, QList<Class*>&);
         void deserialize(QByteArray&, User&);
 
     private:

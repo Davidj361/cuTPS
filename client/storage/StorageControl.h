@@ -47,7 +47,7 @@ class StorageControl : public QObject {
         ConnectionClient *connection;
         QString ip;
 
-        bool updateStorage(Serializable&, commands_t) const;
+        void updateStorage(Serializable&, commands_t) const;
 
 
 };

@@ -11,7 +11,7 @@ void ClientSerializer::serialize(Serializable &obj, commands_t command, QByteArr
 }
 
 // Deserializing update response. Expecting only a result, no object
-bool ClientSerializer::deserialize(QByteArray& inJson){
+void ClientSerializer::deserialize(QByteArray& inJson){
     // Create a QJsonDocument from the QByteArray
     QJsonDocument jdoc = QJsonDocument::fromJson(inJson);
     QJsonObject json;
@@ -21,13 +21,13 @@ bool ClientSerializer::deserialize(QByteArray& inJson){
         throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
     else
         json = jdoc.object();
+
     if(json.value("status").toDouble() != SUCCESS)
         throw runtime_error(json.value("message").toString().toStdString());
-    return true;
 }
 
 
-bool ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
+void ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
 
     // Create a QJsonDocument from the QByteArray
     QJsonDocument jdoc = QJsonDocument::fromJson(inJson);
@@ -36,54 +36,51 @@ bool ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
     // Create a QJsonObject from the QJsonDocument
     if (jdoc.isNull())
         throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
-    else
-        json = jdoc.object();
+
+    json = jdoc.object();
+
     if(json.value("command").toDouble() != GET_CONTENT)
         throw runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
- /*   QJsonArray content = json.value("content").toArray();
-    int i,j,k,l;
-    for(i = 0; i < content.size(); i++){
-        QJsonObject coursej = content.at(i).toObject();
-        Course *newCourse;
-        createCourse(coursej, newCourse);
-        if(newCourse == NULL)
-            continue;
-        courses.append(newCourse);
-        QJsonArray textbooks = coursej["textbooks"].toArray();
-        for(j = 0; j < textbooks.size(); j++){
-            QJsonObject textbookj = textbooks.at(j).toObject();
-            Textbook *newTb;
-            createTextbook(textbookj, newTb);
-            if(newTb == NULL)
-                continue;
-            newCourse->addTextbook(newTb);
-            QJsonArray chapters = textbookj["chapters"].toArray();
-            for(k=0; k<chapters.size(); k++){
-                QJsonObject chapterj = chapters.at(k).toObject();
-                Chapter *newCh;
-                createChapter(chapterj, newCh, newTb);
-                if(newCh == NULL)
-                    continue;
-                newTb->addChapter(newCh);
-                QJsonArray sections = chapterj["sections"].toArray();
-                for(l=0; l < sections.size(); l++){
-                    QJsonObject sectionj = sections.at(l).toObject();
-                    Section *newSec;
-                    createSection(sectionj, newSec, newCh, newTb);
-                    if(newSec == NULL)
-                        continue;
-                    newCh->addSection(newSec);
+
+    if(json.value("status").toDouble() != SUCCESS)
+        throw runtime_error(json.value("message").toString().toStdString());
+
+    QJsonArray classesJsonArray = json.value("classes").toArray();
+    foreach (const QJsonValue & classJsonValue, classesJsonArray) {
+        QJsonObject classJsonObject = classJsonValue.toObject();
+
+        Course *course = new Course(classJsonObject["code"].toString(), classJsonObject["title"].toString());
+        Class *clss = new Class(classJsonObject["semester"].toString(), course);
+
+        courses.append(clss);
+
+        QJsonArray booklistJsonArray = classJsonObject.value("booklist").toArray();
+        foreach (const QJsonValue & bookJsonValue, booklistJsonArray) {
+            QJsonObject bookJsonObject = bookJsonValue.toObject();
+
+            Textbook *textbook;
+            createTextbook(bookJsonObject, textbook);
+            clss->addTextbook(textbook);
+
+            QJsonArray chaptersJsonArray = bookJsonObject.value("chapters").toArray();
+            foreach (const QJsonValue & chaptersJsonObject, chaptersJsonArray) {
+                QJsonObject chapterJsonObject = chaptersJsonObject.toObject();
+
+                Chapter *chapter;
+                createChapter(chapterJsonObject, chapter, textbook);
+                textbook->addChapter(chapter);
+
+                QJsonArray sectionsJsonArray = chapterJsonObject.value("sections").toArray();
+                foreach (const QJsonValue & sectionsJsonValue, sectionsJsonArray) {
+                    QJsonObject sectionJsonObject = sectionsJsonValue.toObject();
+
+                    Section *section;
+                    createSection(sectionJsonObject, section, chapter, textbook);
                 }
             }
         }
-        */
-
     }
-// TODO deserialize arrays
-
-
-
-// }
+}
 
 void ClientSerializer::deserialize(QByteArray& inJson, User & user) {
     // Create a QJsonDocument from the QByteArray
@@ -113,19 +110,18 @@ void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse) {
     // newCourse = new Course(courseTitle, courseCode, term);
 }
 
-void ClientSerializer::createTextbook(const QJsonObject &json, Textbook *&newTextbook) const {
-    QString title( json["title"].toString() );
-    bool available( json["available"].toBool() );
-    float price( (float)( json["price"].toDouble() ) );
-    QString author( json["author"].toString() );
-    QString ISBN( json["ISBN"].toString() );
-    QString publisher( json["publisher"].toString() );
-    QString edition( json["edition"].toString() );
-    QString description( json["description"].toString() );
-    int year( (int)( json["year"].toDouble() ) );
-
-    // XXX NEW MEMORY HERE
-    newTextbook = new Textbook(ISBN, title, publisher, author, year, edition, description, available, price);
+void ClientSerializer::createTextbook(const QJsonObject &bookJsonObject, Textbook *&textbook) const {
+    textbook = new Textbook(
+            bookJsonObject["isbn"].toString(),
+            bookJsonObject["title"].toString(),
+            bookJsonObject["publisher"].toString(),
+            bookJsonObject["author"].toString(),
+      (int) bookJsonObject["year"].toDouble(),
+            bookJsonObject["edition"].toString(),
+            bookJsonObject["description"].toString(),
+            bookJsonObject["available"].toBool(),
+     (bool) bookJsonObject["price"].toDouble()
+    );
 }
 
 void ClientSerializer::createChapter(QJsonObject &json, Chapter *&newChapter, Textbook *&parentTb){

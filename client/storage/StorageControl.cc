@@ -74,8 +74,12 @@ void StorageControl::logIn(User &u){
         serializer->deserialize(*res, u);
     }
     catch (runtime_error e) {
+        delete req;
+        delete res;
         throw e;
     }
+    delete req;
+    delete res;
 }
 
 void StorageControl::refreshContent(User &u, QList<Class*> &cs){
@@ -83,17 +87,33 @@ void StorageControl::refreshContent(User &u, QList<Class*> &cs){
     QByteArray *res = new QByteArray();
     serializer->serialize(u, GET_CONTENT, *req);
     connection->request(*req, *res);
-    serializer->deserialize(*res, cs);
+    try {
+        serializer->deserialize(*res, cs);
+    }
+    catch(runtime_error e) {
+        delete req;
+        delete res;
+        throw e;
+    }
+    delete req;
+    delete res;
 }
 
-bool StorageControl::updateStorage(Serializable& obj, commands_t command) const {
+void StorageControl::updateStorage(Serializable& obj, commands_t command) const {
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(obj, command, *req);
-    qDebug()<<*req;
     connection->request(*req, *res);
-    delete req;
 
-    return serializer->deserialize(*res);
+    try {
+        serializer->deserialize(*res);
+    }
+    catch(runtime_error e) {
+        delete req;
+        delete res;
+        throw e;
+    }
+    delete req;
+    delete res;
 }
 

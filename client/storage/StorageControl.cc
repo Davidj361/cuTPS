@@ -61,8 +61,7 @@ void StorageControl::removeClass(Class   &c){
     updateStorage(c, DELETE_CLASS);
 }
 
-
-void StorageControl::checkout(Invoice &i){
+void StorageControl::checkout(Invoice &i) const {
     updateStorage(i, ADD_INVOICE);
 }
 
@@ -86,7 +85,7 @@ void StorageControl::refreshContent(User &u, QList<Class*> &cs){
     serializer->deserialize(*res, cs);
 }
 
-bool StorageControl::updateStorage(Serializable& obj, commands_t command){
+bool StorageControl::updateStorage(Serializable& obj, commands_t command) const {
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(obj, command, *req);

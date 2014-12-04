@@ -2,7 +2,11 @@
 #define GUARD_SHOPPINGCART_H
 
 #include <QList>
-#include "Common.h"
+#include "../../../common/headers/Textbook.h"
+#include "../../../common/headers/Chapter.h"
+#include "../../../common/headers/Section.h"
+#include "../../../common/headers/User.h"
+#include "../../../common/headers/Course.h"
 
 class ShoppingCart {
         public:

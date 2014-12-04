@@ -64,7 +64,7 @@ class ServerConnectionController : public QObject {
         QCoreApplication *app;
         ConnectionServer *connection;
         ServerSerializer *serializer;
-        DBController *dbController;
+        DBController *db;
 
 };
 #endif

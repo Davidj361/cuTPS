@@ -5,10 +5,11 @@ using namespace std;
 ServerConnectionController::ServerConnectionController (QObject *parent) : QObject(parent) {
     app = QCoreApplication::instance();
     serializer = new ServerSerializer();
+    db = new DBController();
 }
 
 ServerConnectionController::~ServerConnectionController () {
-    delete serializer;
+    // TODO delete?
 }
 
 void ServerConnectionController::Run () {
@@ -26,7 +27,7 @@ void ServerConnectionController::Run () {
         connection = new ConnectionServer();
 
         // Create new dbController to handle all storage operations
-        dbController = new DBController();
+        db = new DBController();
     }
     catch (exception &e) {
         qDebug()<< e.what();
@@ -49,6 +50,7 @@ void ServerConnectionController::Run () {
                 //get content
             }
 
+            //
             else if (command == ADD_TEXTBOOK || command == EDIT_TEXTBOOK || command == REMOVE_TEXTBOOK) {
 
                 Textbook *tb;
@@ -97,6 +99,14 @@ void ServerConnectionController::Run () {
 
             }
 
+            else if (command == LOGIN){
+                // login here
+                User *user;
+                serializer->deserialize(objJson, user);
+                db->Login(user);
+                serializer->serializeUser(*user, LOGIN, out);
+            }
+
             qDebug() << "Serialized Response...";
             //serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
             qDebug() << "Done. Serialized response size is.." << out.size();
@@ -140,8 +150,9 @@ void ServerConnectionController::Quit() {
 // constructor and/or to stop any threads
 void ServerConnectionController::AboutToQuitApp() {
     delete connection;
-    delete dbController;
+    delete db;
     delete app;
+    delete serializer;
     qDebug() << "In ServerConnectionController::AboutToQuitApp";
 }
 

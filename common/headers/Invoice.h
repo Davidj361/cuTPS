@@ -3,7 +3,7 @@
 #include "Content.h"
 #include "User.h"
 #include "Serializable.h"
-#include <vector>
+#include <QList>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class Invoice: public Serializable{
+class Invoice: public Serializable {
 
     public:
 
@@ -22,7 +22,8 @@ class Invoice: public Serializable{
         Variables : IN  -  Username
         Returns   : void
         ===================================================================== */
-        Invoice(QString);
+        Invoice(const QString&);
+        Invoice(const QString&, const QList<int>&); // this is for constructing from the shopping cart
 
         QList<int> &getContentList();
         void addContent(Content *);

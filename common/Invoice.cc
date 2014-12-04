@@ -1,7 +1,12 @@
 #include "headers/Invoice.h"
 
-Invoice::Invoice(QString cUsername) {
+Invoice::Invoice(const QString& cUsername) {
     username = cUsername;
+}
+
+Invoice::Invoice(const QString& cUsername, const QList<int>& content) {
+    this->username = cUsername;
+    this->contentList = content;
 }
 
 QList<int> &Invoice::getContentList() {

@@ -67,4 +67,13 @@ void Textbook::serialize(QJsonObject &content) {
     content["c_id"] = c_id;
     content["ISBN"] = ISBN;
     content["description"] = description;
+
+    QJsonArray chs;
+    foreach(Chapter * c, chapters){
+        QJsonObject cjson;
+        c->serialize(cjson);
+        chs.append(cjson);
+    }
+
+    content["chapters"] = chs;
 }

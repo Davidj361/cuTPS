@@ -53,6 +53,7 @@ void ServerConnectionController::Run () {
                 QList<Class *> list;
                 QString username = user->getName();
                 db->RetrieveContentList(username, list);
+                serializer->serializeClasses(list, command, out);
 
             }
 

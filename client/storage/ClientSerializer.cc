@@ -85,7 +85,7 @@ bool ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
 
 // }
 
-bool ClientSerializer::deserialize(QByteArray& inJson, User ** user){
+void ClientSerializer::deserialize(QByteArray& inJson, User & user) {
     // Create a QJsonDocument from the QByteArray
     QJsonDocument jdoc = QJsonDocument::fromJson(inJson);
     QJsonObject json;
@@ -103,7 +103,7 @@ bool ClientSerializer::deserialize(QByteArray& inJson, User ** user){
 
     QJsonObject userObj = json["user"].toObject();
 
-    *user = new User(userObj["username"].toString(), userObj["password"].toString(), userObj["type"].toString(), userObj["name"].toString());
+    user.setType(userObj["type"].toString());
 }
 
 void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse) {

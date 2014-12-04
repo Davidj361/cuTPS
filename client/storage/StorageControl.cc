@@ -65,16 +65,17 @@ void StorageControl::checkout(Invoice &i) const {
     updateStorage(i, ADD_INVOICE);
 }
 
-
-User* StorageControl::logIn(User &u){
+void StorageControl::logIn(User &u){
     QByteArray *req = new QByteArray();
     QByteArray *res = new QByteArray();
     serializer->serialize(u, LOGIN, *req);
     connection->request(*req, *res);
-    User *user;
-    serializer->deserialize(*res, &user);
-
-    return user;
+    try {
+        serializer->deserialize(*res, u);
+    }
+    catch (runtime_error e) {
+        throw e;
+    }
 }
 
 void StorageControl::refreshContent(User &u, QList<Class*> &cs){
@@ -93,7 +94,6 @@ bool StorageControl::updateStorage(Serializable& obj, commands_t command) const 
     connection->request(*req, *res);
     delete req;
 
-    // todo - catch errors from the server
     return serializer->deserialize(*res);
 }
 

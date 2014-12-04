@@ -25,11 +25,17 @@ Class::~Class() {
 
 void Class::serialize(QJsonObject &json) {
     json.insert("semester", semester);
-    json.insert("courseCode", course->getCourseCode());
-    json.insert("courseTitle", course->getCourseTitle());
     QJsonObject jcourse;
     course->serialize(jcourse);
     json.insert("course", jcourse);
+
+    QJsonArray tbs;
+    foreach(Textbook *t, booklist){
+        QJsonObject tjson;
+        t->serialize(tjson);
+        tbs.append(tjson);
+    }
+    json["booklist"] = tbs;
 }
 
 QString Class::getSemester() {

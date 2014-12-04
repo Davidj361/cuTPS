@@ -5,6 +5,7 @@
 #include "Textbook.h"
 #include "Serializable.h"
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QList>
 
 using namespace std;

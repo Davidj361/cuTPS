@@ -56,8 +56,26 @@ void ServerSerializer::deserialize(QJsonObject &json, Section *&s){
 
 }
 
-void ServerSerializer::serializeClasses(QList<Class*>&,commands_t command, QByteArray&){
-    // TODO serialize the content here
+void ServerSerializer::serializeClasses(QList<Class*>& list,commands_t command, QByteArray& out){
+
+    QJsonObject outjson;
+    outjson["command"] = command;
+    outjson["status"] = SUCCESS;
+
+    QJsonArray classArr;
+
+    foreach(Class *c, list){
+
+        QJsonObject cjson;
+        c->serialize(cjson);
+        classArr.append(cjson);
+
+    }
+
+    outjson["classes"] = classArr;
+
+    QJsonDocument doc(outjson);
+    out = doc.toJson();
 
 
 }

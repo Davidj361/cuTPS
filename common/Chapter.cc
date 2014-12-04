@@ -32,6 +32,14 @@ void Chapter::serialize(QJsonObject &chapterJson) {
     chapterJson["chapterNo"] = chapterNo;
     chapterJson["description"] = description;
     chapterJson["c_id"] = c_id;
+    QJsonArray sectionsa;
+    foreach(Section* s, sections){
+        QJsonObject sjson;
+        s->serialize(sjson);
+        sectionsa.append(sjson);
+    }
+    chapterJson["sections"] =sectionsa;
+
 }
 
 void Chapter::addSection(Section *sec) {

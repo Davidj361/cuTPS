@@ -10,6 +10,7 @@ void ClientSerializer::serialize(Serializable &obj, commands_t command, QByteArr
     request = doc.toJson();
 }
 
+// Deserializing update response. Expecting only a result, no object
 bool ClientSerializer::deserialize(QByteArray& inJson){
     // Create a QJsonDocument from the QByteArray
     QJsonDocument jdoc = QJsonDocument::fromJson(inJson);
@@ -24,6 +25,7 @@ bool ClientSerializer::deserialize(QByteArray& inJson){
         throw runtime_error(json.value("message").toString().toStdString());
     return true;
 }
+
 
 bool ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
 
@@ -96,9 +98,12 @@ bool ClientSerializer::deserialize(QByteArray& inJson, User ** user){
     if(json.value("command").toDouble() != LOGIN)
         throw runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
 
-    *user = new User(json["username"].toString(), json["password"].toString(), json["type"].toString(), json["name"].toString());
+    if (json.value("status").toDouble() != SUCCESS)
+        throw runtime_error(json.value("message").toString().toStdString());
 
+    QJsonObject userObj = json["user"].toObject();
 
+    *user = new User(userObj["username"].toString(), userObj["password"].toString(), userObj["type"].toString(), userObj["name"].toString());
 }
 
 void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse) {

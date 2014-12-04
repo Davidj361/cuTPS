@@ -23,7 +23,6 @@ void StorageControl::editTextbook(Textbook &tb){
 
 void StorageControl::removeTextbook(Textbook &tb){
     updateStorage(tb, REMOVE_TEXTBOOK);
-
 }
 
 void StorageControl::addChapter(Chapter &ch){
@@ -52,7 +51,6 @@ void StorageControl::removeSection(Section &s){
 
 void StorageControl::addClass(Class &c){
     updateStorage(c, ADD_CLASS);
-
 }
 
 void StorageControl::editClass(Class &c){
@@ -61,12 +59,12 @@ void StorageControl::editClass(Class &c){
 
 void StorageControl::removeClass(Class   &c){
     updateStorage(c, DELETE_CLASS);
-
 }
 
 void StorageControl::checkout(Invoice &i) const {
     updateStorage(i, ADD_INVOICE);
 }
+
 
 User* StorageControl::logIn(User &u){
     QByteArray *req = new QByteArray();
@@ -94,6 +92,8 @@ bool StorageControl::updateStorage(Serializable& obj, commands_t command) const 
     qDebug()<<*req;
     connection->request(*req, *res);
     delete req;
+
+    // todo - catch errors from the server
     return serializer->deserialize(*res);
 }
 

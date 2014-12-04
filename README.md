@@ -25,6 +25,40 @@ Note that in all cases where an enum is used in the JSON examples below,
 it is referring to the value of the enum (ie. an integer) and not the enum
 as a string.
 
+### Login
+
+**Request**
+
+```json
+{
+  command : LOGIN,
+  status : REQUEST,
+  user : {
+    username : "bob",
+    name : "",
+    password : "xxxxxxx",
+    type : ""
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  command : LOGIN,
+  status : SUCCESS,
+  user : {
+    username : "bob",
+    name : "Bobby",
+    password : "xxxxxxx",
+    type : "student"
+  }
+}
+```
+
+
+
 ### Retrieve Content
 
 **Request**

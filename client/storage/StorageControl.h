@@ -33,11 +33,13 @@ class StorageControl : public QObject {
         void addSection(Section&);
         void editSection(Section&);
         void removeSection(Section&);
+
         void addClass(Class&);
         void editClass(Class&);
         void removeClass(Class&);
         void checkout(Invoice&) const;
         void refreshContent(User&, QList<Class*>&);
+
         User* logIn(User&);
 
     private:

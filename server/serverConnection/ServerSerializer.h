@@ -30,9 +30,9 @@ class ServerSerializer : public QObject {
         void deserialize(QJsonObject&, Section*&);
         void deserialize(QJsonObject&, User*&);
 
-        void serialize(QList<Course>&, QByteArray&);
-        void serialize(QString&, QByteArray&);
-        void serialize(Serializable&, QByteArray&);
+        void serialize(QList<Course>&,commands_t command, QByteArray&);
+        void serialize(QString&,commands_t, QByteArray&);
+        void serializeUser(Serializable&,commands_t, QByteArray&);
 
 
     private:

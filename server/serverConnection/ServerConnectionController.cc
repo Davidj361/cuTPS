@@ -104,7 +104,7 @@ void ServerConnectionController::Run () {
                 User *user;
                 serializer->deserialize(objJson, user);
                 db->Login(user);
-                serializer->serialize(*user, out);
+                serializer->serializeUser(*user, LOGIN, out);
             }
 
             qDebug() << "Serialized Response...";

@@ -13,8 +13,8 @@ StorageControl::~StorageControl(){
     delete serializer;
 }
 
-void StorageControl::addTextbook(Textbook &tb){
-    updateStorage(tb, ADD_TEXTBOOK);
+void StorageControl::addTextbook(Class &clss){
+    updateStorage(clss, ADD_TEXTBOOK);
 }
 
 void StorageControl::editTextbook(Textbook &tb){

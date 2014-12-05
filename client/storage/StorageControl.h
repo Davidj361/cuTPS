@@ -24,7 +24,7 @@ class StorageControl : public QObject {
 
         ~StorageControl();
 
-        void addTextbook(Textbook&);
+        void addTextbook(Class&);
         void editTextbook(Textbook&);
         void removeTextbook(Textbook&);
 

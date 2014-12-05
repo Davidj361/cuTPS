@@ -29,7 +29,7 @@ class Textbook: public Content, public Serializable {
                         -  c_id
         Returns   : void
         ===================================================================== */
-        Textbook(QString, QString, QString, QString, int, QString, QString, bool, float, int cC_id = 0);
+        Textbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool available, float price, int content_id = 0);
         ~Textbook();
 
         QString getAuthor();

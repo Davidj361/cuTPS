@@ -79,7 +79,6 @@ void ServerConnectionController::Run () {
                 Chapter *ch;
                 serializer->deserialize(objJson, ch);
                 if(command == ADD_CHAPTER)
-                    // add textbook here
                     1+1;
                 if(command == EDIT_CHAPTER)
                     //edit here

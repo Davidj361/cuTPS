@@ -1,4 +1,4 @@
-#include "headers/Section.h"
+    #include "headers/Section.h"
 
 Section::Section(QString cTitle, int cSectionNo, Chapter *cChapter,
                  Textbook *cTextbook, QString cDescription, bool cAvailable,
@@ -33,5 +33,8 @@ void Section::serialize(QJsonObject &sectionJson) {
     sectionJson["sectionNo"] = sectionNo;
     sectionJson["description"] = description;
     sectionJson["c_id"] = c_id;
+    if(textbook != 0){
+        sectionJson["isbn"] = textbook->getISBN();
+    }
 
 }

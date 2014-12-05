@@ -30,7 +30,8 @@ SOURCES += main.cc\
     purchase/checkout/checkout.cc \
     purchase/shoppingCartManagement/shoppingCart.cc \
     ../common/Class.cpp \
-    courseManagement/CourseManagement.cc
+    courseManagement/CourseManagement.cc \
+    textbookManagement/TextbookManagement.cc
 
 HEADERS  += \
     headers/MainWindow.h \
@@ -51,6 +52,7 @@ HEADERS  += \
     purchase/checkout/checkout.h \
     purchase/shoppingCartManagement/shoppingCart.h \
     ../common/headers/Class.h \
-    courseManagement/CourseManagement.h
+    courseManagement/CourseManagement.h \
+    textbookManagement/TextbookManagement.h
 
 FORMS    += mainwindow.ui

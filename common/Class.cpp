@@ -16,11 +16,8 @@ Class::~Class() {
         delete s;
         s = 0;
     }
-    // Todo - Delete me if the above works
-    //    for (QList<Textbook*>::iterator iter = this->textbooks.begin(); iter != this->textbooks.end(); ++iter) {
-    //        delete *iter;
-    //        *iter = 0;
-    //    }
+
+    delete course;
 }
 
 void Class::serialize(QJsonObject &json) {

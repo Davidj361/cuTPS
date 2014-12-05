@@ -31,6 +31,8 @@ void Chapter::serialize(QJsonObject &chapterJson) {
     chapterJson["price"] = price;
     chapterJson["chapterNo"] = chapterNo;
     chapterJson["description"] = description;
+    if (textbook != 0)
+        chapterJson["isbn"] = textbook->getISBN();
     chapterJson["c_id"] = c_id;
     QJsonArray sectionsa;
     foreach(Section* s, sections){

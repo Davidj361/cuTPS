@@ -26,8 +26,7 @@ class Section: public Content, public Serializable {
                         -  c_id
         Returns   : void
         ===================================================================== */
-        Section(QString, int, Chapter * = 0, Textbook * = 0,
-                QString = "", bool = false, float = 0, int = 0);
+        Section(QString title, int section, Chapter *chapter = 0, Textbook *textbook = 0, QString description = "", bool available = false, float price = 0, int content_id= 0);
         Chapter  *getChapter ();
         Textbook *getTextbook ();
         void      serialize (QJsonObject &);

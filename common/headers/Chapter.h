@@ -15,20 +15,7 @@ class Textbook;
 class Chapter: public Content, public Serializable {
 
     public:
-
-        /* =====================================================================
-        Function  : Chapter
-        Purpose   : Constructs a Chapter
-        Variables : IN  -  Title
-                    IN  -  Chapter Number
-                    IN  -  Parent Textbook
-                    IN  -  Description
-                    IN  -  Whether it is available
-                    IN  -  Price
-                    IN  -  c_id
-        Returns   : void
-        ===================================================================== */
-        Chapter(QString, int, Textbook * = 0, QString = "", bool = false, float = 0, int cC_id = 0);
+        Chapter(QString title, int chapter, Textbook *textbook = 0, QString description = "", bool available = false, float price = 0, int content_id = 0);
         ~Chapter();
 
         Textbook *getTextbook();

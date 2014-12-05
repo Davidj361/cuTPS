@@ -144,7 +144,13 @@ Stores a textbook in the database
 {
   command : ADD_TEXTBOOK,
   status : REQUEST,
-  content : {
+  serialized : {
+    semester : "FALL 2014",
+    course : {
+      courseCode : "COMP 3004",
+      courseTitle : ""
+    }
+    booklist : [{
       isbn : "1234567890",
       title : "Book title",
       publisher : "John Doe",
@@ -153,8 +159,8 @@ Stores a textbook in the database
       edition : "1",
       description : "Here is a book description",
       available : true,
-      price : 25.75,
-      content_id : 1,
+      price : 25.75
+    }]
   }
 }
 ```

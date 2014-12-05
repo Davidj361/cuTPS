@@ -13,8 +13,8 @@ StorageControl::~StorageControl(){
     delete serializer;
 }
 
-void StorageControl::addTextbook(Textbook &tb){
-    updateStorage(tb, ADD_TEXTBOOK);
+void StorageControl::addTextbook(Class &clss){
+    updateStorage(clss, ADD_TEXTBOOK);
 }
 
 void StorageControl::editTextbook(Textbook &tb){
@@ -61,6 +61,10 @@ void StorageControl::removeClass(Class   &c){
     updateStorage(c, DELETE_CLASS);
 }
 
+void StorageControl::removeCourse(Course &course) {
+    updateStorage(course, REMOVE_COURSE);
+}
+
 void StorageControl::checkout(Invoice &i) const {
     updateStorage(i, ADD_INVOICE);
 }
@@ -104,7 +108,6 @@ void StorageControl::updateStorage(Serializable& obj, commands_t command) const 
     QByteArray *res = new QByteArray();
     serializer->serialize(obj, command, *req);
     connection->request(*req, *res);
-
     try {
         serializer->deserialize(*res);
     }

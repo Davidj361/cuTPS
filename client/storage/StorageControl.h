@@ -24,12 +24,14 @@ class StorageControl : public QObject {
 
         ~StorageControl();
 
-        void addTextbook(Textbook&);
+        void addTextbook(Class&);
         void editTextbook(Textbook&);
         void removeTextbook(Textbook&);
+
         void addChapter(Chapter&);
         void editChapter(Chapter&);
         void removeChapter(Chapter&);
+
         void addSection(Section&);
         void editSection(Section&);
         void removeSection(Section&);
@@ -37,6 +39,9 @@ class StorageControl : public QObject {
         void addClass(Class&);
         void editClass(Class&);
         void removeClass(Class&);
+
+        void removeCourse(Course&);
+
         void checkout(Invoice&) const;
         void refreshContent(User&, QList<Class*>&) const;
 

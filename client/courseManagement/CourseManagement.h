@@ -9,7 +9,8 @@ class CourseManagement{
         CourseManagement(StorageControl&);
 
         void addClass(QString, QString, QString, int);
-        void removeClass(QString courseCode, QString courseTitle, QString semester, int year);
+        void removeClass(QString courseCode, QString semester, int year);
+        void removeCourse(QString courseCode);
 
     private:
         StorageControl* storage;

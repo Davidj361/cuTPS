@@ -7,7 +7,7 @@ CourseManagement::CourseManagement(StorageControl &cStorage){
 void CourseManagement::addClass(QString courseCode, QString courseTitle, QString semester, int year){
 
     QString term(semester);
-    term.append(year);
+    term.append(" "+year);
     Course *course = new Course(courseCode, courseTitle);
     Class c(term,course);
 
@@ -18,12 +18,12 @@ void CourseManagement::addClass(QString courseCode, QString courseTitle, QString
     }
 }
 
-void CourseManagement::removeClass(QString courseCode, QString courseTitle, QString semester, int year){
+void CourseManagement::removeClass(QString courseCode, QString semester, int year){
 
     QString term(semester);
-    term.append(year);
+    term.append(" "+year);
 
-    Course *course = new Course(courseCode, courseTitle);
+    Course *course = new Course(courseCode, "");
     Class c(term,course);
     try{
         storage->removeClass(c);
@@ -32,3 +32,12 @@ void CourseManagement::removeClass(QString courseCode, QString courseTitle, QStr
     }
 }
 
+void CourseManagement::removeCourse(QString courseCode){
+
+    Course course(courseCode, "");
+    try{
+        storage->removeCourse(course);
+    } catch (runtime_error e) {
+        throw e;
+    }
+}

@@ -28,13 +28,14 @@ void ServerSerializer::deserialize(QJsonObject &json,Textbook *&tb){
     tb = new Textbook(json["isbn"].toString(), json["title"].toString(), json["publisher"].toString(),
             json["author"].toString(), (int)json["year"].toDouble(), json["edition"].toString(),
             json["descrition"].toString(), json["available"].toBool(), (float)json["price"].toDouble(),
-            (int)json["cid"].toDouble());
+            (int)json["c_id"].toDouble());
 }
 
 
 void ServerSerializer::deserialize(QJsonObject &json, Chapter *&ch){
 
-    ch = new Chapter(json["title"].toString(), (int)json["chapterNo"].toDouble(), 0, json["description"].toString(),
+    Textbook *tb = new Textbook(json["isbn"].toString(),"","","",-1,"","",false, -1);
+    ch = new Chapter(json["title"].toString(), (int)json["chapterNo"].toDouble(), tb, json["description"].toString(),
             json["available"].toBool(), (float)json["price"].toDouble(), (int)json["c_id"].toDouble());
 }
 
@@ -47,14 +48,33 @@ void ServerSerializer::deserialize(QJsonObject &json, User*& u){
             json["name"].toString());
 }
 
-
 void ServerSerializer::deserialize(QJsonObject &json, Section *&s){
-
-    s = new Section(json["title"].toString(), (int)json["sectionNo"].toDouble(), 0,
-            0, json["description"].toString(), json["available"].toBool(),
+    Textbook *tb = new Textbook(json["isbn"].toString(),"","","",-1,"","",false, -1);
+    Chapter *ch = new Chapter("", (int)json["chapterNo"].toDouble());
+    s = new Section(json["title"].toString(), (int)json["sectionNo"].toDouble(), ch,
+            tb, json["description"].toString(), json["available"].toBool(),
             (float)json["price"].toDouble(), (int)json["c_id"].toDouble());
 
 }
+
+void ServerSerializer::deserialize(QJsonObject& json, Class*& cl){
+
+    QJsonObject coursej = json["course"].toObject();
+    Course *course = new Course(coursej["courseCode"].toString(), coursej["courseTitle"].toString());
+    cl = new Class(json["semester"].toString(), course);
+
+    QJsonObject tbj = json["booklist"].toObject();
+    cl->addTextbook(new Textbook(tbj["isbn"].toString(), tbj["title"].toString(), tbj["publisher"].toString(),
+            tbj["author"].toString(), (int)tbj["year"].toDouble(), tbj["edition"].toString(),
+            tbj["descrition"].toString(), tbj["available"].toBool(), (float)tbj["price"].toDouble(),
+            (int)tbj["cid"].toDouble()));
+}
+
+void ServerSerializer::deserializeCourse(QJsonObject& json, Course*& c){
+    c = new Course(json["courseCode"].toString(), json["courseTitle"].toString());
+}
+
+
 
 void ServerSerializer::serializeClasses(QList<Class*>& list,commands_t command, QByteArray& out){
 

@@ -54,23 +54,28 @@ void ServerConnectionController::Run () {
                 QString username = user->getUsername();
                 db->RetrieveContentList(username, list);
                 serializer->serializeClasses(list, command, out);
+                delete user;
 
             }
 
             //
-            else if (command == ADD_TEXTBOOK || command == EDIT_TEXTBOOK || command == REMOVE_TEXTBOOK) {
+            else if (command == ADD_TEXTBOOK) {
 
+                Class *cl;
+                serializer->deserialize(objJson, cl);
+                db->AddTextbooksToClass(cl);
+                delete cl;
+
+            }
+
+            else if(command == EDIT_TEXTBOOK || command == REMOVE_TEXTBOOK){
                 Textbook *tb;
                 serializer->deserialize(objJson, tb);
-                if(command == ADD_TEXTBOOK)
-                    // add textbook here
-                    1+1;
                 if(command == EDIT_TEXTBOOK)
-                    //edit here
-                    1+1;
+                    db->EditTextbook(tb);
                 if(command == REMOVE_TEXTBOOK)
-                    // remove here
-                    1+1;
+                    db->DeleteTextbook(tb);
+                delete tb;
 
             }
 
@@ -79,13 +84,12 @@ void ServerConnectionController::Run () {
                 Chapter *ch;
                 serializer->deserialize(objJson, ch);
                 if(command == ADD_CHAPTER)
-                    1+1;
+                    db->AddChapter(ch);
                 if(command == EDIT_CHAPTER)
-                    //edit here
-                    1+1;
+                    db->EditChapter(ch);
                 if(command == REMOVE_CHAPTER)
-                    // remove here
-                    1+1;
+                    db->DeleteChapter(ch);
+                delete ch;
 
             }
 
@@ -94,14 +98,12 @@ void ServerConnectionController::Run () {
                 Section *s;
                 serializer->deserialize(objJson, s);
                 if(command == ADD_SECTION)
-                    // add textbook here
-                    1+1;
+                    db->AddSection(s);
                 if(command == ADD_CLASS)
-                    //edit here
-                    1+1;
+                    db->EditSection(s);
                 if(command == REMOVE_SECTION)
-                    // remove here
-                    1+1;
+                    db->DeleteSection(s);
+                delete s;
 
             }
 
@@ -111,7 +113,32 @@ void ServerConnectionController::Run () {
                 serializer->deserialize(objJson, user);
                 db->Login(user);
                 serializer->serializeUser(*user, LOGIN, out);
+                delete user;
+
             }
+
+            else if (command == REMOVE_COURSE){
+
+                Course *course;
+                serializer->deserializeCourse(objJson, course);
+                db->DeleteCourse(course);
+                delete course;
+
+            }
+
+            else if( command == ADD_CLASS || command == DELETE_CLASS ){
+
+                Class *cl;
+                serializer->deserialize(objJson, cl);
+
+                if ( command == ADD_CLASS )
+                    db->AddClass(cl);
+                if ( command == DELETE_CLASS)
+                    db->DeleteClass(cl);
+
+            }
+
+
 
             qDebug() << "Serialized Response...";
             qDebug() << out;

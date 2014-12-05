@@ -30,6 +30,8 @@ class ServerSerializer : public QObject {
         void deserialize(QJsonObject&, Invoice*&);
         void deserialize(QJsonObject&, Section*&);
         void deserialize(QJsonObject&, User*&);
+        void deserialize(QJsonObject&, Class*&);
+        void deserializeCourse(QJsonObject&, Course*&);
 
         void serializeClasses(QList<Class*>&,commands_t command, QByteArray&);
         void serializeError(QString&, commands_t, QByteArray&);

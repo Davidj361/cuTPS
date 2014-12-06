@@ -14,10 +14,12 @@ const QList<Class*>& LocalStorage::getClasses() const {
         return this->classes;
 }
 
+/*
 void LocalStorage::update(QList<Class*>& inClasses) {
         this->cleanup();
         this->classes = inClasses;
 }
+*/
 
 void LocalStorage::cleanup() {
         // go through each course and delete it with its content
@@ -28,6 +30,7 @@ void LocalStorage::cleanup() {
 }
 
 void LocalStorage::refresh() {
+        this->cleanup();
         if (storageControl == 0)
                 throw runtime_error("LocalStorage::refresh(), storageControl is null");
         storageControl->refreshContent(user, classes);

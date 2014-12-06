@@ -77,6 +77,7 @@ void ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
 
                     Section *section;
                     createSection(sectionJsonObject, section, chapter, textbook);
+                    chapter->addSection(section);
                 }
             }
         }

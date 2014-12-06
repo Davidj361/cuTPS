@@ -1,9 +1,9 @@
 #include "StorageControl.h"
 
 
-StorageControl::StorageControl(){
+StorageControl::StorageControl(QString inIp){
     // TODO figure out how to retrieve ip
-    ip = "127.0.0.1";
+    ip = inIp;
     connection = new ConnectionClient(&ip);
     serializer = new ClientSerializer();
 }

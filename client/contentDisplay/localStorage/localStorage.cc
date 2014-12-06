@@ -36,6 +36,17 @@ void LocalStorage::refresh() {
         storageControl->refreshContent(user, classes);
 }
 
+QList<Textbook*>* LocalStorage::getTextbooks(QString courseCode){
+    foreach(Class *c , classes){
+
+        if(c->getCourse()->getCourseCode().compare(courseCode) == 0)
+            return &c->getBooklist();
+
+    }
+    return new QList<Textbook*>;
+
+}
+
 void LocalStorage::login(const QString& username, const QString& password) {
         user = User(username, password);
         try {

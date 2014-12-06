@@ -20,7 +20,7 @@ class StorageControl : public QObject {
         Q_OBJECT
 
     public:
-        StorageControl();
+        StorageControl(QString inIp = "192.168.28.100");
 
         ~StorageControl();
 

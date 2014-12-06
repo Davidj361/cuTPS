@@ -16,23 +16,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     setPalette(*palette);
     */
 
-    /*
-    ui->Testpage->setVisible(false);
-    ui->LoginPage->setVisible(true);
-    ui->MainStudent->setVisible(false);
-    ui->MainContentManager->setVisible(false);
-    ui->ShoppingCartStudent->setVisible(false);
-    ui->ShoppingCartGatherCreditCardInfo->setVisible(false);
-    ui->ShoppingCartOrderConfirmed->setVisible(false);
-    */
     ui->UsernameBox->setText("bruce");
     ui->PasswordBox->setText("password");
 
-    // ui->loginStatus->setVisible(false);
     ui->UsernameBox->setFocus();
 
     // Add a clickable icon to the status bar to it's far right
-    // ui->statusBar->addPermanentWidget(&refreshButton);
+    ui->statusBar->addPermanentWidget(&refreshButton);
 
 
 
@@ -296,7 +286,6 @@ void MainWindow::on_BtnClear_clicked()
     ui->UsernameBox->clear();
     ui->PasswordBox->clear();
     ui->loginStatus->setText("");
-    // ui->loginStatus->setVisible(true);
 }
 
 void MainWindow::on_BtnLogin_clicked()
@@ -306,7 +295,6 @@ void MainWindow::on_BtnLogin_clicked()
     try {
         localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
         ui->loginStatus->setText(localStorage.getUser().getUsername());
-        // ui->loginStatus->setVisible(true);
         this->refresh();
         this->displayMainStudent();
     } catch(runtime_error e) {
@@ -314,41 +302,31 @@ void MainWindow::on_BtnLogin_clicked()
         qDebug() << e.what();
         //ui->loginStatus->setText("Invalid Username and Password");
 
-        // ui->loginStatus->setVisible(true);
     }
     /*
     if (ui->UsernameBox->text() == "student") {
-        ui->LoginPage->setVisible(false);
-        ui->MainStudent->setVisible(true);
         MainWindow::studentClassListPopulate();
         ui->courseDescription->setReadOnly(true); // set counrse Description textbox to read-only
     }
 
     if (ui->UsernameBox->text() == "cm") {
-        ui->LoginPage->setVisible(false);
-        ui->MainContentManager->setVisible(true);
     }
     */
     /*
     if (MainWindow::validUsernamePassword() && MainWindow::isStudent()) {
-        ui->LoginPage->setVisible(false);
-        ui->MainStudent->setVisible(true);
         MainWindow::studentCourseListPopulate();
         ui->courseDescription->setReadOnly(true); // set counrse Description textbox to read-only
     } else {
         //ui->loginStatus->setText(ui->UsernameBox->text());
         ui->loginStatus->setText(storageControl->logIn(*user)->getUsername());
-        ui->loginStatus->setVisible(true);
     }
     */
 }
 
 void MainWindow::on_BtnLogout_clicked()
 {
-    // ui->MainStudent->setVisible(false);
-    // ui->LoginPage->setVisible(true);
     MainWindow::clearStudentCourseList();
-    // ui->loginStatus->setVisible(false);
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
 }
 
 // For when an item is selected in the course list
@@ -382,9 +360,7 @@ bool MainWindow::isStudent() {
 }
 
 void MainWindow::displayMainStudent() {
-    ui->stackedWidget->currentWidget()->setVisible(false);
-    ui->MainStudent->setVisible(true);
-    // ui->MainStudent->updateGeometry();
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 
 void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)

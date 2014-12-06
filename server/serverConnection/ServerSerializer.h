@@ -35,6 +35,7 @@ class ServerSerializer : public QObject {
 
         void serializeClasses(QList<Class*>&,commands_t command, QByteArray&);
         void serializeError(QString&, commands_t, QByteArray&);
+        void serializeSuccess(commands_t command, QByteArray& out );
         void serializeUser(Serializable&,commands_t, QByteArray&);
 
 

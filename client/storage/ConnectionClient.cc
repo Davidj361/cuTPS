@@ -11,6 +11,9 @@ ConnectionClient::ConnectionClient(QString *IPADDR, QObject *parent): QObject(pa
     connect(sock, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayNetworkError(QAbstractSocket::SocketError)));
 
+    sock->connectToHost(*serverAddr, portno);
+
+
 }
 
 ConnectionClient::ConnectionClient(QString *IPADDR, int PORT, QObject *parent) : QObject(parent) {
@@ -22,26 +25,27 @@ ConnectionClient::ConnectionClient(QString *IPADDR, int PORT, QObject *parent) :
     connect(sock, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayNetworkError(QAbstractSocket::SocketError)));
 
+    sock->connectToHost(*serverAddr, portno);
+
+
 }
 
 ConnectionClient::~ConnectionClient() {
+    sock->close();
+    sock->disconnectFromHost();
     delete sock;
 }
 
 void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
 
-    /*  Connect to the server and write the request  */
-    qDebug()<<portno;
 
-    qDebug()<<*serverAddr;
-    qDebug()<<"here";
-
-    sock->connectToHost(*serverAddr, portno);
-    qDebug()<<"here";
-
+    // Test if still connected, if not try to connect again
     if (!sock->waitForConnected(1000)) {
-        emit ConnectionError("Could not connect to server");
-        throw runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
+        sock->connectToHost(*serverAddr, portno);
+        if (!sock->waitForConnected(1000)) {
+            emit ConnectionError("Could not connect to server");
+            throw runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
+        }
     }
     if (sock->isValid() && sock->isWritable()) {
         if (sock->write(inStr) < 0)
@@ -54,24 +58,23 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
     /*  Recieve response from the server  */
     if (sock->isValid() && sock->isReadable()) {
         sock->waitForReadyRead(-1);
-        QByteArray inSize = sock->readAll();
+        QString inSize = sock->readLine();
+        qDebug() << inSize;
+        qDebug() << inSize.toInt();
         if (inSize.toInt() < 0)
             throw runtime_error("ERROR: ConnectionClient::request(), invalid message size");
-        if (sock->write("ready") < 0)
-            throw runtime_error("ERROR: ConnectionClient::request(), ready response was not sent");
-        sock->waitForBytesWritten(-1);
         while (outStr.size() < inSize.toInt()) {
-            sock->waitForReadyRead(-1);
-            outStr.append(sock->readAll());
+            outStr.append(sock->readLine());
         }
+        qDebug() << outStr;
+
     }
     else {
         sock->abort();
         return;
     }
 
-    sock->close();
-    sock->disconnectFromHost();
+
 }
 
 void ConnectionClient::displayNetworkError(QAbstractSocket::SocketError socketError) {

@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include <QTimer>
+#include "serverConnection/Server.h"
 
 #include "serverConnection/ServerConnectionController.h"
 
@@ -15,8 +16,12 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Team Do Not Stick In Ear");
 
     // TODO Definite memory leak here, fix it
-    ServerConnectionController *controller = new ServerConnectionController();
+    //ServerConnectionController *controller = new ServerConnectionController();
 
+    Server server;
+    server.start();
+
+    /*
     // connect the signals
     QObject::connect(controller, SIGNAL(Finished()),
                      &app, SLOT(quit()));
@@ -24,7 +29,7 @@ int main(int argc, char *argv[])
     QObject::connect(&app, SIGNAL(aboutToQuit()),
                      controller, SLOT(AboutToQuitApp()));
 
-    QTimer::singleShot(10, controller, SLOT(Run()));
+    QTimer::singleShot(10, controller, SLOT(Run()));*/
 
     return app.exec();
 }

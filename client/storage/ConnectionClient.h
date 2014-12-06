@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QTcpSocket>
 #include <stdexcept>
+#include <QDataStream>
 
 
 using namespace std;

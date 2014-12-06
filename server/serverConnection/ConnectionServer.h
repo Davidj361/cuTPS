@@ -40,6 +40,10 @@ class ConnectionServer : public QObject {
         ===================================================================== */
         void SendResponse(QByteArray &);
 
+    public slots:
+
+        void newConnection();
+
     private:
         int         portno;
         QTcpServer *server;

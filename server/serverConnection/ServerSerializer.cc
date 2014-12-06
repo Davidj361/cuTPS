@@ -64,6 +64,7 @@ void ServerSerializer::deserialize(QJsonObject& json, Class*& cl){
     cl = new Class(json["semester"].toString(), course);
 
     QJsonObject tbj = json["booklist"].toObject();
+
     cl->addTextbook(new Textbook(tbj["isbn"].toString(), tbj["title"].toString(), tbj["publisher"].toString(),
             tbj["author"].toString(), (int)tbj["year"].toDouble(), tbj["edition"].toString(),
             tbj["descrition"].toString(), tbj["available"].toBool(), (float)tbj["price"].toDouble(),
@@ -100,10 +101,19 @@ void ServerSerializer::serializeClasses(QList<Class*>& list,commands_t command, 
 
 }
 
-void ServerSerializer::serializeError(QString& error, commands_t, QByteArray& out){
+void ServerSerializer::serializeError(QString& error, commands_t command, QByteArray& out){
     QJsonObject json;
+    json.insert("command", command);
     json.insert("status", ERROR);
     json.insert("message", error);
+    QJsonDocument doc(json);
+    out = doc.toJson();
+}
+
+void ServerSerializer::serializeSuccess(commands_t command, QByteArray& out ){
+    QJsonObject json;
+    json.insert("command", command);
+    json.insert("status", SUCCESS);
     QJsonDocument doc(json);
     out = doc.toJson();
 }

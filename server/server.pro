@@ -33,7 +33,10 @@ SOURCES += \
     ../common/Invoice.cc \
     ../common/User.cc \
     ../common/Course.cc \
-    ../common/Class.cpp
+    ../common/Class.cpp \
+    serverConnection/Server.cc \
+    serverConnection/Connection.cc \
+    serverConnection/ServerRequestControl.cpp
 
 OTHER_FILES +=
 
@@ -53,4 +56,7 @@ HEADERS += \
     ../common/headers/Definitions.h \
     ../common/headers/Invoice.h \
     ../common/headers/Course.h \
-    ../common/headers/Class.h
+    ../common/headers/Class.h \
+    serverConnection/Server.h \
+    serverConnection/Connection.h \
+    serverConnection/ServerRequestControl.h

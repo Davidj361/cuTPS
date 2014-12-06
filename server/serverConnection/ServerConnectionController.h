@@ -21,7 +21,7 @@ class ServerConnectionController : public QObject {
     public:
         ServerConnectionController(QObject *parent = 0);
         ~ServerConnectionController();
-
+        void doTask(QByteArray& in);
         /* =====================================================================
         Function  : Quit
         Purpose   : Tells the main application to quit

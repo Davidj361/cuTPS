@@ -1,4 +1,4 @@
-#include "ConnectionServer.h"
+    #include "ConnectionServer.h"
 
 ConnectionServer::ConnectionServer(QObject *parent): QObject(parent) {
     portno = 60001;
@@ -24,6 +24,9 @@ ConnectionServer::~ConnectionServer() {
     delete server;
 }
 
+void ConnectionServer::newConnection(){
+
+}
 
 void ConnectionServer::WaitForRequest(QByteArray &str) {
 

@@ -70,6 +70,9 @@ class MainWindow : public QMainWindow {
 
         void displayMainStudent();
 
+        void on_contentList_itemClicked(QListWidgetItem *item);
+
+
 private:
 
         Ui::MainWindow    *ui;

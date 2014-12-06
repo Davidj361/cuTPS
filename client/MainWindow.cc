@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Add a clickable icon to the status bar to it's far right
     ui->statusBar->addPermanentWidget(&refreshButton);
+    this->on_BtnLogin_clicked();
 
 
 
@@ -303,24 +304,6 @@ void MainWindow::on_BtnLogin_clicked()
         //ui->loginStatus->setText("Invalid Username and Password");
 
     }
-    /*
-    if (ui->UsernameBox->text() == "student") {
-        MainWindow::studentClassListPopulate();
-        ui->courseDescription->setReadOnly(true); // set counrse Description textbox to read-only
-    }
-
-    if (ui->UsernameBox->text() == "cm") {
-    }
-    */
-    /*
-    if (MainWindow::validUsernamePassword() && MainWindow::isStudent()) {
-        MainWindow::studentCourseListPopulate();
-        ui->courseDescription->setReadOnly(true); // set counrse Description textbox to read-only
-    } else {
-        //ui->loginStatus->setText(ui->UsernameBox->text());
-        ui->loginStatus->setText(storageControl->logIn(*user)->getUsername());
-    }
-    */
 }
 
 void MainWindow::on_BtnLogout_clicked()
@@ -332,15 +315,56 @@ void MainWindow::on_BtnLogout_clicked()
 // For when an item is selected in the course list
 void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
 {
+    //Clear the contentList when a course is pressed
+    /*
     while (ui->contentList->count() > 0) {
         ui->contentList->takeItem(0);
     }
-    QListWidgetItem* course1 = new QListWidgetItem(item->text());
-    course1->setFlags(course1->flags() | Qt::ItemIsUserCheckable);
-    course1->setCheckState(Qt::Unchecked);
+    */
 
-    ui->courseDescription->setText(item->text());
-    ui->contentList->addItem(course1);
+    ui->contentList->clear();
+
+    //Get the booklist
+    qDebug() << item->text();
+    QList<Textbook*> *studentContent = localStorage.getTextbooks(item->text());
+    foreach (Textbook *t, *studentContent) {
+        if (t->isAvailable()) {
+            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle());
+            textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
+            textbookListItem->setCheckState(Qt::Unchecked);
+            ui->contentList->addItem(textbookListItem);
+        }
+        foreach (Chapter *ch, t->getChapters()) {
+            if (ch->isAvailable()) {
+                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle());
+                chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
+                chapterListItem->setCheckState(Qt::Unchecked);
+                ui->contentList->addItem(chapterListItem);
+            }
+            foreach (Section *s, ch->getSections()) {
+                if (s->isAvailable()) {
+                    QListWidgetItem* sectionListItem = new QListWidgetItem("         " + s->getTitle());
+                    sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
+                    sectionListItem->setCheckState(Qt::Unchecked);
+                    ui->contentList->addItem(sectionListItem);
+                }
+            }
+        }
+    }
+
+    qDebug() << studentContent->size();
+
+    //Sets item in contentList checkable
+    /*
+    QListWidgetItem* contentListItem = new QListWidgetItem(studentContent->at(0)->getTitle());
+    contentListItem->setFlags(contentList->flags() | Qt::ItemIsUserCheckable);
+    contentListItem->setCheckState(Qt::Unchecked);
+    */
+
+
+    //ui->contentList->addItem(contentListItem);
+    //ui->contentList->addItem("Book1");
+    //ui->contentList->addItem("Book2");
 }
 
 void MainWindow::on_contentList_itemDoubleClicked(QListWidgetItem *item)
@@ -367,3 +391,42 @@ void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)
 {
 
 }
+
+
+
+void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
+{
+
+    QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+    int count = 0;
+    int index = ui->contentList->currentRow();
+    foreach (Textbook *t, *studentContent) {
+        if (count == index) {
+            ui->courseDescription->setText(t->getTitle() + ": " + QString::number(t->getYear()));
+            if (t->getEdition().length() > 0 )
+                ui->courseDescription->append("Edition: " + t->getEdition());
+            ui->courseDescription->append(t->getAuthor());
+            ui->courseDescription->append(t->getISBN());
+            ui->courseDescription->append(t->getDescription());
+            break;
+        }
+        count++;
+        foreach (Chapter *ch, t->getChapters()) {
+            if (count == index) {
+                ui->courseDescription->setText(ch->getTitle() + " $" + QString::number(ch->getPrice(), 'f', 2));
+                ui->courseDescription->append(ch->getDescription());
+                break;
+            }
+            count++;
+            foreach (Section *s, ch->getSections()) {
+                if (count == index) {
+                    ui->courseDescription->setText(QString::number(s->getSectionNo()) + " " + s->getTitle() + " $" + QString::number(s->getPrice()));
+                    ui->courseDescription->append(s->getDescription());
+                    break;
+                }
+                count++;
+            }
+        }
+    }
+}
+

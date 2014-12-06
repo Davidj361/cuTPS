@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -218,6 +218,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>IP Address:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="ipAddressTextbox"/>
+          </item>
+          <item>
            <spacer name="verticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -314,6 +324,13 @@
           </property>
          </widget>
         </item>
+        <item row="3" column="3">
+         <widget class="QPushButton" name="btnAddToCart">
+          <property name="text">
+           <string>Add To Cart</string>
+          </property>
+         </widget>
+        </item>
        </layout>
        <zorder>BtnLogout</zorder>
        <zorder>courseDescription</zorder>
@@ -321,6 +338,7 @@
        <zorder>semesterList</zorder>
        <zorder>courseList</zorder>
        <zorder>horizontalSpacer</zorder>
+       <zorder>btnAddToCart</zorder>
       </widget>
       <widget class="QWidget" name="MainContentManager">
        <widget class="QStackedWidget" name="stackedWidget_2">

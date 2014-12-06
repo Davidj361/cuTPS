@@ -44,7 +44,6 @@ QList<Textbook*>* LocalStorage::getTextbooks(QString courseCode){
 
     }
     return new QList<Textbook*>;
-
 }
 
 void LocalStorage::login(const QString& username, const QString& password) {

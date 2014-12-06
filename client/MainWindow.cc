@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     setPalette(*palette);
     */
 
+    /*
     ui->Testpage->setVisible(false);
     ui->LoginPage->setVisible(true);
     ui->MainStudent->setVisible(false);
@@ -23,14 +24,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->ShoppingCartStudent->setVisible(false);
     ui->ShoppingCartGatherCreditCardInfo->setVisible(false);
     ui->ShoppingCartOrderConfirmed->setVisible(false);
+    */
     ui->UsernameBox->setText("bruce");
     ui->PasswordBox->setText("password");
 
-    ui->loginStatus->setVisible(false);
+    // ui->loginStatus->setVisible(false);
     ui->UsernameBox->setFocus();
 
     // Add a clickable icon to the status bar to it's far right
-    ui->statusBar->addPermanentWidget(&refreshButton);
+    // ui->statusBar->addPermanentWidget(&refreshButton);
 
 
 
@@ -70,7 +72,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(&refreshButton, SIGNAL(clicked(bool)), this, SLOT(refresh()));
 
     connect(connection, SIGNAL(ConnectionError(QString)), this, SLOT(displayError(QString)));
-
 }
 
 MainWindow::~MainWindow() {
@@ -117,6 +118,7 @@ void MainWindow::freeBookList() {
     book_list = 0;
 }
 
+/*
 void MainWindow::runTests() {
     addContentTest();
     getContentTest();
@@ -158,7 +160,7 @@ void *MainWindow::runTest(QListWidgetItem *listItem, commands_t in_command, void
     return object;
 }
 
-// Add Content test
+// Add Content test NOT NEEDED
 void MainWindow::addContentTest() {
 
     qDebug() << "Running test 1 - Adding Content";
@@ -200,6 +202,7 @@ void MainWindow::addContentTest() {
 
     ui->btnRunTest1->setEnabled(true);
 }
+
 
 void MainWindow::getContentTest() {
     getContentStudentTest();
@@ -248,7 +251,6 @@ void MainWindow::addInvoiceTest() {
     ui->resultsListWidget->addItem(test1);
 
     // Invoice invoice (userStu->getUsername());
-    /*
 
     Textbook *t = book_list->front();
 
@@ -257,8 +259,8 @@ void MainWindow::addInvoiceTest() {
     runTest(test1, ADD_INVOICE, &invoice, "Performing Add Invoice test...");
 
     ui->btnRunTest3->setEnabled(true);
-    */
 }
+*/
 
 void MainWindow::displayError(QString error) {
     ui->statusBar->showMessage(error);
@@ -294,7 +296,7 @@ void MainWindow::on_BtnClear_clicked()
     ui->UsernameBox->clear();
     ui->PasswordBox->clear();
     ui->loginStatus->setText("");
-    ui->loginStatus->setVisible(true);
+    // ui->loginStatus->setVisible(true);
 }
 
 void MainWindow::on_BtnLogin_clicked()
@@ -304,7 +306,7 @@ void MainWindow::on_BtnLogin_clicked()
     try {
         localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
         ui->loginStatus->setText(localStorage.getUser().getUsername());
-        ui->loginStatus->setVisible(true);
+        // ui->loginStatus->setVisible(true);
         this->refresh();
         this->displayMainStudent();
     } catch(runtime_error e) {
@@ -312,7 +314,7 @@ void MainWindow::on_BtnLogin_clicked()
         qDebug() << e.what();
         //ui->loginStatus->setText("Invalid Username and Password");
 
-        ui->loginStatus->setVisible(true);
+        // ui->loginStatus->setVisible(true);
     }
     /*
     if (ui->UsernameBox->text() == "student") {
@@ -343,10 +345,10 @@ void MainWindow::on_BtnLogin_clicked()
 
 void MainWindow::on_BtnLogout_clicked()
 {
-    ui->MainStudent->setVisible(false);
-    ui->LoginPage->setVisible(true);
+    // ui->MainStudent->setVisible(false);
+    // ui->LoginPage->setVisible(true);
     MainWindow::clearStudentCourseList();
-    ui->loginStatus->setVisible(false);
+    // ui->loginStatus->setVisible(false);
 }
 
 // For when an item is selected in the course list
@@ -382,4 +384,10 @@ bool MainWindow::isStudent() {
 void MainWindow::displayMainStudent() {
     ui->stackedWidget->currentWidget()->setVisible(false);
     ui->MainStudent->setVisible(true);
+    // ui->MainStudent->updateGeometry();
+}
+
+void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)
+{
+
 }

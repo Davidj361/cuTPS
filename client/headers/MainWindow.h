@@ -33,10 +33,12 @@ class MainWindow : public QMainWindow {
 
     private slots:
 
+            /*
         void runTests();
         void addContentTest();
         void getContentTest();
         void addInvoiceTest();
+        */
         void clearList();
         void setServerIP();
         void studentCourseListPopulate();
@@ -55,6 +57,8 @@ class MainWindow : public QMainWindow {
         void on_BtnLogin_clicked();
 
         void on_BtnLogout_clicked();
+
+        void on_semesterList_itemPressed(QListWidgetItem *item);
 
         void on_courseList_itemPressed(QListWidgetItem *item);
 

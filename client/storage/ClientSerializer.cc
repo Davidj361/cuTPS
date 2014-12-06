@@ -49,7 +49,8 @@ void ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
     foreach (const QJsonValue & classJsonValue, classesJsonArray) {
         QJsonObject classJsonObject = classJsonValue.toObject();
 
-        Course *course = new Course(classJsonObject["code"].toString(), classJsonObject["title"].toString());
+        QJsonObject coursej = classJsonObject["course"].toObject();
+        Course *course = new Course(coursej["courseCode"].toString(), coursej["courseTitle"].toString());
         Class *clss = new Class(classJsonObject["semester"].toString(), course);
 
         courses.append(clss);

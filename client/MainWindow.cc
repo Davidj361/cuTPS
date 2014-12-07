@@ -45,15 +45,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->actionQuit,     SIGNAL(triggered()), this, SLOT(close()));
 
-    connect(ui->runTestsButton, SIGNAL(clicked()),   this, SLOT(runTests()));
-    connect(ui->btnRunTest1,    SIGNAL(clicked()),   this, SLOT(addContentTest()));
-    connect(ui->btnRunTest2,    SIGNAL(clicked()),   this, SLOT(getContentTest()));
-    connect(ui->btnRunTest3,    SIGNAL(clicked()),   this, SLOT(addInvoiceTest()));
-    connect(ui->btnClear,       SIGNAL(clicked()),   this, SLOT(clearList()));
-    connect(ui->btnSetIP,       SIGNAL(clicked()),   this, SLOT(setServerIP()));
-
-
-
     ui->btnRunTest3->setEnabled(false);
 
 

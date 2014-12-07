@@ -327,36 +327,41 @@ void MainWindow::on_BtnLogout_clicked()
 // For when an item is selected in the course list
 void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
 {
-    //Clear the contentList when a course is pressed
-    /*
-    while (ui->contentList->count() > 0) {
-        ui->contentList->takeItem(0);
-    }
-    */
-
     ui->contentList->clear();
 
     //Get the booklist
     QList<Textbook*> *studentContent = localStorage.getTextbooks(item->text());
     foreach (Textbook *t, *studentContent) {
         if (t->isAvailable()) {
-            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle());
-            textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
-            textbookListItem->setCheckState(Qt::Unchecked);
+            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? "" : (" : $" + QVariant(t->getPrice()).toString() ) ) );
+            if (t->isAvailable()) {
+                    textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
+                    textbookListItem->setCheckState(Qt::Unchecked);
+            } else {
+                    textbookListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+            }
             ui->contentList->addItem(textbookListItem);
         }
         foreach (Chapter *ch, t->getChapters()) {
             if (ch->isAvailable()) {
-                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle());
-                chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
-                chapterListItem->setCheckState(Qt::Unchecked);
+                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? "" : (" : $" + QVariant(ch->getPrice()).toString() ) ) );
+                if (ch->isAvailable()) {
+                        chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
+                        chapterListItem->setCheckState(Qt::Unchecked);
+                } else {
+                        chapterListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                }
                 ui->contentList->addItem(chapterListItem);
             }
             foreach (Section *s, ch->getSections()) {
                 if (s->isAvailable()) {
-                    QListWidgetItem* sectionListItem = new QListWidgetItem("         " + s->getTitle());
-                    sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
-                    sectionListItem->setCheckState(Qt::Unchecked);
+                    QListWidgetItem* sectionListItem = new QListWidgetItem("         " + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QVariant(s->getPrice()).toString() ) ));
+                    if (s->isAvailable()) {
+                            sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
+                            sectionListItem->setCheckState(Qt::Unchecked);
+                    } else {
+                            sectionListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                    }
                     ui->contentList->addItem(sectionListItem);
                 }
             }
@@ -376,12 +381,13 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
     //ui->contentList->addItem("Book2");
 }
 
+// DON'T USE THIS IF YOU WISH TO NOT HAVE CHECKBOXES FOR UNAVAILABLE ITEMS
 void MainWindow::on_contentList_itemDoubleClicked(QListWidgetItem *item)
 {
-    if (item->checkState() == Qt::Checked)
-        item->setCheckState(Qt::Unchecked);
-    else
-        item->setCheckState(Qt::Checked);
+//    if (item->checkState() == Qt::Checked)
+//        item->setCheckState(Qt::Unchecked);
+//    else
+//        item->setCheckState(Qt::Checked);
 }
 
 bool MainWindow::validUsernamePassword() {
@@ -411,28 +417,89 @@ void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
     int index = ui->contentList->currentRow();
     foreach (Textbook *t, *studentContent) {
         if (count == index) {
-            ui->courseDescription->setText(t->getTitle() + ": " + QString::number(t->getYear()));
-            if (t->getEdition().length() > 0 )
-                ui->courseDescription->append("Edition: " + t->getEdition());
+            ui->courseDescription->setFontUnderline(true);
+            ui->courseDescription->setText("Title");
+            ui->courseDescription->setFontUnderline(false);
+            ui->courseDescription->append(t->getTitle() + ": " + QString::number(t->getYear()));
+            if (t->getEdition().length() > 0 ) {
+                ui->courseDescription->setFontUnderline(true);
+                ui->courseDescription->append("\nEdition");
+                ui->courseDescription->setFontUnderline(false);
+                ui->courseDescription->append(t->getEdition());
+            }
+            ui->courseDescription->setFontUnderline(true);
+            ui->courseDescription->append("\nPublisher");
+            ui->courseDescription->setFontUnderline(false);
+            ui->courseDescription->append(t->getPublisher());
+            ui->courseDescription->setFontUnderline(true);
+            ui->courseDescription->append("\nAuthor");
+            ui->courseDescription->setFontUnderline(false);
             ui->courseDescription->append(t->getAuthor());
+            ui->courseDescription->setFontUnderline(true);
+            ui->courseDescription->append("\nISBN");
+            ui->courseDescription->setFontUnderline(false);
             ui->courseDescription->append(t->getISBN());
-            ui->courseDescription->append(t->getDescription());
+            if (t->isAvailable()) {
+                ui->courseDescription->setFontUnderline(true);
+                ui->courseDescription->append("\nPrice: ");
+                ui->courseDescription->setFontUnderline(false);
+                ui->courseDescription->append("$" + QString::number(t->getPrice()));
+            }
+            ui->courseDescription->setFontUnderline(true);
+            ui->courseDescription->append("\nDescription");
+            ui->courseDescription->setFontUnderline(false);
+            ui->courseDescription->append("\n" + t->getDescription());
             count;
             break;
         }
         count++;
         foreach (Chapter *ch, t->getChapters()) {
             if (count == index) {
-                ui->courseDescription->setText("Chapter: "+QString::number(ch->getChapterNo())+" "+ch->getTitle() + " $" + QString::number(ch->getPrice(), 'f', 2));
-                ui->courseDescription->append(ch->getDescription());
+                ui->courseDescription->setFontUnderline(true);
+                ui->courseDescription->setText("Chapter #");
+                ui->courseDescription->setFontUnderline(false);
+                ui->courseDescription->append(QString::number(ch->getChapterNo()));
+                ui->courseDescription->setFontUnderline(true);
+                ui->courseDescription->append("\nTitle");
+                ui->courseDescription->setFontUnderline(false);
+                ui->courseDescription->append(ch->getTitle());
+                if (ch->isAvailable()) {
+                    ui->courseDescription->setFontUnderline(true);
+                    ui->courseDescription->append("\nPrice: ");
+                    ui->courseDescription->setFontUnderline(false);
+                    ui->courseDescription->append("$" + QString::number(ch->getPrice()));
+                }
+                ui->courseDescription->setFontUnderline(true);
+                ui->courseDescription->append("\nDescription");
+                ui->courseDescription->setFontUnderline(false);
+                ui->courseDescription->append("\n" + ch->getDescription());
                 count++;
                 break;
             }
             count++;
             foreach (Section *s, ch->getSections()) {
                 if (count == index) {
-                    ui->courseDescription->setText("Section: "+QString::number(s->getSectionNo()) + " " + s->getTitle() + " $" + QString::number(s->getPrice()));
-                    ui->courseDescription->append(s->getDescription());
+                    // ui->courseDescription->setText("Section: "+QString::number(s->getSectionNo()) + " " + s->getTitle() + " $" + QString::number(s->getPrice()));
+                    // ui->courseDescription->append(s->getDescription());
+
+                    ui->courseDescription->setFontUnderline(true);
+                    ui->courseDescription->setText("Section #");
+                    ui->courseDescription->setFontUnderline(false);
+                    ui->courseDescription->append(QString::number(s->getSectionNo()));
+                    ui->courseDescription->setFontUnderline(true);
+                    ui->courseDescription->append("\nTitle");
+                    ui->courseDescription->setFontUnderline(false);
+                    ui->courseDescription->append(s->getTitle());
+                    if (ch->isAvailable()) {
+                            ui->courseDescription->setFontUnderline(true);
+                            ui->courseDescription->append("\nPrice: ");
+                            ui->courseDescription->setFontUnderline(false);
+                            ui->courseDescription->append("$" + QString::number(s->getPrice()));
+                    }
+                    ui->courseDescription->setFontUnderline(true);
+                    ui->courseDescription->append("\nDescription");
+                    ui->courseDescription->setFontUnderline(false);
+                    ui->courseDescription->append("\n" + s->getDescription());
                     count++;
                     break;
                 }

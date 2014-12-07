@@ -1,5 +1,7 @@
 #include "ServerRequestControl.h"
 
+using namespace std;
+
 ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cDb) {
     in = bytes;
     db = cDb;

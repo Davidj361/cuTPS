@@ -107,6 +107,8 @@ class MainWindow : public QMainWindow {
 
         void on_actionLogout_triggered();
 
+        void on_btnBackToMain_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

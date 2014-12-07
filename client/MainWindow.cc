@@ -584,3 +584,8 @@ void MainWindow::on_actionLogout_triggered()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
     localStorage.cleanup();
 }
+
+void MainWindow::on_btnBackToMain_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+}

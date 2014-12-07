@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1530,42 +1530,29 @@
       <widget class="QWidget" name="ShoppingCartGatherCreditCardInfo">
        <layout class="QGridLayout" name="gridLayout_8">
         <item row="1" column="1">
-         <widget class="QPushButton" name="btnProcedeCheckout">
-          <property name="styleSheet">
-           <string notr="true">color: black;</string>
-          </property>
+         <widget class="QPushButton" name="btnBackToMain">
           <property name="text">
-           <string>Proceed with Order</string>
+           <string>Back To Main</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
-         <spacer name="horizontalSpacer_7">
+         <spacer name="horizontalSpacer_3">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Ignored</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>317</width>
+            <width>40</width>
             <height>20</height>
            </size>
           </property>
          </spacer>
         </item>
-        <item row="1" column="2">
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>317</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="0" colspan="3">
+        <item row="0" column="0" colspan="4">
          <widget class="QWidget" name="widget_2" native="true">
           <layout class="QFormLayout" name="formLayout">
            <item row="0" column="0">
@@ -1621,7 +1608,7 @@
           </layout>
          </widget>
         </item>
-        <item row="2" column="0" colspan="3">
+        <item row="3" column="0" colspan="4">
          <widget class="QLabel" name="billingInfoError">
           <property name="palette">
            <palette>
@@ -2049,6 +2036,29 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="btnProcedeCheckout">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
+          <property name="text">
+           <string>Proceed with Order</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="ShoppingCartOrderConfirmed">
@@ -2189,7 +2199,6 @@
   <tabstop>linedate</tabstop>
   <tabstop>lineCvv</tabstop>
   <tabstop>lineEmail</tabstop>
-  <tabstop>btnProcedeCheckout</tabstop>
   <tabstop>txtServerIP</tabstop>
   <tabstop>runTestsButton</tabstop>
   <tabstop>btnRunTest3</tabstop>

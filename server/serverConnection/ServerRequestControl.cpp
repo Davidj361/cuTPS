@@ -152,8 +152,11 @@ void ServerRequestControl::run(){
             Class *cl;
             serializer->deserialize(objJson, cl);
 
-            if ( command == ADD_CLASS )
+            if ( command == ADD_CLASS ){
+                if(!db->CourseExists(cl->getCourse()))
+                    db->AddCourse(cl->getCourse());
                 db->AddClass(cl);
+            }
 
             if ( command == DELETE_CLASS)
                 db->DeleteClass(cl);

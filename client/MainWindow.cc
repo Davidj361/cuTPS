@@ -134,13 +134,14 @@ void MainWindow::studentSemesterListPopulate() {
     }
 }
 
-void MainWindow::studentCourseListPopulate() {
-    ui->courseList->clear();
-    for (int i=0; i < localStorage.getClasses().size(); i++ ){
-        Class* tempclass = localStorage.getClasses().at(i);
-        ui->courseList->addItem(tempclass->getCourse()->getCourseCode());
-    }
-}
+// Not needed since we have to populate depending on what semester is selected
+// void MainWindow::studentCourseListPopulate() {
+//     ui->courseList->clear();
+//     for (int i=0; i < localStorage.getClasses().size(); i++ ){
+//         Class* tempclass = localStorage.getClasses().at(i);
+//         ui->courseList->addItem(tempclass->getCourse()->getCourseCode());
+//     }
+// }
 
 void MainWindow::clearStudentCourseList() {
 
@@ -184,7 +185,13 @@ void MainWindow::on_BtnLogout_clicked()
 // For when an item is selected in the semester list
 void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)
 {
-
+        const QString semester = item->text();
+        ui->courseList->clear();
+        // Add all the courses for our currently selected semester
+        foreach (Class* c, localStorage.getClasses()) {
+                if (c->getSemester() == semester)
+                        ui->courseList->addItem(c->getCourse()->getCourseCode());
+        }
 }
 
 // For when an item is selected in the course list

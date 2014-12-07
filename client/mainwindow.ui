@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -862,6 +862,9 @@
           <layout class="QGridLayout" name="gridLayout_5">
            <item row="1" column="3">
             <widget class="QPushButton" name="courseManagerAddButton">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
              <property name="text">
               <string>Add</string>
              </property>
@@ -2139,6 +2142,48 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>btnRunTest2</tabstop>
+  <tabstop>btnRunTest1</tabstop>
+  <tabstop>btnSetIP</tabstop>
+  <tabstop>resultsListWidget</tabstop>
+  <tabstop>btnClear</tabstop>
+  <tabstop>BtnClear</tabstop>
+  <tabstop>courseManagerSemesterList2</tabstop>
+  <tabstop>courseManagerYear</tabstop>
+  <tabstop>courseManagerAddCourseCode</tabstop>
+  <tabstop>courseManagerAddCourseTitle</tabstop>
+  <tabstop>courseManagerAddButton</tabstop>
+  <tabstop>courseManagerSemesterList</tabstop>
+  <tabstop>courseManagerCourseList</tabstop>
+  <tabstop>courseManagerDeleteButton</tabstop>
+  <tabstop>UsernameBox</tabstop>
+  <tabstop>PasswordBox</tabstop>
+  <tabstop>BtnLogin</tabstop>
+  <tabstop>ipAddressTextbox</tabstop>
+  <tabstop>semesterList</tabstop>
+  <tabstop>courseList</tabstop>
+  <tabstop>contentList</tabstop>
+  <tabstop>courseDescription</tabstop>
+  <tabstop>btnViewCart</tabstop>
+  <tabstop>btnAddToCart</tabstop>
+  <tabstop>BtnLogout</tabstop>
+  <tabstop>listWidgetShoppingCart</tabstop>
+  <tabstop>btnPreviousPage</tabstop>
+  <tabstop>btnClearCart</tabstop>
+  <tabstop>btnCheckout</tabstop>
+  <tabstop>lineName</tabstop>
+  <tabstop>lineCC</tabstop>
+  <tabstop>linedate</tabstop>
+  <tabstop>lineCvv</tabstop>
+  <tabstop>lineEmail</tabstop>
+  <tabstop>btnProcedeCheckout</tabstop>
+  <tabstop>btnConfirmationMainPage</tabstop>
+  <tabstop>btnConfirmationLogout</tabstop>
+  <tabstop>txtServerIP</tabstop>
+  <tabstop>runTestsButton</tabstop>
+  <tabstop>btnRunTest3</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

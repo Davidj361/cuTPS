@@ -32,15 +32,15 @@ class Textbook: public Content, public Serializable {
         Textbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool available, float price, int content_id = 0);
         ~Textbook();
 
-        QString getAuthor();
-        QString getISBN();
-        QString getPublisher();
-        QString getEdition();
-        QString getDescription();
-        int     getYear();
-        void serialize(QJsonObject &);
+        const QString& getAuthor() const;
+        const QString& getISBN() const;
+        const QString& getPublisher() const;
+        const QString& getEdition()const;
+        const QString& getDescription() const;
+        const int     getYear() const;
+        void serialize(QJsonObject &) const;
         void addChapter(Chapter *);
-        QList<Chapter *>& getChapters();
+        const QList<const Chapter *>& getChapters() const;
 
     private:
         QString author;

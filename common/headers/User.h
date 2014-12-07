@@ -7,7 +7,7 @@
 #include <QJsonObject>
 
 
-class User : public Serializable{
+class User : public Serializable {
 
     public:
 
@@ -30,7 +30,7 @@ class User : public Serializable{
         QString getType();
 
         void setType(QString);
-        void serialize(QJsonObject&);
+        void serialize(QJsonObject&) const;
 
     private:
         QString username;

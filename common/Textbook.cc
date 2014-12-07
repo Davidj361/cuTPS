@@ -24,27 +24,27 @@ Textbook::~Textbook() {
     }
 }
 
-QString Textbook::getAuthor() {
+const QString& Textbook::getAuthor() const {
     return author;
 }
 
-QString Textbook::getISBN() {
+const QString& Textbook::getISBN() const {
     return ISBN;
 }
 
-QString Textbook::getPublisher() {
+const QString& Textbook::getPublisher() const {
     return publisher;
 }
 
-QString Textbook::getEdition() {
+const QString& Textbook::getEdition()const {
     return edition;
 }
 
-QString Textbook::getDescription() {
+const QString& getDescription() const {
     return description;
 }
 
-int     Textbook::getYear() {
+const int Textbook::getYear() const {
     return year;
 }
 
@@ -52,7 +52,7 @@ void Textbook::addChapter(Chapter *cha) {
     chapters.push_back(cha);
 }
 
-QList<Chapter *> &Textbook::getChapters() {
+const QList<const Chapter *>& Textbook::getChapters() const {
     return chapters;
 }
 void Textbook::serialize(QJsonObject &content) {

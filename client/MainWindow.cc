@@ -476,14 +476,17 @@ void MainWindow::on_btnPreviousPage_clicked()
 
 void MainWindow::on_btnCheckout_clicked()
 {    
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
-    //TODO delete the following lines after it works
-    ui->lineName->setText("h");
-    ui->lineEmail->setText("h");
-    ui->linedate->setText("h");
-    ui->lineCC->setText("h");
-    ui->lineCvv->setText("h");
-
+    if (shoppingCart.getCartContents().count() > 0) {
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
+        //TODO delete the following lines after it works
+        ui->lineName->setText("h");
+        ui->lineEmail->setText("h");
+        ui->linedate->setText("h");
+        ui->lineCC->setText("h");
+        ui->lineCvv->setText("h");
+    } else {
+        MainWindow::popupError("There are no items in the Shopping Cart");
+    }
 }
 
 void MainWindow::on_btnProcedeCheckout_clicked()
@@ -497,6 +500,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
     fieldList.append(ui->lineCC);
     foreach(QLineEdit *e, fieldList) {
         if (e->text().compare("") == 0) {
+            MainWindow::popupError("Ensure all fields have been filled");
             ui->billingInfoError->setText("One of your fields is empty or invalid");
             return;
         }

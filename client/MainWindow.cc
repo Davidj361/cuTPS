@@ -184,16 +184,18 @@ void MainWindow::on_courseManagerSemesterList_itemPressed(QListWidgetItem *item)
         ui->courseManagerCourseList->clear();
         // Add all the courses for our currently selected semester
         foreach (Class* c, localStorage.getClasses()) {
-                if (c->getSemester() == semester)
+                if (c->getSemester() == semester) {
                         ui->courseManagerCourseList->addItem(c->getCourse()->getCourseCode());
+                        const QString* title = &c->getCourse()->getCourseTitle();
+                        ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
+                }
         }
 }
 
 void MainWindow::on_courseManagerCourseList_itemPressed(QListWidgetItem *item)
 {
-        const QString courseTitle = item->text();
         ui->courseManagerCourseTitle->clear();
-        ui->courseManagerCourseTitle->setText(courseTitle);
+        ui->courseManagerCourseTitle->setText(item->data(Qt::UserRole).toString());
 }
 
 // For when an item is selected in the semester list on the student main page

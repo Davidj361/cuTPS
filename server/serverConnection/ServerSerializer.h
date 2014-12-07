@@ -20,9 +20,6 @@ class ServerSerializer : public QObject {
 
     public:
 
-        ServerSerializer();
-        ~ServerSerializer();
-
         /* =========================================================================
         Function  : deserialize
         Purpose   : Deserialize the incomming QByteArray into the command

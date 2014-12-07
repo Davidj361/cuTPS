@@ -3,8 +3,11 @@
 using namespace std;
 
 ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cDb) {
+
+    // set the in message
     in = bytes;
     db = cDb;
+
 }
 
 ServerRequestControl::~ServerRequestControl() {
@@ -12,6 +15,8 @@ ServerRequestControl::~ServerRequestControl() {
 }
 
 void ServerRequestControl::run(){
+
+    // set up variables
     QByteArray *out = new QByteArray();
     commands_t command;
     DBController *db = new DBController();
@@ -23,12 +28,14 @@ void ServerRequestControl::run(){
 
         QJsonObject objJson;
 
+        //decouple command from the json
         command = serializer->deserialize(*in, objJson);
 
+        // for each of these if statements, the json is deserialized,
+        // the db queried, and the response generated
         if ( command == GET_CONTENT ){
 
             User* user;
-            qDebug() << "user:"<<objJson;
             serializer->deserialize(objJson, user);
 
             QList<Class *> list;
@@ -156,11 +163,14 @@ void ServerRequestControl::run(){
         }
 
         else if( command == ADD_INVOICE ) {
-            qDebug() << "adding invoice";
+
             Invoice *i;
             serializer->deserialize(objJson, i);
+
             db->AddInvoice(i);
+
             delete i;
+
             serializer->serializeSuccess(command, *out);
 
         }
@@ -168,7 +178,6 @@ void ServerRequestControl::run(){
 
         qDebug() << "Serialized Response...";
         qDebug() << *out;
-        //serializer->Serialize(command, object, (result) ? SUCCESS : ERROR, out);
         qDebug() << "Done.  Serialized response size is.." << out->size();
         emit response(out);
         qDebug() << "Response sent";

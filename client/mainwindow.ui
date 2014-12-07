@@ -344,6 +344,9 @@
             <verstretch>10</verstretch>
            </sizepolicy>
           </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item row="3" column="3">

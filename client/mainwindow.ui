@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -2143,23 +2143,10 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>btnRunTest2</tabstop>
-  <tabstop>btnRunTest1</tabstop>
-  <tabstop>btnSetIP</tabstop>
-  <tabstop>resultsListWidget</tabstop>
-  <tabstop>btnClear</tabstop>
-  <tabstop>BtnClear</tabstop>
-  <tabstop>courseManagerSemesterList2</tabstop>
-  <tabstop>courseManagerYear</tabstop>
-  <tabstop>courseManagerAddCourseCode</tabstop>
-  <tabstop>courseManagerAddCourseTitle</tabstop>
-  <tabstop>courseManagerAddButton</tabstop>
-  <tabstop>courseManagerSemesterList</tabstop>
-  <tabstop>courseManagerCourseList</tabstop>
-  <tabstop>courseManagerDeleteButton</tabstop>
   <tabstop>UsernameBox</tabstop>
   <tabstop>PasswordBox</tabstop>
   <tabstop>BtnLogin</tabstop>
+  <tabstop>BtnClear</tabstop>
   <tabstop>ipAddressTextbox</tabstop>
   <tabstop>semesterList</tabstop>
   <tabstop>courseList</tabstop>
@@ -2168,6 +2155,14 @@
   <tabstop>btnViewCart</tabstop>
   <tabstop>btnAddToCart</tabstop>
   <tabstop>BtnLogout</tabstop>
+  <tabstop>courseManagerSemesterList2</tabstop>
+  <tabstop>courseManagerYear</tabstop>
+  <tabstop>courseManagerAddCourseCode</tabstop>
+  <tabstop>courseManagerAddCourseTitle</tabstop>
+  <tabstop>courseManagerAddButton</tabstop>
+  <tabstop>courseManagerSemesterList</tabstop>
+  <tabstop>courseManagerCourseList</tabstop>
+  <tabstop>courseManagerDeleteButton</tabstop>
   <tabstop>listWidgetShoppingCart</tabstop>
   <tabstop>btnPreviousPage</tabstop>
   <tabstop>btnClearCart</tabstop>
@@ -2183,6 +2178,11 @@
   <tabstop>txtServerIP</tabstop>
   <tabstop>runTestsButton</tabstop>
   <tabstop>btnRunTest3</tabstop>
+  <tabstop>btnRunTest2</tabstop>
+  <tabstop>btnRunTest1</tabstop>
+  <tabstop>btnSetIP</tabstop>
+  <tabstop>resultsListWidget</tabstop>
+  <tabstop>btnClear</tabstop>
  </tabstops>
  <resources/>
  <connections/>

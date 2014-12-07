@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->UsernameBox->setFocus();
 
+
     // Add a clickable icon to the status bar to it's far right
     ui->statusBar->addPermanentWidget(&refreshButton);
     //this->on_BtnLogin_clicked();
@@ -461,6 +462,7 @@ void MainWindow::on_btnClearCart_clicked()
 
 void MainWindow::on_btnPreviousPage_clicked()
 {
+
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 

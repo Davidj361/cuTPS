@@ -67,7 +67,7 @@ void StorageControl::removeClass(Class   &c){
     updateStorage(c, DELETE_CLASS);
 }
 
-void StorageControl::removeCourse(Course &course) {
+void StorageControl::removeCourse(Course &course) const {
     updateStorage(course, REMOVE_COURSE);
 }
 

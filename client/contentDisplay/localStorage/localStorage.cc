@@ -48,5 +48,6 @@ void LocalStorage::login(const QString& username, const QString& password) {
         }
 }
 
-void LocalStorage::removeCourse(const QString& courseCode) {
+void LocalStorage::removeCourse(Course& course) const {
+        this->storageControl->removeCourse(course);
 }

@@ -35,7 +35,7 @@ void Class::serialize(QJsonObject &json) {
     json["booklist"] = tbs;
 }
 
-QString Class::getSemester() {
+const QString Class::getSemester() const {
     return semester;
 }
 

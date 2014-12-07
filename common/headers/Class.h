@@ -20,7 +20,7 @@ class Class : public Serializable {
         Class (QString semester, Course *course);
         ~Class();
 
-        QString getSemester();
+        const QString getSemester() const;
         Course* getCourse();
         QList<Textbook*> &getBooklist();
         QList<Student *> &getClasslist();

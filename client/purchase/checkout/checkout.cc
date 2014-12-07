@@ -6,12 +6,12 @@ Checkout::Checkout(const StorageControl& storage, const ShoppingCart& cart, cons
 void Checkout::checkout() {
         // check if subsystems are not null
         if (storage == 0 || cart == 0 || lStorage == 0)
-                throw runtime_error("Checkout::checkout, storage, lStorage, or cart is null");
+                throw std::runtime_error("Checkout::checkout, storage, lStorage, or cart is null");
         Invoice invoice(lStorage->getUser().getUsername(), cart->getCartCids());
         try{
             storage->checkout(invoice);
         }
-        catch(runtime_error e){
+        catch(std::runtime_error e){
             throw e;
         }
 }

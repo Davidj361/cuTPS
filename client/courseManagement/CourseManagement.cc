@@ -13,7 +13,7 @@ void CourseManagement::addClass(QString courseCode, QString courseTitle, QString
 
     try{
         storage->addClass(c);
-    } catch (runtime_error e){
+    } catch (std::runtime_error e){
         throw e;
     }
 }
@@ -27,7 +27,7 @@ void CourseManagement::removeClass(QString courseCode, QString semester, int yea
     Class c(term,course);
     try{
         storage->removeClass(c);
-    } catch (runtime_error e){
+    } catch (std::runtime_error e){
         throw e;
     }
 }
@@ -37,7 +37,7 @@ void CourseManagement::removeCourse(QString courseCode){
     Course course(courseCode, "");
     try{
         storage->removeCourse(course);
-    } catch (runtime_error e) {
+    } catch (std::runtime_error e) {
         throw e;
     }
 }

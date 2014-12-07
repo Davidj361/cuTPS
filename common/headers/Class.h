@@ -10,14 +10,15 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QList>
+#include <QMetaType>
 
 class Class : public Serializable {
 
         public:
                 // Need this for setData()
                 Class();
+                // FIXME Make this copy properly
                 Class(const Class&);
-                // Class(Class&);
 
                 Class(QString semester, Course *course);
                 ~Class();
@@ -40,6 +41,6 @@ class Class : public Serializable {
 
 // Need this for setData()
 Q_DECLARE_METATYPE(Class)
-// Q_DECLARE_OPAQUE_POINTER(Class*)
+Q_DECLARE_OPAQUE_POINTER(Class*)
 
 #endif // CLASS_H

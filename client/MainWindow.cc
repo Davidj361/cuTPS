@@ -30,41 +30,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->ipAddressTextbox->setText("127.0.0.1");
 
     portno = 60001;
-    serverIP = new QString("127.0.0.1");
-
-    connection = new ConnectionClient(serverIP, portno);
-    // storageControl = new StorageControl(); // no longer pointer
-    serializer = new Serializer();
-
-    anISBN = "1232467890";
-    aChapterNumber = 1;
-    aSectionNumber = 1;
-
-
-    connect(ui->actionQuit,     SIGNAL(triggered()), this, SLOT(close()));
-
-    ui->btnRunTest3->setEnabled(false);
-
-
-
-    // For autscrolling to the bottom of the list
-    connect(ui->resultsListWidget->verticalScrollBar(), SIGNAL(rangeChanged(int, int)), this, SLOT(scrollDown()));
 
     // For when the user clicks the refresh button
     connect(&refreshButton, SIGNAL(clicked(bool)), this, SLOT(refresh()));
-
-    connect(connection, SIGNAL(ConnectionError(QString)), this, SLOT(displayError(QString)));
 }
 
 MainWindow::~MainWindow() {
     for (int i = 0; i < ui->resultsListWidget->count(); i++)
         delete ui->resultsListWidget->item(i);
     delete ui;
-    delete connection;
-    delete serverIP;
-    delete serializer;
-    freeBookList();
-    // delete storageControl; // No longer a pointer
 }
 
 void MainWindow::scrollDown() {
@@ -170,8 +144,12 @@ void MainWindow::on_courseManagerSemesterList_itemPressed(QListWidgetItem *item)
         foreach (Class* c, localStorage.getClasses()) {
                 if (c->getSemester() == semester) {
                         ui->courseManagerCourseList->addItem(c->getCourse()->getCourseCode());
+                        // FIXME Make sure lists are cleared upon refresh
                         const QString* title = &c->getCourse()->getCourseTitle();
                         ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
+                        // We will link the actual course
+                        // qDebug() << QVariant(c).value<Class*>();
+                        // ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, c);
                 }
         }
 }

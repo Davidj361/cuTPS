@@ -25,7 +25,7 @@ void LocalStorage::cleanup() {
 void LocalStorage::refresh() {
         this->cleanup();
         if (storageControl == 0)
-                throw runtime_error("LocalStorage::refresh(), storageControl is null");
+                throw std::runtime_error("LocalStorage::refresh(), storageControl is null");
         storageControl->refreshContent(user, classes);
 }
 
@@ -43,7 +43,7 @@ void LocalStorage::login(const QString& username, const QString& password) {
         user = User(username, password);
         try {
                 this->storageControl->logIn(user);
-        } catch(const runtime_error e) {
+        } catch(const std::runtime_error e) {
                 throw e;
         }
 }

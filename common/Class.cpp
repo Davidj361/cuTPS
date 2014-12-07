@@ -1,5 +1,11 @@
 #include "headers/Class.h"
 
+
+Class::Class(): course(0) {}
+
+// FIXME Make this copy properly
+Class::Class(const Class& ass) : semester(ass.semester), course(ass.course), booklist(ass.booklist), classlist(ass.classlist) {}
+
 Class::Class(QString semester, Course *course) {
     this->semester = semester;
     this->course = course;
@@ -17,7 +23,8 @@ Class::~Class() {
         s = 0;
     }
 
-    delete course;
+    if (course != 0)
+            delete course;
 }
 
 void Class::serialize(QJsonObject &json) const {
@@ -39,7 +46,7 @@ const QString Class::getSemester() const {
     return semester;
 }
 
-Course* Class::getCourse() {
+Course* Class::getCourse() const {
     return course;
 }
 

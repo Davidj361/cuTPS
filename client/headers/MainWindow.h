@@ -23,7 +23,7 @@
 #include "../purchase/checkout/checkout.h"
 
 namespace Ui {
-class MainWindow;
+        class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -36,12 +36,6 @@ class MainWindow : public QMainWindow {
 
     private slots:
 
-            /*
-        void runTests();
-        void addContentTest();
-        void getContentTest();
-        void addInvoiceTest();
-        */
         void clearList();
         void setServerIP();
         
@@ -108,12 +102,7 @@ class MainWindow : public QMainWindow {
 private:
 
         Ui::MainWindow    *ui;
-        ConnectionClient  *connection;
-        Serializer        *serializer;
         QString           *serverIP;
-        // User              *user;
-        // User              *userStu;
-        // User              *userCM;
         QIcon refreshIcon;
         QPushButton refreshButton;
 
@@ -126,11 +115,6 @@ private:
 
         int              portno;
 
-        void *runTest(QListWidgetItem *, commands_t, void *, QString);
-        void getContentStudentTest();
-        void getContentCMTest();
-        void freeBookList();
-        
         // Subsystems
         ShoppingCart shoppingCart;
         StorageControl storageControl; // TODO make non-pointer

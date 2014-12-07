@@ -44,13 +44,13 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
         sock->connectToHost(*serverAddr, portno);
         if (!sock->waitForConnected(1000)) {
             emit ConnectionError("Could not connect to server");
-            throw runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
+            throw std::runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
         }
     }
     qDebug()<<inStr;
     if (sock->isValid() && sock->isWritable()) {
         if (sock->write(inStr) < 0)
-            throw runtime_error("ERROR: ConnectionClient::request(), could not write request");
+            throw std::runtime_error("ERROR: ConnectionClient::request(), could not write request");
     }
     else {
         sock->abort();
@@ -63,7 +63,7 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
         qDebug() << inSize;
         qDebug() << inSize.toInt();
         if (inSize.toInt() < 0)
-            throw runtime_error("ERROR: ConnectionClient::request(), invalid message size");
+            throw std::runtime_error("ERROR: ConnectionClient::request(), invalid message size");
         while (outStr.size() < inSize.toInt()) {
             outStr.append(sock->readLine());
         }

@@ -566,8 +566,8 @@ void DBManager::AddInvoice(QString username, QList<int> cart) {
     foreach(int content_id , cart) {
 
         // Get the price of the content being added
-        if (!query.prepare("SELECT price FROM textbooks WHERE content_id = :t_id UNION"
-                           "SELECT price FROM chapters WHERE content_id = :c_id UNION"
+        if (!query.prepare("SELECT price FROM textbooks WHERE content_id = :t_id UNION "
+                           "SELECT price FROM chapters WHERE content_id = :c_id UNION "
                            "SELECT price FROM sections WHERE content_id = :s_id;"))
             throw runtime_error("ERROR DBManager::AddInvoice() Error while prepraing SELECT price query");
 

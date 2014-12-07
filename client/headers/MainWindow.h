@@ -44,6 +44,7 @@ class MainWindow : public QMainWindow {
         */
         void clearList();
         void setServerIP();
+        void studentSemesterListPopulate();
         void studentCourseListPopulate();
 
         void clearStudentCourseList();

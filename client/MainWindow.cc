@@ -96,7 +96,7 @@ void MainWindow::refresh() {
         }
         int currIndex = ui->stackedWidget->currentIndex();
         if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
-                this->studentCourseListPopulate();
+                this->studentSemesterListPopulate();
 }
 
 void MainWindow::clearList() {
@@ -270,13 +270,14 @@ void MainWindow::displayError(QString error) {
 }
 
 void MainWindow::studentSemesterListPopulate() {
-    ui->courseList->clear();
+    ui->semesterList->clear();
     for (int i=0; i < localStorage.getClasses().size(); i++ ){
-        Class* tempclass = localStorage.getClasses().at(i);
-        ui->courseList->addItem(tempclass->getCourse()->getCourseCode());
+        const Class* tempclass = localStorage.getClasses().at(i);
+        if (ui->semesterList->findItems(tempclass->getSemester(), Qt::MatchExactly).empty())
+                ui->semesterList->addItem(tempclass->getSemester());
     }
 }
-k
+
 void MainWindow::studentCourseListPopulate() {
     /*
     for (int i = 0; i < studentCourseList->size(); i++ )

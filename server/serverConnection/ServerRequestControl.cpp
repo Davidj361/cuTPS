@@ -19,7 +19,6 @@ void ServerRequestControl::run(){
     // set up variables
     QByteArray *out = new QByteArray();
     commands_t command;
-    DBController *db = new DBController();
     ServerSerializer *serializer = new ServerSerializer();
 
     try {

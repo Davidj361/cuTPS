@@ -12,12 +12,14 @@
 
 #include "storage/ConnectionClient.h"
 #include "storage/StorageControl.h"
+#include "purchase/shoppingCartManagement/shoppingCart.h"
 #include "../common/headers/Textbook.h"
 #include "../common/headers/Chapter.h"
 #include "../common/headers/Section.h"
 #include "../common/headers/Definitions.h"
 #include "../common/headers/Serializer.h"
 #include "contentDisplay/localStorage/localStorage.h"
+#include "../purchase/checkout/checkout.h"
 
 namespace Ui {
 class MainWindow;
@@ -73,6 +75,24 @@ class MainWindow : public QMainWindow {
         void on_contentList_itemClicked(QListWidgetItem *item);
 
 
+        void on_btnAddToCart_clicked();
+
+        void on_btnViewCart_clicked();
+
+
+
+        void on_btnClearCart_clicked();
+
+        void on_btnPreviousPage_clicked();
+
+        void on_btnCheckout_clicked();
+
+        void on_btnProcedeCheckout_clicked();
+
+        void on_btnConfirmationMainPage_clicked();
+
+        void on_btnConfirmationLogout_clicked();
+
 private:
 
         Ui::MainWindow    *ui;
@@ -101,8 +121,10 @@ private:
         void freeBookList();
         
         // Subsystems
+        ShoppingCart shoppingCart;
         StorageControl storageControl; // TODO make non-pointer
         LocalStorage   localStorage;
+        Checkout checkout;
 };
 
 #endif // MAINWINDOW_H

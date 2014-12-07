@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -275,26 +275,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QTextEdit" name="courseDescription">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>30</horstretch>
-            <verstretch>10</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QListWidget" name="contentList">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>30</horstretch>
-            <verstretch>10</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0" colspan="3">
          <spacer name="horizontalSpacer">
           <property name="orientation">
@@ -324,10 +304,37 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="3">
+         <widget class="QListWidget" name="contentList">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>30</horstretch>
+            <verstretch>10</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QTextEdit" name="courseDescription">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>30</horstretch>
+            <verstretch>10</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="3">
          <widget class="QPushButton" name="btnAddToCart">
           <property name="text">
            <string>Add To Cart</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="btnViewCart">
+          <property name="text">
+           <string>ViewCart</string>
           </property>
          </widget>
         </item>
@@ -339,6 +346,7 @@
        <zorder>courseList</zorder>
        <zorder>horizontalSpacer</zorder>
        <zorder>btnAddToCart</zorder>
+       <zorder>btnViewCart</zorder>
       </widget>
       <widget class="QWidget" name="MainContentManager">
        <widget class="QStackedWidget" name="stackedWidget_2">
@@ -523,7 +531,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="btnCheckout">
         <property name="geometry">
          <rect>
           <x>460</x>
@@ -536,7 +544,7 @@
          <string>Proceed Checkout</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="btnClearCart">
         <property name="geometry">
          <rect>
           <x>360</x>
@@ -549,7 +557,7 @@
          <string>Clear Cart</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="btnPreviousPage">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -577,7 +585,7 @@
          <string>Name</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="lineName">
         <property name="geometry">
          <rect>
           <x>120</x>
@@ -600,7 +608,7 @@
          <string>Credit Card Number</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="lineCC">
         <property name="geometry">
          <rect>
           <x>180</x>
@@ -623,7 +631,7 @@
          <string>Expiry Date</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_3">
+       <widget class="QLineEdit" name="linedate">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -646,7 +654,7 @@
          <string>CVV</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_4">
+       <widget class="QLineEdit" name="lineCvv">
         <property name="geometry">
          <rect>
           <x>90</x>
@@ -656,7 +664,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="btnProcedeCheckout">
         <property name="geometry">
          <rect>
           <x>277</x>
@@ -682,7 +690,7 @@
          <string>Email Address</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_5">
+       <widget class="QLineEdit" name="lineEmail">
         <property name="geometry">
          <rect>
           <x>140</x>
@@ -690,6 +698,19 @@
           <width>113</width>
           <height>26</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="billingInfoError">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>250</y>
+          <width>701</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -710,7 +731,7 @@
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_7">
+       <widget class="QPushButton" name="btnConfirmationLogout">
         <property name="geometry">
          <rect>
           <x>420</x>
@@ -723,7 +744,7 @@
          <string>Logout</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_8">
+       <widget class="QPushButton" name="btnConfirmationMainPage">
         <property name="geometry">
          <rect>
           <x>310</x>

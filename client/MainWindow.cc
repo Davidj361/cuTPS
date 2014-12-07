@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow),
                                           refreshIcon("../resources/refresh.png"), refreshButton(refreshIcon, ""),
-                                          localStorage(storageControl) {
+                                          localStorage(storageControl), checkout(storageControl, shoppingCart, localStorage) {
     ui->setupUi(this);
 
     /*  Set Background Image  */
@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
     ui->btnRunTest3->setEnabled(false);
+
 
 
     // For autscrolling to the bottom of the list
@@ -325,7 +326,6 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
     ui->contentList->clear();
 
     //Get the booklist
-    qDebug() << item->text();
     QList<Textbook*> *studentContent = localStorage.getTextbooks(item->text());
     foreach (Textbook *t, *studentContent) {
         if (t->isAvailable()) {
@@ -351,8 +351,6 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
             }
         }
     }
-
-    qDebug() << studentContent->size();
 
     //Sets item in contentList checkable
     /*
@@ -408,20 +406,23 @@ void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
             ui->courseDescription->append(t->getAuthor());
             ui->courseDescription->append(t->getISBN());
             ui->courseDescription->append(t->getDescription());
+            count;
             break;
         }
         count++;
         foreach (Chapter *ch, t->getChapters()) {
             if (count == index) {
-                ui->courseDescription->setText(ch->getTitle() + " $" + QString::number(ch->getPrice(), 'f', 2));
+                ui->courseDescription->setText("Chapter: "+QString::number(ch->getChapterNo())+" "+ch->getTitle() + " $" + QString::number(ch->getPrice(), 'f', 2));
                 ui->courseDescription->append(ch->getDescription());
+                count++;
                 break;
             }
             count++;
             foreach (Section *s, ch->getSections()) {
                 if (count == index) {
-                    ui->courseDescription->setText(QString::number(s->getSectionNo()) + " " + s->getTitle() + " $" + QString::number(s->getPrice()));
+                    ui->courseDescription->setText("Section: "+QString::number(s->getSectionNo()) + " " + s->getTitle() + " $" + QString::number(s->getPrice()));
                     ui->courseDescription->append(s->getDescription());
+                    count++;
                     break;
                 }
                 count++;
@@ -430,3 +431,142 @@ void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
     }
 }
 
+
+void MainWindow::on_btnAddToCart_clicked()
+{
+    QList<int> selectedItems;
+    ui->contentList->count();
+    for (int i = 0; i < ui->contentList->count(); i ++) {
+        if (ui->contentList->item(i)->checkState()) {
+            selectedItems.push_back(i);
+        }
+    }
+    if(selectedItems.count() == 0){
+        return;
+    }
+
+    int count = 0;
+    int index = -1;
+    int ri = 0;
+
+    if ( selectedItems.size() > ri ) {
+        index = selectedItems.at(ri);
+        ri++;
+    }
+    //qDebug() << "index is " + QString::number(index);
+
+    QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+    foreach (Textbook *t, *studentContent) {
+        if (count == index && index >= 0) {
+            shoppingCart.addToCart(t);
+            qDebug() << t->getTitle();
+            if ( selectedItems.size() > ri ) {
+                index = selectedItems.at(ri);
+                ri++;
+                qDebug() << QString::number(index);
+            }
+            else
+                index = -1;
+        }
+        count++;
+        foreach (Chapter *ch, t->getChapters()) {
+            qDebug() << " Index " << QString::number(index)<<" count "<< QString::number(count);
+            if (count == index && index >= 0) {
+                qDebug() << ch->getTitle();
+                shoppingCart.addToCart(ch);
+                if ( selectedItems.size() > ri ) {
+                    index = selectedItems.at(ri);
+                    ri++;
+                    qDebug() << QString::number(index);
+                }
+                else
+                    index = -1;
+            }
+            count++;
+            foreach (Section *s, ch->getSections()) {
+                if (count == index && index >= 0) {
+                    shoppingCart.addToCart(s);
+                    qDebug() << s->getTitle();
+
+                    if ( selectedItems.size() > ri ) {
+                        index = selectedItems.at(ri);
+                        ri++;
+                        qDebug() << QString::number(index);
+                    }
+                    else
+                        index = -1;
+                }
+                count++;
+            }
+        }
+    }
+    qDebug() << QString::number(shoppingCart.getCartContents().size()) + " added to the Cart";
+
+}
+
+void MainWindow::on_btnViewCart_clicked()
+{
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartStudent));
+    QList<Content*> content = shoppingCart.getCartContents();
+    foreach(Content * c, content){
+        QListWidgetItem* contentListItem = new QListWidgetItem(c->getTitle()+" $"+QString::number(c->getPrice()));
+        ui->listWidgetShoppingCart->addItem(contentListItem);
+    }
+
+}
+
+
+
+void MainWindow::on_btnClearCart_clicked()
+{
+    shoppingCart.clearCart();
+    while (ui->listWidgetShoppingCart->count() > 0) {
+        ui->listWidgetShoppingCart->takeItem(0);
+    }
+}
+
+void MainWindow::on_btnPreviousPage_clicked()
+{
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+}
+
+void MainWindow::on_btnCheckout_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
+
+}
+
+void MainWindow::on_btnProcedeCheckout_clicked()
+{
+    // If none of the fields are empty
+    QList<QLineEdit*> fieldList;
+    fieldList.append(ui->lineName);
+    fieldList.append(ui->lineEmail);
+    fieldList.append(ui->linedate);
+    fieldList.append(ui->lineCvv);
+    fieldList.append(ui->lineCC);
+    foreach(QLineEdit *e, fieldList) {
+        if (e->text().compare("") == 0) {
+            ui->billingInfoError->setText("One of your fields is empty or invalid");
+            return;
+        }
+    }
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartOrderConfirmed));
+    checkout.checkout();
+    foreach(QLineEdit *e, fieldList) {
+        e->setText("");
+    }
+    this->on_btnClearCart_clicked();
+
+}
+
+void MainWindow::on_btnConfirmationMainPage_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+}
+
+void MainWindow::on_btnConfirmationLogout_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+}

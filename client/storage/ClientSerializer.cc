@@ -82,12 +82,6 @@ void ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
             }
         }
     }
-
-    foreach (Class *clss, courses) {
-        foreach (Textbook *tb, clss->getBooklist()) {
-            qDebug() << tb->getISBN() << " - $" << tb->getPrice() << " - " << tb->isAvailable();
-        }
-    }
 }
 
 void ClientSerializer::deserialize(QByteArray& inJson, User & user) {

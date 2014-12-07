@@ -189,13 +189,13 @@ void MainWindow::on_courseManagerCourseList_itemPressed(QListWidgetItem *item)
 // For when an item is selected in the semester list on the student main page
 void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)
 {
-        const QString semester = item->text();
-        ui->courseList->clear();
-        // Add all the courses for our currently selected semester
-        foreach (Class* c, localStorage.getClasses()) {
-                if (c->getSemester() == semester)
-                        ui->courseList->addItem(c->getCourse()->getCourseCode());
-        }
+    const QString semester = item->text();
+    ui->courseList->clear();
+    // Add all the courses for our currently selected semester
+    foreach (Class* c, localStorage.getClasses()) {
+        if (c->getSemester() == semester)
+            ui->courseList->addItem(c->getCourse()->getCourseCode());
+    }
 }
 
 // For when an item is selected in the course list
@@ -440,7 +440,8 @@ void MainWindow::on_btnAddToCart_clicked()
             }
         }
     }
-    qDebug() << QString::number(shoppingCart.getCartContents().size()) + " added to the Cart";
+    this->update_Shopping_Cart_Count();
+    qDebug() << QString::number(shoppingCart.getCartContents().size()) + " items added to the Cart";
 
 }
 
@@ -468,6 +469,7 @@ void MainWindow::on_btnClearCart_clicked()
 
 void MainWindow::on_btnPreviousPage_clicked()
 {
+    this->update_Shopping_Cart_Count();
     ui->listWidgetShoppingCart->clear();
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }

@@ -17,8 +17,9 @@ int main(int argc, char *argv[])
 
     // TODO Definite memory leak here, fix it
     //ServerConnectionController *controller = new ServerConnectionController();
+    DBController db;
 
-    Server server;
+    Server server(&db);
     server.start();
 
     /*

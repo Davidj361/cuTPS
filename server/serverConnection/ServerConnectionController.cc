@@ -44,7 +44,13 @@ void ServerConnectionController::Run () {
 
             QJsonObject objJson;
 
+
+
             command = serializer->deserialize(in, objJson);
+
+                 qDebug() << "fuck"<<objJson;
+                      qDebug() <<"fuck"<< command;
+
 
             if(command == GET_CONTENT){
                 //get content
@@ -64,6 +70,7 @@ void ServerConnectionController::Run () {
                 Class *cl;
                 serializer->deserialize(objJson, cl);
                 db->AddTextbooksToClass(cl);
+                serializer->serializeSuccess(command, out);
                 delete cl;
 
             }
@@ -75,6 +82,7 @@ void ServerConnectionController::Run () {
                     db->EditTextbook(tb);
                 if(command == REMOVE_TEXTBOOK)
                     db->DeleteTextbook(tb);
+                serializer->serializeSuccess(command, out);
                 delete tb;
 
             }
@@ -89,6 +97,7 @@ void ServerConnectionController::Run () {
                     db->EditChapter(ch);
                 if(command == REMOVE_CHAPTER)
                     db->DeleteChapter(ch);
+                serializer->serializeSuccess(command, out);
                 delete ch;
 
             }
@@ -103,6 +112,7 @@ void ServerConnectionController::Run () {
                     db->EditSection(s);
                 if(command == REMOVE_SECTION)
                     db->DeleteSection(s);
+                serializer->serializeSuccess(command, out);
                 delete s;
 
             }
@@ -122,6 +132,7 @@ void ServerConnectionController::Run () {
                 Course *course;
                 serializer->deserializeCourse(objJson, course);
                 db->DeleteCourse(course);
+                serializer->serializeSuccess(command, out);
                 delete course;
 
             }
@@ -135,6 +146,17 @@ void ServerConnectionController::Run () {
                     db->AddClass(cl);
                 if ( command == DELETE_CLASS)
                     db->DeleteClass(cl);
+                serializer->serializeSuccess(command, out);
+
+            }
+
+            else if( command == ADD_INVOICE ) {
+                qDebug() << "adding invoice";
+                Invoice *i;
+                serializer->deserialize(objJson, i);
+                db->AddInvoice(i);
+                delete i;
+                serializer->serializeSuccess(command, out);
 
             }
 

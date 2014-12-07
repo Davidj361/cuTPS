@@ -40,7 +40,16 @@ void ServerSerializer::deserialize(QJsonObject &json, Chapter *&ch){
 }
 
 void ServerSerializer::deserialize(QJsonObject &json, Invoice *&in){
+    qDebug()<<"here";
         // TODO deserialze invoice
+    QJsonArray contents = json["contents"].toArray();
+    QList<int> cids;
+    foreach(QJsonValue v, contents){
+        cids.append((int) v.toObject()["c_id"].toDouble());
+    }
+
+    in = new Invoice(json["username"].toString(), cids);
+
 }
 
 void ServerSerializer::deserialize(QJsonObject &json, User*& u){

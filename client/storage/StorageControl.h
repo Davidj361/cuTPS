@@ -20,9 +20,11 @@ class StorageControl : public QObject {
         Q_OBJECT
 
     public:
-        StorageControl(QString inIp = "192.168.28.100");
+        StorageControl(QString inIp = "127.0.0.1");
 
         ~StorageControl();
+
+        void setIP(QString);
 
         void addTextbook(Class&);
         void editTextbook(Textbook&);
@@ -46,6 +48,7 @@ class StorageControl : public QObject {
         void refreshContent(User&, QList<Class*>&) const;
 
         void logIn(User&) const;
+
 
     private:
         ClientSerializer *serializer;

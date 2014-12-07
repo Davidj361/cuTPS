@@ -6,12 +6,13 @@
 #include <QThreadPool>
 #include "ServerRequestControl.h"
 #include <QString>
+#include "databaseManagement/DBController.h"
 
 class Connection : public QObject {
     Q_OBJECT
 
     public:
-        explicit Connection(QObject *parent = 0);
+        explicit Connection( DBController*, QObject *parent = 0);
 
         void setSocket(qintptr newSock);
 
@@ -24,6 +25,7 @@ class Connection : public QObject {
 
     private:
         QTcpSocket *sock;
+        DBController *db;
 };
 
 #endif // CONNECTION_H

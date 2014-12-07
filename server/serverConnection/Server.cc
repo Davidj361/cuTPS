@@ -1,8 +1,9 @@
 #include "Server.h"
 
-Server::Server(QObject *parent) :
+Server::Server(DBController *cDb, QObject *parent) :
     QTcpServer(parent)
 {
+    db = cDb;
 }
 
 
@@ -19,6 +20,6 @@ void Server::incomingConnection(qintptr sock)
 {
     // At the incoming connection, make a client
     // and set the socket
-    Connection *client = new Connection(this);
+    Connection *client = new Connection(db, this);
     client->setSocket(sock);
 }

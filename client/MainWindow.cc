@@ -23,17 +23,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Add a clickable icon to the status bar to it's far right
     ui->statusBar->addPermanentWidget(&refreshButton);
-    this->on_BtnLogin_clicked();
+    //this->on_BtnLogin_clicked();
 
 
 
-    serverIP = new QString("127.0.0.1");
+    ui->ipAddressTextbox->setText("127.0.0.1");
+
     portno = 60001;
+    serverIP = new QString("127.0.0.1");
 
     connection = new ConnectionClient(serverIP, portno);
     // storageControl = new StorageControl(); // no longer pointer
     serializer = new Serializer();
-
 
     book_list = 0;
 
@@ -295,6 +296,7 @@ void MainWindow::on_BtnLogin_clicked()
     //user = storageControl->logIn(User(ui->UsernameBox->text(), ui->PasswordBox->text(),"",""));
     // user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
     try {
+        storageControl.setIP(ui->ipAddressTextbox->text());
         localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
         ui->loginStatus->setText(localStorage.getUser().getUsername());
         this->refresh();
@@ -534,6 +536,12 @@ void MainWindow::on_btnPreviousPage_clicked()
 void MainWindow::on_btnCheckout_clicked()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
+    //TODO delete the following lines after it works
+    ui->lineName->setText("h");
+    ui->lineEmail->setText("h");
+    ui->linedate->setText("h");
+    ui->lineCC->setText("h");
+    ui->lineCvv->setText("h");
 
 }
 
@@ -553,7 +561,14 @@ void MainWindow::on_btnProcedeCheckout_clicked()
         }
     }
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartOrderConfirmed));
-    checkout.checkout();
+    try{
+        checkout.checkout();
+    } catch(runtime_error e){
+        // TODO pop up error message
+        qDebug()<< e.what();
+        ui->billingInfoError->setText(e.what());
+    }
+
     foreach(QLineEdit *e, fieldList) {
         e->setText("");
     }

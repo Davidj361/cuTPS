@@ -16,7 +16,7 @@
 class ServerRequestControl :  public QObject, public QRunnable {
     Q_OBJECT
     public:
-        ServerRequestControl(QByteArray *);
+        ServerRequestControl(QByteArray *, DBController*);
         ~ServerRequestControl();
 
     signals:
@@ -28,6 +28,7 @@ class ServerRequestControl :  public QObject, public QRunnable {
 
     private:
         QByteArray *in;
+        DBController *db;
 };
 
 #endif // SERVERREQUESTCONTROL_H

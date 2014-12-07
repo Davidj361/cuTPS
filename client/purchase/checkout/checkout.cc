@@ -8,5 +8,10 @@ void Checkout::checkout() {
         if (storage == 0 || cart == 0 || lStorage == 0)
                 throw runtime_error("Checkout::checkout, storage, lStorage, or cart is null");
         Invoice invoice(lStorage->getUser().getUsername(), cart->getCartCids());
-        storage->checkout(invoice);
+        try{
+            storage->checkout(invoice);
+        }
+        catch(runtime_error e){
+            throw e;
+        }
 }

@@ -8,6 +8,12 @@ StorageControl::StorageControl(QString inIp){
     serializer = new ClientSerializer();
 }
 
+void StorageControl::setIP(QString inIP) {
+    ip = inIP;
+    delete connection;
+    connection = new ConnectionClient(&ip);
+}
+
 StorageControl::~StorageControl(){
     delete connection;
     delete serializer;
@@ -66,7 +72,11 @@ void StorageControl::removeCourse(Course &course) {
 }
 
 void StorageControl::checkout(Invoice &i) const {
-    updateStorage(i, ADD_INVOICE);
+    try{
+        updateStorage(i, ADD_INVOICE);
+    } catch (runtime_error e){
+        throw e;
+    }
 }
 
 void StorageControl::logIn(User &u) const {

@@ -47,6 +47,7 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
             throw runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
         }
     }
+    qDebug()<<inStr;
     if (sock->isValid() && sock->isWritable()) {
         if (sock->write(inStr) < 0)
             throw runtime_error("ERROR: ConnectionClient::request(), could not write request");

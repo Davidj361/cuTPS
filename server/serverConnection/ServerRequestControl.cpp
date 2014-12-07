@@ -1,7 +1,8 @@
 #include "ServerRequestControl.h"
 
-ServerRequestControl::ServerRequestControl( QByteArray *bytes ) {
+ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cDb) {
     in = bytes;
+    db = cDb;
 }
 
 ServerRequestControl::~ServerRequestControl() {
@@ -152,6 +153,15 @@ void ServerRequestControl::run(){
 
         }
 
+        else if( command == ADD_INVOICE ) {
+            qDebug() << "adding invoice";
+            Invoice *i;
+            serializer->deserialize(objJson, i);
+            db->AddInvoice(i);
+            delete i;
+            serializer->serializeSuccess(command, *out);
+
+        }
 
 
         qDebug() << "Serialized Response...";

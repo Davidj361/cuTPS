@@ -28,7 +28,7 @@ void Invoice::serialize(QJsonObject &inJson) {
     int i;
     foreach (i, contentList) {
         QJsonObject cid;
-        cid["cid"] = i;
+        cid["c_id"] = i;
         cidArray.append(cid);
     }
     inJson["contents"] = cidArray;

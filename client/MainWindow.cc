@@ -549,5 +549,9 @@ void MainWindow::on_courseManagerAddButton_released() {
                 return;
         }
         // Everything is checked, now we can pass of information to localStorage and get it made
-        localStorage.addCourse(semester, year, courseCode, courseTitle);
+        try {
+                localStorage.addCourse(semester, year, courseCode, courseTitle);
+        } catch (std::runtime_error e) {
+                this->popupError(e.what());
+        }
 }

@@ -36,7 +36,7 @@ void LocalStorage::refresh() {
         storageControl->refreshContent(user, classes);
 }
 
-QList<Textbook*>* LocalStorage::getTextbooks(QString courseCode){
+const QList<const Textbook*>* LocalStorage::getTextbooks(QString courseCode) const {
     foreach(Class *c , classes){
 
         if(c->getCourse()->getCourseCode().compare(courseCode) == 0)

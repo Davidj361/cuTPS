@@ -24,10 +24,13 @@ class LocalStorage {
                 void removeCourse(Course& course) const;
                 void addCourse(const QString& semester, const QVariant& year, const QString& courseCode, const QString& courseTitle);
 
+                // The below function should be called for every update and upon deconstruction of this controller
+                void cleanup(); // Delete all the allocated data
+
         private:
                 void update(QList<Class*>&);
-                // The below function should be called for every update and upon deconstruction of this controller
-                void cleanup(); // Delete all the allocated data 
+
+
 
                 // For connecting to server
                 const StorageControl* storageControl;

@@ -103,6 +103,10 @@ class MainWindow : public QMainWindow {
 
         void courseManagerClearLists();
 
+        void update_Shopping_Cart_Count();
+
+        void clear_All_Widgets();
+
 private:
 
         Ui::MainWindow    *ui;

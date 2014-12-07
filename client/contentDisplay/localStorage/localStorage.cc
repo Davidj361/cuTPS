@@ -20,6 +20,8 @@ void LocalStorage::cleanup() {
                 delete *iter;
         }
         this->classes.clear(); // Make classes have 0 elements
+        //this->user = User();
+
 }
 
 void LocalStorage::refresh() {

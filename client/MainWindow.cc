@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->statusBar->addPermanentWidget(&refreshButton);
     //this->on_BtnLogin_clicked();
 
-
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
 
     ui->ipAddressTextbox->setText("127.0.0.1");
 
@@ -135,10 +135,12 @@ void MainWindow::on_BtnLogin_clicked()
         // TODO Have a proper standard through the whole system to identify between user account types
         // Check if the user is a student or an admin/content manager
         const QString userType(localStorage.getUser().getType());
-        if (userType == QString("student"))
-                this->displayMainStudent();
-        else if (userType == QString("content_manager"))
-                this->displayCourseManager();
+        if (userType == QString("student")) {
+            this->update_Shopping_Cart_Count();
+            ui->contentList->clear();
+            this->displayMainStudent();
+        } else if (userType == QString("content_manager"))
+            this->displayCourseManager();
         this->refresh();
     } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());
@@ -150,13 +152,17 @@ void MainWindow::on_BtnLogin_clicked()
 
 void MainWindow::on_BtnLogout_clicked()
 {
-        MainWindow::clearStudentCourseList();
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+    //localStorage.cleanup();
+    this->clear_All_Widgets();
+    shoppingCart.clearCart();
+    MainWindow::clearStudentCourseList();
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
 }
 
 // For when an item is selected in the course manager page bottom left pane
 void MainWindow::on_courseManagerSemesterList_itemPressed(QListWidgetItem *item)
 {
+
         const QString semester = item->text();
         ui->courseManagerCourseList->clear();
         // Add all the courses for our currently selected semester
@@ -462,12 +468,12 @@ void MainWindow::on_btnClearCart_clicked()
 
 void MainWindow::on_btnPreviousPage_clicked()
 {
-
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+    ui->listWidgetShoppingCart->clear();
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 
 void MainWindow::on_btnCheckout_clicked()
-{
+{    
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
     //TODO delete the following lines after it works
     ui->lineName->setText("h");
@@ -560,4 +566,16 @@ void MainWindow::on_courseManagerAddButton_released() {
         } catch (std::runtime_error e) {
                 this->popupError(e.what());
         }
+}
+
+void MainWindow::update_Shopping_Cart_Count() {
+    ui->shoppingCartCountIndicator->setText("Cart (" + QString::number(shoppingCart.getCartContents().count()) + ")");
+}
+
+void MainWindow::clear_All_Widgets() {
+    ui->courseList->clear();
+    ui->contentList->clear();
+    ui->courseDescription->clear();
+    ui->listWidgetShoppingCart->clear();
+    ui->lineName->clear();
 }

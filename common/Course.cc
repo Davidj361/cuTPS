@@ -6,8 +6,7 @@ Course::Course(QString courseCode, QString courseTitle){
     this->courseTitle = courseTitle;
 
 }
-void Course::serialize(QJsonObject &json){
-
+void Course::serialize(QJsonObject &json) const {
     json.insert("courseCode", courseCode);
     json.insert("courseTitle", courseTitle);
 

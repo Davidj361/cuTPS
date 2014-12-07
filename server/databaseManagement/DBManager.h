@@ -218,8 +218,8 @@ class DBManager {
         void GetClassesForStudent(QList<Class *> &list, QString username);
         void GetAllClasses(QList<Class *> &list);
         void GetTextbooksForClass(QList<Textbook *> &list, QString course, QString semester);
-        void GetChaptersForTextbook(QList<Chapter *> &list, Textbook *textbook);
-        void GetSectionsForChapter(QList<Section *> &list, Textbook *textbook, Chapter *chapter);
+        void GetChaptersForTextbook(Textbook *textbook);
+        void GetSectionsForChapter(Textbook *textbook, Chapter *chapter);
 
         QSqlDatabase db;
 };

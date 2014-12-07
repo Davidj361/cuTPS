@@ -22,7 +22,7 @@ class Course : public Serializable{
         QString getCourseCode();
         QString getNewCourseCode();
         void setNewCourseCode(QString);
-        void serialize(QJsonObject&);
+        void serialize(QJsonObject&) const;
 
     private:
         QString courseTitle;

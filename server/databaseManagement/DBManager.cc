@@ -631,11 +631,11 @@ void DBManager::RetrieveContentList(QString username, QList<Class *> &list) {
 
         Textbook *textbook;
         foreach (textbook, clss->getBooklist()) {
-            GetChaptersForTextbook(textbook->getChapters(), textbook);
+            GetChaptersForTextbook(textbook);
 
             Chapter *chapter;
             foreach (chapter, textbook->getChapters()) {
-                GetSectionsForChapter(chapter->getSections(), textbook, chapter);
+                GetSectionsForChapter(textbook, chapter);
             }
         }
     }
@@ -710,7 +710,7 @@ void DBManager::GetTextbooksForClass(QList<Textbook *> &list, QString course, QS
     }
 }
 
-void DBManager::GetChaptersForTextbook(QList<Chapter *> &list, Textbook *textbook) {
+void DBManager::GetChaptersForTextbook(Textbook *textbook) {
     QSqlQuery ch_query;
 
     if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
@@ -729,11 +729,11 @@ void DBManager::GetChaptersForTextbook(QList<Chapter *> &list, Textbook *textboo
                                        ch_query.value(4).toBool(),    // Availability
                                        ch_query.value(5).toFloat(),   // Price
                                        ch_query.value(6).toInt());    // Content ID
-        list.append(chapter);
+        textbook->addChapter(chapter);
     }
 }
 
-void DBManager::GetSectionsForChapter(QList<Section *> &list, Textbook *textbook, Chapter *chapter) {
+void DBManager::GetSectionsForChapter(Textbook *textbook, Chapter *chapter) {
     QSqlQuery sec_query;
 
     if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
@@ -755,7 +755,7 @@ void DBManager::GetSectionsForChapter(QList<Section *> &list, Textbook *textbook
                                        sec_query.value(6).toFloat(),   // Price
                                        sec_query.value(7).toInt());    // Content ID
 
-        list.append(section);
+        chapter->addSection(section);
     }
 }
 

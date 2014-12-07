@@ -9,7 +9,7 @@ Invoice::Invoice(const QString& cUsername, const QList<int>& content) {
     this->contentList = content;
 }
 
-QList<int> &Invoice::getContentList() {
+const QList<int> &Invoice::getContentList() const {
     return contentList;
 }
 
@@ -18,11 +18,11 @@ void Invoice::addContent(Content *c) {
         contentList.push_back(c->getcid());
 }
 
-QString Invoice::getUsername() {
+QString Invoice::getUsername() const {
     return username;
 }
 
-void Invoice::serialize(QJsonObject &inJson) {
+void Invoice::serialize(QJsonObject &inJson) const {
     inJson["username"] = getUsername();
     QJsonArray cidArray;
     int i;

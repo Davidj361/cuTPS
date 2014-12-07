@@ -26,7 +26,7 @@ class Class : public Serializable {
         QList<Student *> &getClasslist();
         void addTextbook(Textbook *);
         void addStudent(Student *);
-        void serialize(QJsonObject &);
+        void serialize(QJsonObject &) const;
 
     private:
 

@@ -20,7 +20,7 @@ Class::~Class() {
     delete course;
 }
 
-void Class::serialize(QJsonObject &json) {
+void Class::serialize(QJsonObject &json) const {
     json.insert("semester", semester);
     QJsonObject jcourse;
     course->serialize(jcourse);

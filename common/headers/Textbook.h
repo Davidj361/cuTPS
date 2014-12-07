@@ -2,7 +2,6 @@
 #define TEXTBOOK_H
 #include "Content.h"
 #include "Chapter.h"
-#include "Serializable.h"
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QList>
@@ -10,7 +9,7 @@
 using namespace std;
 class Chapter;
 
-class Textbook: public Content, public Serializable {
+class Textbook: public Content {
 
     public:
 
@@ -37,10 +36,10 @@ class Textbook: public Content, public Serializable {
         const QString& getPublisher() const;
         const QString& getEdition()const;
         const QString& getDescription() const;
-        const int     getYear() const;
+        int     getYear() const;
         void serialize(QJsonObject &) const;
         void addChapter(Chapter *);
-        const QList<const Chapter *>& getChapters() const;
+        const QList<Chapter *>& getChapters() const;
 
     private:
         QString author;

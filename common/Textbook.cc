@@ -40,11 +40,11 @@ const QString& Textbook::getEdition()const {
     return edition;
 }
 
-const QString& getDescription() const {
+const QString& Textbook::getDescription() const {
     return description;
 }
 
-const int Textbook::getYear() const {
+int Textbook::getYear() const {
     return year;
 }
 
@@ -52,10 +52,11 @@ void Textbook::addChapter(Chapter *cha) {
     chapters.push_back(cha);
 }
 
-const QList<const Chapter *>& Textbook::getChapters() const {
+const QList<Chapter *>& Textbook::getChapters() const {
     return chapters;
 }
-void Textbook::serialize(QJsonObject &content) {
+
+void Textbook::serialize(QJsonObject &content) const {
 
     content["title"] = title;
     content["available"] = available;

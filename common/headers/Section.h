@@ -4,13 +4,12 @@
 #include "Content.h"
 #include "Textbook.h"
 #include "Chapter.h"
-#include "Serializable.h"
 #include <QJsonObject>
 
 class Chapter;
 class Textbook;
 
-class Section: public Content, public Serializable {
+class Section: public Content {
 
     public:
         /* =====================================================================
@@ -27,10 +26,11 @@ class Section: public Content, public Serializable {
         Returns   : void
         ===================================================================== */
         Section(QString title, int section, Chapter *chapter = 0, Textbook *textbook = 0, QString description = "", bool available = false, float price = 0, int content_id= 0);
-        Chapter  *getChapter ();
-        Textbook *getTextbook ();
-        void      serialize (QJsonObject &);
-        int       getSectionNo();
+
+        const Chapter  *getChapter () const;
+        const Textbook* getTextbook () const;
+        void      serialize (QJsonObject &) const;
+        int       getSectionNo() const;
 
     private:
         int       sectionNo;

@@ -331,9 +331,10 @@ void Serializer::createContent(const QJsonObject &json, void *&retData) const {
                 this->createSection((*section).toObject(), temp);
                 pSection = static_cast<Section *>(temp);
                 temp = 0;
-                pChapter->getSections().push_back(pSection);
+                // addSection wasn't used :|
+                pChapter->addSection(pSection);
             }
-            pTextbook->getChapters().push_back(pChapter);
+            pTextbook->addChapter(pChapter);
         }
         textbooks->push_back(pTextbook);
     }

@@ -47,7 +47,7 @@ void Chapter::addSection(Section *sec) {
     sections.push_back(sec);
 }
 
-const QList<const Section *>& Chapter::getSections() const {
+const QList<Section *>& Chapter::getSections() const {
     return this->sections;
 }
 

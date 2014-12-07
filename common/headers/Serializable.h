@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 
-class Serializable{
+class Serializable {
 
 public:
 

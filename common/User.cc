@@ -34,7 +34,7 @@ void User::setType(QString type) {
     this->type = type;
 }
 
-void User::serialize(QJsonObject &json){
+void User::serialize(QJsonObject &json) const {
     json.insert("username", username);
     json.insert("password", password);
     json.insert("type", type);

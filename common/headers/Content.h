@@ -3,8 +3,10 @@
 #include <QString>
 #include <QJsonObject>
 
+#include "Serializable.h"
 
-class Content {
+
+class Content: public Serializable {
 
     public:
 
@@ -15,7 +17,9 @@ class Content {
         Variables : IN/OUT  -  QJsonObject to add attributes to
         Returns   : void
         ===================================================================== */
-        virtual void serialize(QJsonObject &) = 0;
+
+            // This is not longer needed since Serializable should be doing this
+        // virtual void serialize(QJsonObject &) = 0;
 
         QString getTitle() const;
         float   getPrice() const;

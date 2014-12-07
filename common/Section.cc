@@ -13,19 +13,19 @@ Section::Section(QString cTitle, int cSectionNo, Chapter *cChapter,
     c_id = cC_id;
 }
 
-Textbook *Section::getTextbook() {
+const Textbook* Section::getTextbook () const {
     return textbook;
 }
 
-Chapter *Section::getChapter() {
+const Chapter* Section::getChapter () const {
     return chapter;
 }
 
-int Section::getSectionNo() {
+int Section::getSectionNo() const {
     return sectionNo;
 }
 
-void Section::serialize(QJsonObject &sectionJson) {
+void Section::serialize(QJsonObject &sectionJson) const {
 
     sectionJson["title"] = title;
     sectionJson["available"] = available;

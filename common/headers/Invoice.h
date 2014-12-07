@@ -25,11 +25,11 @@ class Invoice: public Serializable {
         Invoice(const QString&);
         Invoice(const QString&, const QList<int>&); // this is for constructing from the shopping cart
 
-        QList<int> &getContentList();
+        const QList<int> &getContentList() const;
         void addContent(Content *);
         void addContent(int);
-        QString getUsername();
-        void serialize(QJsonObject &);
+        QString getUsername() const;
+        void serialize(QJsonObject &) const;
 
     private:
         QList<int> contentList;

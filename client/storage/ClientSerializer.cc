@@ -105,6 +105,7 @@ void ClientSerializer::deserialize(QByteArray& inJson, User & user) {
     user.setType(userObj["type"].toString());
 }
 
+// FIXME newCourse not being used here
 void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse) {
     QString courseTitle = json["courseTitle"].toString();
     QString courseCode = json["courseCode"].toString();

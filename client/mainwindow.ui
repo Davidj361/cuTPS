@@ -434,7 +434,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
            <item row="0" column="0">
-            <widget class="QComboBox" name="cmSemesterList2">
+            <widget class="QComboBox" name="courseManagerSemesterList2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>1</horstretch>
@@ -444,7 +444,7 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="cmAddCourseCode">
+            <widget class="QLabel" name="courseManagerAddCourseCode">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>1</horstretch>
@@ -878,7 +878,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QComboBox" name="cmYearList">
+            <widget class="QComboBox" name="courseManagerYearList">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>1</horstretch>
@@ -901,7 +901,7 @@
             </spacer>
            </item>
            <item row="2" column="1" rowspan="2">
-            <widget class="QLabel" name="cmAddCourseTitle">
+            <widget class="QLabel" name="courseManagerAddCourseTitle">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>1</horstretch>
@@ -1374,7 +1374,7 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
-            <widget class="QListWidget" name="cmSemestList">
+            <widget class="QListWidget" name="courseManagerSemesterList">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>1</horstretch>
@@ -1408,7 +1408,7 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="QListView" name="cmCourseList">
+               <widget class="QListView" name="courseManagerCourseList">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>1</horstretch>
@@ -1418,7 +1418,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="cmCourseTitle">
+               <widget class="QLabel" name="courseManagerCourseTitle">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>1</horstretch>

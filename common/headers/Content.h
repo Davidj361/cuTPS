@@ -17,11 +17,11 @@ class Content {
         ===================================================================== */
         virtual void serialize(QJsonObject &) = 0;
 
-        QString getTitle();
-        float   getPrice();
-        bool    isAvailable();
-        QString getDescription();
-        int     getcid();
+        QString getTitle() const;
+        float   getPrice() const;
+        bool    isAvailable() const;
+        QString getDescription() const;
+        int     getcid() const;
 
     protected:
         QString title;

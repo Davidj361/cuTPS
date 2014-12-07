@@ -7,7 +7,6 @@ DBController::DBController() {
 }
 
 DBController::~DBController() {
-    qDebug() << "cleaning up dbcontroller";
     delete dbManager;
 }
 

@@ -9,17 +9,18 @@
 #include "../../../common/headers/Course.h"
 
 class ShoppingCart {
-        public:
-                void addToCart(const Textbook*);
-                void addToCart(const Chapter*);
-                void addToCart(const Section*);
-                void clearCart();
-                const QList<Content*>& getCartContents() const; // for viewing on gui
-                QList<int> getCartCids() const; // for client/server sending
-        private:
-                void cleanup();
+    public:
+        void addToCart(const Textbook*);
+        void addToCart(const Chapter*);
+        void addToCart(const Section*);
+        void clearCart();
+        const QList<Content*>& getCartContents() const; // for viewing on gui
+        QList<int> getCartCids() const; // for client/server sending
+    private:
+        void cleanup();
+        bool contains(int c_id);
 
-                QList<Content*> cartContents;
+        QList<Content*> cartContents;
 };
 
 #endif

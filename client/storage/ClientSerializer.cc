@@ -122,8 +122,9 @@ void ClientSerializer::createTextbook(const QJsonObject &bookJsonObject, Textboo
       (int) bookJsonObject["year"].toDouble(),
             bookJsonObject["edition"].toString(),
             bookJsonObject["description"].toString(),
-     (bool) bookJsonObject["available"].toBool(),
-     (float) bookJsonObject["price"].toDouble()
+            bookJsonObject["available"].toBool(),
+    (float) bookJsonObject["price"].toDouble(),
+      (int) bookJsonObject["c_id"].toDouble()
     );
 }
 

@@ -58,8 +58,6 @@ class MainWindow : public QMainWindow {
 
         void on_BtnLogin_clicked();
 
-        void on_BtnLogout_clicked();
-
         void on_courseManagerAddButton_released();
 
         void on_courseManagerDeleteButton_released();
@@ -99,13 +97,17 @@ class MainWindow : public QMainWindow {
 
         void on_btnConfirmationMainPage_clicked();
 
-        void on_btnConfirmationLogout_clicked();
-
         void courseManagerClearLists();
 
         void update_Shopping_Cart_Count();
 
         void clear_All_Widgets();
+
+        void on_actionQuit_triggered();
+
+        void on_actionLogout_triggered();
+
+        void on_btnBackToMain_clicked();
 
 private:
 

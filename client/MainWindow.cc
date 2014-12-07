@@ -109,10 +109,9 @@ void MainWindow::studentSemesterListPopulate() {
 }
 
 void MainWindow::clearStudentCourseList() {
-
     while (ui->courseList->count() > 0) {
         ui->courseList->takeItem(0);
-        }
+    }
 }
 
 
@@ -148,15 +147,6 @@ void MainWindow::on_BtnLogin_clicked()
         //ui->loginStatus->setText("Invalid Username and Password");
 
     }
-}
-
-void MainWindow::on_BtnLogout_clicked()
-{
-    //localStorage.cleanup();
-    this->clear_All_Widgets();
-    shoppingCart.clearCart();
-    MainWindow::clearStudentCourseList();
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
 }
 
 // For when an item is selected in the course manager page bottom left pane
@@ -266,9 +256,6 @@ void MainWindow::displayCourseManager() {
 void MainWindow::displayMainStudent() {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
-
-
-
 
 void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
 {
@@ -393,31 +380,25 @@ void MainWindow::on_btnAddToCart_clicked()
         index = selectedItems.at(ri);
         ri++;
     }
-    //qDebug() << "index is " + QString::number(index);
 
     const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
     foreach (const Textbook *t, *studentContent) {
         if (count == index && index >= 0) {
             shoppingCart.addToCart(t);
-            qDebug() << t->getTitle();
             if ( selectedItems.size() > ri ) {
                 index = selectedItems.at(ri);
                 ri++;
-                qDebug() << QString::number(index);
             }
             else
                 index = -1;
         }
         count++;
         foreach (const Chapter *ch, t->getChapters()) {
-            qDebug() << " Index " << QString::number(index)<<" count "<< QString::number(count);
             if (count == index && index >= 0) {
-                qDebug() << ch->getTitle();
                 shoppingCart.addToCart(ch);
                 if ( selectedItems.size() > ri ) {
                     index = selectedItems.at(ri);
                     ri++;
-                    qDebug() << QString::number(index);
                 }
                 else
                     index = -1;
@@ -426,12 +407,10 @@ void MainWindow::on_btnAddToCart_clicked()
             foreach (const Section *s, ch->getSections()) {
                 if (count == index && index >= 0) {
                     shoppingCart.addToCart(s);
-                    qDebug() << s->getTitle();
 
                     if ( selectedItems.size() > ri ) {
                         index = selectedItems.at(ri);
                         ri++;
-                        qDebug() << QString::number(index);
                     }
                     else
                         index = -1;
@@ -441,8 +420,6 @@ void MainWindow::on_btnAddToCart_clicked()
         }
     }
     this->update_Shopping_Cart_Count();
-    qDebug() << QString::number(shoppingCart.getCartContents().size()) + " items added to the Cart";
-
 }
 
 void MainWindow::on_btnViewCart_clicked()
@@ -476,14 +453,17 @@ void MainWindow::on_btnPreviousPage_clicked()
 
 void MainWindow::on_btnCheckout_clicked()
 {    
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
-    //TODO delete the following lines after it works
-    ui->lineName->setText("h");
-    ui->lineEmail->setText("h");
-    ui->linedate->setText("h");
-    ui->lineCC->setText("h");
-    ui->lineCvv->setText("h");
-
+    if (shoppingCart.getCartContents().count() > 0) {
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
+        //TODO delete the following lines after it works
+        ui->lineName->setText("h");
+        ui->lineEmail->setText("h");
+        ui->linedate->setText("h");
+        ui->lineCC->setText("h");
+        ui->lineCvv->setText("h");
+    } else {
+        MainWindow::popupError("There are no items in the Shopping Cart");
+    }
 }
 
 void MainWindow::on_btnProcedeCheckout_clicked()
@@ -497,6 +477,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
     fieldList.append(ui->lineCC);
     foreach(QLineEdit *e, fieldList) {
         if (e->text().compare("") == 0) {
+            MainWindow::popupError("Ensure all fields have been filled");
             ui->billingInfoError->setText("One of your fields is empty or invalid");
             return;
         }
@@ -521,53 +502,55 @@ void MainWindow::on_btnConfirmationMainPage_clicked()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 
-void MainWindow::on_btnConfirmationLogout_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
-}
-
 void MainWindow::on_courseManagerDeleteButton_released()
 {
-        if (ui->courseManagerCourseList->currentItem() == 0)
-                return;
-        const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
-        try {
-                storageControl.removeCourse(*(ass->getCourse()));
-        } catch (std::runtime_error e) {
-                this->popupError(e.what());
-        }
+    if (ui->courseManagerCourseList->currentItem() == 0)
+        return;
+
+    const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
+
+    try {
+        // TODO - Remove Class, not remove course
+        storageControl.removeCourse(*(ass->getCourse()));
+        refresh();
+    } catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
 }
 
 void MainWindow::on_courseManagerAddButton_released() {
-        // First check if all fields are set
-        // Check if year has its 4 digits
-        const QString semester(ui->courseManagerSemesterList2->currentText());
-        const QString year(ui->courseManagerYear->text());
-        const QString courseCode(ui->courseManagerAddCourseCode->text());
-        const QString courseTitle(ui->courseManagerAddCourseTitle->text());
-        if (year.contains(" ")) {
-                this->popupWarning("You have spaces in the year.");
-                return;
-        }
-        else if (year.length() < 4) {
-                this->popupWarning("You didn't write 4 digits for the year.");
-                return;
-        }
-        // Check if the course code is empty or the course title is empty
-        else if (courseCode.length() < 1) {
-                this->popupWarning("Course code is empty.");
-                return;
-        }
-        else if (courseTitle.length() < 1) {
-                this->popupWarning("Course title is empty.");
-                return;
-        }
-        // Everything is checked, now we can pass of information to localStorage and get it made
-        try {
-                localStorage.addCourse(semester, year, courseCode, courseTitle);
-        } catch (std::runtime_error e) {
-                this->popupError(e.what());
-        }
+    // First check if all fields are set
+    // Check if year has its 4 digits
+
+    const QString semester(ui->courseManagerSemesterList2->currentText());
+    const QString year(ui->courseManagerYear->text());
+    const QString courseCode(ui->courseManagerAddCourseCode->text());
+    const QString courseTitle(ui->courseManagerAddCourseTitle->text());
+
+    if (year.contains(" ")) {
+            this->popupWarning("You have spaces in the year.");
+            return;
+    }
+    else if (year.length() < 4) {
+            this->popupWarning("You didn't write 4 digits for the year.");
+            return;
+    }
+    else if (courseCode.length() < 1) {
+            this->popupWarning("Course code is empty.");
+            return;
+    }
+    else if (courseTitle.length() < 1) {
+            this->popupWarning("Course title is empty.");
+            return;
+    }
+
+    // Everything is checked, now we can pass of information to localStorage and get it made
+    try {
+            localStorage.addCourse(semester, year, courseCode, courseTitle);
+            refresh();
+    } catch (std::runtime_error e) {
+            this->popupError(e.what());
+    }
 }
 
 void MainWindow::update_Shopping_Cart_Count() {
@@ -580,4 +563,29 @@ void MainWindow::clear_All_Widgets() {
     ui->courseDescription->clear();
     ui->listWidgetShoppingCart->clear();
     ui->lineName->clear();
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+    this->close();
+}
+
+void MainWindow::on_actionLogout_triggered()
+{
+    const QString userType(localStorage.getUser().getType());
+
+    this->clear_All_Widgets();
+
+    if (userType == "student") {
+        shoppingCart.clearCart();
+        MainWindow::clearStudentCourseList();
+    }
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+    localStorage.cleanup();
+}
+
+void MainWindow::on_btnBackToMain_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }

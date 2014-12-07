@@ -134,15 +134,6 @@ void MainWindow::studentSemesterListPopulate() {
     }
 }
 
-// Not needed since we have to populate depending on what semester is selected
-// void MainWindow::studentCourseListPopulate() {
-//     ui->courseList->clear();
-//     for (int i=0; i < localStorage.getClasses().size(); i++ ){
-//         Class* tempclass = localStorage.getClasses().at(i);
-//         ui->courseList->addItem(tempclass->getCourse()->getCourseCode());
-//     }
-// }
-
 void MainWindow::clearStudentCourseList() {
 
     while (ui->courseList->count() > 0) {

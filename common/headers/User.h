@@ -27,6 +27,10 @@ class User : public Serializable {
         const QString getUsername() const;
         QString getName();
         QString getPassword();
+
+        /* =====================================================================
+        Type will be one of "student", "content_manager", "administrator"
+        ===================================================================== */
         QString getType();
 
         void setType(QString);

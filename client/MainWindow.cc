@@ -83,8 +83,17 @@ void MainWindow::scrollDown() {
     ui->resultsListWidget->scrollToBottom();
 }
 
+void MainWindow::popupError(const QString& error) {
+        QMessageBox* message = new QMessageBox(QMessageBox::Critical, "Error", error);
+        message->exec();
+        delete message;
+}
 void MainWindow::refresh() {
-        localStorage.refresh();
+        try {
+                localStorage.refresh();
+        } catch(runtime_error e) {
+                this->popupError(e.what());
+        }
         // TODO Make it perform the right UI populate depending on which panel is focused
         this->studentCourseListPopulate();
 }

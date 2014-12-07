@@ -8,6 +8,7 @@
 #include <QListWidgetItem>
 #include <QPushButton>
 #include <QIcon>
+#include <QMessageBox>
 #include <exception>
 
 #include "storage/ConnectionClient.h"
@@ -49,6 +50,8 @@ class MainWindow : public QMainWindow {
 
         void scrollDown();
         
+        void popupError(const QString&);
+
         void refresh();
 
         void displayError(QString);

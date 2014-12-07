@@ -72,7 +72,7 @@ void MainWindow::courseManagerClearLists() {
         ui->courseManagerCourseTitle->clear();
         ui->courseManagerAddCourseCode->clear();
         ui->courseManagerSemesterList2->clear();
-        ui->courseManagerYearList->clear();
+        ui->courseManagerYear->clear();
 }
 
 void MainWindow::clearList() {

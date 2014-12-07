@@ -109,10 +109,9 @@ void MainWindow::studentSemesterListPopulate() {
 }
 
 void MainWindow::clearStudentCourseList() {
-
     while (ui->courseList->count() > 0) {
         ui->courseList->takeItem(0);
-        }
+    }
 }
 
 
@@ -148,15 +147,6 @@ void MainWindow::on_BtnLogin_clicked()
         //ui->loginStatus->setText("Invalid Username and Password");
 
     }
-}
-
-void MainWindow::on_BtnLogout_clicked()
-{
-    //localStorage.cleanup();
-    this->clear_All_Widgets();
-    shoppingCart.clearCart();
-    MainWindow::clearStudentCourseList();
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
 }
 
 // For when an item is selected in the course manager page bottom left pane
@@ -266,9 +256,6 @@ void MainWindow::displayCourseManager() {
 void MainWindow::displayMainStudent() {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
-
-
-
 
 void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
 {
@@ -515,11 +502,6 @@ void MainWindow::on_btnConfirmationMainPage_clicked()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 
-void MainWindow::on_btnConfirmationLogout_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
-}
-
 void MainWindow::on_courseManagerDeleteButton_released()
 {
         if (ui->courseManagerCourseList->currentItem() == 0)
@@ -574,4 +556,24 @@ void MainWindow::clear_All_Widgets() {
     ui->courseDescription->clear();
     ui->listWidgetShoppingCart->clear();
     ui->lineName->clear();
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+    this->close();
+}
+
+void MainWindow::on_actionLogout_triggered()
+{
+    const QString userType(localStorage.getUser().getType());
+
+    this->clear_All_Widgets();
+
+    if (userType == "student") {
+        shoppingCart.clearCart();
+        MainWindow::clearStudentCourseList();
+    }
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+    localStorage.cleanup();
 }

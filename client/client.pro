@@ -19,7 +19,6 @@ SOURCES += main.cc\
     ../common/Section.cc \
     ../common/Content.cc \
     ../common/Chapter.cc \
-    ../common/Serializer.cc \
     ../common/User.cc \
     ../common/Invoice.cc \
     storage/StorageControl.cc \
@@ -40,7 +39,6 @@ HEADERS  += \
     ../common/headers/Definitions.h \
     ../common/headers/Content.h \
     ../common/headers/Chapter.h \
-    ../common/headers/Serializer.h \
     ../common/headers/User.h \
     ../common/headers/Invoice.h \
     storage/StorageControl.h \

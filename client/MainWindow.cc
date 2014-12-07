@@ -94,8 +94,9 @@ void MainWindow::refresh() {
         } catch(runtime_error e) {
                 this->popupError(e.what());
         }
-        // TODO Make it perform the right UI populate depending on which panel is focused
-        this->studentCourseListPopulate();
+        int currIndex = ui->stackedWidget->currentIndex();
+        if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
+                this->studentCourseListPopulate();
 }
 
 void MainWindow::clearList() {
@@ -268,6 +269,14 @@ void MainWindow::displayError(QString error) {
     ui->statusBar->showMessage(error);
 }
 
+void MainWindow::studentSemesterListPopulate() {
+    ui->courseList->clear();
+    for (int i=0; i < localStorage.getClasses().size(); i++ ){
+        Class* tempclass = localStorage.getClasses().at(i);
+        ui->courseList->addItem(tempclass->getCourse()->getCourseCode());
+    }
+}
+k
 void MainWindow::studentCourseListPopulate() {
     /*
     for (int i = 0; i < studentCourseList->size(); i++ )
@@ -308,8 +317,8 @@ void MainWindow::on_BtnLogin_clicked()
         storageControl.setIP(ui->ipAddressTextbox->text());
         localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
         ui->loginStatus->setText(localStorage.getUser().getUsername());
-        this->refresh();
         this->displayMainStudent();
+        this->refresh();
     } catch(runtime_error e) {
         ui->loginStatus->setText(e.what());
         qDebug() << e.what();
@@ -322,6 +331,12 @@ void MainWindow::on_BtnLogout_clicked()
 {
     MainWindow::clearStudentCourseList();
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+}
+
+// For when an item is selected in the semester list
+void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)
+{
+
 }
 
 // For when an item is selected in the course list
@@ -355,7 +370,12 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
             }
             foreach (Section *s, ch->getSections()) {
                 if (s->isAvailable()) {
-                    QListWidgetItem* sectionListItem = new QListWidgetItem("         " + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QVariant(s->getPrice()).toString() ) ));
+                    QString spaces = "";
+                    int length = QString("Ch.:" + QString::number(ch->getChapterNo())).length();
+                    for (int i = 0; i < length; i++)
+                            spaces += " ";
+                    spaces += spaces;
+                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QVariant(s->getPrice()).toString() ) ));
                     if (s->isAvailable()) {
                             sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
                             sectionListItem->setCheckState(Qt::Unchecked);
@@ -402,10 +422,6 @@ void MainWindow::displayMainStudent() {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 
-void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)
-{
-
-}
 
 
 
@@ -640,8 +656,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
     try{
         checkout.checkout();
     } catch(runtime_error e){
-        // TODO pop up error message
-        qDebug()<< e.what();
+        this->popupError(e.what());
         ui->billingInfoError->setText(e.what());
     }
 

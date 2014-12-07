@@ -17,7 +17,6 @@ class Class : public Serializable {
         public:
                 // Need this for setData()
                 Class();
-                // FIXME Make this copy properly
                 Class(const Class&);
 
                 Class(QString semester, Course *course);
@@ -41,6 +40,6 @@ class Class : public Serializable {
 
 // Need this for setData()
 Q_DECLARE_METATYPE(Class)
-Q_DECLARE_OPAQUE_POINTER(Class*)
+Q_DECLARE_METATYPE(Class*)
 
 #endif // CLASS_H

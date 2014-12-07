@@ -21,7 +21,7 @@ class LocalStorage {
                 // This is used to login, give it username and password
                 void login(const QString& username, const QString& password);
                 const QList<Textbook*>* getTextbooks(QString courseCode) const;
-                void removeCourse(const QString& courseCode);
+                void removeCourse(Course& course) const;
 
         private:
                 void update(QList<Class*>&);

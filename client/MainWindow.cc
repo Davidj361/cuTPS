@@ -144,12 +144,13 @@ void MainWindow::on_courseManagerSemesterList_itemPressed(QListWidgetItem *item)
         foreach (Class* c, localStorage.getClasses()) {
                 if (c->getSemester() == semester) {
                         ui->courseManagerCourseList->addItem(c->getCourse()->getCourseCode());
-                        // FIXME Make sure lists are cleared upon refresh
-                        const QString* title = &c->getCourse()->getCourseTitle();
-                        ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
+                        // const QString* title = &c->getCourse()->getCourseTitle();
+                        // ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
                         // We will link the actual course
-                        // qDebug() << QVariant(c).value<Class*>();
-                        // ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, c);
+                        QVariant var;
+                        var.setValue(c);
+                        // qDebug() << var.value<Class*>()->getCourse()->getCourseTitle();
+                        ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, var);
                 }
         }
 }
@@ -157,7 +158,7 @@ void MainWindow::on_courseManagerSemesterList_itemPressed(QListWidgetItem *item)
 void MainWindow::on_courseManagerCourseList_itemPressed(QListWidgetItem *item)
 {
         ui->courseManagerCourseTitle->clear();
-        ui->courseManagerCourseTitle->setText(item->data(Qt::UserRole).toString());
+        ui->courseManagerCourseTitle->setText(item->data(Qt::UserRole).value<Class*>()->getCourse()->getCourseTitle());
 }
 
 // For when an item is selected in the semester list on the student main page
@@ -499,5 +500,8 @@ void MainWindow::on_btnConfirmationLogout_clicked()
 
 void MainWindow::on_courseManagerDeleteButton_released()
 {
-        // localStorage.removeCourse(courseCode);
+        if (ui->courseManagerCourseList->currentItem() == 0)
+                return;
+        const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
+         storageControl.removeCourse(*(ass->getCourse()));
 }

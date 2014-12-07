@@ -3,8 +3,16 @@
 
 Class::Class(): course(0) {}
 
-// FIXME Make this copy properly
-Class::Class(const Class& ass) : semester(ass.semester), course(ass.course), booklist(ass.booklist), classlist(ass.classlist) {}
+// This is needed for UI stuff
+Class::Class(const Class& ass) : semester(ass.semester) {
+        course = new Course(*ass.course);
+        foreach (Textbook* book, ass.booklist) {
+                booklist.push_back(new Textbook(*book));
+        }
+        foreach (Student* stu, ass.classlist) {
+                classlist.push_back(new Student(*stu));
+        }
+}
 
 Class::Class(QString semester, Course *course) {
     this->semester = semester;

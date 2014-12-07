@@ -40,7 +40,7 @@ class StorageControl : public QObject {
         void editClass(Class&);
         void removeClass(Class&);
 
-        void removeCourse(Course&);
+        void removeCourse(Course&) const;
 
         void checkout(Invoice&) const;
         void refreshContent(User&, QList<Class*>&) const;

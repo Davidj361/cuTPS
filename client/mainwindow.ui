@@ -2365,48 +2365,90 @@
        </layout>
       </widget>
       <widget class="QWidget" name="ShoppingCartOrderConfirmed">
-       <widget class="QLabel" name="label_13">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>60</y>
-          <width>341</width>
-          <height>121</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Thank you for making your order!  An email shall be sent to the address provided momentarily</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btnConfirmationLogout">
-        <property name="geometry">
-         <rect>
-          <x>420</x>
-          <y>230</y>
-          <width>88</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Logout</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btnConfirmationMainPage">
-        <property name="geometry">
-         <rect>
-          <x>310</x>
-          <y>230</y>
-          <width>88</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Main Page</string>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_9">
+        <item row="0" column="0" colspan="5">
+         <widget class="QLabel" name="label_13">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>1</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Thank you for making your order!  An email shall be sent to the address provided momentarily</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>149</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="btnConfirmationMainPage">
+          <property name="text">
+           <string>Main Page</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>149</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="btnConfirmationLogout">
+          <property name="text">
+           <string>Logout</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <spacer name="horizontalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>149</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="2">
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>158</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

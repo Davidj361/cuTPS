@@ -60,3 +60,41 @@ void LocalStorage::addCourse(const QString& semester, const QVariant& year, cons
         Class newClass(sem, newCourse);
         storageControl->addClass(newClass);
 }
+
+void LocalStorage::addTextbook(Textbook& t) const{
+    //TODO CHANGE THIS FUNCTION TO CLASS
+    //storageControl->addTextbook(t);
+}
+
+void LocalStorage::editTextbook(Textbook& t) const{
+    storageControl->editTextbook(t);
+}
+
+void LocalStorage::deleteTextbook(Textbook& t) const{
+    storageControl->removeTextbook(t);
+}
+
+void LocalStorage::addChapter(Chapter& c) const{
+    storageControl->addChapter(c);
+}
+
+void LocalStorage::editChapter(Chapter& c) const{
+    storageControl->editChapter(c);
+}
+
+void LocalStorage::deleteChapter(Chapter& c) const{
+    storageControl->removeChapter(c);
+}
+
+void LocalStorage::addSection(Section& s) const{
+    storageControl->addSection(s);
+}
+
+void LocalStorage::editSection(Section& s) const{
+    storageControl->editSection(s);
+}
+
+void LocalStorage::deleteSection(Section& s) const{
+    storageControl->removeSection(s);
+}
+

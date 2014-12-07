@@ -19,39 +19,39 @@ StorageControl::~StorageControl(){
     delete serializer;
 }
 
-void StorageControl::addTextbook(Class &clss){
+void StorageControl::addTextbook(Class &clss) const{
     updateStorage(clss, ADD_TEXTBOOK);
 }
 
-void StorageControl::editTextbook(Textbook &tb){
+void StorageControl::editTextbook(Textbook &tb)const{
     updateStorage(tb, EDIT_TEXTBOOK);
 }
 
-void StorageControl::removeTextbook(Textbook &tb){
+void StorageControl::removeTextbook(Textbook &tb) const{
     updateStorage(tb, REMOVE_TEXTBOOK);
 }
 
-void StorageControl::addChapter(Chapter &ch){
+void StorageControl::addChapter(Chapter &ch) const{
     updateStorage(ch, ADD_CHAPTER);
 }
 
-void StorageControl::editChapter(Chapter &ch){
+void StorageControl::editChapter(Chapter &ch) const{
     updateStorage(ch, EDIT_CHAPTER);
 }
 
-void StorageControl::removeChapter(Chapter &ch){
+void StorageControl::removeChapter(Chapter &ch) const{
     updateStorage(ch, REMOVE_CHAPTER);
 }
 
-void StorageControl::addSection(Section &s){
+void StorageControl::addSection(Section &s) const{
     updateStorage(s, ADD_SECTION);
 }
 
-void StorageControl::editSection(Section &s){
+void StorageControl::editSection(Section &s) const{
     updateStorage(s, EDIT_SECTION);
 }
 
-void StorageControl::removeSection(Section &s){
+void StorageControl::removeSection(Section &s) const{
     updateStorage(s, REMOVE_SECTION);
 }
 

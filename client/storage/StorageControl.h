@@ -24,17 +24,17 @@ class StorageControl : public QObject {
 
         void setIP(QString);
 
-        void addTextbook(Class&);
-        void editTextbook(Textbook&);
-        void removeTextbook(Textbook&);
+        void addTextbook(Class&) const;
+        void editTextbook(Textbook&) const;
+        void removeTextbook(Textbook&) const;
 
-        void addChapter(Chapter&);
-        void editChapter(Chapter&);
-        void removeChapter(Chapter&);
+        void addChapter(Chapter&) const;
+        void editChapter(Chapter&) const;
+        void removeChapter(Chapter&) const;
 
-        void addSection(Section&);
-        void editSection(Section&);
-        void removeSection(Section&);
+        void addSection(Section&) const;
+        void editSection(Section&) const;
+        void removeSection(Section&) const;
 
         void addClass(Class&) const;
         void editClass(Class&);

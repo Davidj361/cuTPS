@@ -27,6 +27,16 @@ class LocalStorage {
                 // The below function should be called for every update and upon deconstruction of this controller
                 void cleanup(); // Delete all the allocated data
 
+                void addTextbook(Textbook&) const;
+                void editTextbook(Textbook&) const;
+                void deleteTextbook(Textbook&) const;
+                void addChapter(Chapter&) const;
+                void editChapter(Chapter&) const;
+                void deleteChapter(Chapter&) const;
+                void addSection(Section&) const;
+                void editSection(Section&) const;
+                void deleteSection(Section&) const;
+
         private:
                 void update(QList<Class*>&);
 

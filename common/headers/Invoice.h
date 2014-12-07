@@ -10,8 +10,6 @@
 #include <QList>
 #include <iterator>
 
-using namespace std;
-
 class Invoice: public Serializable {
 
     public:

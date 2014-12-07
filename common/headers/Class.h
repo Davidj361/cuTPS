@@ -11,29 +11,35 @@
 #include <QJsonObject>
 #include <QList>
 
-using namespace std;
-
 class Class : public Serializable {
 
-    public:
+        public:
+                // Need this for setData()
+                Class();
+                Class(const Class&);
+                // Class(Class&);
 
-        Class (QString semester, Course *course);
-        ~Class();
+                Class(QString semester, Course *course);
+                ~Class();
 
-        const QString getSemester() const;
-        Course* getCourse();
-        QList<Textbook*> &getBooklist();
-        QList<Student *> &getClasslist();
-        void addTextbook(Textbook *);
-        void addStudent(Student *);
-        void serialize(QJsonObject &) const;
+                const QString getSemester() const;
+                Course* getCourse() const;
+                QList<Textbook*> &getBooklist();
+                QList<Student *> &getClasslist();
+                void addTextbook(Textbook *);
+                void addStudent(Student *);
+                void serialize(QJsonObject &) const;
 
-    private:
+        private:
 
-        QString semester;
-        Course *course;
-        QList<Textbook *> booklist;
-        QList<Student *> classlist;
+                QString semester;
+                Course *course;
+                QList<Textbook *> booklist;
+                QList<Student *> classlist;
 };
+
+// Need this for setData()
+Q_DECLARE_METATYPE(Class)
+// Q_DECLARE_OPAQUE_POINTER(Class*)
 
 #endif // CLASS_H

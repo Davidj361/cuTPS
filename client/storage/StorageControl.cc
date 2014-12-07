@@ -74,7 +74,7 @@ void StorageControl::removeCourse(Course &course) {
 void StorageControl::checkout(Invoice &i) const {
     try{
         updateStorage(i, ADD_INVOICE);
-    } catch (runtime_error e){
+    } catch (std::runtime_error e){
         throw e;
     }
 }
@@ -87,7 +87,7 @@ void StorageControl::logIn(User &u) const {
     try {
         serializer->deserialize(*res, u);
     }
-    catch (runtime_error e) {
+    catch (std::runtime_error e) {
         delete req;
         delete res;
         throw e;
@@ -104,7 +104,7 @@ void StorageControl::refreshContent(User &u, QList<Class*> &cs) const {
     try {
         serializer->deserialize(*res, cs);
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         delete req;
         delete res;
         throw e;
@@ -121,7 +121,7 @@ void StorageControl::updateStorage(Serializable& obj, commands_t command) const 
     try {
         serializer->deserialize(*res);
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         delete req;
         delete res;
         throw e;

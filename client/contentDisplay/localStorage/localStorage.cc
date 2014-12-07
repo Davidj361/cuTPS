@@ -14,13 +14,6 @@ const QList<Class*>& LocalStorage::getClasses() const {
         return this->classes;
 }
 
-/*
-void LocalStorage::update(QList<Class*>& inClasses) {
-        this->cleanup();
-        this->classes = inClasses;
-}
-*/
-
 void LocalStorage::cleanup() {
         // go through each course and delete it with its content
         for (QList<Class*>::iterator iter = this->classes.begin(); iter != this->classes.end(); ++iter) {
@@ -53,4 +46,7 @@ void LocalStorage::login(const QString& username, const QString& password) {
         } catch(const runtime_error e) {
                 throw e;
         }
+}
+
+void LocalStorage::removeCourse(const QString& courseCode) {
 }

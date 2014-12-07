@@ -65,6 +65,8 @@ class MainWindow : public QMainWindow {
 
         void on_BtnLogout_clicked();
 
+        void on_courseManagerDeleteButton_released();
+
         void on_courseManagerSemesterList_itemPressed(QListWidgetItem *item);
 
         void on_courseManagerCourseList_itemPressed(QListWidgetItem *item);
@@ -112,7 +114,6 @@ private:
         // User              *user;
         // User              *userStu;
         // User              *userCM;
-        vector<Textbook *> *book_list;
         QIcon refreshIcon;
         QPushButton refreshButton;
 

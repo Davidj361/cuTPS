@@ -19,8 +19,6 @@
 #include "../../common/headers/Invoice.h"
 #include "../../common/headers/Serializable.h"
 
-using namespace std;
-
 class ClientSerializer {
     public:
 

@@ -7,8 +7,6 @@
 
 #include "../storage/StorageControl.h"
 
-using namespace std;
-
 class TextbookManagement : public QObject {
         Q_OBJECT
 

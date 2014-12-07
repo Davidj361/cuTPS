@@ -15,8 +15,6 @@
 #include "../../common/headers/Section.h"
 #include "../../common/headers/Invoice.h"
 
-using namespace std;
-
 class DBController {
     public:
         DBController();

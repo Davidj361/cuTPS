@@ -36,8 +36,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // storageControl = new StorageControl(); // no longer pointer
     serializer = new Serializer();
 
-    book_list = 0;
-
     anISBN = "1232467890";
     aChapterNumber = 1;
     aSectionNumber = 1;
@@ -66,7 +64,6 @@ MainWindow::~MainWindow() {
     delete serverIP;
     delete serializer;
     freeBookList();
-    delete book_list;
     // delete storageControl; // No longer a pointer
 }
 
@@ -81,7 +78,7 @@ void MainWindow::popupError(const QString& error) {
 void MainWindow::refresh() {
         try {
                 localStorage.refresh();
-        } catch(runtime_error e) {
+        } catch(std::runtime_error e) {
                 this->popupError(e.what());
         }
         int currIndex = ui->stackedWidget->currentIndex();
@@ -98,19 +95,6 @@ void MainWindow::clearList() {
 void MainWindow::setServerIP() {
     *serverIP = ui->txtServerIP->text();
     ui->statusBar->showMessage("Server IP address set");
-}
-
-void MainWindow::freeBookList() {
-    if (book_list == 0)
-        return;
-    for (vector<Textbook *>::iterator it = book_list->begin(); it != book_list->end(); ++it) {
-        if (*it != 0) {
-            delete *it;
-            *it = 0;
-        }
-    }
-    delete book_list;
-    book_list = 0;
 }
 
 void MainWindow::displayError(QString error) {
@@ -163,7 +147,7 @@ void MainWindow::on_BtnLogin_clicked()
         // this->displayMainStudent(); // herp derp unable to know what values are returned from User::getType()
         this->displayCourseManager();
         this->refresh();
-    } catch(runtime_error e) {
+    } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());
         qDebug() << e.what();
         //ui->loginStatus->setText("Invalid Username and Password");
@@ -513,7 +497,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartOrderConfirmed));
     try{
         checkout.checkout();
-    } catch(runtime_error e){
+    } catch(std::runtime_error e){
         this->popupError(e.what());
         ui->billingInfoError->setText(e.what());
     }
@@ -533,4 +517,9 @@ void MainWindow::on_btnConfirmationMainPage_clicked()
 void MainWindow::on_btnConfirmationLogout_clicked()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+}
+
+void MainWindow::on_courseManagerDeleteButton_released()
+{
+        // localStorage.removeCourse(courseCode);
 }

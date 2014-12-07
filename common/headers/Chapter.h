@@ -7,7 +7,6 @@
 #include <QJsonArray>
 #include <QList>
 
-using namespace std;
 class Section;
 class Textbook;
 

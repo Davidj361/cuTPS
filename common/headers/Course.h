@@ -8,9 +8,6 @@
 #include <QString>
 #include <QList>
 
-
-using namespace std;
-
 class Course : public Serializable{
 
     public:

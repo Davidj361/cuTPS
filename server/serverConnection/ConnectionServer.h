@@ -9,8 +9,6 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 
-using namespace std;
-
 class ConnectionServer : public QObject {
 
     public:

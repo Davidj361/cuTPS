@@ -9,7 +9,7 @@ DBManager::DBManager() {
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("./../resources/cuTPS.db"); // Connect to the database
     if (!db.open())
-        throw runtime_error("ERROR DBManager::DBManager() Unable to open database");
+        throw std::runtime_error("ERROR DBManager::DBManager() Unable to open database");
 }
 
 /***************************************************************************
@@ -21,39 +21,39 @@ DBManager::~DBManager() {
 
 QString DBManager::Login(QString username, QString password) {
     if (username == "")
-        throw runtime_error("ERROR DBManager::Login() username cannot be empty");
+        throw std::runtime_error("ERROR DBManager::Login() username cannot be empty");
     if (password == "")
-        throw runtime_error("ERROR DBManager::Login() password cannot be empty");
+        throw std::runtime_error("ERROR DBManager::Login() password cannot be empty");
 
     QSqlQuery query;
 
     if (!query.prepare("SELECT type FROM Users WHERE username=:username AND password=:password;"))
-        throw runtime_error("ERROR DBManager::Login() Error while preparing user login lookup");
+        throw std::runtime_error("ERROR DBManager::Login() Error while preparing user login lookup");
 
     query.bindValue(":username", username);
     query.bindValue(":password", password);
 
     if (!query.exec())
-        throw runtime_error("ERROR DBManager::Login() Error while searching for user");
+        throw std::runtime_error("ERROR DBManager::Login() Error while searching for user");
 
     if (!query.first())
-        throw runtime_error("ERROR DBManager::Login() Incorrect username or password");
+        throw std::runtime_error("ERROR DBManager::Login() Incorrect username or password");
 
     return query.value(0).toString();
 }
 
 void DBManager::AddTextbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool availability, float price) {
     if (isbn == "")
-        throw runtime_error("ERROR DBManager::AddTextbook() isbn cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddTextbook() isbn cannot be empty");
 
     if (title == "")
-        throw runtime_error("ERROR DBManager::AddTextbook() title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddTextbook() title cannot be empty");
 
     if (publisher == "")
-        throw runtime_error("ERROR DBManager::AddTextbook() publisher cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddTextbook() publisher cannot be empty");
 
     if (author == "")
-        throw runtime_error("ERROR DBManager::AddTextbook() author cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddTextbook() author cannot be empty");
 
     QSqlQuery query;
 
@@ -65,7 +65,7 @@ void DBManager::AddTextbook(QString isbn, QString title, QString publisher, QStr
                        "year, edition, description, availability, price, content_id)"
                        "VALUES (:isbn,:title,:publisher,:author, :year, :edition, "
                        ":description, :availability, :price, :content_id);"))
-        throw runtime_error("ERROR DBManager::AddTextbook() Error while preparing INSERT statement");
+        throw std::runtime_error("ERROR DBManager::AddTextbook() Error while preparing INSERT statement");
 
     query.bindValue(":isbn", isbn);
     query.bindValue(":title", title);
@@ -81,9 +81,9 @@ void DBManager::AddTextbook(QString isbn, QString title, QString publisher, QStr
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::AddTextbook(), Textbook already exists");
+            throw std::runtime_error("ERROR DBManager::AddTextbook(), Textbook already exists");
         else
-            throw runtime_error("ERROR DBManager::AddTextbook() Error while inserting textbook");
+            throw std::runtime_error("ERROR DBManager::AddTextbook() Error while inserting textbook");
     }
 
     db.commit();
@@ -91,16 +91,16 @@ void DBManager::AddTextbook(QString isbn, QString title, QString publisher, QStr
 
 void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool availability, float price, int content_id) {
     if (isbn == "")
-        throw runtime_error("ERROR DBManager::EditTextbook() isbn cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditTextbook() isbn cannot be empty");
 
     if (title == "")
-        throw runtime_error("ERROR DBManager::EditTextbook() title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditTextbook() title cannot be empty");
 
     if (publisher == "")
-        throw runtime_error("ERROR DBManager::EditTextbook() publisher cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditTextbook() publisher cannot be empty");
 
     if (author == "")
-        throw runtime_error("ERROR DBManager::EditTextbook() author cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditTextbook() author cannot be empty");
 
     QSqlQuery query;
 
@@ -109,7 +109,7 @@ void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QSt
     if (!query.prepare("UPDATE Textbook SET isbn = :isbn, title = :title, publisher = :publisher, author = :author,"
                        "year = :year, edition = :edition, description = :description, availability = :availability "
                        "price = :price WHERE content_id = :content_id;"))
-        throw runtime_error("ERROR DBManager::EditTextbook() Error while preparing INSERT statement");
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing INSERT statement");
 
     query.bindValue(":isbn", isbn);
     query.bindValue(":title", title);
@@ -125,9 +125,9 @@ void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QSt
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::EditTextbook(), Textbook with that isbn already exists");
+            throw std::runtime_error("ERROR DBManager::EditTextbook(), Textbook with that isbn already exists");
         else
-            throw runtime_error("ERROR DBManager::EditTextbook() Error while inserting textbook");
+            throw std::runtime_error("ERROR DBManager::EditTextbook() Error while inserting textbook");
     }
 
     db.commit();
@@ -135,10 +135,10 @@ void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QSt
 
 void DBManager::AddChapter(QString title, int chapter, QString textbook, QString description, bool available, float price) {
     if (title == "")
-        throw runtime_error("ERROR DBManager::AddChapter() title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddChapter() title cannot be empty");
 
     if (textbook == "")
-        throw runtime_error("ERROR DBManager::AddChapter() textbook cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddChapter() textbook cannot be empty");
 
     QSqlQuery query;
 
@@ -149,7 +149,7 @@ void DBManager::AddChapter(QString title, int chapter, QString textbook, QString
     if (query.prepare("INSERT INTO Chapters (name, number, textbook, description, "
                                              "availability, price, content_id) VALUES (:name, :number, "
                                              ":textbook,:description,:availability, :price, :content_id);"))
-        throw runtime_error("ERROR DBManager::AddChapter() Error while preparing INSERT statement");
+        throw std::runtime_error("ERROR DBManager::AddChapter() Error while preparing INSERT statement");
 
         query.bindValue(":name", title);
         query.bindValue(":number", chapter);
@@ -162,9 +162,9 @@ void DBManager::AddChapter(QString title, int chapter, QString textbook, QString
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::AddChapter(), Chapter already exists");
+            throw std::runtime_error("ERROR DBManager::AddChapter(), Chapter already exists");
         else
-            throw runtime_error("ERROR DBManager::AddChapter() Error while inserting chapter");
+            throw std::runtime_error("ERROR DBManager::AddChapter() Error while inserting chapter");
     }
 
     db.commit();
@@ -172,10 +172,10 @@ void DBManager::AddChapter(QString title, int chapter, QString textbook, QString
 
 void DBManager::EditChapter(QString title, int chapter, QString textbook, QString description, bool available, float price, int content_id) {
     if (title == "")
-        throw runtime_error("ERROR DBManager::EditChapter() title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditChapter() title cannot be empty");
 
     if (textbook == "")
-        throw runtime_error("ERROR DBManager::EditChapter() textbook cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditChapter() textbook cannot be empty");
 
     QSqlQuery query;
 
@@ -183,7 +183,7 @@ void DBManager::EditChapter(QString title, int chapter, QString textbook, QStrin
 
     if (query.prepare("UPDATE Chapters SET name = :name, number = :number, textbook = :textbook, description = :description, "
                       "availability = :availability, price = :price WHERE content_id = :content_id;"))
-        throw runtime_error("ERROR DBManager::EditChapter() Error while preparing UPDATE statement");
+        throw std::runtime_error("ERROR DBManager::EditChapter() Error while preparing UPDATE statement");
 
         query.bindValue(":name", title);
         query.bindValue(":number", chapter);
@@ -196,9 +196,9 @@ void DBManager::EditChapter(QString title, int chapter, QString textbook, QStrin
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::EditChapter(), Chapter already exists");
+            throw std::runtime_error("ERROR DBManager::EditChapter(), Chapter already exists");
         else
-            throw runtime_error("ERROR DBManager::EditChapter() Error while updating chapter");
+            throw std::runtime_error("ERROR DBManager::EditChapter() Error while updating chapter");
     }
 
     db.commit();
@@ -206,10 +206,10 @@ void DBManager::EditChapter(QString title, int chapter, QString textbook, QStrin
 
 void DBManager::AddSection(QString title, int section, int chapter, QString textbook, QString description, bool available, float price) {
     if (title == "")
-        throw runtime_error("ERROR DBManager::AddSection() title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddSection() title cannot be empty");
 
     if (textbook == "")
-        throw runtime_error("ERROR DBManager::AddSection() textbook cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddSection() textbook cannot be empty");
 
     QSqlQuery query;
 
@@ -221,7 +221,7 @@ void DBManager::AddSection(QString title, int section, int chapter, QString text
                                             "description, availability, price, content_id) VALUES "
                                             "(:name, :number, :chapter, :textbook, :description,:availability, "
                                             ":price, :content_id);"))
-        throw runtime_error("ERROR DBManager::AddSection() Error while preparing INSERT statement");
+        throw std::runtime_error("ERROR DBManager::AddSection() Error while preparing INSERT statement");
 
     query.bindValue(":name", title);
     query.bindValue(":number", section);
@@ -235,9 +235,9 @@ void DBManager::AddSection(QString title, int section, int chapter, QString text
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::AddSection(), Section already exists");
+            throw std::runtime_error("ERROR DBManager::AddSection(), Section already exists");
         else
-            throw runtime_error("ERROR DBManager::AddSection() Error while inserting section");
+            throw std::runtime_error("ERROR DBManager::AddSection() Error while inserting section");
     }
 
     db.commit();
@@ -245,10 +245,10 @@ void DBManager::AddSection(QString title, int section, int chapter, QString text
 
 void DBManager::EditSection(QString title, int section, int chapter, QString textbook, QString description, bool available, float price, int content_id) {
     if (title == "")
-        throw runtime_error("ERROR DBManager::EditSection() title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditSection() title cannot be empty");
 
     if (textbook == "")
-        throw runtime_error("ERROR DBManager::EditSection() textbook cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditSection() textbook cannot be empty");
 
     QSqlQuery query;
 
@@ -256,7 +256,7 @@ void DBManager::EditSection(QString title, int section, int chapter, QString tex
 
     if (query.prepare("UPDATE Sections SET name = :name, number = :number, chapter = :chapter, textbook = :textbook, description = :description "
                       " availability = :availability, price = :price WHERE content_id = :content_id;"))
-        throw runtime_error("ERROR DBManager::EditSection() Error while preparing UPDATE statement");
+        throw std::runtime_error("ERROR DBManager::EditSection() Error while preparing UPDATE statement");
 
     query.bindValue(":name", title);
     query.bindValue(":number", section);
@@ -270,9 +270,9 @@ void DBManager::EditSection(QString title, int section, int chapter, QString tex
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::EditSection(), Section already exists");
+            throw std::runtime_error("ERROR DBManager::EditSection(), Section already exists");
         else
-            throw runtime_error("ERROR DBManager::EditSection() Error while updating section");
+            throw std::runtime_error("ERROR DBManager::EditSection() Error while updating section");
     }
 
     db.commit();
@@ -284,23 +284,23 @@ void DBManager::DeleteContent(int content_id) {
     db.transaction();
 
     if (!query.prepare("DELETE FROM Content WHERE id = :content_id;"))
-        throw runtime_error("ERROR DBManager::DeleteContent() Error while preparing DELETE statement");
+        throw std::runtime_error("ERROR DBManager::DeleteContent() Error while preparing DELETE statement");
 
     query.bindValue(":content_id", content_id);
 
     if (!query.exec()) {
         db.rollback();
-        throw runtime_error("ERROR DBManager::DeleteContent() Error while executing DELETE statement");
+        throw std::runtime_error("ERROR DBManager::DeleteContent() Error while executing DELETE statement");
     }
     db.commit();
 }
 
 void DBManager::AddCourse(QString coursecode, QString coursetitle) {
     if (coursecode == "null")
-        throw runtime_error("ERROR DBManager::AddCourse() course code cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddCourse() course code cannot be empty");
 
     if (coursetitle == "null")
-        throw runtime_error("ERROR DBManager::AddCourse() course title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddCourse() course title cannot be empty");
 
     QSqlQuery query;
 
@@ -308,7 +308,7 @@ void DBManager::AddCourse(QString coursecode, QString coursetitle) {
 
     if (!query.prepare("INSERT INTO Courses (code, name)"
                        "VALUES (:code, :name);"))
-        throw runtime_error("ERROR DBManager::AddCourse() Error while preparing INSERT statement");
+        throw std::runtime_error("ERROR DBManager::AddCourse() Error while preparing INSERT statement");
 
     query.bindValue(":code", coursecode);
     query.bindValue(":name", coursetitle);
@@ -316,9 +316,9 @@ void DBManager::AddCourse(QString coursecode, QString coursetitle) {
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::AddCourse(), Course already exists");
+            throw std::runtime_error("ERROR DBManager::AddCourse(), Course already exists");
         else
-            throw runtime_error("ERROR DBManager::AddCourse() Error while inserting course");
+            throw std::runtime_error("ERROR DBManager::AddCourse() Error while inserting course");
     }
 
     db.commit();
@@ -326,17 +326,17 @@ void DBManager::AddCourse(QString coursecode, QString coursetitle) {
 
 void DBManager::EditCourse(QString coursecode, QString coursetitle, QString newcoursecode) {
     if (coursecode == "")
-        throw runtime_error("ERROR DBManager::EditCourse() course code cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditCourse() course code cannot be empty");
 
     if (coursetitle == "")
-        throw runtime_error("ERROR DBManager::EditCourse() course title cannot be empty");
+        throw std::runtime_error("ERROR DBManager::EditCourse() course title cannot be empty");
 
     QSqlQuery query;
 
     db.transaction();
 
     if (query.prepare("UPDATE Courses SET code = :newcode, name = :name WHERE code = :code;"))
-        throw runtime_error("ERROR DBManager::EditCourse() Error while preparing UPDATE statement");
+        throw std::runtime_error("ERROR DBManager::EditCourse() Error while preparing UPDATE statement");
 
     query.bindValue(":newcode", newcoursecode.isEmpty() ? coursecode : newcoursecode);
     query.bindValue(":name", coursetitle);
@@ -345,9 +345,9 @@ void DBManager::EditCourse(QString coursecode, QString coursetitle, QString newc
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::EditCourse(), Course already exists");
+            throw std::runtime_error("ERROR DBManager::EditCourse(), Course already exists");
         else
-            throw runtime_error("ERROR DBManager::EditCourse() Error while updating course");
+            throw std::runtime_error("ERROR DBManager::EditCourse() Error while updating course");
     }
 
     db.commit();
@@ -355,30 +355,30 @@ void DBManager::EditCourse(QString coursecode, QString coursetitle, QString newc
 
 void DBManager::DeleteCourse(QString coursecode) {
     if (coursecode == "null")
-        throw runtime_error("ERROR DBManager::DeleteClass() Course code cannot be empty");
+        throw std::runtime_error("ERROR DBManager::DeleteClass() Course code cannot be empty");
 
     QSqlQuery query;
 
     db.transaction();
 
     if (!query.prepare("DELETE FROM Courses WHERE code = :code;"))
-        throw runtime_error("ERROR DBManager::DeleteCourse() Error while preparing DELETE statement");
+        throw std::runtime_error("ERROR DBManager::DeleteCourse() Error while preparing DELETE statement");
 
     query.bindValue(":code", coursecode);
 
     if (!query.exec()) {
         db.rollback();
-        throw runtime_error("ERROR DBManager::DeleteCourse() Error while executing DELETE statement");
+        throw std::runtime_error("ERROR DBManager::DeleteCourse() Error while executing DELETE statement");
     }
     db.commit();
 }
 
 void DBManager::AddClass(QString course, QString semester) {
     if (course == "null")
-        throw runtime_error("ERROR DBManager::AddClass() Course code cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddClass() Course code cannot be empty");
 
     if (semester == "null")
-        throw runtime_error("ERROR DBManager::AddClass() Semester cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddClass() Semester cannot be empty");
 
     QSqlQuery query;
 
@@ -386,7 +386,7 @@ void DBManager::AddClass(QString course, QString semester) {
 
     if (!query.prepare("INSERT INTO Classes (course, semester)"
                        "VALUES (:course, :semester);"))
-        throw runtime_error("ERROR DBManager::AddClass() Error while preparing INSERT statement");
+        throw std::runtime_error("ERROR DBManager::AddClass() Error while preparing INSERT statement");
 
     query.bindValue(":course", course);
     query.bindValue(":semester", semester);
@@ -394,9 +394,9 @@ void DBManager::AddClass(QString course, QString semester) {
     if (!query.exec()) {
         db.rollback();
         if (query.lastError().number() == 19)
-            throw runtime_error("ERROR DBManager::AddClass(), Class already exists");
+            throw std::runtime_error("ERROR DBManager::AddClass(), Class already exists");
         else
-            throw runtime_error("ERROR DBManager::AddClass() Error while inserting Class");
+            throw std::runtime_error("ERROR DBManager::AddClass() Error while inserting Class");
     }
 
     db.commit();
@@ -404,31 +404,31 @@ void DBManager::AddClass(QString course, QString semester) {
 
 void DBManager::DeleteClass(QString course, QString semester) {
     if (course == "null")
-        throw runtime_error("ERROR DBManager::DeleteClass() Course code cannot be empty");
+        throw std::runtime_error("ERROR DBManager::DeleteClass() Course code cannot be empty");
 
     if (semester == "null")
-        throw runtime_error("ERROR DBManager::DeleteClass() Semester cannot be empty");
+        throw std::runtime_error("ERROR DBManager::DeleteClass() Semester cannot be empty");
 
     QSqlQuery query;
 
     db.transaction();
 
     if (!query.prepare("DELETE FROM Classes WHERE course = :course AND semester = :semester;"))
-        throw runtime_error("ERROR DBManager::DeleteClass() Error while preparing DELETE statement");
+        throw std::runtime_error("ERROR DBManager::DeleteClass() Error while preparing DELETE statement");
 
     query.bindValue(":course", course);
     query.bindValue(":semester", semester);
 
     if (!query.exec()) {
         db.rollback();
-        throw runtime_error("ERROR DBManager::DeleteClass() Error while executing DELETE statement");
+        throw std::runtime_error("ERROR DBManager::DeleteClass() Error while executing DELETE statement");
     }
     db.commit();
 }
 
 void DBManager::AddStudentsToClass (QList<Student *> &list, QString course, QString semester) {
     if (list.empty())
-        throw runtime_error("ERROR DBManager::AddStudentsToClass() list of Students cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddStudentsToClass() list of Students cannot be empty");
 
     QSqlQuery query;
 
@@ -438,7 +438,7 @@ void DBManager::AddStudentsToClass (QList<Student *> &list, QString course, QStr
     foreach (student, list) {
         if (!query.prepare("INSERT INTO Class_List (student, semester, course)"
                            "VALUES (:student, :semester, :course);"))
-            throw runtime_error("ERROR DBManager::AddStudentsToClass() Error while preparing INSERT statement");
+            throw std::runtime_error("ERROR DBManager::AddStudentsToClass() Error while preparing INSERT statement");
 
         query.bindValue(":student", student->getUsername());
         query.bindValue(":course", course);
@@ -447,9 +447,9 @@ void DBManager::AddStudentsToClass (QList<Student *> &list, QString course, QStr
         if (!query.exec()) {
             db.rollback();
             if (query.lastError().number() == 19)
-                throw runtime_error("ERROR DBManager::AddStudentsToClass(), Student already registerd in class");
+                throw std::runtime_error("ERROR DBManager::AddStudentsToClass(), Student already registerd in class");
             else
-                throw runtime_error("ERROR DBManager::AddStudentsToClass() Error while adding studen to class");
+                throw std::runtime_error("ERROR DBManager::AddStudentsToClass() Error while adding studen to class");
         }
     }
     db.commit();
@@ -457,7 +457,7 @@ void DBManager::AddStudentsToClass (QList<Student *> &list, QString course, QStr
 
 void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, QString semester) {
     if (list.empty())
-        throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() list of Students cannot be empty");
+        throw std::runtime_error("ERROR DBManager::RemoveStudentsFromClass() list of Students cannot be empty");
 
     QSqlQuery query;
 
@@ -466,7 +466,7 @@ void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, 
     Student *student;
     foreach (student, list) {
         if (!query.prepare("DELETE FROM Class_List WHERE student = :student, semester = :semester, course = :course;"))
-            throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while preparing DELETE statement");
+            throw std::runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while preparing DELETE statement");
 
         query.bindValue(":student", student->getUsername());
         query.bindValue(":course", course);
@@ -474,7 +474,7 @@ void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, 
 
         if (!query.exec()) {
             db.rollback();
-            throw runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding student to class");
+            throw std::runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding student to class");
         }
     }
     db.commit();
@@ -482,7 +482,7 @@ void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, 
 
 void DBManager::AddTextbooksToClass (QList<Textbook *> &list, QString course, QString semester) {
     if (list.empty())
-        throw runtime_error("ERROR DBManager::AddTextbooksToClass() list of Textbooks cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddTextbooksToClass() list of Textbooks cannot be empty");
 
     QSqlQuery query;
 
@@ -492,7 +492,7 @@ void DBManager::AddTextbooksToClass (QList<Textbook *> &list, QString course, QS
     foreach (textbook, list) {
         if (!query.prepare("INSERT INTO Book_List (textbook_id, semester, course)"
                            "VALUES (:textbook, :semester, :course);"))
-            throw runtime_error("ERROR DBManager::AddTextbooksToClass() Error while preparing INSERT statement");
+            throw std::runtime_error("ERROR DBManager::AddTextbooksToClass() Error while preparing INSERT statement");
 
         query.bindValue(":textbook", textbook->getISBN());
         query.bindValue(":course", course);
@@ -501,9 +501,9 @@ void DBManager::AddTextbooksToClass (QList<Textbook *> &list, QString course, QS
         if (!query.exec()) {
             db.rollback();
             if (query.lastError().number() == 19)
-                throw runtime_error("ERROR DBManager::AddTextbooksToClass(), Textbook already registerd in class");
+                throw std::runtime_error("ERROR DBManager::AddTextbooksToClass(), Textbook already registerd in class");
             else
-                throw runtime_error("ERROR DBManager::AddTextbooksToClass() Error while adding textbook to class");
+                throw std::runtime_error("ERROR DBManager::AddTextbooksToClass() Error while adding textbook to class");
         }
     }
     db.commit();
@@ -511,7 +511,7 @@ void DBManager::AddTextbooksToClass (QList<Textbook *> &list, QString course, QS
 
 void DBManager::RemoveTextbooksFromClass(QList<Textbook *> &list, QString course, QString semester) {
     if (list.empty())
-        throw runtime_error("ERROR DBManager::RemoveTextbooksFromClass() list of Textbooks cannot be empty");
+        throw std::runtime_error("ERROR DBManager::RemoveTextbooksFromClass() list of Textbooks cannot be empty");
 
     QSqlQuery query;
 
@@ -520,7 +520,7 @@ void DBManager::RemoveTextbooksFromClass(QList<Textbook *> &list, QString course
     Textbook *textbook;
     foreach (textbook, list) {
         if (!query.prepare("DELETE FROM Book_List WHERE textbook_id = :textbook, semester = :semester, course = :course;"))
-            throw runtime_error("ERROR DBManager::RemoveTextbooksFromClass() Error while preparing DELETE statement");
+            throw std::runtime_error("ERROR DBManager::RemoveTextbooksFromClass() Error while preparing DELETE statement");
 
         query.bindValue(":textbook", textbook->getISBN());
         query.bindValue(":course", course);
@@ -528,7 +528,7 @@ void DBManager::RemoveTextbooksFromClass(QList<Textbook *> &list, QString course
 
         if (!query.exec()) {
             db.rollback();
-            throw runtime_error("ERROR DBManager::RemoveTextbooksFromClass() Error while adding student to class");
+            throw std::runtime_error("ERROR DBManager::RemoveTextbooksFromClass() Error while adding student to class");
         }
     }
     db.commit();
@@ -536,10 +536,10 @@ void DBManager::RemoveTextbooksFromClass(QList<Textbook *> &list, QString course
 
 void DBManager::AddInvoice(QString username, QList<int> cart) {
     if (username == "")
-        throw runtime_error("ERROR DBManager::AddInvoice() username cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddInvoice() username cannot be empty");
 
     if (cart.size() == 0)
-        throw runtime_error("ERROR DBManager::AddInvoice() cart cannot be empty");
+        throw std::runtime_error("ERROR DBManager::AddInvoice() cart cannot be empty");
 
     db.transaction();
 
@@ -547,14 +547,14 @@ void DBManager::AddInvoice(QString username, QList<int> cart) {
 
     // Add a new record to the invoices table
     if (!query.prepare("INSERT INTO Invoices (student, date_purchased) VALUES (:student, :date);"))
-        throw runtime_error("ERROR DBManager::AddInvoice() Error while preparing INSERT invoice statement");
+        throw std::runtime_error("ERROR DBManager::AddInvoice() Error while preparing INSERT invoice statement");
 
     query.bindValue(":student", username);
     query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss:zzz"));
 
     if (!query.exec()) {
         db.rollback();
-        throw runtime_error("ERROR DBManager::AddInvoice() Error while inserting invoice");
+        throw std::runtime_error("ERROR DBManager::AddInvoice() Error while inserting invoice");
     }
 
     // Get the invoice id from the purchases table
@@ -569,7 +569,7 @@ void DBManager::AddInvoice(QString username, QList<int> cart) {
         if (!query.prepare("SELECT price FROM textbooks WHERE content_id = :t_id UNION "
                            "SELECT price FROM chapters WHERE content_id = :c_id UNION "
                            "SELECT price FROM sections WHERE content_id = :s_id;"))
-            throw runtime_error("ERROR DBManager::AddInvoice() Error while prepraing SELECT price query");
+            throw std::runtime_error("ERROR DBManager::AddInvoice() Error while prepraing SELECT price query");
 
         // Bind the content id to the query
         query.bindValue(":t_id", content_id);
@@ -578,24 +578,24 @@ void DBManager::AddInvoice(QString username, QList<int> cart) {
 
         if (!query.exec()) {
             db.rollback();
-            throw runtime_error("ERROR DBManager::AddInvoice() Error while retrieving content price");
+            throw std::runtime_error("ERROR DBManager::AddInvoice() Error while retrieving content price");
         }
 
         if (!query.first())
-            throw runtime_error("ERROR DBManager::AddInvoice() Unable to find content id " + content_id);
+            throw std::runtime_error("ERROR DBManager::AddInvoice() Unable to find content id " + content_id);
 
         float price = query.value(0).toFloat();
 
         query.clear();
 
         if (!query.prepare("INSERT INTO Purchases (invoice_id, content_id, purchase_price) VALUES(:invoice_id, :content_id, :purchase_price);"))
-            throw runtime_error("ERROR DBManager::AddInvoice() Error while preparing INSERT purchase statement");
+            throw std::runtime_error("ERROR DBManager::AddInvoice() Error while preparing INSERT purchase statement");
         query.bindValue(":invoice_id", invoice_id);
         query.bindValue(":content_id", content_id);
         query.bindValue(":purchase_price", price);
 
         if (!query.exec())
-            throw runtime_error("ERROR DBManager::AddInvoice() Error occurred while inserting purchase");
+            throw std::runtime_error("ERROR DBManager::AddInvoice() Error occurred while inserting purchase");
 
         query.clear();
     }
@@ -605,18 +605,18 @@ void DBManager::AddInvoice(QString username, QList<int> cart) {
 
 void DBManager::RetrieveContentList(QString username, QList<Class *> &list) {
     if (username == "")
-        throw runtime_error("ERROR DBManager::RetrieveContentList() username cannot be empty");
+        throw std::runtime_error("ERROR DBManager::RetrieveContentList() username cannot be empty");
 
     QSqlQuery query;
     QString userType = "";
 
     // Get user from db
     if (!query.exec("SELECT type FROM Users WHERE username='" + username + "'"))
-        throw runtime_error("ERROR DBController::RetrieveContentList()  Error while performing user lookup");
+        throw std::runtime_error("ERROR DBController::RetrieveContentList()  Error while performing user lookup");
 
     // Check if user is a student or content manager
     if ( !query.first() || (query.value(0) != "student" && query.value(0) != "content_manager") )
-        throw runtime_error("User is not a student or content manager or does not exist");
+        throw std::runtime_error("User is not a student or content manager or does not exist");
 
     userType = query.value(0).toString();
 
@@ -646,12 +646,12 @@ void DBManager::GetClassesForStudent(QList<Class *> &list, QString username) {
 
     if (!query.prepare("SELECT Courses.*, Classes.semester FROM Classes INNER JOIN Courses ON Classes.course = Courses.code "
                        "NATURAL JOIN Class_List WHERE Class_List.student = :username"))
-        throw runtime_error("ERROR DBController::GetClassesForStudent() Error while preparing join statement to get student's class list");
+        throw std::runtime_error("ERROR DBController::GetClassesForStudent() Error while preparing join statement to get student's class list");
 
     query.bindValue(":username", username);
 
     if (!query.exec())
-        throw runtime_error("ERROR DBController::GetClassesForStudent() Error while retrieving students's textbook list");
+        throw std::runtime_error("ERROR DBController::GetClassesForStudent() Error while retrieving students's textbook list");
 
     while (query.next()) {
         Course *course = new Course(query.value(0).toString(),
@@ -667,10 +667,10 @@ void DBManager::GetAllClasses(QList<Class *> &list) {
     QSqlQuery query;
 
     if (!query.prepare("SELECT Courses.*, Classes.semester FROM Classes INNER JOIN Courses ON Classes.course = Courses.code"))
-        throw runtime_error("ERROR DBController::GetAllClasses() Error while preparing join statement to get student's class list");
+        throw std::runtime_error("ERROR DBController::GetAllClasses() Error while preparing join statement to get student's class list");
 
     if (!query.exec())
-        throw runtime_error("ERROR DBController::GetAllClasses() Error while retrieving students's textbook list");
+        throw std::runtime_error("ERROR DBController::GetAllClasses() Error while retrieving students's textbook list");
 
     while (query.next()) {
         Course *course = new Course(query.value(0).toString(),
@@ -687,13 +687,13 @@ void DBManager::GetTextbooksForClass(QList<Textbook *> &list, QString course, QS
 
     // Get textbook list for courses the student is registered in
     if (!query.prepare("SELECT Textbooks.* FROM Textbooks INNER JOIN Book_List ON Book_List.textbook_id = Textbooks.isbn WHERE Book_List.semester = :semester AND Book_List.course = :course"))
-        throw runtime_error("ERROR DBController::GetContentManagerBookList() Error while preparing query to select textbooks in a class");
+        throw std::runtime_error("ERROR DBController::GetContentManagerBookList() Error while preparing query to select textbooks in a class");
 
     query.bindValue(":semester", semester);
     query.bindValue(":course", course);
 
     if (!query.exec())
-        throw runtime_error("ERROR DBController::GetTextbooksForClass() Error while retrieving textbooks for class");
+        throw std::runtime_error("ERROR DBController::GetTextbooksForClass() Error while retrieving textbooks for class");
 
     while (query.next()) {
         Textbook *textbook = new Textbook(query.value(0).toString(), // ISBN
@@ -714,12 +714,12 @@ void DBManager::GetChaptersForTextbook(Textbook *textbook) {
     QSqlQuery ch_query;
 
     if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
-        throw runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
+        throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
 
     ch_query.bindValue(":isbn", textbook->getISBN());
 
     if (!ch_query.exec())
-        throw runtime_error("ERROR DBController::GetChaptersForTextbook() Error while retrieving chapter info");
+        throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while retrieving chapter info");
 
     while (ch_query.next()) {
         Chapter *chapter = new Chapter(ch_query.value(0).toString(),  // Name
@@ -737,13 +737,13 @@ void DBManager::GetSectionsForChapter(Textbook *textbook, Chapter *chapter) {
     QSqlQuery sec_query;
 
     if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
-        throw runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
+        throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
 
     sec_query.bindValue(":isbn", textbook->getISBN());
     sec_query.bindValue(":chapter", chapter->getChapterNo());
 
     if (!sec_query.exec())
-        throw runtime_error("ERROR DBController::GetSectionsForChapter() Error while retrieving section info");
+        throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while retrieving section info");
 
     while (sec_query.next()) {
         Section *section = new Section(sec_query.value(0).toString(),  // Name
@@ -763,7 +763,7 @@ int DBManager::GetNewContentId() {
     QSqlQuery query;
 
     if (!query.exec("INSERT INTO Content DEFAULT VALUES;"))
-        throw runtime_error("ERROR DBManager::GetNewContentId() Error while creating new content id");
+        throw std::runtime_error("ERROR DBManager::GetNewContentId() Error while creating new content id");
 
     return query.lastInsertId().toInt();
 }
@@ -773,13 +773,13 @@ bool DBManager::CourseExists(QString courseCode) {
 
     // Get the price of the content being added
     if (!query.prepare("SELECT code FROM Courses WHERE code = :code;"))
-        throw runtime_error("ERROR DBManager::CourseExists() Error while prepraing SELECT query");
+        throw std::runtime_error("ERROR DBManager::CourseExists() Error while prepraing SELECT query");
 
     // Bind the content id to the query
     query.bindValue(":code", courseCode);
 
     if (!query.exec()) {
-        throw runtime_error("ERROR DBManager::CourseExists() Error while retrieving course");
+        throw std::runtime_error("ERROR DBManager::CourseExists() Error while retrieving course");
     }
 
     return query.first();

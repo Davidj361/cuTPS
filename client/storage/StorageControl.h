@@ -14,8 +14,6 @@
 #include "../../common/headers/Invoice.h"
 #include "../../common/headers/User.h"
 
-using namespace std;
-
 class StorageControl : public QObject {
         Q_OBJECT
 

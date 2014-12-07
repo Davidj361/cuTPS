@@ -19,8 +19,6 @@
 #include "Section.h"
 #include "Invoice.h"
 
-using namespace std;
-
 class Serializer {
     public:
 

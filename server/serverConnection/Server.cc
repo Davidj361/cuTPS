@@ -13,7 +13,7 @@ void Server::start(int port){
     if (listen(QHostAddress::Any, portno))
         qDebug() << "Server is listening";
     else
-       throw runtime_error("ERROR: ConnectionServer::ConnectionServer() Unable to start listening");
+       throw std::runtime_error("ERROR: ConnectionServer::ConnectionServer() Unable to start listening");
 }
 
 void Server::incomingConnection(qintptr sock)

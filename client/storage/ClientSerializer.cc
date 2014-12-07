@@ -18,12 +18,12 @@ void ClientSerializer::deserialize(QByteArray& inJson){
 
     // Create a QJsonObject from the QJsonDocument
     if (jdoc.isNull())
-        throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
+        throw std::runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
     else
         json = jdoc.object();
 
     if(json.value("status").toDouble() != SUCCESS)
-        throw runtime_error(json.value("message").toString().toStdString());
+        throw std::runtime_error(json.value("message").toString().toStdString());
 }
 
 
@@ -35,15 +35,15 @@ void ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
 
     // Create a QJsonObject from the QJsonDocument
     if (jdoc.isNull())
-        throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
+        throw std::runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
 
     json = jdoc.object();
 
     if(json.value("command").toDouble() != GET_CONTENT)
-        throw runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
+        throw std::runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
 
     if(json.value("status").toDouble() != SUCCESS)
-        throw runtime_error(json.value("message").toString().toStdString());
+        throw std::runtime_error(json.value("message").toString().toStdString());
 
     QJsonArray classesJsonArray = json.value("classes").toArray();
     foreach (const QJsonValue & classJsonValue, classesJsonArray) {
@@ -91,14 +91,14 @@ void ClientSerializer::deserialize(QByteArray& inJson, User & user) {
 
     // Create a QJsonObject from the QJsonDocument
     if (jdoc.isNull())
-        throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
+        throw std::runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
     else
         json = jdoc.object();
     if(json.value("command").toDouble() != LOGIN)
-        throw runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
+        throw std::runtime_error("Error: ClientSerializer::Deserialize(). Command not readable");
 
     if (json.value("status").toDouble() != SUCCESS)
-        throw runtime_error(json.value("message").toString().toStdString());
+        throw std::runtime_error(json.value("message").toString().toStdString());
 
     QJsonObject userObj = json["user"].toObject();
 

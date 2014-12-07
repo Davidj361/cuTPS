@@ -17,7 +17,7 @@ void DBController::Login(User *user) {
     try {
         user->setType(dbManager->Login(user->getUsername(), user->getPassword()));
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -37,7 +37,7 @@ void DBController::AddTextbook(Textbook *textbook) {
                               textbook->isAvailable(),
                               textbook->getPrice());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -58,7 +58,7 @@ void DBController::EditTextbook(Textbook *textbook) {
                               textbook->getPrice(),
                               textbook->getcid());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -70,7 +70,7 @@ void DBController::DeleteTextbook(Textbook *textbook) {
     try {
         dbManager->DeleteContent(textbook->getcid());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -87,7 +87,7 @@ void DBController::AddChapter(Chapter *chapter) {
                               chapter->isAvailable(),
                               chapter->getPrice());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -105,7 +105,7 @@ void DBController::EditChapter(Chapter *chapter) {
                               chapter->getPrice(),
                               chapter->getcid());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -117,7 +117,7 @@ void DBController::DeleteChapter(Chapter *chapter) {
     try {
         dbManager->DeleteContent(chapter->getcid());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -135,7 +135,7 @@ void DBController::AddSection(Section *section) {
                              section->isAvailable(),
                              section->getPrice());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -154,7 +154,7 @@ void DBController::EditSection(Section *section) {
                              section->getPrice(),
                              section->getcid());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -166,7 +166,7 @@ void DBController::DeleteSection(Section *section) {
     try {
         dbManager->DeleteContent(section->getcid());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -179,7 +179,7 @@ void DBController::AddCourse(Course *course) {
         dbManager->AddCourse(course->getCourseCode(),
                              course->getCourseTitle());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -193,7 +193,7 @@ void DBController::EditCourse(Course *course) {
                               course->getCourseTitle(),
                               course->getNewCourseCode());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -205,7 +205,7 @@ void DBController::DeleteCourse(Course *course) {
     try {
         dbManager->DeleteCourse(course->getCourseCode());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -218,7 +218,7 @@ void DBController::AddClass(Class *clss) {
         dbManager->AddClass(clss->getSemester(),
                             clss->getCourse()->getCourseCode());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -237,7 +237,7 @@ void DBController::DeleteClass(Class *clss) {
     try {
         dbManager->DeleteClass(clss->getCourse()->getCourseCode(), clss->getSemester());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -249,7 +249,7 @@ void DBController::AddStudentsToClass (Class *clss) {
     try {
         dbManager->AddStudentsToClass(clss->getClasslist(), clss->getCourse()->getCourseCode(), clss->getSemester());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -261,7 +261,7 @@ void DBController::AddTextbooksToClass (Class *clss) {
     try {
         dbManager->AddTextbooksToClass(clss->getBooklist(), clss->getCourse()->getCourseCode(), clss->getSemester());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -273,7 +273,7 @@ void DBController::RemoveStudentsFromClass (Class *clss) {
     try {
         dbManager->RemoveStudentsFromClass(clss->getClasslist(), clss->getCourse()->getCourseCode(), clss->getSemester());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -285,7 +285,7 @@ void DBController::RemoveTextbooksFromClass (Class *clss) {
     try {
         dbManager->RemoveTextbooksFromClass(clss->getBooklist(), clss->getCourse()->getCourseCode(), clss->getSemester());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -297,7 +297,7 @@ void DBController::AddInvoice(Invoice *invoice) {
     try {
         dbManager->AddInvoice(invoice->getUsername(), invoice->getContentList());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -309,7 +309,7 @@ void DBController::RetrieveContentList (QString &username, QList<Class *> &list)
     try {
         dbManager->RetrieveContentList(username, list);
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }
@@ -318,7 +318,7 @@ bool DBController::CourseExists(Course *course) {
     try {
         return dbManager->CourseExists(course->getCourseCode());
     }
-    catch(runtime_error e) {
+    catch(std::runtime_error e) {
         throw e;
     }
 }

@@ -6,8 +6,6 @@
 #include <stdexcept>
 #include "databaseManagement/DBController.h"
 
-using namespace std;
-
 class Server : public QTcpServer {
     Q_OBJECT
 

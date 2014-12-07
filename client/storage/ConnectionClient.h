@@ -8,8 +8,6 @@
 #include <QDataStream>
 
 
-using namespace std;
-
 class ConnectionClient : public QObject {
         Q_OBJECT
 

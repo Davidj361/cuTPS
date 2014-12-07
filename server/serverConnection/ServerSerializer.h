@@ -16,8 +16,6 @@
 #include "../../common/headers/Class.h"
 #include "../../common/headers/Serializable.h"
 
-using namespace std;
-
 class ServerSerializer : public QObject {
 
     public:

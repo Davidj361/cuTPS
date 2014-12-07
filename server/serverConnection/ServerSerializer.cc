@@ -13,7 +13,7 @@ commands_t ServerSerializer::deserialize(QByteArray & bytes, QJsonObject &json){
 
     // Create a QJsonObject from the QJsonDocument
     if (jdoc.isNull())
-        throw runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
+        throw std::runtime_error("ERROR: Serializer::Deserialize(). Improperly formatted JSON");
     else
         req = jdoc.object();
 

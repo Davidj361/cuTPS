@@ -1,11 +1,11 @@
 #ifndef GUARD_LOCALSTORAGECONTROLLER_H
 #define GUARD_LOCALSTORAGECONTROLLER_H
 
+#include "../../../common/headers/Class.h"
 #include "../../../common/headers/Textbook.h"
 #include "../../../common/headers/Chapter.h"
 #include "../../../common/headers/Section.h"
 #include "../../../common/headers/User.h"
-#include "../../../common/headers/Class.h"
 #include "../../storage/StorageControl.h"
 #include <QList>
 
@@ -21,6 +21,8 @@ class LocalStorage {
                 // This is used to login, give it username and password
                 void login(const QString& username, const QString& password);
                 const QList<Textbook*>* getTextbooks(QString courseCode) const;
+                void removeCourse(const QString& courseCode);
+
         private:
                 void update(QList<Class*>&);
                 // The below function should be called for every update and upon deconstruction of this controller

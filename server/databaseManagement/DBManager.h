@@ -16,8 +16,6 @@
 
 #include <stdexcept>
 
-using namespace std;
-
 class DBManager {
     public:
         DBManager();

@@ -56,7 +56,7 @@ void LocalStorage::removeCourse(Course& course) const {
 
 void LocalStorage::addCourse(const QString& semester, const QVariant& year, const QString& courseCode, const QString& courseTitle) {
         Course newCourse(courseCode, courseTitle);
-        QString sem(semester + "" + year.toString());
+        QString sem(semester + " " + year.toString());
         Class newClass(sem, newCourse);
         storageControl->addClass(newClass);
 }

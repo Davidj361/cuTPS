@@ -55,7 +55,6 @@ void Connection::response(QByteArray *out) {
     QString outSize = QString::number(out->size());
     QByteArray outSizearr;
     outSizearr.append(outSize+'\n');
-    qDebug() << outSize;
 
     // Send the size
     sock->write(outSizearr);

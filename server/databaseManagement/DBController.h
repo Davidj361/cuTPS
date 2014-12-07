@@ -226,5 +226,6 @@ class DBController {
         bool CourseExists(Course *);
     private:
         DBManager *dbManager;
+        const static bool DEBUG = true;
 };
 #endif

@@ -19,12 +19,9 @@ void ServerRequestControl::run(){
     // set up variables
     QByteArray *out = new QByteArray();
     commands_t command;
-    DBController *db = new DBController();
     ServerSerializer *serializer = new ServerSerializer();
 
     try {
-
-        qDebug() << "Deserializing...";
 
         QJsonObject objJson;
 
@@ -178,12 +175,7 @@ void ServerRequestControl::run(){
 
         }
 
-
-        qDebug() << "Serialized Response...";
-        qDebug() << *out;
-        qDebug() << "Done.  Serialized response size is.." << out->size();
         emit response(out);
-        qDebug() << "Response sent";
 
     } catch ( exception &e ) {
 

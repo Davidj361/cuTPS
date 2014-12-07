@@ -7,6 +7,7 @@ DBController::DBController() {
 }
 
 DBController::~DBController() {
+    qDebug() << "cleaning up dbcontroller";
     delete dbManager;
 }
 
@@ -36,6 +37,7 @@ void DBController::AddTextbook(Textbook *textbook) {
                               textbook->getDescription(),
                               textbook->isAvailable(),
                               textbook->getPrice());
+        if (DEBUG) qDebug() << "DBController - Added Textbook - " << textbook->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -57,6 +59,7 @@ void DBController::EditTextbook(Textbook *textbook) {
                               textbook->isAvailable(),
                               textbook->getPrice(),
                               textbook->getcid());
+        if (DEBUG) qDebug() << "DBController - Edited Textbook - " << textbook->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -69,6 +72,7 @@ void DBController::EditTextbook(Textbook *textbook) {
 void DBController::DeleteTextbook(Textbook *textbook) {
     try {
         dbManager->DeleteContent(textbook->getcid());
+        if (DEBUG) qDebug() << "DBController - Deleted Textbook - " << textbook->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -86,6 +90,7 @@ void DBController::AddChapter(Chapter *chapter) {
                               chapter->getDescription(),
                               chapter->isAvailable(),
                               chapter->getPrice());
+        if (DEBUG) qDebug() << "DBController - Added Chapter - " <<  chapter->getChapterNo() << " - " << chapter->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -104,6 +109,7 @@ void DBController::EditChapter(Chapter *chapter) {
                               chapter->isAvailable(),
                               chapter->getPrice(),
                               chapter->getcid());
+        if (DEBUG) qDebug() << "DBController - Edited Chapter - " << chapter->getChapterNo() << " - " << chapter->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -116,6 +122,7 @@ void DBController::EditChapter(Chapter *chapter) {
 void DBController::DeleteChapter(Chapter *chapter) {
     try {
         dbManager->DeleteContent(chapter->getcid());
+        if (DEBUG) qDebug() << "DBController - Deleted Chapter - " << chapter->getChapterNo() << " - " << chapter->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -134,6 +141,7 @@ void DBController::AddSection(Section *section) {
                              section->getDescription(),
                              section->isAvailable(),
                              section->getPrice());
+        if (DEBUG) qDebug() << "DBController - Added Section - " << section->getSectionNo() << " - " << section->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -153,6 +161,7 @@ void DBController::EditSection(Section *section) {
                              section->isAvailable(),
                              section->getPrice(),
                              section->getcid());
+        if (DEBUG) qDebug() << "DBController - Edited Section - " << section->getSectionNo() << " - " << section->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -165,6 +174,7 @@ void DBController::EditSection(Section *section) {
 void DBController::DeleteSection(Section *section) {
     try {
         dbManager->DeleteContent(section->getcid());
+        if (DEBUG) qDebug() << "DBController - Deleted Section - " << section->getSectionNo() << " - " << section->getTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -178,6 +188,7 @@ void DBController::AddCourse(Course *course) {
     try {
         dbManager->AddCourse(course->getCourseCode(),
                              course->getCourseTitle());
+        if (DEBUG) qDebug() << "DBController - Added Course - " << course->getCourseCode() << " - " << course->getCourseTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -192,6 +203,7 @@ void DBController::EditCourse(Course *course) {
         dbManager->EditCourse(course->getCourseCode(),
                               course->getCourseTitle(),
                               course->getNewCourseCode());
+        if (DEBUG) qDebug() << "DBController - Edited Course - " << course->getCourseCode() << " - " << course->getCourseTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -204,6 +216,7 @@ void DBController::EditCourse(Course *course) {
 void DBController::DeleteCourse(Course *course) {
     try {
         dbManager->DeleteCourse(course->getCourseCode());
+        if (DEBUG) qDebug() << "DBController - Deleted Course - " << course->getCourseCode() << " - " << course->getCourseTitle();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -215,8 +228,9 @@ void DBController::DeleteCourse(Course *course) {
  **************************************************************************/
 void DBController::AddClass(Class *clss) {
     try {
-        dbManager->AddClass(clss->getSemester(),
-                            clss->getCourse()->getCourseCode());
+        dbManager->AddClass(clss->getCourse()->getCourseCode(),
+                            clss->getSemester());
+        if (DEBUG) qDebug() << "DBController - Added Class - " << clss->getSemester() << " - " << clss->getCourse()->getCourseCode();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -236,6 +250,7 @@ void DBController::AddClass(Class *clss) {
 void DBController::DeleteClass(Class *clss) {
     try {
         dbManager->DeleteClass(clss->getCourse()->getCourseCode(), clss->getSemester());
+        if (DEBUG) qDebug() << "DBController - Deleted Class - " << clss->getSemester() << " - " << clss->getCourse()->getCourseCode();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -260,6 +275,7 @@ void DBController::AddStudentsToClass (Class *clss) {
 void DBController::AddTextbooksToClass (Class *clss) {
     try {
         dbManager->AddTextbooksToClass(clss->getBooklist(), clss->getCourse()->getCourseCode(), clss->getSemester());
+        if (DEBUG) qDebug() << "DBController - Added Textbook " << clss->getBooklist()[0]->getISBN() << " to class " << clss->getSemester() << " " << clss->getCourse()->getCourseCode();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -284,6 +300,7 @@ void DBController::RemoveStudentsFromClass (Class *clss) {
 void DBController::RemoveTextbooksFromClass (Class *clss) {
     try {
         dbManager->RemoveTextbooksFromClass(clss->getBooklist(), clss->getCourse()->getCourseCode(), clss->getSemester());
+        if (DEBUG) qDebug() << "DBController - Removed Textbook " << clss->getBooklist()[0]->getISBN() << " from class " << clss->getSemester() << " " << clss->getCourse()->getCourseCode();
     }
     catch(std::runtime_error e) {
         throw e;
@@ -296,6 +313,7 @@ void DBController::RemoveTextbooksFromClass (Class *clss) {
 void DBController::AddInvoice(Invoice *invoice) {
     try {
         dbManager->AddInvoice(invoice->getUsername(), invoice->getContentList());
+        if (DEBUG) qDebug() << "DBController - Added Invoice - " << invoice->getUsername() << " - " << invoice->getContentList().size() << " items";
     }
     catch(std::runtime_error e) {
         throw e;
@@ -303,17 +321,25 @@ void DBController::AddInvoice(Invoice *invoice) {
 }
 
 /***************************************************************************
- **                RETRIEVE CONTENT FROM THE DATABASE                     **
- **************************************************************************/
+**                RETRIEVE CONTENT FROM THE DATABASE                      **
+***************************************************************************/
 void DBController::RetrieveContentList (QString &username, QList<Class *> &list) {
     try {
         dbManager->RetrieveContentList(username, list);
+        if (DEBUG) qDebug() << "DBController - Retrieved textbooks for " << username;
+        // TODO - Delete this for loop
+//        foreach (Class *clss, list) {
+//            qDebug() << clss->getCourse()->getCourseCode() << " - " << clss->getCourse()->getCourseTitle() << " - " << clss->getSemester();
+//        }
     }
     catch(std::runtime_error e) {
         throw e;
     }
 }
 
+/***************************************************************************
+**                CHECK IF COURSE EXISTS IN DATABASE                     **
+***************************************************************************/
 bool DBController::CourseExists(Course *course) {
     try {
         return dbManager->CourseExists(course->getCourseCode());

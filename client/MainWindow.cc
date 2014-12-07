@@ -58,8 +58,21 @@ void MainWindow::refresh() {
         int currIndex = ui->stackedWidget->currentIndex();
         if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
                 this->studentSemesterListPopulate();
-        else if (currIndex == ui->stackedWidget->indexOf(ui->CourseManager))
+        else if (currIndex == ui->stackedWidget->indexOf(ui->CourseManager)) {
+                this->courseManagerClearLists();
                 this->courseManagerSemesterListPopulate();
+        }
+}
+
+void MainWindow::courseManagerClearLists() {
+        ui->courseManagerSemesterList->clear();
+        ui->courseManagerCourseList->clear();
+        ui->courseManagerCourseList->clear();
+        ui->courseManagerCourseTitle->clear();
+        ui->courseManagerCourseTitle->clear();
+        ui->courseManagerAddCourseCode->clear();
+        ui->courseManagerSemesterList2->clear();
+        ui->courseManagerYearList->clear();
 }
 
 void MainWindow::clearList() {

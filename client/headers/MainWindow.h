@@ -99,6 +99,8 @@ class MainWindow : public QMainWindow {
 
         void on_btnConfirmationLogout_clicked();
 
+        void courseManagerClearLists();
+
 private:
 
         Ui::MainWindow    *ui;

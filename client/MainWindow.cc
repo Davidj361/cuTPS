@@ -504,46 +504,53 @@ void MainWindow::on_btnConfirmationMainPage_clicked()
 
 void MainWindow::on_courseManagerDeleteButton_released()
 {
-        if (ui->courseManagerCourseList->currentItem() == 0)
-                return;
-        const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
-        try {
-                storageControl.removeCourse(*(ass->getCourse()));
-        } catch (std::runtime_error e) {
-                this->popupError(e.what());
-        }
+    if (ui->courseManagerCourseList->currentItem() == 0)
+        return;
+
+    const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
+
+    try {
+        // TODO - Remove Class, not remove course
+        storageControl.removeCourse(*(ass->getCourse()));
+        refresh();
+    } catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
 }
 
 void MainWindow::on_courseManagerAddButton_released() {
-        // First check if all fields are set
-        // Check if year has its 4 digits
-        const QString semester(ui->courseManagerSemesterList2->currentText());
-        const QString year(ui->courseManagerYear->text());
-        const QString courseCode(ui->courseManagerAddCourseCode->text());
-        const QString courseTitle(ui->courseManagerAddCourseTitle->text());
-        if (year.contains(" ")) {
-                this->popupWarning("You have spaces in the year.");
-                return;
-        }
-        else if (year.length() < 4) {
-                this->popupWarning("You didn't write 4 digits for the year.");
-                return;
-        }
-        // Check if the course code is empty or the course title is empty
-        else if (courseCode.length() < 1) {
-                this->popupWarning("Course code is empty.");
-                return;
-        }
-        else if (courseTitle.length() < 1) {
-                this->popupWarning("Course title is empty.");
-                return;
-        }
-        // Everything is checked, now we can pass of information to localStorage and get it made
-        try {
-                localStorage.addCourse(semester, year, courseCode, courseTitle);
-        } catch (std::runtime_error e) {
-                this->popupError(e.what());
-        }
+    // First check if all fields are set
+    // Check if year has its 4 digits
+
+    const QString semester(ui->courseManagerSemesterList2->currentText());
+    const QString year(ui->courseManagerYear->text());
+    const QString courseCode(ui->courseManagerAddCourseCode->text());
+    const QString courseTitle(ui->courseManagerAddCourseTitle->text());
+
+    if (year.contains(" ")) {
+            this->popupWarning("You have spaces in the year.");
+            return;
+    }
+    else if (year.length() < 4) {
+            this->popupWarning("You didn't write 4 digits for the year.");
+            return;
+    }
+    else if (courseCode.length() < 1) {
+            this->popupWarning("Course code is empty.");
+            return;
+    }
+    else if (courseTitle.length() < 1) {
+            this->popupWarning("Course title is empty.");
+            return;
+    }
+
+    // Everything is checked, now we can pass of information to localStorage and get it made
+    try {
+            localStorage.addCourse(semester, year, courseCode, courseTitle);
+            refresh();
+    } catch (std::runtime_error e) {
+            this->popupError(e.what());
+    }
 }
 
 void MainWindow::update_Shopping_Cart_Count() {

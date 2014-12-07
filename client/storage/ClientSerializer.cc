@@ -82,6 +82,12 @@ void ClientSerializer::deserialize(QByteArray& inJson, QList<Class*> &courses){
             }
         }
     }
+
+    foreach (Class *clss, courses) {
+        foreach (Textbook *tb, clss->getBooklist()) {
+            qDebug() << tb->getISBN() << " - $" << tb->getPrice() << " - " << tb->isAvailable();
+        }
+    }
 }
 
 void ClientSerializer::deserialize(QByteArray& inJson, User & user) {
@@ -122,8 +128,8 @@ void ClientSerializer::createTextbook(const QJsonObject &bookJsonObject, Textboo
       (int) bookJsonObject["year"].toDouble(),
             bookJsonObject["edition"].toString(),
             bookJsonObject["description"].toString(),
-            bookJsonObject["available"].toBool(),
-     (bool) bookJsonObject["price"].toDouble()
+     (bool) bookJsonObject["available"].toBool(),
+     (float) bookJsonObject["price"].toDouble()
     );
 }
 

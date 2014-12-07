@@ -7,7 +7,7 @@ class Serializable{
 
 public:
 
-    virtual void serialize(QJsonObject &) = 0;
+    virtual void serialize(QJsonObject &) const = 0;
 
 };
 

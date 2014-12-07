@@ -18,11 +18,11 @@ class Chapter: public Content, public Serializable {
         Chapter(QString title, int chapter, Textbook *textbook = 0, QString description = "", bool available = false, float price = 0, int content_id = 0);
         ~Chapter();
 
-        Textbook *getTextbook();
-        void serialize(QJsonObject &);
-        int getChapterNo();
+        const Textbook *getTextbook() const;
+        void serialize(QJsonObject &) const;
+        int getChapterNo() const;
         void addSection(Section *);
-        QList<Section *>& getSections();
+        const QList<const Section *>& getSections() const;
 
     private:
         int chapterNo;

@@ -20,12 +20,11 @@ Chapter::~Chapter() {
     }
 }
 
-Textbook *Chapter::getTextbook() {
+const Textbook* Chapter::getTextbook() const {
     return textbook;
 }
 
-void Chapter::serialize(QJsonObject &chapterJson) {
-
+void Chapter::serialize(QJsonObject &chapterJson) const {
     chapterJson["title"] = title;
     chapterJson["available"] = available;
     chapterJson["price"] = price;
@@ -48,10 +47,10 @@ void Chapter::addSection(Section *sec) {
     sections.push_back(sec);
 }
 
-QList<Section *> &Chapter::getSections() {
+const QList<const Section *>& Chapter::getSections() const {
     return this->sections;
 }
 
-int Chapter::getChapterNo() {
+int Chapter::getChapterNo() const {
     return chapterNo;
 }

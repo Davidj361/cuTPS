@@ -24,8 +24,6 @@ void ServerRequestControl::run(){
 
     try {
 
-        qDebug() << "Deserializing...";
-
         QJsonObject objJson;
 
         //decouple command from the json
@@ -178,12 +176,7 @@ void ServerRequestControl::run(){
 
         }
 
-
-        qDebug() << "Serialized Response...";
-        qDebug() << *out;
-        qDebug() << "Done.  Serialized response size is.." << out->size();
         emit response(out);
-        qDebug() << "Response sent";
 
     } catch ( exception &e ) {
 

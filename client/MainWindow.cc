@@ -45,6 +45,10 @@ void MainWindow::scrollDown() {
     ui->resultsListWidget->scrollToBottom();
 }
 
+void MainWindow::popupWarning(const QString& info) {
+        QMessageBox message(QMessageBox::Warning, "Warning", info);
+        message.exec();
+}
 void MainWindow::popupError(const QString& error) {
         QMessageBox message(QMessageBox::Critical, "Error", error);
         message.exec();
@@ -67,12 +71,10 @@ void MainWindow::refresh() {
 void MainWindow::courseManagerClearLists() {
         ui->courseManagerSemesterList->clear();
         ui->courseManagerCourseList->clear();
-        ui->courseManagerCourseList->clear();
         ui->courseManagerCourseTitle->clear();
-        ui->courseManagerCourseTitle->clear();
-        ui->courseManagerAddCourseCode->clear();
-        ui->courseManagerSemesterList2->clear();
-        ui->courseManagerYear->clear();
+        ui->courseManagerAddCourseTitle->setText("");
+        ui->courseManagerAddCourseCode->setText("");
+        ui->courseManagerYear->setText("");
 }
 
 void MainWindow::clearList() {
@@ -131,8 +133,11 @@ void MainWindow::on_BtnLogin_clicked()
         
         // TODO Have a proper standard through the whole system to identify between user account types
         // Check if the user is a student or an admin/content manager
-        // this->displayMainStudent(); // herp derp unable to know what values are returned from User::getType()
-        this->displayCourseManager();
+        const QString userType(localStorage.getUser().getType());
+        if (userType == QString("student"))
+                this->displayMainStudent();
+        else if (userType == QString("content_manager"))
+                this->displayCourseManager();
         this->refresh();
     } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());
@@ -517,4 +522,32 @@ void MainWindow::on_courseManagerDeleteButton_released()
                 return;
         const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
          storageControl.removeCourse(*(ass->getCourse()));
+}
+
+void MainWindow::on_courseManagerAddButton_released() {
+        // First check if all fields are set
+        // Check if year has its 4 digits
+        const QString semester(ui->courseManagerSemesterList2->currentText());
+        const QString year(ui->courseManagerYear->text());
+        const QString courseCode(ui->courseManagerAddCourseCode->text());
+        const QString courseTitle(ui->courseManagerAddCourseTitle->text());
+        if (year.contains(" ")) {
+                this->popupWarning("You have spaces in the year.");
+                return;
+        }
+        else if (year.length() < 4) {
+                this->popupWarning("You didn't write 4 digits for the year.");
+                return;
+        }
+        // Check if the course code is empty or the course title is empty
+        else if (courseCode.length() < 1) {
+                this->popupWarning("Course code is empty.");
+                return;
+        }
+        else if (courseTitle.length() < 1) {
+                this->popupWarning("Course title is empty.");
+                return;
+        }
+        // Everything is checked, now we can pass of information to localStorage and get it made
+        localStorage.addCourse(semester, year, courseCode, courseTitle);
 }

@@ -46,6 +46,8 @@ class MainWindow : public QMainWindow {
 
         void scrollDown();
         
+        void popupWarning(const QString&);
+
         void popupError(const QString&);
 
         void refresh();
@@ -58,6 +60,8 @@ class MainWindow : public QMainWindow {
         void on_BtnLogin_clicked();
 
         void on_BtnLogout_clicked();
+
+        void on_courseManagerAddButton_released();
 
         void on_courseManagerDeleteButton_released();
 
@@ -84,7 +88,6 @@ class MainWindow : public QMainWindow {
         void on_btnAddToCart_clicked();
 
         void on_btnViewCart_clicked();
-
 
 
         void on_btnClearCart_clicked();
@@ -119,7 +122,7 @@ private:
 
         // Subsystems
         ShoppingCart shoppingCart;
-        StorageControl storageControl; // TODO make non-pointer
+        StorageControl storageControl;
         LocalStorage   localStorage;
         Checkout checkout;
 };

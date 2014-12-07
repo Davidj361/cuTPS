@@ -51,3 +51,10 @@ void LocalStorage::login(const QString& username, const QString& password) {
 void LocalStorage::removeCourse(Course& course) const {
         this->storageControl->removeCourse(course);
 }
+
+void LocalStorage::addCourse(const QString& semester, const QVariant& year, const QString& courseCode, const QString& courseTitle) {
+        Course newCourse(courseCode, courseTitle);
+        QString sem(semester + "" + year.toString());
+        Class newClass(sem, newCourse);
+        storageControl->addClass(newClass);
+}

@@ -36,7 +36,7 @@ class StorageControl : public QObject {
         void editSection(Section&);
         void removeSection(Section&);
 
-        void addClass(Class&);
+        void addClass(Class&) const;
         void editClass(Class&);
         void removeClass(Class&);
 

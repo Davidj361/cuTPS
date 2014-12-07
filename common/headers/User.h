@@ -27,7 +27,7 @@ class User : public Serializable {
         const QString getUsername() const;
         QString getName();
         QString getPassword();
-        QString getType();
+        const QString& getType() const;
 
         void setType(QString);
         void serialize(QJsonObject&) const;

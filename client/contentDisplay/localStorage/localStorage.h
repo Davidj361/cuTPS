@@ -22,6 +22,7 @@ class LocalStorage {
                 void login(const QString& username, const QString& password);
                 const QList<Textbook*>* getTextbooks(QString courseCode) const;
                 void removeCourse(Course& course) const;
+                void addCourse(const QString& semester, const QVariant& year, const QString& courseCode, const QString& courseTitle);
 
         private:
                 void update(QList<Class*>&);

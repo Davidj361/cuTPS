@@ -55,7 +55,7 @@ void StorageControl::removeSection(Section &s){
     updateStorage(s, REMOVE_SECTION);
 }
 
-void StorageControl::addClass(Class &c){
+void StorageControl::addClass(Class &c) const {
     updateStorage(c, ADD_CLASS);
 }
 

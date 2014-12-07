@@ -22,7 +22,7 @@ QString User::getPassword() {
     return password;
 }
 
-QString User::getType() {
+const QString& User::getType() const {
     return type;
 }
 

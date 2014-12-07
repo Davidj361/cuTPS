@@ -20,7 +20,7 @@ class LocalStorage {
                 void refresh();
                 // This is used to login, give it username and password
                 void login(const QString& username, const QString& password);
-                const QList<const Textbook*>* getTextbooks(QString courseCode) const;
+                const QList<Textbook*>* getTextbooks(QString courseCode) const;
         private:
                 void update(QList<Class*>&);
                 // The below function should be called for every update and upon deconstruction of this controller

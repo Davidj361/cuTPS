@@ -44,7 +44,9 @@ class MainWindow : public QMainWindow {
         */
         void clearList();
         void setServerIP();
+        
         void studentSemesterListPopulate();
+        void courseManagerSemesterListPopulate();
 
         void clearStudentCourseList();
 
@@ -63,19 +65,24 @@ class MainWindow : public QMainWindow {
 
         void on_BtnLogout_clicked();
 
+        void on_courseManagerSemesterList_itemPressed(QListWidgetItem *item);
+
+        void on_courseManagerCourseList_itemPressed(QListWidgetItem *item);
+        
         void on_semesterList_itemPressed(QListWidgetItem *item);
 
         void on_courseList_itemPressed(QListWidgetItem *item);
-
-        void on_contentList_itemDoubleClicked(QListWidgetItem *item);
 
         bool validUsernamePassword();
 
         bool isStudent();
 
+        void on_contentList_itemClicked(QListWidgetItem *item);
+
+
         void displayMainStudent();
 
-        void on_contentList_itemClicked(QListWidgetItem *item);
+        void displayCourseManager();
 
 
         void on_btnAddToCart_clicked();

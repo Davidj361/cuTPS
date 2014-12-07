@@ -393,31 +393,25 @@ void MainWindow::on_btnAddToCart_clicked()
         index = selectedItems.at(ri);
         ri++;
     }
-    //qDebug() << "index is " + QString::number(index);
 
     const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
     foreach (const Textbook *t, *studentContent) {
         if (count == index && index >= 0) {
             shoppingCart.addToCart(t);
-            qDebug() << t->getTitle();
             if ( selectedItems.size() > ri ) {
                 index = selectedItems.at(ri);
                 ri++;
-                qDebug() << QString::number(index);
             }
             else
                 index = -1;
         }
         count++;
         foreach (const Chapter *ch, t->getChapters()) {
-            qDebug() << " Index " << QString::number(index)<<" count "<< QString::number(count);
             if (count == index && index >= 0) {
-                qDebug() << ch->getTitle();
                 shoppingCart.addToCart(ch);
                 if ( selectedItems.size() > ri ) {
                     index = selectedItems.at(ri);
                     ri++;
-                    qDebug() << QString::number(index);
                 }
                 else
                     index = -1;
@@ -426,12 +420,10 @@ void MainWindow::on_btnAddToCart_clicked()
             foreach (const Section *s, ch->getSections()) {
                 if (count == index && index >= 0) {
                     shoppingCart.addToCart(s);
-                    qDebug() << s->getTitle();
 
                     if ( selectedItems.size() > ri ) {
                         index = selectedItems.at(ri);
                         ri++;
-                        qDebug() << QString::number(index);
                     }
                     else
                         index = -1;
@@ -441,8 +433,6 @@ void MainWindow::on_btnAddToCart_clicked()
         }
     }
     this->update_Shopping_Cart_Count();
-    qDebug() << QString::number(shoppingCart.getCartContents().size()) + " items added to the Cart";
-
 }
 
 void MainWindow::on_btnViewCart_clicked()

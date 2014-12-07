@@ -18,7 +18,7 @@ class Course : public Serializable{
         Course(QString courseCode, QString courseTitle);
         ~Course();
 
-        QString getCourseTitle();
+        const QString& getCourseTitle() const;
         QString getCourseCode();
         QString getNewCourseCode();
         void setNewCourseCode(QString);

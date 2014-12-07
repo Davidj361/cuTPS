@@ -15,7 +15,7 @@ void Course::serialize(QJsonObject &json) const {
 Course::~Course() {
 }
 
-QString Course::getCourseTitle(){
+const QString& Course::getCourseTitle() const {
     return courseTitle;
 }
 

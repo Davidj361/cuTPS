@@ -18,7 +18,6 @@
 #include "../common/headers/Chapter.h"
 #include "../common/headers/Section.h"
 #include "../common/headers/Definitions.h"
-#include "../common/headers/Serializer.h"
 #include "contentDisplay/localStorage/localStorage.h"
 #include "../purchase/checkout/checkout.h"
 

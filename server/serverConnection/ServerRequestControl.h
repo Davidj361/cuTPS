@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <QByteArray>
 
-#include "ConnectionServer.h"
 #include "../databaseManagement/DBController.h"
 #include "../../common/headers/Definitions.h"
 #include "../../common/headers/User.h"

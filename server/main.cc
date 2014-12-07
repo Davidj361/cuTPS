@@ -2,7 +2,6 @@
 #include <QTimer>
 #include "serverConnection/Server.h"
 
-#include "serverConnection/ServerConnectionController.h"
 
 using namespace std;
 
@@ -15,14 +14,13 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("https://gitlab.com/team-do-not-stick-in-ear/cutps");
     app.setOrganizationName("Team Do Not Stick In Ear");
 
-    // TODO Definite memory leak here, fix it
-    //ServerConnectionController *controller = new ServerConnectionController();
     DBController db;
 
+    // Start the server
     Server server(&db);
     server.start();
 
-    /*
+    /* TODO is this still needed?
     // connect the signals
     QObject::connect(controller, SIGNAL(Finished()),
                      &app, SLOT(quit()));

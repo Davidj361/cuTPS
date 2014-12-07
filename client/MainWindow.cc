@@ -521,7 +521,11 @@ void MainWindow::on_courseManagerDeleteButton_released()
         if (ui->courseManagerCourseList->currentItem() == 0)
                 return;
         const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
-         storageControl.removeCourse(*(ass->getCourse()));
+        try {
+                storageControl.removeCourse(*(ass->getCourse()));
+        } catch (std::runtime_error e) {
+                this->popupError(e.what());
+        }
 }
 
 void MainWindow::on_courseManagerAddButton_released() {

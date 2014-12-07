@@ -14,6 +14,10 @@ Class::Class(const Class& ass) : semester(ass.semester) {
         }
 }
 
+Class::Class(QString semester, const Course& course) : semester(semester) {
+        this->course = new Course(course);
+}
+
 Class::Class(QString semester, Course *course) {
     this->semester = semester;
     this->course = course;

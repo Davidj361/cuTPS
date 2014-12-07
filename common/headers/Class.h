@@ -20,6 +20,8 @@ class Class : public Serializable {
                 Class(const Class&);
 
                 Class(QString semester, Course *course);
+                // For LocalStorage to easily create new objects and not deal with memory
+                Class(QString semester, const Course& course);
                 ~Class();
 
                 const QString getSemester() const;

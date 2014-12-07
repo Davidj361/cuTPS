@@ -183,6 +183,9 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">color: black;</string>
+                </property>
                 <property name="text">
                  <string>Clear</string>
                 </property>
@@ -195,6 +198,9 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: black;</string>
                 </property>
                 <property name="text">
                  <string>Login</string>
@@ -301,6 +307,9 @@
             <verstretch>1</verstretch>
            </sizepolicy>
           </property>
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Logout</string>
           </property>
@@ -357,6 +366,9 @@
             <verstretch>1</verstretch>
            </sizepolicy>
           </property>
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>ViewCart</string>
           </property>
@@ -369,6 +381,9 @@
             <horstretch>1</horstretch>
             <verstretch>1</verstretch>
            </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
           </property>
           <property name="text">
            <string>Add To Cart</string>
@@ -865,6 +880,9 @@
              <property name="focusPolicy">
               <enum>Qt::TabFocus</enum>
              </property>
+             <property name="styleSheet">
+              <string notr="true">color: black;</string>
+             </property>
              <property name="text">
               <string>Add</string>
              </property>
@@ -939,6 +957,9 @@
                <verstretch>1</verstretch>
               </sizepolicy>
              </property>
+             <property name="styleSheet">
+              <string notr="true">color: black;</string>
+             </property>
              <item>
               <property name="text">
                <string>FALL</string>
@@ -956,6 +977,9 @@
         </item>
         <item row="3" column="2">
          <widget class="QPushButton" name="courseManagerDeleteButton">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Delete</string>
           </property>
@@ -1479,6 +1503,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="btnPreviousPage">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Back</string>
           </property>
@@ -1486,6 +1513,9 @@
         </item>
         <item row="1" column="2">
          <widget class="QPushButton" name="btnClearCart">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Clear Cart</string>
           </property>
@@ -1493,6 +1523,9 @@
         </item>
         <item row="1" column="3">
          <widget class="QPushButton" name="btnCheckout">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Proceed Checkout</string>
           </property>
@@ -1573,6 +1606,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="btnProcedeCheckout">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Proceed with Order</string>
           </property>
@@ -2057,6 +2093,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="btnConfirmationMainPage">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Main Page</string>
           </property>
@@ -2077,6 +2116,9 @@
         </item>
         <item row="1" column="3">
          <widget class="QPushButton" name="btnConfirmationLogout">
+          <property name="styleSheet">
+           <string notr="true">color: black;</string>
+          </property>
           <property name="text">
            <string>Logout</string>
           </property>

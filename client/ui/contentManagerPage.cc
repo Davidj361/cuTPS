@@ -159,9 +159,11 @@ void MainWindow::displayTextbookPage(Textbook *tb){
         ui->checkBoxTextbookAvailable->setChecked(false);
         ui->btnTextbookAddEdit->setText("Add Textbook");
         this->populateSemesterList(ui->listTextbookTerm);
+        ui->labelClass->setText("Class");
+        ui->labelSemester->setText("Semester");
 
-        ui->listTextbookClass->setEnabled(true);
-        ui->listTextbookTerm->setEnabled(true);
+        ui->listTextbookClass->setVisible(true);
+        ui->listTextbookTerm->setVisible(true);
 
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerTextbookForm));
 
@@ -179,9 +181,15 @@ void MainWindow::displayTextbookPage(Textbook *tb){
         bool checked = tb->isAvailable();
         ui->checkBoxTextbookAvailable->setChecked(checked);
         ui->btnTextbookAddEdit->setText("Edit Textbook");
-        ui->listTextbookClass->setEnabled(false);
-        ui->listTextbookTerm->setEnabled(false);
+        ui->listTextbookClass->setVisible(false);
+        ui->labelClass->setText("");
+        ui->labelSemester->setText("");
+
+        ui->listTextbookTerm->setVisible(false);
+
+
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerTextbookForm));
+
 
     }
 

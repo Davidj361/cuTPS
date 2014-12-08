@@ -30,13 +30,6 @@ Class::~Class() {
             t = 0;
         }
     }
-    foreach (Student* s, classlist) {
-        if (s != 0) {
-            delete s;
-            s = 0;
-        }
-    }
-
     if (course != 0)
         delete course;
     }
@@ -66,14 +59,6 @@ Course* Class::getCourse() const {
 
 QList<Textbook *> &Class::getBooklist() {
     return booklist;
-}
-
-QList<Student *> &Class::getClasslist() {
-    return classlist;
-}
-
-void Class::addStudent(Student *student) {
-    classlist.append(student);
 }
 
 void Class::addTextbook(Textbook *textbook) {

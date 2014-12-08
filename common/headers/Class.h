@@ -27,9 +27,7 @@ class Class : public Serializable {
                 const QString getSemester() const;
                 Course* getCourse() const;
                 QList<Textbook*> &getBooklist();
-                QList<Student *> &getClasslist();
                 void addTextbook(Textbook *);
-                void addStudent(Student *);
                 void serialize(QJsonObject &) const;
 
         private:
@@ -37,7 +35,6 @@ class Class : public Serializable {
                 QString semester;
                 Course *course;
                 QList<Textbook *> booklist;
-                QList<Student *> classlist;
 };
 
 // Need this for setData()

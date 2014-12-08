@@ -48,7 +48,7 @@ void MainWindow::on_btnManageEditChapter_clicked()
         ui->lineChapterDescription->setText(selectedCh->getDescription());
         ui->lineChapterPrice->setText(QString::number(selectedCh->getPrice(), 'f', 2));
         ui->lineChapterTitle->setText(selectedCh->getTitle());
-        ui->checkBoxChapterAvailable->setEnabled(selectedCh->isAvailable());
+        ui->checkBoxChapterAvailable->setChecked(selectedCh->isAvailable());
         ui->labelContentNumber->setText("Chapter:");
         ui->lineChapterNumber->setText(QString::number(selectedCh->getChapterNo()));
 

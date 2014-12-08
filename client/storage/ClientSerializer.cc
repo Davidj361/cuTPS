@@ -115,7 +115,7 @@ void ClientSerializer::createCourse(QJsonObject &json, Course *&newCourse) {
 
 void ClientSerializer::createTextbook(const QJsonObject &bookJsonObject, Textbook *&textbook) const {
     textbook = new Textbook(
-            bookJsonObject["isbn"].toString(),
+            bookJsonObject["ISBN"].toString(),
             bookJsonObject["title"].toString(),
             bookJsonObject["publisher"].toString(),
             bookJsonObject["author"].toString(),

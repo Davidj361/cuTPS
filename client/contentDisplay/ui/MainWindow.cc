@@ -1,5 +1,5 @@
-#include "headers/MainWindow.h"
-#include "ui_mainwindow.h"
+#include "MainWindow.h"
+#include "../../ui_mainwindow.h"
 #include "storage/StorageControl.h"
 #include <QList>
 #include <QStackedWidget>

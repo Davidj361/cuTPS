@@ -59,7 +59,7 @@ void DBManager::AddTextbook(QString isbn, QString title, QString publisher, QStr
 
     db.transaction();
 
-    int content_id = GetNewContentId();
+    int content_id = GetNewContentId("textbook");
 
     if (!query.prepare("INSERT INTO Textbooks (isbn, title, publisher, author, "
                        "year, edition, description, availability, price, content_id)"
@@ -161,7 +161,7 @@ void DBManager::AddChapter(QString title, int chapter, QString textbook, QString
 
     db.transaction();
 
-    int content_id = GetNewContentId();
+    int content_id = GetNewContentId("chapter");
 
     if (query.prepare("INSERT INTO Chapters (name, number, textbook, description, "
                                              "availability, price, content_id) VALUES (:name, :number, "
@@ -249,7 +249,7 @@ void DBManager::AddSection(QString title, int section, int chapter, QString text
 
     db.transaction();
 
-    int content_id = GetNewContentId();
+    int content_id = GetNewContentId("section");
 
     if (query.prepare("INSERT INTO Sections (name, number, chapter, textbook, "
                                             "description, availability, price, content_id) VALUES "
@@ -793,10 +793,15 @@ void DBManager::GetSectionsForChapter(Textbook *textbook, Chapter *chapter) {
     }
 }
 
-int DBManager::GetNewContentId() {
+int DBManager::GetNewContentId(QString type) {
     QSqlQuery query;
 
-    if (!query.exec("INSERT INTO Content DEFAULT VALUES;"))
+    if (!query.prepare("INSERT INTO Content (type) VALUES (:type);"))
+        throw std::runtime_error("ERROR DBManager::GetNewContentId() Error while preparing insert statement");
+
+    query.bindValue(":type", type);
+
+    if (!query.exec())
         throw std::runtime_error("ERROR DBManager::GetNewContentId() Error while creating new content id");
 
     return query.lastInsertId().toInt();

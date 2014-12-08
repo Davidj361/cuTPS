@@ -219,7 +219,7 @@ class DBManager {
           Variables : None
           Returns   : The new content id
         ===================================================================== */
-        int GetNewContentId();
+        int GetNewContentId(QString type);
 
         /* =====================================================================
           Function  : CourseExists

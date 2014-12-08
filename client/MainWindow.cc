@@ -904,9 +904,6 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
         try {
             localStorage.addTextbook(c);
             this->displayManageContent();
-
-            delete course;
-            delete tb;
         }
         catch (std::runtime_error e){
             this->popupError(e.what());

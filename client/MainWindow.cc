@@ -1088,6 +1088,7 @@ void MainWindow::on_btnChapterAddEdit_clicked()
     } catch (std::runtime_error e){
         this->popupError(e.what());
     }
+    this->displayManageContent();
 }
 
 void MainWindow::on_btnManageAddSection_clicked()

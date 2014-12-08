@@ -2242,18 +2242,21 @@
        <widget class="QListWidget" name="listTextbookTerm">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>30</y>
+          <x>450</x>
+          <y>40</y>
           <width>141</width>
           <height>241</height>
          </rect>
         </property>
        </widget>
        <widget class="QListWidget" name="listTextbookClass">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>180</x>
-          <y>30</y>
+          <x>610</x>
+          <y>40</y>
           <width>141</width>
           <height>241</height>
          </rect>
@@ -2262,8 +2265,8 @@
        <widget class="QLineEdit" name="lineTextbookTitle">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>30</y>
+          <x>100</x>
+          <y>20</y>
           <width>281</width>
           <height>26</height>
          </rect>
@@ -2272,8 +2275,8 @@
        <widget class="QLabel" name="label_5">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>30</y>
+          <x>20</x>
+          <y>20</y>
           <width>58</width>
           <height>16</height>
          </rect>
@@ -2285,8 +2288,8 @@
        <widget class="QLabel" name="label_6">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>70</y>
+          <x>20</x>
+          <y>60</y>
           <width>58</width>
           <height>16</height>
          </rect>
@@ -2295,21 +2298,21 @@
          <string>ISBN:</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="lineTextbookIsbn">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>70</y>
+          <x>100</x>
+          <y>60</y>
           <width>111</width>
           <height>26</height>
          </rect>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_3">
+       <widget class="QLineEdit" name="lineTextbookAuthor">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>110</y>
+          <x>100</x>
+          <y>100</y>
           <width>111</width>
           <height>26</height>
          </rect>
@@ -2318,8 +2321,8 @@
        <widget class="QLabel" name="label_7">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>110</y>
+          <x>20</x>
+          <y>100</y>
           <width>58</width>
           <height>16</height>
          </rect>
@@ -2328,11 +2331,11 @@
          <string>Author:</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_4">
+       <widget class="QLineEdit" name="lineTextbookPublisher">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>150</y>
+          <x>100</x>
+          <y>140</y>
           <width>151</width>
           <height>26</height>
          </rect>
@@ -2341,8 +2344,8 @@
        <widget class="QLabel" name="label_14">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>150</y>
+          <x>20</x>
+          <y>140</y>
           <width>58</width>
           <height>16</height>
          </rect>
@@ -2351,11 +2354,11 @@
          <string>Publisher:</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="courseManagerYear_2">
+       <widget class="QLineEdit" name="lineTextbookYear">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>190</y>
+          <x>100</x>
+          <y>180</y>
           <width>51</width>
           <height>26</height>
          </rect>
@@ -2382,8 +2385,8 @@
        <widget class="QLabel" name="label_15">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>190</y>
+          <x>20</x>
+          <y>180</y>
           <width>58</width>
           <height>16</height>
          </rect>
@@ -2392,11 +2395,11 @@
          <string>Year:</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_5">
+       <widget class="QLineEdit" name="lineTextbookEdition">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>230</y>
+          <x>100</x>
+          <y>220</y>
           <width>51</width>
           <height>26</height>
          </rect>
@@ -2405,8 +2408,8 @@
        <widget class="QLabel" name="label_16">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>230</y>
+          <x>20</x>
+          <y>220</y>
           <width>58</width>
           <height>16</height>
          </rect>
@@ -2418,8 +2421,8 @@
        <widget class="QLabel" name="label_17">
         <property name="geometry">
          <rect>
-          <x>350</x>
-          <y>270</y>
+          <x>20</x>
+          <y>260</y>
           <width>71</width>
           <height>16</height>
          </rect>
@@ -2428,21 +2431,21 @@
          <string>Description:</string>
         </property>
        </widget>
-       <widget class="QTextBrowser" name="textBrowser">
+       <widget class="QTextBrowser" name="lineTextbookDescription">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>270</y>
+          <x>100</x>
+          <y>260</y>
           <width>281</width>
           <height>91</height>
          </rect>
         </property>
        </widget>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="checkBoxTextbookAvailable">
         <property name="geometry">
          <rect>
-          <x>550</x>
-          <y>370</y>
+          <x>220</x>
+          <y>360</y>
           <width>161</width>
           <height>21</height>
          </rect>
@@ -2451,11 +2454,11 @@
          <string>Available for purchase</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="courseManagerYear_3">
+       <widget class="QLineEdit" name="lineTextbookPrice">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>370</y>
+          <x>100</x>
+          <y>360</y>
           <width>51</width>
           <height>26</height>
          </rect>
@@ -2480,6 +2483,71 @@
         </property>
         <property name="placeholderText">
          <string>Price</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_18">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>20</y>
+          <width>58</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Semester</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_19">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>20</y>
+          <width>58</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Class</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_20">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>360</y>
+          <width>58</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Price:</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnTextbookAddEdit">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>400</y>
+          <width>101</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add Textbook</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnTextbookCancel">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>400</y>
+          <width>71</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Cancel</string>
         </property>
        </widget>
       </widget>

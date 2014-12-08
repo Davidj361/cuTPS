@@ -39,7 +39,7 @@ class MainWindow : public QMainWindow {
         void setServerIP();
         
         void studentSemesterListPopulate();
-        void courseManagerSemesterListPopulate();
+        void populateSemesterList(QListWidget* semesterList);
 
         void clearStudentCourseList();
 
@@ -123,6 +123,20 @@ class MainWindow : public QMainWindow {
         void on_btnManageRemoveChapter_clicked();
 
         void on_btnManageRemoveSection_clicked();
+
+        void on_btnManageAddTextbook_clicked();
+
+        void displayTextbookPage(Textbook *tb = 0);
+
+        void on_btnTextbookCancel_clicked();
+
+        void on_btnTextbookAddEdit_clicked();
+
+        void on_btnManageEditTextbook_clicked();
+
+        void populateClassList(QString semester, QListWidget *list);
+
+        void on_listTextbookTerm_itemClicked(QListWidgetItem *item);
 
 private:
 

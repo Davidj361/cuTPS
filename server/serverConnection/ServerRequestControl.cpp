@@ -11,7 +11,8 @@ ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cD
 }
 
 ServerRequestControl::~ServerRequestControl() {
-    delete in;
+    if(in != 0)
+        delete in;
 }
 
 void ServerRequestControl::run(){
@@ -41,8 +42,8 @@ void ServerRequestControl::run(){
             db->RetrieveContentList(username, list);
 
             serializer->serializeClasses(list, command, *out);
-
-            delete user;
+            if(user != 0)
+                delete user;
 
         }
 
@@ -59,7 +60,8 @@ void ServerRequestControl::run(){
             db->AddTextbooksToClass(cl);
             if(cl->getCourse() == 0)
                 delete cl->getCourse();
-            delete cl;
+            if(cl != 0)
+                delete cl;
 
             serializer->serializeSuccess(command, *out);
 
@@ -76,7 +78,8 @@ void ServerRequestControl::run(){
             if(command == REMOVE_TEXTBOOK)
                 db->DeleteTextbook(tb);
 
-            delete tb;
+            if(tb != 0)
+                delete tb;
 
             serializer->serializeSuccess(command, *out);
 
@@ -98,7 +101,8 @@ void ServerRequestControl::run(){
 
             if(ch->getTextbook() != 0)
                 delete ch->getTextbook();
-            delete ch;
+            if(ch != 0)
+                delete ch;
 
             serializer->serializeSuccess(command, *out);
 
@@ -121,7 +125,8 @@ void ServerRequestControl::run(){
                 delete s->getChapter();
             if(s->getTextbook() != 0)
                 delete s->getTextbook();
-            delete s;
+            if(s != 0)
+                delete s;
 
             serializer->serializeSuccess(command, *out);
 
@@ -136,7 +141,8 @@ void ServerRequestControl::run(){
 
             serializer->serializeUser(*user, LOGIN, *out);
 
-            delete user;
+            if(user != 0)
+                delete user;
 
         }
 
@@ -148,7 +154,8 @@ void ServerRequestControl::run(){
 
             db->DeleteCourse(course);
 
-            delete course;
+            if(course != 0)
+                delete course;
 
             serializer->serializeSuccess(command, *out);
 
@@ -172,7 +179,8 @@ void ServerRequestControl::run(){
 
             if(cl->getCourse() != 0)
                 delete cl->getCourse();
-            delete cl;
+            if(cl != 0)
+                delete cl;
 
         }
 
@@ -183,7 +191,8 @@ void ServerRequestControl::run(){
 
             db->AddInvoice(i);
 
-            delete i;
+            if(i != 0)
+                delete i;
 
             serializer->serializeSuccess(command, *out);
 

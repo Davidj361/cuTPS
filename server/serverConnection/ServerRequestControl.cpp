@@ -2,12 +2,10 @@
 
 using namespace std;
 
-ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cDb) {
+ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cDb) : db(cDb) {
 
     // set the in message
     in = bytes;
-    db = cDb;
-
 }
 
 ServerRequestControl::~ServerRequestControl() {

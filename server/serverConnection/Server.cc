@@ -17,8 +17,7 @@ void Server::start(int port){
     if (listen(QHostAddress::Any, portno))
         qDebug() << "Server is listening";
     else
-       throw std::runtime_error("ERROR: ConnectionServer::ConnectionServer() Unable to start listening");
-
+       throw std::runtime_error("Unable to start server. Port may already be in use by another program, or another instance of cuTPS server is already running.");
 }
 
 void Server::incomingConnection(qintptr sock) {

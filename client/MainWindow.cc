@@ -913,11 +913,11 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
             return;
         }
 
-        Course *course = new Course(ui->listTextbookClass->selectedItems().first()->text(), "");
+        Course course(ui->listTextbookClass->selectedItems().first()->text(), "");
 
-        Class c(ui->listTextbookTerm->selectedItems().first()->text(), course);
+        Class c(ui->listTextbookTerm->selectedItems().first()->text(), &course);
 
-        Textbook *tb = new Textbook(
+        Textbook tb(
                     ui->lineTextbookIsbn->text(),
                     ui->lineTextbookTitle->text(),
                     ui->lineTextbookPublisher->text(),
@@ -929,7 +929,7 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     (float) ui->lineTextbookPrice->text().toDouble()
                     );
 
-        c.addTextbook(tb);
+        c.addTextbook(&tb);
 
         try {
             localStorage.addTextbook(c);

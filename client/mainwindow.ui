@@ -40,9 +40,9 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="Testpage">
+      <widget class="QWidget" name="testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QWidget" name="asdfqwerzxcv" native="true">
@@ -131,7 +131,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="LoginPage">
+      <widget class="QWidget" name="loginPage">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -275,7 +275,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="MainStudent">
+      <widget class="QWidget" name="mainStudent">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>1</horstretch>
@@ -408,7 +408,7 @@
        <zorder>horizontalSpacer_5</zorder>
        <zorder></zorder>
       </widget>
-      <widget class="QWidget" name="CourseManager">
+      <widget class="QWidget" name="courseManager">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>1</horstretch>
@@ -1477,7 +1477,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="ShoppingCartStudent">
+      <widget class="QWidget" name="shoppingCartStudent">
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0" colspan="4">
          <widget class="QListWidget" name="listWidgetShoppingCart"/>
@@ -1527,7 +1527,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="ShoppingCartGatherCreditCardInfo">
+      <widget class="QWidget" name="shoppingCartGatherCreditCardInfo">
        <layout class="QGridLayout" name="gridLayout_8">
         <item row="1" column="1">
          <widget class="QPushButton" name="btnBackToMain">
@@ -2061,7 +2061,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="ContentManagerMain">
+      <widget class="QWidget" name="contentManagerMain">
        <widget class="QPushButton" name="btnManageCourses">
         <property name="geometry">
          <rect>
@@ -2089,7 +2089,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="ContentManagerPage">
+      <widget class="ContentManagerPage" name="contentManagerPage">
        <widget class="QPushButton" name="btnManageAddTextbook">
         <property name="geometry">
          <rect>
@@ -2238,7 +2238,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="ContentManagerTextbookForm">
+      <widget class="QWidget" name="contentManagerTextbookForm">
        <widget class="QListWidget" name="listTextbookTerm">
         <property name="geometry">
          <rect>
@@ -2554,7 +2554,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="ContentManageChapterForm">
+      <widget class="QWidget" name="contentManageChapterForm">
        <widget class="QTextBrowser" name="lineChapterDescription">
         <property name="geometry">
          <rect>
@@ -2711,7 +2711,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="ShoppingCartOrderConfirmed">
+      <widget class="QWidget" name="shoppingCartOrderConfirmed">
        <layout class="QGridLayout" name="gridLayout_9">
         <item row="2" column="2">
          <spacer name="verticalSpacer_3">
@@ -2821,6 +2821,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ContentManagerPage</class>
+   <extends>QWidget</extends>
+   <header>ui/contentManagerPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>UsernameBox</tabstop>
   <tabstop>PasswordBox</tabstop>

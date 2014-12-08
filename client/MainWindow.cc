@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->statusBar->addPermanentWidget(&refreshButton);
     //this->on_BtnLogin_clicked();
 
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->loginPage));
 
     ui->ipAddressTextbox->setText("127.0.0.1");
 
@@ -62,13 +62,13 @@ void MainWindow::refresh() {
         this->popupError(e.what());
     }
     int currIndex = ui->stackedWidget->currentIndex();
-    if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
+    if (currIndex == ui->stackedWidget->indexOf(ui->mainStudent))
         this->studentSemesterListPopulate();
-    else if (currIndex == ui->stackedWidget->indexOf(ui->CourseManager)) {
+    else if (currIndex == ui->stackedWidget->indexOf(ui->courseManager)) {
         this->courseManagerClearLists();
         this->populateSemesterList(ui->courseManagerSemesterList);
     }
-    else if (currIndex == ui->stackedWidget->indexOf(ui->ContentManagerPage)) {
+    else if (currIndex == ui->stackedWidget->indexOf(ui->contentManagerPage)) {
         this->displayManageContent();
     }
 }
@@ -156,7 +156,7 @@ void MainWindow::on_BtnLogin_clicked()
             ui->contentList->clear();
             this->displayMainStudent();
         } else if (userType == QString("content_manager"))
-            ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerMain));
+            ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerMain));
         this->refresh();
     } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());
@@ -290,11 +290,11 @@ bool MainWindow::isStudent() {
 }
 
 void MainWindow::displayCourseManager() {
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->CourseManager));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->courseManager));
 }
 
 void MainWindow::displayMainStudent() {
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->mainStudent));
 }
 
 void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
@@ -482,7 +482,7 @@ void MainWindow::on_btnAddToCart_clicked()
 void MainWindow::on_btnViewCart_clicked()
 {
 
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartStudent));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartStudent));
     QList<Content*> content = shoppingCart.getCartContents();
     foreach(Content * c, content){
         QListWidgetItem* contentListItem = new QListWidgetItem(c->getTitle()+" $"+QString::number(c->getPrice(), 'f', 2));
@@ -505,13 +505,13 @@ void MainWindow::on_btnPreviousPage_clicked()
 {
     this->update_Shopping_Cart_Count();
     ui->listWidgetShoppingCart->clear();
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->mainStudent));
 }
 
 void MainWindow::on_btnCheckout_clicked()
 {
     if (shoppingCart.getCartContents().count() > 0) {
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartGatherCreditCardInfo));
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartGatherCreditCardInfo));
         //TODO delete the following lines after it works
         ui->lineName->setText("h");
         ui->lineEmail->setText("h");
@@ -539,7 +539,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
             return;
         }
     }
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartOrderConfirmed));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartOrderConfirmed));
     try{
         checkout.checkout();
     } catch(std::runtime_error e){
@@ -556,7 +556,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
 
 void MainWindow::on_btnConfirmationMainPage_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->mainStudent));
 }
 
 void MainWindow::on_courseManagerDeleteButton_released()
@@ -640,7 +640,7 @@ void MainWindow::on_actionLogout_triggered()
             MainWindow::clearStudentCourseList();
         }
 
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->loginPage));
         localStorage.cleanup();
     }
     catch (std::runtime_error e) {
@@ -650,7 +650,7 @@ void MainWindow::on_actionLogout_triggered()
 
 void MainWindow::on_btnBackToMain_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->mainStudent));
 }
 
 void MainWindow::displayManageContent(){
@@ -671,7 +671,7 @@ void MainWindow::displayManageContent(){
             ui->listManageTextbooks->addItem( new QListWidgetItem(tb->getTitle()));
     }
 
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerPage));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerPage));
 
 }
 
@@ -886,7 +886,7 @@ void MainWindow::displayTextbookPage(Textbook *tb){
         ui->listTextbookClass->setEnabled(true);
         ui->listTextbookTerm->setEnabled(true);
 
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerTextbookForm));
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerTextbookForm));
 
     }
     else{
@@ -904,7 +904,7 @@ void MainWindow::displayTextbookPage(Textbook *tb){
         ui->btnTextbookAddEdit->setText("Edit Textbook");
         ui->listTextbookClass->setEnabled(false);
         ui->listTextbookTerm->setEnabled(false);
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerTextbookForm));
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerTextbookForm));
 
     }
 
@@ -912,7 +912,7 @@ void MainWindow::displayTextbookPage(Textbook *tb){
 
 void MainWindow::on_btnTextbookCancel_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerPage));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerPage));
 }
 
 void MainWindow::on_btnTextbookAddEdit_clicked()
@@ -1001,7 +1001,7 @@ void MainWindow::on_listTextbookTerm_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_btnChapterCancel_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerPage));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerPage));
 
 }
 
@@ -1018,7 +1018,7 @@ void MainWindow::on_btnManageAddChapter_clicked()
 
 
 
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManageChapterForm));
 
 }
 
@@ -1036,7 +1036,7 @@ void MainWindow::on_btnManageEditChapter_clicked()
         ui->labelContentNumber->setText("Chapter:");
         ui->lineChapterNumber->setText(QString::number(selectedCh->getChapterNo()));
 
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManageChapterForm));
 
     }
 }
@@ -1100,7 +1100,7 @@ void MainWindow::on_btnManageAddSection_clicked()
     ui->btnChapterAddEdit->setText("Add Section");
     ui->labelContentNumber->setText("Section:");
 
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManageChapterForm));
 }
 
 void MainWindow::on_btnManageEditSection_clicked()
@@ -1113,5 +1113,5 @@ void MainWindow::on_btnManageEditSection_clicked()
     ui->btnChapterAddEdit->setText("Edit Section");
     ui->labelContentNumber->setText("Section:");
 
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManageChapterForm));
 }

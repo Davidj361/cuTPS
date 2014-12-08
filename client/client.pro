@@ -30,6 +30,7 @@ SOURCES += main.cc\
     purchase/shoppingCartManagement/shoppingCart.cc \
     ../common/Class.cpp \
     courseManagement/CourseManagement.cc \
+    ui/contentManagerPage.cc \
     textbookManagement/TextbookManagement.cc
 
 HEADERS  += \
@@ -51,6 +52,7 @@ HEADERS  += \
     purchase/shoppingCartManagement/shoppingCart.h \
     ../common/headers/Class.h \
     courseManagement/CourseManagement.h \
+    ui/contentManagerPage.h \
     textbookManagement/TextbookManagement.h
 
 FORMS    += mainwindow.ui

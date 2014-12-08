@@ -70,7 +70,7 @@ void DBController::EditTextbook(Textbook *textbook) {
  **************************************************************************/
 void DBController::DeleteTextbook(Textbook *textbook) {
     try {
-        dbManager->DeleteContent(textbook->getcid());
+        dbManager->DeleteTextbook(textbook->getcid());
         if (DEBUG) qDebug() << "DBController - Deleted Textbook - " << textbook->getTitle();
     }
     catch(std::runtime_error e) {
@@ -120,7 +120,7 @@ void DBController::EditChapter(Chapter *chapter) {
  **************************************************************************/
 void DBController::DeleteChapter(Chapter *chapter) {
     try {
-        dbManager->DeleteContent(chapter->getcid());
+        dbManager->DeleteChapter(chapter->getcid());
         if (DEBUG) qDebug() << "DBController - Deleted Chapter - " << chapter->getChapterNo() << " - " << chapter->getTitle();
     }
     catch(std::runtime_error e) {
@@ -172,7 +172,7 @@ void DBController::EditSection(Section *section) {
  **************************************************************************/
 void DBController::DeleteSection(Section *section) {
     try {
-        dbManager->DeleteContent(section->getcid());
+        dbManager->DeleteSection(section->getcid());
         if (DEBUG) qDebug() << "DBController - Deleted Section - " << section->getSectionNo() << " - " << section->getTitle();
     }
     catch(std::runtime_error e) {

@@ -51,6 +51,15 @@ class DBManager {
         void EditTextbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool availability, float price, int content_id);
 
         /* =====================================================================
+          Function  : DeleteTextbook
+          Purpose   : Deletes a Textbook from the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteTextbook(int content_id);
+
+        /* =====================================================================
           Function  : AddChapter
           Purpose   : Stores a chapter in the DB
           Variables :
@@ -67,6 +76,15 @@ class DBManager {
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
         void EditChapter(QString title, int number, QString textbook, QString description, bool available, float price, int content_id);
+
+        /* =====================================================================
+          Function  : DeleteChapter
+          Purpose   : Deletes a Chapter from the DB
+          Variables :
+          Returns   : void
+          Throws    : Throws runtime_error if there is any error
+        ===================================================================== */
+        void DeleteChapter(int content_id);
 
         /* =====================================================================
           Function  : AddSection
@@ -87,13 +105,13 @@ class DBManager {
         void EditSection(QString title, int number, int chapter, QString textbook, QString description, bool available, float price, int content_id);
 
         /* =====================================================================
-          Function  : DeleteContent
-          Purpose   : Deletes a piece of content from the DB
+          Function  : DeleteSection
+          Purpose   : Deletes a Section from the DB
           Variables :
           Returns   : void
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        void DeleteContent(int content_id);
+        void DeleteSection(int content_id);
 
         /* =====================================================================
           Function  : AddCourse

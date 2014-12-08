@@ -154,6 +154,8 @@ class MainWindow : public QMainWindow {
 
         void on_btnManageAddSection_clicked();
 
+        void on_btnManageEditSection_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

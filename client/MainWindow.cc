@@ -187,7 +187,6 @@ void MainWindow::populateClassList(QString semester, QListWidget *classList){
                         // We will link the actual course
                         QVariant var;
                         var.setValue(c);
-                        // qDebug() << var.value<Class*>()->getCourse()->getCourseTitle();
                         classList->item(classList->count()-1)->setData(Qt::UserRole, var);
                 }
         }
@@ -260,6 +259,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
             }
             foreach (const Section *s, ch->getSections()) {
                 if (s->isAvailable()) {
+                    // FIXME HOLY FUCK WHAT WAS I THINKING? Please change this back
                     QString spaces = "";
                     int length = QString("Ch.:" + QString::number(ch->getChapterNo())).length();
                     for (int i = 0; i < length; i++)

@@ -17,4 +17,14 @@ class ContentManagerPage: public QWidget {
 };
 
 
+/////////////
+// NOTES
+/////////////
+// Each QListWidgetItem in the QListWidgets should
+// have a pointer the corresponding object they hold
+// Either a Textbook*, Course*, Section*
+// This will help avoid overhead with algorithms
+// and prove to be useful for memory management/accessing
+
+
 #endif

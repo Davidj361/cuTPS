@@ -38,7 +38,7 @@ void MainWindow::on_btnManageAddChapter_clicked()
 
 void MainWindow::on_btnManageEditChapter_clicked()
 {
-    Chapter *selectedCh = this->getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters);
+    Chapter *selectedCh = this->getContentManagerSelectedChapter();
     if(selectedCh != 0){
         ui->btnChapterAddEdit->setText("Edit Chapter");
         ui->lineChapterDescription->setText(selectedCh->getDescription());
@@ -60,28 +60,28 @@ void MainWindow::on_btnChapterAddEdit_clicked()
             // edit chapter
             Chapter c(ui->lineChapterTitle->text(),
                       ui->lineChapterNumber->text().toInt(),
-                      getSelectedTextbook(ui->listManageTextbooks),
+                      getContentManagerSelectedTextbook(),
                       ui->lineChapterDescription->toPlainText(),
                       ui->checkBoxChapterAvailable->isChecked(),
                       (float) ui->lineChapterPrice->text().toDouble(),
-                      getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters)->getcid());
+                      getContentManagerSelectedChapter()->getcid());
             localStorage.editChapter(c);
         }
         if(ui->btnChapterAddEdit->text().compare("Edit Section") == 0){
             Section s(ui->lineChapterTitle->text(),
                       ui->lineChapterNumber->text().toInt(),
-                      getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters),
-                      getSelectedTextbook(ui->listManageTextbooks),
+                      getContentManagerSelectedChapter(),
+                      getContentManagerSelectedTextbook(),
                       ui->lineChapterDescription->toPlainText(),
                       ui->checkBoxChapterAvailable->isChecked(),
                       (float) ui->lineChapterPrice->text().toDouble(),
-                      getSelectedSection(ui->listManageTextbooks, ui->listManageChapters, ui->listManageSections)->getcid());
+                      getContentManagerSelectedSection()->getcid());
             localStorage.editSection(s);
         }
         if(ui->btnChapterAddEdit->text().compare("Add Chapter") == 0){
             Chapter c(ui->lineChapterTitle->text(),
                       ui->lineChapterNumber->text().toInt(),
-                      getSelectedTextbook(ui->listManageTextbooks),
+                      getContentManagerSelectedTextbook(),
                       ui->lineChapterDescription->toPlainText(),
                       ui->checkBoxChapterAvailable->isChecked(),
                       (float) ui->lineChapterPrice->text().toDouble());
@@ -90,8 +90,8 @@ void MainWindow::on_btnChapterAddEdit_clicked()
         if(ui->btnChapterAddEdit->text().compare("Add Section") == 0){
             Section s(ui->lineChapterTitle->text(),
                       ui->lineChapterNumber->text().toInt(),
-                      getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters),
-                      getSelectedTextbook(ui->listManageTextbooks),
+                      getContentManagerSelectedChapter(),
+                      getContentManagerSelectedTextbook(),
                       ui->lineChapterDescription->toPlainText(),
                       ui->checkBoxChapterAvailable->isChecked(),
                       (float) ui->lineChapterPrice->text().toDouble());
@@ -117,7 +117,8 @@ void MainWindow::on_btnManageAddSection_clicked()
 
 void MainWindow::on_btnManageEditSection_clicked()
 {
-    Section *s = getSelectedSection(ui->listManageTextbooks, ui->listManageChapters, ui->listManageSections);
+    // CRASH
+    Section *s = getContentManagerSelectedSection();
     ui->lineChapterDescription->setText(s->getDescription());
     ui->lineChapterPrice->setText(QString::number(s->getPrice()));
     ui->lineChapterTitle->setText(s->getTitle());
@@ -232,7 +233,7 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->lineTextbookDescription->toPlainText(),
                     ui->checkBoxTextbookAvailable->isChecked(),
                     (float) ui->lineTextbookPrice->text().toDouble(),
-                    getSelectedTextbook(ui->listManageTextbooks)->getcid());
+                    getContentManagerSelectedTextbook()->getcid());
 
         try {
             localStorage.editTextbook(tb);
@@ -281,8 +282,13 @@ void MainWindow::populateContentManager() {
 
     foreach(Class *cl, classes){
         QList<Textbook*> tbs = cl->getBooklist();
-        foreach(Textbook *tb, tbs)
+        foreach(Textbook *tb, tbs) {
             ui->listManageTextbooks->addItem( new QListWidgetItem(tb->getTitle()));
+            // setData should be used for easier memory management and less overhead
+            QVariant var;
+            var.setValue(tb);
+            ui->listManageTextbooks->item(ui->listManageTextbooks->count()-1)->setData(Qt::UserRole, var);
+        }
     }
 }
 
@@ -319,6 +325,9 @@ void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
         ui->listManageSections->clear();
         foreach(Chapter *ch, selectedTb->getChapters()){
             ui->listManageChapters->addItem( new QListWidgetItem(ch->getTitle()));
+            QVariant var;
+            var.setValue(ch);
+            ui->listManageChapters->item(ui->listManageChapters->count()-1)->setData(Qt::UserRole, var);
         }
     }
 
@@ -330,10 +339,14 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
     ui->listManageSections->clear();
 
     try{
-        Chapter* selectedCh = this->getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters);
+        Chapter* selectedCh = this->getContentManagerSelectedChapter();
         if(selectedCh != 0){
-            foreach(Section *s, selectedCh->getSections())
+            foreach(Section *s, selectedCh->getSections()) {
                 ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+                QVariant var;
+                var.setValue(s);
+                ui->listManageSections->item(ui->listManageSections->count()-1)->setData(Qt::UserRole, var);
+            }
         }
     } catch (std::runtime_error e){
         this->popupError(e.what());
@@ -343,41 +356,86 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 
 }
 
-Textbook* MainWindow::getSelectedTextbook(QListWidget *tblist){
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
+Textbook* MainWindow::getContentManagerSelectedTextbook() {
+    QListWidgetItem* item = ui->listManageTextbooks->currentItem();
+    if (item != 0) {
+        return item->data(Qt::UserRole).value<Textbook*>();
     }
-    int tbIndex = tblist->currentRow();
-    if(tbIndex >= 0){
-        return tbs.at(tbIndex);
-    }
+
+    // QList<Class*> classes = localStorage.getClasses();
+    // QList<Textbook*> tbs;
+    // foreach(Class *cl, classes){
+    //     tbs.append( cl->getBooklist() );
+    // }
+    // int tbIndex = tblist->currentRow();
+    // if(tbIndex >= 0){
+    //     return tbs.at(tbIndex);
+    // }
 
     return 0;
 }
 
-Chapter* MainWindow::getSelectedChapter(QListWidget * tblist, QListWidget * chList){
-    QList<Class*> classes;
-    try {
-        classes = localStorage.getClasses();
-    }
-    catch (std::runtime_error e) {
-        throw e;
+Chapter* MainWindow::getContentManagerSelectedChapter() {
+    QListWidgetItem* item = ui->listManageChapters->currentItem();
+    if (item != 0) {
+        return item->data(Qt::UserRole).value<Chapter*>();
     }
 
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
+    // QList<Class*> classes;
+    // try {
+    //     classes = localStorage.getClasses();
+    // }
+    // catch (std::runtime_error e) {
+    //     throw e;
+    // }
+
+    // QList<Textbook*> tbs;
+    // foreach(Class *cl, classes){
+    //     tbs.append( cl->getBooklist() );
+    // }
+    // int tbIndex = tblist->currentRow();
+    // if(tbIndex >= 0){
+    //     Textbook *selectedTb = tbs.at(tbIndex);
+    //     int chIndex = chList->currentRow();
+    //     if(chIndex >= 0){
+    //         return selectedTb->getChapters().at(chIndex);
+    //     }
+    // }
+    return 0;
+}
+
+// This function needs to use setData
+Section * MainWindow::getContentManagerSelectedSection() {
+
+    QListWidgetItem* item = ui->listManageSections->currentItem();
+    if (item != 0) {
+        return item->data(Qt::UserRole).value<Section*>();
     }
-    int tbIndex = tblist->currentRow();
-    if(tbIndex >= 0){
-        Textbook *selectedTb = tbs.at(tbIndex);
-        int chIndex = chList->currentRow();
-        if(chIndex >= 0){
-            return selectedTb->getChapters().at(chIndex);
-        }
-    }
+ 
+    // Yeahh... naaaaaaah
+    // try {
+
+    //     QList<Class*> classes = localStorage.getClasses();
+    //     QList<Textbook*> tbs;
+    //     foreach(Class *cl, classes){
+    //         tbs.append( cl->getBooklist() );
+    //     }
+    //     int tbIndex = tblist->currentRow();
+    //     if(tbIndex >= 0){
+    //         Textbook *selectedTb = tbs.at(tbIndex);
+    //         int chIndex = chlist->currentRow();
+    //         if(chIndex >= 0){
+    //             Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+    //             int secIndex = secList->currentRow();
+    //             if(secIndex >= 0){
+    //                 return selectedCh->getSections().at(secIndex);
+    //             }
+    //         }
+    //     }
+    // }
+    // catch (std::runtime_error e) {
+    //     throw e;
+    // }
     return 0;
 }
 
@@ -432,7 +490,7 @@ void MainWindow::on_btnManageRemoveSection_clicked()
 {
     try {
 
-        Section *selectedSec = this->getSelectedSection(ui->listManageTextbooks, ui->listManageChapters, ui->listManageSections);
+        Section *selectedSec = this->getContentManagerSelectedSection();
 
         localStorage.deleteSection(*selectedSec);
 
@@ -444,28 +502,6 @@ void MainWindow::on_btnManageRemoveSection_clicked()
     }
 }
 
-Section * MainWindow::getSelectedSection(QListWidget *tblist, QListWidget *chlist, QListWidget *secList){
-    try {
-        QList<Class*> classes = localStorage.getClasses();
-        QList<Textbook*> tbs;
-        foreach(Class *cl, classes){
-            tbs.append( cl->getBooklist() );
-        }
-        int tbIndex = tblist->currentRow();
-        if(tbIndex >= 0){
-            Textbook *selectedTb = tbs.at(tbIndex);
-            int chIndex = chlist->currentRow();
-            if(chIndex >= 0){
-                Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-                int secIndex = secList->currentRow();
-                if(secIndex >= 0){
-                    return selectedCh->getSections().at(secIndex);
-                }
-            }
-        }
-    }
-    catch (std::runtime_error e) {
-        throw e;
-    }
-    return 0;
-}
+
+// Keywords
+// CRASH setData HERE

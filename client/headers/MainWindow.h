@@ -150,12 +150,14 @@ class MainWindow : public QMainWindow {
         void on_btnManageAddChapter_clicked();
 
 
-        Chapter* getSelectedChapter(QListWidget * tblist, QListWidget * chList);
         void on_btnManageEditChapter_clicked();
 
         void on_btnChapterAddEdit_clicked();
-        Section *getSelectedSection(QListWidget *tblist, QListWidget *chlist, QListWidget *secList);
-        Textbook* getSelectedTextbook(QListWidget *tblist);
+
+        // For helping to retrieve objects in the content managing page
+        Section *getContentManagerSelectedSection();
+        Chapter* getContentManagerSelectedChapter();
+        Textbook* getContentManagerSelectedTextbook();
 
         void on_btnManageAddSection_clicked();
 

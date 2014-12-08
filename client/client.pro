@@ -56,3 +56,5 @@ HEADERS  += \
     textbookManagement/TextbookManagement.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES +=

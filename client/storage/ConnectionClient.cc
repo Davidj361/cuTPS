@@ -1,6 +1,6 @@
 #include "ConnectionClient.h"
 
-ConnectionClient::ConnectionClient(QString *IPADDR, QObject *parent): QObject(parent) {
+ConnectionClient::ConnectionClient( QString *IPADDR, QObject *parent ): QObject(parent) {
 
     serverAddr = IPADDR;
     qDebug()<<*serverAddr;
@@ -13,10 +13,9 @@ ConnectionClient::ConnectionClient(QString *IPADDR, QObject *parent): QObject(pa
 
     sock->connectToHost(*serverAddr, portno);
 
-
 }
 
-ConnectionClient::ConnectionClient(QString *IPADDR, int PORT, QObject *parent) : QObject(parent) {
+ConnectionClient::ConnectionClient( QString *IPADDR, int PORT, QObject *parent ) : QObject(parent) {
 
     serverAddr = IPADDR;
     portno = PORT;
@@ -31,12 +30,14 @@ ConnectionClient::ConnectionClient(QString *IPADDR, int PORT, QObject *parent) :
 }
 
 ConnectionClient::~ConnectionClient() {
+
     sock->close();
     sock->disconnectFromHost();
     delete sock;
+
 }
 
-void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
+void ConnectionClient::request( QByteArray &inStr, QByteArray &outStr ) {
 
 
     // Test if still connected, if not try to connect again
@@ -47,7 +48,7 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
             throw std::runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
         }
     }
-    qDebug()<<inStr;
+
     if (sock->isValid() && sock->isWritable()) {
         if (sock->write(inStr) < 0)
             throw std::runtime_error("ERROR: ConnectionClient::request(), could not write request");
@@ -56,19 +57,16 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
         sock->abort();
         return;
     }
+
     /*  Recieve response from the server  */
     if (sock->isValid() && sock->isReadable()) {
         sock->waitForReadyRead(-1);
         QString inSize = sock->readLine();
-        qDebug() << inSize;
-        qDebug() << inSize.toInt();
         if (inSize.toInt() < 0)
             throw std::runtime_error("ERROR: ConnectionClient::request(), invalid message size");
         while (outStr.size() < inSize.toInt()) {
             outStr.append(sock->readLine());
         }
-        qDebug() << outStr;
-
     }
     else {
         sock->abort();
@@ -78,7 +76,7 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
 
 }
 
-void ConnectionClient::displayNetworkError(QAbstractSocket::SocketError socketError) {
+void ConnectionClient::displayNetworkError( QAbstractSocket::SocketError socketError ) {
 
     QString error = "";
     sock->abort();
@@ -101,4 +99,5 @@ void ConnectionClient::displayNetworkError(QAbstractSocket::SocketError socketEr
     }
 
     emit this->ConnectionError(error);
+
 }

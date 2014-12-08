@@ -22,8 +22,20 @@ class StorageControl : public QObject {
 
         ~StorageControl();
 
+        /* =====================================================================
+           Function  : setip
+           Purpose   : create a new connection with this ip
+           Variables : In  -  the ip
+           Returns   : void
+          ===================================================================== */
         void setIP(QString);
 
+        /* =====================================================================
+           Functions : add edit remove
+           Purpose   : update the server
+           Variables : In  -  what is being changed
+           Returns   : void
+          ===================================================================== */
         void addTextbook(Class&) const;
         void editTextbook(Textbook&) const;
         void removeTextbook(Textbook&) const;
@@ -45,6 +57,12 @@ class StorageControl : public QObject {
         void checkout(Invoice&) const;
         void refreshContent(User&, QList<Class*>&) const;
 
+        /* =====================================================================
+           Function  : logIn
+           Purpose   : try to login as this user
+           Variables : In  -  the user
+           Returns   : void
+          ===================================================================== */
         void logIn(User&) const;
 
 

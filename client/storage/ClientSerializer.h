@@ -23,33 +23,43 @@ class ClientSerializer {
     public:
 
         /* =====================================================================
-        // Function  : Deserialize
-        // Purpose   : Deserializes a request
-        // Variables : In  - The raw data from the Connection class
-        //             Out - The deserialized object
-        // Returns   : The command to be performed
-        ===================================================================== */
-        // Added 2 string arguments for ISBN/username and possible chapter/section #
-
-        //commands_t Deserialize(const QByteArray &, void *&, QString &, QString &) const;
-
-        /* =====================================================================
-        // Function  : Serialize
-        // Purpose   : Deserializes a request
-        // Variables : In  - The command that was performed
-        //             In  - The object to serialize
-        //             In  - The outcome of the operation (1 = Success, 0 = Fail)
-        // Returns   : The serialized object to send to the connection class
-        // ===================================================================== */
+           Function  : Serialize
+           Purpose   : serializes a request into a byte array
+           Variables : In  -  A serializable object
+                       In  -  The the command for the server
+                       In  -  A QByteArray containing the message
+           Returns   : void
+          ===================================================================== */
         void serialize(Serializable&, commands_t, QByteArray&) const;
 
+        /* =====================================================================
+           Function  : deserialize
+           Purpose   : deserialize a success message
+           Variables : In  -  a message success or fail
+           Returns   : void if success, throws exception if fail
+          ===================================================================== */
         void deserialize(QByteArray&);
+
+        /* =====================================================================
+           Function  : deserialize
+           Purpose   : deserialize a list of classes
+           Variables : In  -  the message
+                       Out -  a list of classes
+           Returns   : void
+          ===================================================================== */
         void deserialize(QByteArray&, QList<Class*>&);
+
+        /* =====================================================================
+           Function  : deserialize
+           Purpose   : deserialize a user
+           Variables : In  -  the message
+                       Out -  user
+           Returns   : void
+          ===================================================================== */
         void deserialize(QByteArray&, User&);
 
     private:
 
-        void createCourse(QJsonObject &, Course *&);
         void createTextbook(const QJsonObject &, Textbook *&) const;
         void createChapter(QJsonObject &, Chapter *&, Textbook*&);
         void createSection(const QJsonObject &json, Section *&newSection, Chapter *&parentCh, Textbook *&parentTb);

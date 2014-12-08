@@ -35,11 +35,13 @@ class MainWindow : public QMainWindow {
 
     private slots:
 
-        void clearList();
-        void setServerIP();
-        
         void studentSemesterListPopulate();
         void populateSemesterList(QListWidget* semesterList);
+
+        // Needed for D4
+        void setServerIP();
+
+        void listManageClear();
 
         void clearStudentCourseList();
 

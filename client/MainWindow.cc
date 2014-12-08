@@ -54,19 +54,30 @@ void MainWindow::popupError(const QString& error) {
         QMessageBox message(QMessageBox::Critical, "Error", error);
         message.exec();
 }
+
 void MainWindow::refresh() {
-        try {
-                localStorage.refresh();
-        } catch(std::runtime_error e) {
-                this->popupError(e.what());
-        }
-        int currIndex = ui->stackedWidget->currentIndex();
-        if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
-                this->studentSemesterListPopulate();
-        else if (currIndex == ui->stackedWidget->indexOf(ui->CourseManager)) {
-                this->courseManagerClearLists();
-                this->populateSemesterList(ui->courseManagerSemesterList);
-        }
+    try {
+        localStorage.refresh();
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
+    }
+    int currIndex = ui->stackedWidget->currentIndex();
+    if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
+        this->studentSemesterListPopulate();
+    else if (currIndex == ui->stackedWidget->indexOf(ui->CourseManager)) {
+        this->courseManagerClearLists();
+        this->populateSemesterList(ui->courseManagerSemesterList);
+    }
+    else if (currIndex == ui->stackedWidget->indexOf(ui->ContentManagerPage)) {
+        this->displayManageContent();
+    }
+}
+
+
+void MainWindow::listManageClear() {
+    ui->listManageChapters->clear();
+    ui->listManageSections->clear();
+    ui->listManageTextbooks->clear();
 }
 
 void MainWindow::courseManagerClearLists() {
@@ -76,10 +87,6 @@ void MainWindow::courseManagerClearLists() {
         ui->courseManagerAddCourseTitle->setText("");
         ui->courseManagerAddCourseCode->setText("");
         ui->courseManagerYear->setText("");
-}
-
-void MainWindow::clearList() {
-    ui->resultsListWidget->clear();
 }
 
 void MainWindow::setServerIP() {
@@ -648,9 +655,7 @@ void MainWindow::on_btnBackToMain_clicked()
 
 void MainWindow::displayManageContent(){
 
-    ui->listManageChapters->clear();
-    ui->listManageSections->clear();
-    ui->listManageTextbooks->clear();
+    this->listManageClear();
 
     QList<Class*> classes;
     try {

@@ -5,36 +5,36 @@
 #include <QStackedWidget>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow),
-                                          refreshIcon("../resources/refresh.png"), refreshButton(refreshIcon, ""),
-                                          localStorage(storageControl), checkout(storageControl, shoppingCart, localStorage) {
-    ui->setupUi(this);
+    refreshIcon("../resources/refresh.png"), refreshButton(refreshIcon, ""),
+    localStorage(storageControl), checkout(storageControl, shoppingCart, localStorage) {
+        ui->setupUi(this);
 
-    /*  Set Background Image  */
-    /*
-    QPalette* palette = new QPalette();
-    palette->setBrush(QPalette::Background,*(new QBrush(*(new QPixmap("images/red.jpg")))));
-    setPalette(*palette);
-    */
+        /*  Set Background Image  */
+        /*
+           QPalette* palette = new QPalette();
+           palette->setBrush(QPalette::Background,*(new QBrush(*(new QPixmap("images/red.jpg")))));
+           setPalette(*palette);
+           */
 
-    ui->UsernameBox->setText("bruce");
-    ui->PasswordBox->setText("password");
+        ui->UsernameBox->setText("bruce");
+        ui->PasswordBox->setText("password");
 
-    ui->UsernameBox->setFocus();
+        ui->UsernameBox->setFocus();
 
 
-    // Add a clickable icon to the status bar to it's far right
-    ui->statusBar->addPermanentWidget(&refreshButton);
-    //this->on_BtnLogin_clicked();
+        // Add a clickable icon to the status bar to it's far right
+        ui->statusBar->addPermanentWidget(&refreshButton);
+        //this->on_BtnLogin_clicked();
 
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
 
-    ui->ipAddressTextbox->setText("127.0.0.1");
+        ui->ipAddressTextbox->setText("127.0.0.1");
 
-    portno = 60001;
+        portno = 60001;
 
-    // For when the user clicks the refresh button
-    connect(&refreshButton, SIGNAL(clicked(bool)), this, SLOT(refresh()));
-}
+        // For when the user clicks the refresh button
+        connect(&refreshButton, SIGNAL(clicked(bool)), this, SLOT(refresh()));
+    }
 
 MainWindow::~MainWindow() {
     for (int i = 0; i < ui->resultsListWidget->count(); i++)
@@ -47,35 +47,35 @@ void MainWindow::scrollDown() {
 }
 
 void MainWindow::popupWarning(const QString& info) {
-        QMessageBox message(QMessageBox::Warning, "Warning", info);
-        message.exec();
+    QMessageBox message(QMessageBox::Warning, "Warning", info);
+    message.exec();
 }
 void MainWindow::popupError(const QString& error) {
-        QMessageBox message(QMessageBox::Critical, "Error", error);
-        message.exec();
+    QMessageBox message(QMessageBox::Critical, "Error", error);
+    message.exec();
 }
 void MainWindow::refresh() {
-        try {
-                localStorage.refresh();
-        } catch(std::runtime_error e) {
-                this->popupError(e.what());
-        }
-        int currIndex = ui->stackedWidget->currentIndex();
-        if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
-                this->studentSemesterListPopulate();
-        else if (currIndex == ui->stackedWidget->indexOf(ui->CourseManager)) {
-                this->courseManagerClearLists();
-                this->courseManagerSemesterListPopulate();
-        }
+    try {
+        localStorage.refresh();
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
+    }
+    int currIndex = ui->stackedWidget->currentIndex();
+    if (currIndex == ui->stackedWidget->indexOf(ui->MainStudent))
+        this->studentSemesterListPopulate();
+    else if (currIndex == ui->stackedWidget->indexOf(ui->CourseManager)) {
+        this->courseManagerClearLists();
+        this->courseManagerSemesterListPopulate();
+    }
 }
 
 void MainWindow::courseManagerClearLists() {
-        ui->courseManagerSemesterList->clear();
-        ui->courseManagerCourseList->clear();
-        ui->courseManagerCourseTitle->clear();
-        ui->courseManagerAddCourseTitle->setText("");
-        ui->courseManagerAddCourseCode->setText("");
-        ui->courseManagerYear->setText("");
+    ui->courseManagerSemesterList->clear();
+    ui->courseManagerCourseList->clear();
+    ui->courseManagerCourseTitle->clear();
+    ui->courseManagerAddCourseTitle->setText("");
+    ui->courseManagerAddCourseCode->setText("");
+    ui->courseManagerYear->setText("");
 }
 
 void MainWindow::clearList() {
@@ -93,18 +93,26 @@ void MainWindow::displayError(QString error) {
 
 void MainWindow::courseManagerSemesterListPopulate() {
     ui->courseManagerSemesterList->clear();
-    foreach (const Class* c, localStorage.getClasses()) {
+    try {
+        foreach (const Class* c, localStorage.getClasses()) {
             if (ui->courseManagerSemesterList->findItems(c->getSemester(), Qt::MatchExactly).empty())
-                    ui->courseManagerSemesterList->addItem(c->getSemester());
+                ui->courseManagerSemesterList->addItem(c->getSemester());
+        }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
 }
 
 void MainWindow::studentSemesterListPopulate() {
     ui->semesterList->clear();
-    for (int i=0; i < localStorage.getClasses().size(); i++ ){
-        const Class* tempclass = localStorage.getClasses().at(i);
-        if (ui->semesterList->findItems(tempclass->getSemester(), Qt::MatchExactly).empty())
+    try {
+        for (int i=0; i < localStorage.getClasses().size(); i++ ){
+            const Class* tempclass = localStorage.getClasses().at(i);
+            if (ui->semesterList->findItems(tempclass->getSemester(), Qt::MatchExactly).empty())
                 ui->semesterList->addItem(tempclass->getSemester());
+        }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
 }
 
@@ -130,12 +138,13 @@ void MainWindow::on_BtnLogin_clicked()
         storageControl.setIP(ui->ipAddressTextbox->text());
         localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
         ui->loginStatus->setText(localStorage.getUser().getUsername());
-        
+
         // TODO Have a proper standard through the whole system to identify between user account types
         // Check if the user is a student or an admin/content manager
         const QString userType(localStorage.getUser().getType());
         if (userType == QString("student")) {
             this->update_Shopping_Cart_Count();
+            // TODO Make clearing info for MainStudent as a function
             ui->contentList->clear();
             this->displayMainStudent();
         } else if (userType == QString("content_manager"))
@@ -153,27 +162,27 @@ void MainWindow::on_BtnLogin_clicked()
 void MainWindow::on_courseManagerSemesterList_itemPressed(QListWidgetItem *item)
 {
 
-        const QString semester = item->text();
-        ui->courseManagerCourseList->clear();
-        // Add all the courses for our currently selected semester
-        foreach (Class* c, localStorage.getClasses()) {
-                if (c->getSemester() == semester) {
-                        ui->courseManagerCourseList->addItem(c->getCourse()->getCourseCode());
-                        // const QString* title = &c->getCourse()->getCourseTitle();
-                        // ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
-                        // We will link the actual course
-                        QVariant var;
-                        var.setValue(c);
-                        // qDebug() << var.value<Class*>()->getCourse()->getCourseTitle();
-                        ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, var);
-                }
+    const QString semester = item->text();
+    ui->courseManagerCourseList->clear();
+    // Add all the courses for our currently selected semester
+    foreach (Class* c, localStorage.getClasses()) {
+        if (c->getSemester() == semester) {
+            ui->courseManagerCourseList->addItem(c->getCourse()->getCourseCode());
+            // const QString* title = &c->getCourse()->getCourseTitle();
+            // ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
+            // We will link the actual course
+            QVariant var;
+            var.setValue(c);
+            // qDebug() << var.value<Class*>()->getCourse()->getCourseTitle();
+            ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, var);
         }
+    }
 }
 
 void MainWindow::on_courseManagerCourseList_itemPressed(QListWidgetItem *item)
 {
-        ui->courseManagerCourseTitle->clear();
-        ui->courseManagerCourseTitle->setText(item->data(Qt::UserRole).value<Class*>()->getCourse()->getCourseTitle());
+    ui->courseManagerCourseTitle->clear();
+    ui->courseManagerCourseTitle->setText(item->data(Qt::UserRole).value<Class*>()->getCourse()->getCourseTitle());
 }
 
 // For when an item is selected in the semester list on the student main page
@@ -197,23 +206,23 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
     const QList<Textbook*> *studentContent = localStorage.getTextbooks(item->text());
     foreach (const Textbook *t, *studentContent) {
         if (t->isAvailable()) {
-            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? "" : (" : $" + QString::number(t->getPrice(), 'f', 2) ) ) );
+            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? (" : $" + QString::number(t->getPrice(), 'f', 2) ) : "" ) );
             if (t->isAvailable()) {
-                    textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
-                    textbookListItem->setCheckState(Qt::Unchecked);
+                textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
+                textbookListItem->setCheckState(Qt::Unchecked);
             } else {
-                    textbookListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                textbookListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             }
             ui->contentList->addItem(textbookListItem);
         }
         foreach (const Chapter *ch, t->getChapters()) {
             if (ch->isAvailable()) {
-                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? "" : (" : $" + QString::number(ch->getPrice(), 'f', 2) ) ) );
+                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? (" : $" + QString::number(ch->getPrice(), 'f', 2) ) : "" ) );
                 if (ch->isAvailable()) {
-                        chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
-                        chapterListItem->setCheckState(Qt::Unchecked);
+                    chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
+                    chapterListItem->setCheckState(Qt::Unchecked);
                 } else {
-                        chapterListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                    chapterListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
                 }
                 ui->contentList->addItem(chapterListItem);
             }
@@ -222,14 +231,14 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
                     QString spaces = "";
                     int length = QString("Ch.:" + QString::number(ch->getChapterNo())).length();
                     for (int i = 0; i < length; i++)
-                            spaces += " ";
+                        spaces += " ";
                     spaces += spaces;
-                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QString::number(s->getPrice(), 'f', 2) ) ));
+                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? (" : $" + QString::number(s->getPrice(), 'f', 2) ) : "" ));
                     if (s->isAvailable()) {
-                            sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
-                            sectionListItem->setCheckState(Qt::Unchecked);
+                        sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
+                        sectionListItem->setCheckState(Qt::Unchecked);
                     } else {
-                            sectionListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                        sectionListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
                     }
                     ui->contentList->addItem(sectionListItem);
                 }
@@ -257,101 +266,103 @@ void MainWindow::displayMainStudent() {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 
-void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
-{
-
-    const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
-    int count = 0;
-    int index = ui->contentList->currentRow();
-    // FIXME count seems a little sketchy here, make sure it's not bugging out
-    foreach (const Textbook *t, *studentContent) {
-        if (count == index) {
-            ui->courseDescription->setFontUnderline(true);
-            ui->courseDescription->setText("Title");
-            ui->courseDescription->setFontUnderline(false);
-            ui->courseDescription->append(t->getTitle() + ": " + QString::number(t->getYear()));
-            if (t->getEdition().length() > 0 ) {
-                ui->courseDescription->setFontUnderline(true);
-                ui->courseDescription->append("\nEdition");
-                ui->courseDescription->setFontUnderline(false);
-                ui->courseDescription->append(t->getEdition());
-            }
-            ui->courseDescription->setFontUnderline(true);
-            ui->courseDescription->append("\nPublisher");
-            ui->courseDescription->setFontUnderline(false);
-            ui->courseDescription->append(t->getPublisher());
-            ui->courseDescription->setFontUnderline(true);
-            ui->courseDescription->append("\nAuthor");
-            ui->courseDescription->setFontUnderline(false);
-            ui->courseDescription->append(t->getAuthor());
-            ui->courseDescription->setFontUnderline(true);
-            ui->courseDescription->append("\nISBN");
-            ui->courseDescription->setFontUnderline(false);
-            ui->courseDescription->append(t->getISBN());
-            if (t->isAvailable()) {
-                ui->courseDescription->setFontUnderline(true);
-                ui->courseDescription->append("\nPrice ");
-                ui->courseDescription->setFontUnderline(false);
-                ui->courseDescription->append("$" + QString::number(t->getPrice(), 'f', 2));
-            }
-            ui->courseDescription->setFontUnderline(true);
-            ui->courseDescription->append("\nDescription");
-            ui->courseDescription->setFontUnderline(false);
-            ui->courseDescription->append("\n" + t->getDescription());
-            count++;
-            break;
-        }
-        count++;
-        foreach (const Chapter *ch, t->getChapters()) {
+void MainWindow::on_contentList_itemClicked(QListWidgetItem *item) {
+    try {
+        const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+        int count = 0;
+        int index = ui->contentList->currentRow();
+        // FIXME count seems a little sketchy here, make sure it's not bugging out
+        foreach (const Textbook *t, *studentContent) {
             if (count == index) {
                 ui->courseDescription->setFontUnderline(true);
-                ui->courseDescription->setText("Chapter #");
+                ui->courseDescription->setText("Title");
                 ui->courseDescription->setFontUnderline(false);
-                ui->courseDescription->append(QString::number(ch->getChapterNo()));
+                ui->courseDescription->append(t->getTitle() + ": " + QString::number(t->getYear()));
+                if (t->getEdition().length() > 0 ) {
+                    ui->courseDescription->setFontUnderline(true);
+                    ui->courseDescription->append("\nEdition");
+                    ui->courseDescription->setFontUnderline(false);
+                    ui->courseDescription->append(t->getEdition());
+                }
                 ui->courseDescription->setFontUnderline(true);
-                ui->courseDescription->append("\nTitle");
+                ui->courseDescription->append("\nPublisher");
                 ui->courseDescription->setFontUnderline(false);
-                ui->courseDescription->append(ch->getTitle());
-                if (ch->isAvailable()) {
+                ui->courseDescription->append(t->getPublisher());
+                ui->courseDescription->setFontUnderline(true);
+                ui->courseDescription->append("\nAuthor");
+                ui->courseDescription->setFontUnderline(false);
+                ui->courseDescription->append(t->getAuthor());
+                ui->courseDescription->setFontUnderline(true);
+                ui->courseDescription->append("\nISBN");
+                ui->courseDescription->setFontUnderline(false);
+                ui->courseDescription->append(t->getISBN());
+                if (t->isAvailable()) {
                     ui->courseDescription->setFontUnderline(true);
                     ui->courseDescription->append("\nPrice ");
                     ui->courseDescription->setFontUnderline(false);
-                    ui->courseDescription->append("$" + QString::number(ch->getPrice(), 'f', 2));
+                    ui->courseDescription->append("$" + QString::number(t->getPrice(), 'f', 2));
                 }
                 ui->courseDescription->setFontUnderline(true);
                 ui->courseDescription->append("\nDescription");
                 ui->courseDescription->setFontUnderline(false);
-                ui->courseDescription->append("\n" + ch->getDescription());
+                ui->courseDescription->append("\n" + t->getDescription());
                 count++;
                 break;
             }
             count++;
-            foreach (const Section *s, ch->getSections()) {
+            foreach (const Chapter *ch, t->getChapters()) {
                 if (count == index) {
                     ui->courseDescription->setFontUnderline(true);
-                    ui->courseDescription->setText("Section #");
+                    ui->courseDescription->setText("Chapter #");
                     ui->courseDescription->setFontUnderline(false);
-                    ui->courseDescription->append(QString::number(s->getSectionNo()));
+                    ui->courseDescription->append(QString::number(ch->getChapterNo()));
                     ui->courseDescription->setFontUnderline(true);
                     ui->courseDescription->append("\nTitle");
                     ui->courseDescription->setFontUnderline(false);
-                    ui->courseDescription->append(s->getTitle());
+                    ui->courseDescription->append(ch->getTitle());
                     if (ch->isAvailable()) {
-                            ui->courseDescription->setFontUnderline(true);
-                            ui->courseDescription->append("\nPrice ");
-                            ui->courseDescription->setFontUnderline(false);
-                            ui->courseDescription->append("$" + QString::number(s->getPrice(), 'f', 2));
+                        ui->courseDescription->setFontUnderline(true);
+                        ui->courseDescription->append("\nPrice ");
+                        ui->courseDescription->setFontUnderline(false);
+                        ui->courseDescription->append("$" + QString::number(ch->getPrice(), 'f', 2));
                     }
                     ui->courseDescription->setFontUnderline(true);
                     ui->courseDescription->append("\nDescription");
                     ui->courseDescription->setFontUnderline(false);
-                    ui->courseDescription->append("\n" + s->getDescription());
+                    ui->courseDescription->append("\n" + ch->getDescription());
                     count++;
                     break;
                 }
                 count++;
+                foreach (const Section *s, ch->getSections()) {
+                    if (count == index) {
+                        ui->courseDescription->setFontUnderline(true);
+                        ui->courseDescription->setText("Section #");
+                        ui->courseDescription->setFontUnderline(false);
+                        ui->courseDescription->append(QString::number(s->getSectionNo()));
+                        ui->courseDescription->setFontUnderline(true);
+                        ui->courseDescription->append("\nTitle");
+                        ui->courseDescription->setFontUnderline(false);
+                        ui->courseDescription->append(s->getTitle());
+                        if (ch->isAvailable()) {
+                            ui->courseDescription->setFontUnderline(true);
+                            ui->courseDescription->append("\nPrice ");
+                            ui->courseDescription->setFontUnderline(false);
+                            ui->courseDescription->append("$" + QString::number(s->getPrice(), 'f', 2));
+                        }
+                        ui->courseDescription->setFontUnderline(true);
+                        ui->courseDescription->append("\nDescription");
+                        ui->courseDescription->setFontUnderline(false);
+                        ui->courseDescription->append("\n" + s->getDescription());
+                        count++;
+                        break;
+                    }
+                    count++;
+                }
             }
         }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
 }
 
@@ -378,21 +389,11 @@ void MainWindow::on_btnAddToCart_clicked()
         ri++;
     }
 
-    const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
-    foreach (const Textbook *t, *studentContent) {
-        if (count == index && index >= 0) {
-            shoppingCart.addToCart(t);
-            if ( selectedItems.size() > ri ) {
-                index = selectedItems.at(ri);
-                ri++;
-            }
-            else
-                index = -1;
-        }
-        count++;
-        foreach (const Chapter *ch, t->getChapters()) {
+    try {
+        const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+        foreach (const Textbook *t, *studentContent) {
             if (count == index && index >= 0) {
-                shoppingCart.addToCart(ch);
+                shoppingCart.addToCart(t);
                 if ( selectedItems.size() > ri ) {
                     index = selectedItems.at(ri);
                     ri++;
@@ -401,10 +402,9 @@ void MainWindow::on_btnAddToCart_clicked()
                     index = -1;
             }
             count++;
-            foreach (const Section *s, ch->getSections()) {
+            foreach (const Chapter *ch, t->getChapters()) {
                 if (count == index && index >= 0) {
-                    shoppingCart.addToCart(s);
-
+                    shoppingCart.addToCart(ch);
                     if ( selectedItems.size() > ri ) {
                         index = selectedItems.at(ri);
                         ri++;
@@ -413,8 +413,23 @@ void MainWindow::on_btnAddToCart_clicked()
                         index = -1;
                 }
                 count++;
+                foreach (const Section *s, ch->getSections()) {
+                    if (count == index && index >= 0) {
+                        shoppingCart.addToCart(s);
+
+                        if ( selectedItems.size() > ri ) {
+                            index = selectedItems.at(ri);
+                            ri++;
+                        }
+                        else
+                            index = -1;
+                    }
+                    count++;
+                }
             }
         }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
     this->update_Shopping_Cart_Count();
 }
@@ -525,28 +540,28 @@ void MainWindow::on_courseManagerAddButton_released() {
     const QString courseTitle(ui->courseManagerAddCourseTitle->text());
 
     if (year.contains(" ")) {
-            this->popupWarning("You have spaces in the year.");
-            return;
+        this->popupWarning("You have spaces in the year.");
+        return;
     }
     else if (year.length() < 4) {
-            this->popupWarning("You didn't write 4 digits for the year.");
-            return;
+        this->popupWarning("You didn't write 4 digits for the year.");
+        return;
     }
     else if (courseCode.length() < 1) {
-            this->popupWarning("Course code is empty.");
-            return;
+        this->popupWarning("Course code is empty.");
+        return;
     }
     else if (courseTitle.length() < 1) {
-            this->popupWarning("Course title is empty.");
-            return;
+        this->popupWarning("Course title is empty.");
+        return;
     }
 
     // Everything is checked, now we can pass of information to localStorage and get it made
     try {
-            localStorage.addCourse(semester, year, courseCode, courseTitle);
-            refresh();
+        localStorage.addCourse(semester, year, courseCode, courseTitle);
+        refresh();
     } catch (std::runtime_error e) {
-            this->popupError(e.what());
+        this->popupError(e.what());
     }
 }
 
@@ -569,17 +584,21 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionLogout_triggered()
 {
-    const QString userType(localStorage.getUser().getType());
+    try {
+        const QString userType(localStorage.getUser().getType());
 
-    this->clear_All_Widgets();
+        this->clear_All_Widgets();
 
-    if (userType == "student") {
-        shoppingCart.clearCart();
-        MainWindow::clearStudentCourseList();
+        if (userType == "student") {
+            shoppingCart.clearCart();
+            this->clearStudentCourseList();
+        }
+
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+        localStorage.cleanup();
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
-
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
-    localStorage.cleanup();
 }
 
 void MainWindow::on_btnBackToMain_clicked()
@@ -593,11 +612,15 @@ void MainWindow::displayManageContent(){
     ui->listManageSections->clear();
     ui->listManageTextbooks->clear();
 
-    QList<Class*> classes = localStorage.getClasses();
-    foreach(Class *cl, classes){
-        QList<Textbook*> tbs = cl->getBooklist();
-        foreach(Textbook *tb, tbs)
-            ui->listManageTextbooks->addItem( new QListWidgetItem(tb->getTitle()));
+    try {
+        QList<Class*> classes = localStorage.getClasses();
+        foreach(Class *cl, classes){
+            QList<Textbook*> tbs = cl->getBooklist();
+            foreach(Textbook *tb, tbs)
+                ui->listManageTextbooks->addItem( new QListWidgetItem(tb->getTitle()));
+        }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerPage));
@@ -617,52 +640,64 @@ void MainWindow::on_btnManageContent_clicked()
 
 void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
 {
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
+    try {
+        QList<Class*> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
+        }
+        Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
+        ui->listManageChapters->clear();
+        ui->listManageSections->clear();
+        foreach(Chapter *ch, selectedTb->getChapters()){
+            ui->listManageChapters->addItem( new QListWidgetItem(ch->getTitle()));
+        }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
-    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
-    ui->listManageChapters->clear();
-    ui->listManageSections->clear();
-    foreach(Chapter *ch, selectedTb->getChapters()){
-        ui->listManageChapters->addItem( new QListWidgetItem(ch->getTitle()));
-    }
-
 
 }
 
 void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 {
     ui->listManageSections->clear();
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
-    }
-    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
-    int index = ui->listManageChapters->currentRow();
-    if(index >= 0){
-        Chapter *selectedCh = selectedTb->getChapters().at(index);
-        foreach(Section *s, selectedCh->getSections()){
-            ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+    try {
+        QList<Class*> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
         }
+        Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
+        int index = ui->listManageChapters->currentRow();
+        if(index >= 0){
+            Chapter *selectedCh = selectedTb->getChapters().at(index);
+            foreach(Section *s, selectedCh->getSections()){
+                ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+            }
+        }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
 }
 
 void MainWindow::on_btnManageRemoveTextbook_clicked()
 {
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
-    }
-    int index = ui->listManageTextbooks->currentRow();
-    if( index >= 0 ){
-        Textbook *selectedTb = tbs.at(index);
-        localStorage.deleteTextbook(*selectedTb);
+    try {
+        QList<Class*> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
+        }
+        int index = ui->listManageTextbooks->currentRow();
+        if( index >= 0 ){
+            Textbook *selectedTb = tbs.at(index);
+            localStorage.deleteTextbook(*selectedTb);
+        }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
 
+    // FIXME This should be calling MainWindow::refresh
     this->displayManageContent();
 
 }
@@ -670,6 +705,7 @@ void MainWindow::on_btnManageRemoveTextbook_clicked()
 void MainWindow::on_btnManageRemoveChapter_clicked()
 {
 
+    try {
     QList<Class*> classes = localStorage.getClasses();
     QList<Textbook*> tbs;
     foreach(Class *cl, classes){
@@ -681,5 +717,7 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
         Chapter *selectedCh = selectedTb->getChapters().at(index);
         localStorage.deleteChapter(*selectedCh);
     }
-
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
+    }
 }

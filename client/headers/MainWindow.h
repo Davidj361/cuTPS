@@ -41,14 +41,9 @@ class MainWindow : public QMainWindow {
         void studentSemesterListPopulate();
         void populateSemesterList(QListWidget* semesterList);
 
-        // Needed for D4
-        void setServerIP();
-
         void listManageClear();
 
         void clearStudentCourseList();
-
-        void scrollDown();
         
         void popupWarning(const QString&);
 

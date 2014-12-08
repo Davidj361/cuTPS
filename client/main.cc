@@ -1,6 +1,6 @@
 #include <QApplication>
 
-#include "headers/MainWindow.h"
+#include "contentDisplay/ui/MainWindow.h"
 #include "storage/ConnectionClient.h"
 
 int main(int argc, char *argv[])

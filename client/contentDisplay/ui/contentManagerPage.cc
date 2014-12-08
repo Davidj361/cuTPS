@@ -1,6 +1,6 @@
 #include "contentManagerPage.h"
-#include "../headers/MainWindow.h"
-#include "../ui_mainwindow.h"
+#include "MainWindow.h"
+#include "ui_mainwindow.h"
 
 void ContentManagerPage::setUi(Ui::MainWindow* ui) {
     this->ui = ui;

@@ -2751,7 +2751,7 @@
   <customwidget>
    <class>ContentManagerPage</class>
    <extends>QWidget</extends>
-   <header location="global">ui/contentManagerPage.h</header>
+   <header location="global">contentDisplay/ui/contentManagerPage.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

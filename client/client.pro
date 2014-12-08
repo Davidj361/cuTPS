@@ -14,7 +14,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cc\
-    MainWindow.cc \
     ../common/Textbook.cc \
     ../common/Section.cc \
     ../common/Content.cc \
@@ -30,12 +29,11 @@ SOURCES += main.cc\
     purchase/shoppingCartManagement/shoppingCart.cc \
     ../common/Class.cpp \
     courseManagement/CourseManagement.cc \
-    ui/contentManagerPage.cc \
-    textbookManagement/TextbookManagement.cc
+    textbookManagement/TextbookManagement.cc \
+    contentDisplay/ui/MainWindow.cc \
+    contentDisplay/ui/contentManagerPage.cc
 
-HEADERS  += \
-    headers/MainWindow.h \
-    ../common/headers/Textbook.h \
+HEADERS  += ../common/headers/Textbook.h \
     ../common/headers/Section.h \
     ../common/headers/Definitions.h \
     ../common/headers/Content.h \
@@ -52,9 +50,10 @@ HEADERS  += \
     purchase/shoppingCartManagement/shoppingCart.h \
     ../common/headers/Class.h \
     courseManagement/CourseManagement.h \
-    ui/contentManagerPage.h \
-    textbookManagement/TextbookManagement.h
+    textbookManagement/TextbookManagement.h \
+    contentDisplay/ui/MainWindow.h \
+    contentDisplay/ui/contentManagerPage.h
 
-FORMS    += mainwindow.ui
+FORMS += contentDisplay/ui/mainwindow.ui
 
 RESOURCES +=

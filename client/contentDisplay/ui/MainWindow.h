@@ -19,7 +19,7 @@
 #include "../common/headers/Section.h"
 #include "../common/headers/Definitions.h"
 #include "contentDisplay/localStorage/localStorage.h"
-#include "../purchase/checkout/checkout.h"
+#include "../../purchase/checkout/checkout.h"
 
 namespace Ui {
         class MainWindow;

@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <property name="sizePolicy">
@@ -1538,7 +1538,11 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="lineName"/>
+            <widget class="QLineEdit" name="lineName">
+             <property name="placeholderText">
+              <string>Cardholder Name</string>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_9">
@@ -1548,7 +1552,11 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="lineCC"/>
+            <widget class="QLineEdit" name="lineCC">
+             <property name="placeholderText">
+              <string>Carholder Number</string>
+             </property>
+            </widget>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_10">
@@ -1558,7 +1566,11 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="linedate"/>
+            <widget class="QLineEdit" name="linedate">
+             <property name="placeholderText">
+              <string>Card Expiry Date MM/YY</string>
+             </property>
+            </widget>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_11">
@@ -1568,7 +1580,11 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QLineEdit" name="lineCvv"/>
+            <widget class="QLineEdit" name="lineCvv">
+             <property name="placeholderText">
+              <string>3-Digit Number on back of card</string>
+             </property>
+            </widget>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_12">
@@ -1578,7 +1594,11 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QLineEdit" name="lineEmail"/>
+            <widget class="QLineEdit" name="lineEmail">
+             <property name="placeholderText">
+              <string>Cardholder Email Address</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

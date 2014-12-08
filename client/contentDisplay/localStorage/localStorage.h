@@ -43,7 +43,7 @@ class LocalStorage {
 
 
                 // For connecting to server
-                const StorageControl* storageControl;
+                const StorageControl* const storageControl;
                 // We'll have a list of textbooks, and a list of chapters for the textbook, and a list of sections for the chapter
                 // The list of courses will have a textbook
                 User user;

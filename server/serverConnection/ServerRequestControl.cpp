@@ -2,12 +2,10 @@
 
 using namespace std;
 
-ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cDb) {
+ServerRequestControl::ServerRequestControl( QByteArray *bytes , DBController* cDb) : db(cDb) {
 
     // set the in message
     in = bytes;
-    db = cDb;
-
 }
 
 ServerRequestControl::~ServerRequestControl() {
@@ -20,28 +18,28 @@ void ServerRequestControl::run(){
     // set up variables
     QByteArray *out = new QByteArray();
     commands_t command;
-    ServerSerializer *serializer = new ServerSerializer();
+    ServerSerializer serializer;
 
     try {
 
         QJsonObject objJson;
 
         //decouple command from the json
-        command = serializer->deserialize(*in, objJson);
+        command = serializer.deserialize(*in, objJson);
 
         // for each of these if statements, the json is deserialized,
         // the db queried, and the response generated
         if ( command == GET_CONTENT ){
 
             User* user;
-            serializer->deserialize(objJson, user);
+            serializer.deserialize(objJson, user);
 
             QList<Class *> list;
             QString username = user->getUsername();
 
             db->RetrieveContentList(username, list);
 
-            serializer->serializeClasses(list, command, *out);
+            serializer.serializeClasses(list, command, *out);
             if(user != 0)
                 delete user;
             // Make sure to clean up the newly constructed list
@@ -57,7 +55,7 @@ void ServerRequestControl::run(){
         else if ( command == ADD_TEXTBOOK ) {
 
             Class *cl;
-            serializer->deserialize(objJson, cl);
+            serializer.deserialize(objJson, cl);
 
             foreach (Textbook *textbook, cl->getBooklist()) {
                 db->AddTextbook(textbook);
@@ -69,14 +67,14 @@ void ServerRequestControl::run(){
             if(cl != 0)
                 delete cl;
 
-            serializer->serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
         else if ( command == EDIT_TEXTBOOK || command == REMOVE_TEXTBOOK ){
             Textbook *tb;
 
-            serializer->deserialize(objJson, tb);
+            serializer.deserialize(objJson, tb);
 
             if(command == EDIT_TEXTBOOK)
                 db->EditTextbook(tb);
@@ -87,14 +85,14 @@ void ServerRequestControl::run(){
             if(tb != 0)
                 delete tb;
 
-            serializer->serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
         else if ( command == ADD_CHAPTER || command == EDIT_CHAPTER || command == REMOVE_CHAPTER ) {
 
             Chapter *ch;
-            serializer->deserialize(objJson, ch);
+            serializer.deserialize(objJson, ch);
 
             if(command == ADD_CHAPTER)
                 db->AddChapter(ch);
@@ -110,14 +108,14 @@ void ServerRequestControl::run(){
             if(ch != 0)
                 delete ch;
 
-            serializer->serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
         else if ( command == ADD_SECTION || command == EDIT_SECTION || command == REMOVE_SECTION ) {
 
             Section *s;
-            serializer->deserialize(objJson, s);
+            serializer.deserialize(objJson, s);
 
             if(command == ADD_SECTION)
                 db->AddSection(s);
@@ -134,18 +132,18 @@ void ServerRequestControl::run(){
             if(s != 0)
                 delete s;
 
-            serializer->serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
         else if ( command == LOGIN ){
 
             User *user;
-            serializer->deserialize(objJson, user);
+            serializer.deserialize(objJson, user);
 
             db->Login(user);
 
-            serializer->serializeUser(*user, LOGIN, *out);
+            serializer.serializeUser(*user, LOGIN, *out);
 
             if(user != 0)
                 delete user;
@@ -156,21 +154,21 @@ void ServerRequestControl::run(){
         else if (command == REMOVE_COURSE){
 
             Course *course;
-            serializer->deserializeCourse(objJson, course);
+            serializer.deserializeCourse(objJson, course);
 
             db->DeleteCourse(course);
 
             if(course != 0)
                 delete course;
 
-            serializer->serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
         else if( command == ADD_CLASS || command == DELETE_CLASS ){
 
             Class *cl;
-            serializer->deserialize(objJson, cl);
+            serializer.deserialize(objJson, cl);
 
             if ( command == ADD_CLASS ){
                 if(!db->CourseExists(cl->getCourse()))
@@ -181,7 +179,7 @@ void ServerRequestControl::run(){
             if ( command == DELETE_CLASS)
                 db->DeleteClass(cl);
 
-            serializer->serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, *out);
 
             if(cl->getCourse() != 0)
                 delete cl->getCourse();
@@ -193,14 +191,14 @@ void ServerRequestControl::run(){
         else if( command == ADD_INVOICE ) {
 
             Invoice *i;
-            serializer->deserialize(objJson, i);
+            serializer.deserialize(objJson, i);
 
             db->AddInvoice(i);
 
             if(i != 0)
                 delete i;
 
-            serializer->serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
@@ -211,7 +209,7 @@ void ServerRequestControl::run(){
         qDebug() << e.what();
 
         QString temp(e.what());
-        serializer->serializeError(temp, command, *out);
+        serializer.serializeError(temp, command, *out);
 
         emit response(out);
 

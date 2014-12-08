@@ -41,7 +41,7 @@ class ServerRequestControl :  public QObject, public QRunnable {
     private:
 
         QByteArray *in;
-        DBController *db;
+        DBController*const db;
 };
 
 #endif // SERVERREQUESTCONTROL_H

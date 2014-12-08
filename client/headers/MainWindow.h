@@ -138,6 +138,8 @@ class MainWindow : public QMainWindow {
 
         void on_listTextbookTerm_itemClicked(QListWidgetItem *item);
 
+        void on_btnChapterCancel_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

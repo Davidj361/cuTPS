@@ -803,6 +803,7 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
 
     }
     else{
+
         Textbook tb(
                     ui->lineTextbookIsbn->text(),
                     ui->lineTextbookTitle->text(),
@@ -815,7 +816,10 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     (float) ui->lineTextbookPrice->text().toDouble()
                     );
         localStorage.editTextbook(tb);
+
     }
+    this->displayManageContent();
+
 }
 
 void MainWindow::on_btnManageEditTextbook_clicked()
@@ -835,4 +839,10 @@ void MainWindow::on_btnManageEditTextbook_clicked()
 void MainWindow::on_listTextbookTerm_itemClicked(QListWidgetItem *item)
 {
     this->populateClassList(item->text(), ui->listTextbookClass);
+}
+
+void MainWindow::on_btnChapterCancel_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerPage));
+
 }

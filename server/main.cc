@@ -18,17 +18,11 @@ int main(int argc, char *argv[])
 
     // Start the server
     Server server(&db);
-    server.start();
-
-    /* TODO is this still needed?
-     connect the signals
-    QObject::connect(controller, SIGNAL(Finished()),
-                     &app, SLOT(quit()));
-
-    QObject::connect(&app, SIGNAL(aboutToQuit()),
-                     controller, SLOT(AboutToQuitApp()));
-
-    QTimer::singleShot(10, controller, SLOT(Run()));*/
-
-    return app.exec();
+    try {
+        server.start();
+        return app.exec();
+    }
+    catch(std::runtime_error e) {
+        qDebug() << e.what();
+    }
 }

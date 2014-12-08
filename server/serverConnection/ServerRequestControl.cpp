@@ -16,7 +16,7 @@ ServerRequestControl::~ServerRequestControl() {
 void ServerRequestControl::run(){
 
     // set up variables
-    QByteArray *out = new QByteArray();
+    QByteArray out;
     commands_t command;
     ServerSerializer serializer;
 
@@ -39,7 +39,7 @@ void ServerRequestControl::run(){
 
             db->RetrieveContentList(username, list);
 
-            serializer.serializeClasses(list, command, *out);
+            serializer.serializeClasses(list, command, out);
             if(user != 0)
                 delete user;
             // Make sure to clean up the newly constructed list
@@ -67,7 +67,7 @@ void ServerRequestControl::run(){
             if(cl != 0)
                 delete cl;
 
-            serializer.serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, out);
 
         }
 
@@ -85,7 +85,7 @@ void ServerRequestControl::run(){
             if(tb != 0)
                 delete tb;
 
-            serializer.serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, out);
 
         }
 
@@ -108,7 +108,7 @@ void ServerRequestControl::run(){
             if(ch != 0)
                 delete ch;
 
-            serializer.serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, out);
 
         }
 
@@ -132,7 +132,7 @@ void ServerRequestControl::run(){
             if(s != 0)
                 delete s;
 
-            serializer.serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, out);
 
         }
 
@@ -143,7 +143,7 @@ void ServerRequestControl::run(){
 
             db->Login(user);
 
-            serializer.serializeUser(*user, LOGIN, *out);
+            serializer.serializeUser(*user, LOGIN, out);
 
             if(user != 0)
                 delete user;
@@ -161,7 +161,7 @@ void ServerRequestControl::run(){
             if(course != 0)
                 delete course;
 
-            serializer.serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, out);
 
         }
 
@@ -179,7 +179,7 @@ void ServerRequestControl::run(){
             if ( command == DELETE_CLASS)
                 db->DeleteClass(cl);
 
-            serializer.serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, out);
 
             if(cl->getCourse() != 0)
                 delete cl->getCourse();
@@ -198,20 +198,20 @@ void ServerRequestControl::run(){
             if(i != 0)
                 delete i;
 
-            serializer.serializeSuccess(command, *out);
+            serializer.serializeSuccess(command, out);
 
         }
 
-        emit response(out);
+        emit response(&out);
 
     } catch ( exception &e ) {
 
         qDebug() << e.what();
 
         QString temp(e.what());
-        serializer.serializeError(temp, command, *out);
+        serializer.serializeError(temp, command, out);
 
-        emit response(out);
+        emit response(&out);
 
     }
 

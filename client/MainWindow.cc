@@ -625,11 +625,14 @@ void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
     }
-    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
-    ui->listManageChapters->clear();
-    ui->listManageSections->clear();
-    foreach(Chapter *ch, selectedTb->getChapters()){
-        ui->listManageChapters->addItem( new QListWidgetItem(ch->getTitle()));
+    int tbIndex = ui->listManageTextbooks->currentRow();
+    if(tbIndex >= 0){
+        Textbook *selectedTb = tbs.at(tbIndex);
+        ui->listManageChapters->clear();
+        ui->listManageSections->clear();
+        foreach(Chapter *ch, selectedTb->getChapters()){
+            ui->listManageChapters->addItem( new QListWidgetItem(ch->getTitle()));
+        }
     }
 
 
@@ -643,12 +646,15 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
     }
-    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
-    int index = ui->listManageChapters->currentRow();
-    if(index >= 0){
-        Chapter *selectedCh = selectedTb->getChapters().at(index);
-        foreach(Section *s, selectedCh->getSections()){
-            ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+    int tbIndex = ui->listManageTextbooks->currentRow();
+    if(tbIndex >= 0){
+        Textbook *selectedTb = tbs.at(tbIndex);
+        int chIndex = ui->listManageChapters->currentRow();
+        if(chIndex >= 0){
+            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+            foreach(Section *s, selectedCh->getSections()){
+                ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+            }
         }
     }
 }
@@ -678,14 +684,16 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
     }
-
-    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
-    int index = ui->listManageChapters->currentRow();
-    if(index >= 0){
-        Chapter *selectedCh = selectedTb->getChapters().at(index);
-        localStorage.deleteChapter(*selectedCh);
-        localStorage.refresh();
-        this->displayManageContent();
+    int tbIndex = ui->listManageTextbooks->currentRow();
+    if(tbIndex >= 0){
+        Textbook *selectedTb = tbs.at(tbIndex);
+        int chIndex = ui->listManageChapters->currentRow();
+        if(chIndex >= 0){
+            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+            localStorage.deleteChapter(*selectedCh);
+            localStorage.refresh();
+            this->displayManageContent();
+        }
     }
 
 }
@@ -702,7 +710,7 @@ void MainWindow::on_btnManageRemoveSection_clicked()
     if(tbIndex >= 0){
         Textbook *selectedTb = tbs.at(tbIndex);
         int chIndex = ui->listManageChapters->currentRow();
-        if(index >= 0){
+        if(chIndex >= 0){
             Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
             int secIndex = ui->listManageSections->currentRow();
             if(secIndex >= 0){

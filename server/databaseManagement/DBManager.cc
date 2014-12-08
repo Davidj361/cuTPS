@@ -743,11 +743,10 @@ void DBManager::RetrieveContentList(QString username, QList<Class *> &list) {
 
         Textbook *textbook;
         foreach (textbook, clss->getBooklist()) {
-            GetChaptersForTextbook(textbook);
-
+            GetChaptersForTextbook(textbook, (userType != "student"));
             Chapter *chapter;
             foreach (chapter, textbook->getChapters()) {
-                GetSectionsForChapter(textbook, chapter);
+                GetSectionsForChapter(textbook, chapter, (userType != "student"));
             }
         }
     }
@@ -822,11 +821,18 @@ void DBManager::GetTextbooksForClass(QList<Textbook *> &list, QString course, QS
     }
 }
 
-void DBManager::GetChaptersForTextbook(Textbook *textbook) {
+
+void DBManager::GetChaptersForTextbook(Textbook *textbook, bool ignoreAvailable) {
     QSqlQuery ch_query;
 
-    if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
-        throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
+    if (ignoreAvailable) {
+        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn;"))
+            throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
+    }
+    else {
+        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
+            throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
+    }
 
     ch_query.bindValue(":isbn", textbook->getISBN());
 
@@ -845,11 +851,17 @@ void DBManager::GetChaptersForTextbook(Textbook *textbook) {
     }
 }
 
-void DBManager::GetSectionsForChapter(Textbook *textbook, Chapter *chapter) {
+void DBManager::GetSectionsForChapter(Textbook *textbook, Chapter *chapter, bool ignoreAvailable) {
     QSqlQuery sec_query;
 
-    if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
-        throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
+    if (ignoreAvailable) {
+        if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter;"))
+            throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
+    }
+    else {
+        if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
+            throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
+    }
 
     sec_query.bindValue(":isbn", textbook->getISBN());
     sec_query.bindValue(":chapter", chapter->getChapterNo());

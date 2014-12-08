@@ -21,13 +21,13 @@ class LocalStorage {
                 // This is used to login, give it username and password
                 void login(const QString& username, const QString& password);
                 const QList<Textbook*>* getTextbooks(QString courseCode) const;
-                void removeCourse(Course& course) const;
+                void removeClass(Class& clss) const;
                 void addCourse(const QString& semester, const QVariant& year, const QString& courseCode, const QString& courseTitle);
 
                 // The below function should be called for every update and upon deconstruction of this controller
                 void cleanup(); // Delete all the allocated data
 
-                void addTextbook(Textbook&) const;
+                void addTextbook(Class&) const;
                 void editTextbook(Textbook&) const;
                 void deleteTextbook(Textbook&) const;
                 void addChapter(Chapter&) const;

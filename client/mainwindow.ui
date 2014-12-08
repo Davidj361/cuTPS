@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>9</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -2591,13 +2591,13 @@
          </sizepolicy>
         </property>
         <property name="inputMask">
-         <string>999.99s;_</string>
+         <string>999.99;_</string>
         </property>
         <property name="text">
-         <string>.s</string>
+         <string>.</string>
         </property>
         <property name="maxLength">
-         <number>7</number>
+         <number>6</number>
         </property>
         <property name="cursorPosition">
          <number>0</number>
@@ -2718,6 +2718,16 @@
         </property>
         <property name="inputMask">
          <string>999;_</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineChapterISBN">
+        <property name="geometry">
+         <rect>
+          <x>730</x>
+          <y>421</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
         </property>
        </widget>
       </widget>

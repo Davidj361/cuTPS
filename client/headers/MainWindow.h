@@ -150,6 +150,9 @@ class MainWindow : public QMainWindow {
 
         void on_btnChapterAddEdit_clicked();
         Section *getSelectedSection(QListWidget *tblist, QListWidget *chlist, QListWidget *secList);
+        Textbook* getSelectedTextbook(QListWidget *tblist);
+
+        void on_btnManageAddSection_clicked();
 
 private:
 

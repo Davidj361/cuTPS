@@ -654,7 +654,6 @@ void MainWindow::on_btnBackToMain_clicked()
 }
 
 void MainWindow::displayManageContent(){
-
     this->listManageClear();
 
     QList<Class*> classes;
@@ -731,6 +730,20 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 
 
 
+}
+
+Textbook* MainWindow::getSelectedTextbook(QListWidget *tblist){
+    QList<Class*> classes = localStorage.getClasses();
+    QList<Textbook*> tbs;
+    foreach(Class *cl, classes){
+        tbs.append( cl->getBooklist() );
+    }
+    int tbIndex = tblist->currentRow();
+    if(tbIndex >= 0){
+        return tbs.at(tbIndex);
+    }
+
+    return 0;
 }
 
 Chapter* MainWindow::getSelectedChapter(QListWidget * tblist, QListWidget * chList){
@@ -1004,6 +1017,11 @@ void MainWindow::on_btnManageAddChapter_clicked()
     ui->checkBoxChapterAvailable->setChecked(false);
     ui->btnChapterAddEdit->setText("Add Chapter");
     ui->labelContentNumber->setText("Chapter:");
+    Textbook *selectedTb = this->getSelectedTextbook(ui->listManageTextbooks);
+    if(selectedTb != 0){
+        ui->lineChapterISBN->setText(selectedTb->getISBN());
+    }
+
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
 
@@ -1023,7 +1041,10 @@ void MainWindow::on_btnManageEditChapter_clicked()
         ui->labelContentNumber->setText("Chapter:");
         ui->lineChapterNumber->setText(QString::number(selectedCh->getChapterNo()));
         ui->lineTextbookCid->setText(QString::number(selectedCh->getcid()));
-
+        Textbook *selectedTb = this->getSelectedTextbook(ui->listManageTextbooks);
+        if(selectedTb != 0){
+            ui->lineChapterISBN->setText(selectedTb->getISBN());
+        }
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
 
     }
@@ -1046,12 +1067,15 @@ void MainWindow::on_btnChapterAddEdit_clicked()
             1+1;
         }
         if(ui->btnChapterAddEdit->text().compare("Add Chapter") == 0){
+            Textbook * tb = new Textbook(ui->lineChapterISBN->text(), "", "", "", -1, "", "", false, -1);
             Chapter c(ui->lineChapterTitle->text(),
                       ui->lineChapterNumber->text().toInt(),
-                      0, ui->lineChapterDescription->toPlainText(),
+                      tb, ui->lineChapterDescription->toPlainText(),
                       ui->checkBoxChapterAvailable->isChecked(),
-                      (float) ui->lineChapterPrice->text().toDouble());
-            //localStorage.add(c);
+                      (float) ui->lineChapterPrice->text().toDouble(),
+                      ui->lineTextbookCid->text().toInt());
+            localStorage.addChapter(c);
+            delete tb;
         }
         if(ui->btnChapterAddEdit->text().compare("Add Section") == 0){
             1+1;
@@ -1059,4 +1083,9 @@ void MainWindow::on_btnChapterAddEdit_clicked()
     } catch (std::runtime_error e){
         this->popupError(e.what());
     }
+}
+
+void MainWindow::on_btnManageAddSection_clicked()
+{
+    this->displayManageContent();
 }

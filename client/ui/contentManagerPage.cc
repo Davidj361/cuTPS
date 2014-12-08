@@ -32,8 +32,6 @@ void MainWindow::on_btnManageAddChapter_clicked()
     ui->btnChapterAddEdit->setText("Add Chapter");
     ui->labelContentNumber->setText("Chapter:");
 
-
-
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManageChapterForm));
 
 }
@@ -129,8 +127,7 @@ void MainWindow::on_btnManageAddSection_clicked()
 void MainWindow::on_btnManageEditSection_clicked()
 {
     Section *s = getContentManagerSelectedSection();
-    // cumon bro, don't you know if you access pointers that are null then you get seg faults?
-    // STEP IT UP
+
     if (s == 0)
         return;
     ui->lineChapterDescription->setText(s->getDescription());
@@ -261,19 +258,11 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
 
 void MainWindow::on_btnManageEditTextbook_clicked()
 {
+
     Textbook* tb = this->getContentManagerSelectedTextbook();
     if (tb != 0)
         this->displayTextbookPage(tb);
-    // QList<Class*> classes = localStorage.getClasses();
-    // QList<Textbook*> tbs;
-    // foreach(Class *cl, classes){
-    //     tbs.append( cl->getBooklist() );
-    // }
-    // int index = ui->listManageTextbooks->currentRow();
-    // if( index >= 0 ){
-    //     Textbook *selectedTb = tbs.at(index);
-    //     this->displayTextbookPage(selectedTb);
-    // }
+
 }
 
 void MainWindow::on_listTextbookTerm_itemClicked(QListWidgetItem *item)
@@ -374,54 +363,25 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 }
 
 Textbook* MainWindow::getContentManagerSelectedTextbook() {
+
     QListWidgetItem* item = ui->listManageTextbooks->currentItem();
     if (item != 0) {
         return item->data(Qt::UserRole).value<Textbook*>();
     }
 
-    // QList<Class*> classes = localStorage.getClasses();
-    // QList<Textbook*> tbs;
-    // foreach(Class *cl, classes){
-    //     tbs.append( cl->getBooklist() );
-    // }
-    // int tbIndex = tblist->currentRow();
-    // if(tbIndex >= 0){
-    //     return tbs.at(tbIndex);
-    // }
-
     return 0;
 }
 
 Chapter* MainWindow::getContentManagerSelectedChapter() {
+
     QListWidgetItem* item = ui->listManageChapters->currentItem();
     if (item != 0) {
         return item->data(Qt::UserRole).value<Chapter*>();
     }
 
-    // QList<Class*> classes;
-    // try {
-    //     classes = localStorage.getClasses();
-    // }
-    // catch (std::runtime_error e) {
-    //     throw e;
-    // }
-
-    // QList<Textbook*> tbs;
-    // foreach(Class *cl, classes){
-    //     tbs.append( cl->getBooklist() );
-    // }
-    // int tbIndex = tblist->currentRow();
-    // if(tbIndex >= 0){
-    //     Textbook *selectedTb = tbs.at(tbIndex);
-    //     int chIndex = chList->currentRow();
-    //     if(chIndex >= 0){
-    //         return selectedTb->getChapters().at(chIndex);
-    //     }
-    // }
     return 0;
 }
 
-// This function needs to use setData
 Section * MainWindow::getContentManagerSelectedSection() {
 
     QListWidgetItem* item = ui->listManageSections->currentItem();
@@ -429,30 +389,6 @@ Section * MainWindow::getContentManagerSelectedSection() {
         return item->data(Qt::UserRole).value<Section*>();
     }
  
-    // Yeahh... naaaaaaah
-    // try {
-
-    //     QList<Class*> classes = localStorage.getClasses();
-    //     QList<Textbook*> tbs;
-    //     foreach(Class *cl, classes){
-    //         tbs.append( cl->getBooklist() );
-    //     }
-    //     int tbIndex = tblist->currentRow();
-    //     if(tbIndex >= 0){
-    //         Textbook *selectedTb = tbs.at(tbIndex);
-    //         int chIndex = chlist->currentRow();
-    //         if(chIndex >= 0){
-    //             Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-    //             int secIndex = secList->currentRow();
-    //             if(secIndex >= 0){
-    //                 return selectedCh->getSections().at(secIndex);
-    //             }
-    //         }
-    //     }
-    // }
-    // catch (std::runtime_error e) {
-    //     throw e;
-    // }
     return 0;
 }
 
@@ -466,22 +402,7 @@ void MainWindow::on_btnManageRemoveTextbook_clicked()
     } catch (std::runtime_error e) {
         this->popupError(e.what());
     }
-    // try {
-    //     QList<Class *> classes = localStorage.getClasses();
-    //     QList<Textbook*> tbs;
-    //     foreach(Class *cl, classes){
-    //         tbs.append( cl->getBooklist() );
-    //     }
-    //     int index = ui->listManageTextbooks->currentRow();
-    //     if( index >= 0 ){
-    //         Textbook *selectedTb = tbs.at(index);
-    //         localStorage.deleteTextbook(*selectedTb);
-    //         this->displayManageContent();
-    //     }
-    // }
-    // catch (std::runtime_error e) {
-    //     this->popupError(e.what());
-    // }
+
 }
 
 void MainWindow::on_btnManageRemoveChapter_clicked()
@@ -495,26 +416,6 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
         this->popupError(e.what());
     }
 
-    // try {
-    //     QList<Class*> classes = localStorage.getClasses();
-    //     QList<Textbook*> tbs;
-    //     foreach(Class *cl, classes){
-    //         tbs.append( cl->getBooklist() );
-    //     }
-    //     int tbIndex = ui->listManageTextbooks->currentRow();
-    //     if(tbIndex >= 0){
-    //         Textbook *selectedTb = tbs.at(tbIndex);
-    //         int chIndex = ui->listManageChapters->currentRow();
-    //         if(chIndex >= 0){
-    //             Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-    //             localStorage.deleteChapter(*selectedCh);
-    //             this->displayManageContent();
-    //         }
-    //     }
-    // }
-    // catch (std::runtime_error e) {
-    //     this->popupError(e.what());
-    // }
 }
 
 void MainWindow::on_btnManageRemoveSection_clicked()

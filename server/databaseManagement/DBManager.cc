@@ -102,14 +102,35 @@ void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QSt
     if (author == "")
         throw std::runtime_error("ERROR DBManager::EditTextbook() author cannot be empty");
 
+
     QSqlQuery query;
 
     db.transaction();
 
+    //
+    // Get Old ISBN so other tables can be updated
+    //
+    if (!query.prepare("SELECT isbn FROM Textbooks WHERE content_id = :content_id"))
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing SELECT isbn statement");
+
+    query.bindValue(":content_id", content_id);
+
+    if (!query.exec())
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while executing SELECT isbn statement");
+
+    if (!query.first())
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Unable to find isbn " + isbn.toStdString());
+
+    QString old_isbn = query.value(0).toString();
+
+
+    //
+    // Update Textbooks Table
+    //
     if (!query.prepare("UPDATE Textbooks SET isbn = :isbn, title = :title, publisher = :publisher, author = :author, "
                        "year = :year, edition = :edition, description = :description, availability = :availability, "
                        "price = :price WHERE content_id = :content_id;"))
-        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing INSERT statement");
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing UPDATE Textbooks statement");
 
     query.bindValue(":isbn", isbn);
     query.bindValue(":title", title);
@@ -128,6 +149,45 @@ void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QSt
             throw std::runtime_error("ERROR DBManager::EditTextbook(), Textbook with that isbn already exists");
         else
             throw std::runtime_error("ERROR DBManager::EditTextbook() Error while inserting textbook");
+    }
+
+    //
+    // Update Chapters Table
+    //
+    if (!query.prepare("UPDATE Chapters SET textbook = :new_isbn WHERE textbook = :old_isbn;"))
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing Update Chapters statement");
+
+    query.bindValue(":new_isbn", isbn);
+    query.bindValue(":old_isbn", old_isbn);
+
+    if (!query.exec()) {
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while updating Chapters table");
+    }
+
+    //
+    // Update Sections Table
+    //
+    if (!query.prepare("UPDATE Sections SET textbook = :new_isbn WHERE textbook = :old_isbn;"))
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing Update Sections statement");
+
+    query.bindValue(":new_isbn", isbn);
+    query.bindValue(":old_isbn", old_isbn);
+
+    if (!query.exec()) {
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while updating Sections table");
+    }
+
+    //
+    // Update Book_List Table
+    //
+    if (!query.prepare("UPDATE Book_List SET textbook_id = :new_isbn WHERE textbook_id = :old_isbn;"))
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing Update Book_List statement");
+
+    query.bindValue(":new_isbn", isbn);
+    query.bindValue(":old_isbn", old_isbn);
+
+    if (!query.exec()) {
+        throw std::runtime_error("ERROR DBManager::EditTextbook() Error while updating Book_List table");
     }
 
     db.commit();
@@ -746,7 +806,7 @@ void DBManager::RetrieveContentList(QString username, QList<Class *> &list) {
             GetChaptersForTextbook(textbook);
             Chapter *chapter;
             foreach (chapter, textbook->getChapters()) {
-                GetSectionsForChapter(textbook, chapter, (userType != "student"));
+                GetSectionsForChapter(textbook, chapter);
             }
         }
     }
@@ -847,17 +907,11 @@ void DBManager::GetChaptersForTextbook(Textbook *textbook) {
     }
 }
 
-void DBManager::GetSectionsForChapter(Textbook *textbook, Chapter *chapter, bool ignoreAvailable) {
+void DBManager::GetSectionsForChapter(Textbook *textbook, Chapter *chapter) {
     QSqlQuery sec_query;
 
-    if (ignoreAvailable) {
-        if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter;"))
-            throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
-    }
-    else {
-        if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter AND availability = 1;"))
-            throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
-    }
+    if (!sec_query.prepare("SELECT * FROM Sections WHERE textbook = :isbn AND chapter = :chapter;"))
+        throw std::runtime_error("ERROR DBController::GetSectionsForChapter() Error while preparing statement to look up section info");
 
     sec_query.bindValue(":isbn", textbook->getISBN());
     sec_query.bindValue(":chapter", chapter->getChapterNo());

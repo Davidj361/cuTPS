@@ -266,6 +266,7 @@ bool MainWindow::isStudent() {
 
 void MainWindow::displayCourseManager() {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->courseManager));
+    this->refresh();
 }
 
 void MainWindow::displayMainStudent() {

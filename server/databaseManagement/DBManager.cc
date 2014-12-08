@@ -743,7 +743,7 @@ void DBManager::RetrieveContentList(QString username, QList<Class *> &list) {
 
         Textbook *textbook;
         foreach (textbook, clss->getBooklist()) {
-            GetChaptersForTextbook(textbook, (userType != "student"));
+            GetChaptersForTextbook(textbook);
             Chapter *chapter;
             foreach (chapter, textbook->getChapters()) {
                 GetSectionsForChapter(textbook, chapter, (userType != "student"));
@@ -822,17 +822,13 @@ void DBManager::GetTextbooksForClass(QList<Textbook *> &list, QString course, QS
 }
 
 
-void DBManager::GetChaptersForTextbook(Textbook *textbook, bool ignoreAvailable) {
+void DBManager::GetChaptersForTextbook(Textbook *textbook) {
     QSqlQuery ch_query;
 
-    if (ignoreAvailable) {
-        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn;"))
-            throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
-    }
-    else {
-        if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn AND availability = 1;"))
-            throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
-    }
+
+    if (!ch_query.prepare("SELECT * FROM Chapters WHERE textbook = :isbn;"))
+        throw std::runtime_error("ERROR DBController::GetChaptersForTextbook() Error while preparing statement to look up chapter info");
+
 
     ch_query.bindValue(":isbn", textbook->getISBN());
 

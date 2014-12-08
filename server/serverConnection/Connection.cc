@@ -11,6 +11,10 @@ Connection::Connection(DBController *cDb, QObject *parent) :
 
 }
 
+Connection::~Connection(){
+    delete sock;
+}
+
 void Connection::setSocket ( qintptr newSock ) {
 
     // New tcpsocket

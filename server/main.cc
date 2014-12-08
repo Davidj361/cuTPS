@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     server.start();
 
     /* TODO is this still needed?
-    // connect the signals
+     connect the signals
     QObject::connect(controller, SIGNAL(Finished()),
                      &app, SLOT(quit()));
 

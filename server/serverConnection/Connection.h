@@ -14,6 +14,7 @@ class Connection : public QObject {
     public:
 
         explicit Connection( DBController*, QObject *parent = 0);
+        ~Connection();
 
         /* =====================================================================
         Function  : setSocket

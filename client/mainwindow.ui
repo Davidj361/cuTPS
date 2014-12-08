@@ -2103,7 +2103,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>129</height>
+            <height>123</height>
            </size>
           </property>
          </spacer>
@@ -2250,7 +2250,7 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>119</width>
+            <width>117</width>
             <height>20</height>
            </size>
           </property>
@@ -2555,7 +2555,7 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="1" column="1">
          <widget class="QPushButton" name="btnTextbookCancel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2571,8 +2571,8 @@
        </layout>
        <zorder>widget_5</zorder>
        <zorder>widget_4</zorder>
-       <zorder>btnTextbookCancel</zorder>
        <zorder>btnTextbookAddEdit</zorder>
+       <zorder>btnTextbookCancel</zorder>
       </widget>
       <widget class="QWidget" name="contentManageChapterForm">
        <layout class="QGridLayout" name="gridLayout_15">
@@ -2585,19 +2585,6 @@
         </item>
         <item row="2" column="1" colspan="5">
          <widget class="QTextBrowser" name="lineChapterDescription"/>
-        </item>
-        <item row="4" column="5">
-         <widget class="QPushButton" name="btnChapterCancel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Cancel</string>
-          </property>
-         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="labelContentNumber">
@@ -2655,7 +2642,14 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="4">
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="checkBoxChapterAvailable">
+          <property name="text">
+           <string>Available for purchase</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
          <widget class="QPushButton" name="btnChapterAddEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2668,10 +2662,16 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QCheckBox" name="checkBoxChapterAvailable">
+        <item row="4" column="2">
+         <widget class="QPushButton" name="btnChapterCancel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
-           <string>Available for purchase</string>
+           <string>Cancel</string>
           </property>
          </widget>
         </item>
@@ -2679,7 +2679,7 @@
       </widget>
       <widget class="QWidget" name="shoppingCartOrderConfirmed">
        <layout class="QGridLayout" name="gridLayout_9">
-        <item row="2" column="2">
+        <item row="2" column="1">
          <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -2692,7 +2692,7 @@
           </property>
          </spacer>
         </item>
-        <item row="0" column="0" colspan="4">
+        <item row="0" column="0" colspan="3">
          <widget class="QLabel" name="label_13">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2711,20 +2711,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="3">
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>149</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="2">
+        <item row="1" column="1">
          <widget class="QPushButton" name="btnConfirmationMainPage">
           <property name="styleSheet">
            <string notr="true">color: black;</string>
@@ -2733,19 +2720,6 @@
            <string>Main Page</string>
           </property>
          </widget>
-        </item>
-        <item row="1" column="0" colspan="2">
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>149</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>

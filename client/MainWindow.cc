@@ -686,3 +686,25 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
     }
 
 }
+
+void MainWindow::on_btnManageRemoveSection_clicked()
+{
+
+    ui->listManageSections->clear();
+    QList<Class*> classes = localStorage.getClasses();
+    QList<Textbook*> tbs;
+    foreach(Class *cl, classes){
+        tbs.append( cl->getBooklist() );
+    }
+    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
+    int index = ui->listManageChapters->currentRow();
+    if(index >= 0){
+        Chapter *selectedCh = selectedTb->getChapters().at(index);
+        int chIndex = ui->listManageChapters->currentRow();
+        if(chIndex >= 0){
+            Section *selectedSec = selectedCh->getSections().at(chIndex);
+            localStorage.deleteSection(*selectedSec);
+        }
+    }
+
+}

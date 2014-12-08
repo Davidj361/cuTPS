@@ -122,6 +122,8 @@ class MainWindow : public QMainWindow {
 
         void on_btnManageRemoveChapter_clicked();
 
+        void on_btnManageRemoveSection_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

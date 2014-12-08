@@ -24,6 +24,7 @@ void MainWindow::on_btnManageAddChapter_clicked()
     ui->lineChapterDescription->setText("");
     ui->lineChapterPrice->setText("");
     ui->lineChapterTitle->setText("");
+    ui->lineChapterNumber->setText("");
     ui->checkBoxChapterAvailable->setChecked(false);
     ui->btnChapterAddEdit->setText("Add Chapter");
     ui->labelContentNumber->setText("Chapter:");
@@ -108,6 +109,7 @@ void MainWindow::on_btnManageAddSection_clicked()
     ui->lineChapterDescription->setText("");
     ui->lineChapterPrice->setText("");
     ui->lineChapterTitle->setText("");
+    ui->lineChapterNumber->setText("");
     ui->checkBoxChapterAvailable->setChecked(false);
     ui->btnChapterAddEdit->setText("Add Section");
     ui->labelContentNumber->setText("Section:");

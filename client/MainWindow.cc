@@ -12,14 +12,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->contentManagerPage->setUi(ui);
 
     /*  Set Background Image  */
-    /*
-    QPalette* palette = new QPalette();
-    palette->setBrush(QPalette::Background,*(new QBrush(*(new QPixmap("images/red.jpg")))));
-    setPalette(*palette);
-    */
-
-    ui->UsernameBox->setText("bruce");
-    ui->PasswordBox->setText("password");
 
     ui->UsernameBox->setFocus();
 
@@ -496,12 +488,6 @@ void MainWindow::on_btnCheckout_clicked()
 {
     if (shoppingCart.getCartContents().count() > 0) {
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartGatherCreditCardInfo));
-        //TODO delete the following lines after it works
-        ui->lineName->setText("h");
-        ui->lineEmail->setText("h");
-        ui->linedate->setText("h");
-        ui->lineCC->setText("h");
-        ui->lineCvv->setText("h");
     } else {
         MainWindow::popupError("There are no items in the Shopping Cart");
     }

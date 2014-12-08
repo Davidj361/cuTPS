@@ -644,9 +644,12 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
         tbs.append( cl->getBooklist() );
     }
     Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
-    Chapter *selectedCh = selectedTb->getChapters().at(ui->listManageChapters->currentRow());
-    foreach(Section *s, selectedCh->getSections()){
-        ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+    int index = ui->listManageChapters->currentRow();
+    if(index >= 0){
+        Chapter *selectedCh = selectedTb->getChapters().at(index);
+        foreach(Section *s, selectedCh->getSections()){
+            ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+        }
     }
 }
 
@@ -669,5 +672,17 @@ void MainWindow::on_btnManageRemoveTextbook_clicked()
 
 void MainWindow::on_btnManageRemoveChapter_clicked()
 {
+
+    QList<Class*> classes = localStorage.getClasses();
+    QList<Textbook*> tbs;
+    foreach(Class *cl, classes){
+        tbs.append( cl->getBooklist() );
+    }
+    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
+    int index = ui->listManageChapters->currentRow();
+    if(index >= 0){
+        Chapter *selectedCh = selectedTb->getChapters().at(index);
+        localStorage.deleteChapter(*selectedCh);
+    }
 
 }

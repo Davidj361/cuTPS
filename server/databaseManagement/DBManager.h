@@ -159,24 +159,6 @@ class DBManager {
         void DeleteClass(QString classcode, QString semester);
 
         /* =====================================================================
-          Function  : AddStudentsToClass
-          Purpose   : Adds a list of Students to a Class
-          Variables :
-          Returns   : void
-          Throws    : Throws runtime_error if there is any error
-        ===================================================================== */
-        void AddStudentsToClass (QList<Student *> &list, QString course, QString semester);
-
-        /* =====================================================================
-          Function  : RemoveStudentsFromClass
-          Purpose   : Removes a list of Students from a Class
-          Variables :
-          Returns   : void
-          Throws    : Throws runtime_error if there is any error
-        ===================================================================== */
-        void RemoveStudentsFromClass (QList<Student *> &list, QString course, QString semester);
-
-        /* =====================================================================
           Function  : AddTextbooksToClass
           Purpose   : Adds a list of Textbooks to a Class
           Variables :

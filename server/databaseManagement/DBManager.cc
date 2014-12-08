@@ -597,60 +597,6 @@ void DBManager::DeleteClass(QString course, QString semester) {
     db.commit();
 }
 
-void DBManager::AddStudentsToClass (QList<Student *> &list, QString course, QString semester) {
-    if (list.empty())
-        throw std::runtime_error("ERROR DBManager::AddStudentsToClass() list of Students cannot be empty");
-
-    QSqlQuery query;
-
-    db.transaction();
-
-    Student *student;
-    foreach (student, list) {
-        if (!query.prepare("INSERT INTO Class_List (student, semester, course)"
-                           "VALUES (:student, :semester, :course);"))
-            throw std::runtime_error("ERROR DBManager::AddStudentsToClass() Error while preparing INSERT statement");
-
-        query.bindValue(":student", student->getUsername());
-        query.bindValue(":course", course);
-        query.bindValue(":semester", semester);
-
-        if (!query.exec()) {
-            db.rollback();
-            if (query.lastError().number() == 19)
-                throw std::runtime_error("ERROR DBManager::AddStudentsToClass(), Student already registerd in class");
-            else
-                throw std::runtime_error("ERROR DBManager::AddStudentsToClass() Error while adding studen to class");
-        }
-    }
-    db.commit();
-}
-
-void DBManager::RemoveStudentsFromClass(QList<Student *> &list, QString course, QString semester) {
-    if (list.empty())
-        throw std::runtime_error("ERROR DBManager::RemoveStudentsFromClass() list of Students cannot be empty");
-
-    QSqlQuery query;
-
-    db.transaction();
-
-    Student *student;
-    foreach (student, list) {
-        if (!query.prepare("DELETE FROM Class_List WHERE student = :student, semester = :semester, course = :course;"))
-            throw std::runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while preparing DELETE statement");
-
-        query.bindValue(":student", student->getUsername());
-        query.bindValue(":course", course);
-        query.bindValue(":semester", semester);
-
-        if (!query.exec()) {
-            db.rollback();
-            throw std::runtime_error("ERROR DBManager::RemoveStudentsFromClass() Error while adding student to class");
-        }
-    }
-    db.commit();
-}
-
 void DBManager::AddTextbooksToClass (QList<Textbook *> &list, QString course, QString semester) {
     if (list.empty())
         throw std::runtime_error("ERROR DBManager::AddTextbooksToClass() list of Textbooks cannot be empty");

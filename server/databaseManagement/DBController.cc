@@ -257,36 +257,12 @@ void DBController::DeleteClass(Class *clss) {
 }
 
 /***************************************************************************
- **                ADD STUDENTS TO CLASS                                  **
- **************************************************************************/
-void DBController::AddStudentsToClass (Class *clss) {
-    try {
-        dbManager->AddStudentsToClass(clss->getClasslist(), clss->getCourse()->getCourseCode(), clss->getSemester());
-    }
-    catch(std::runtime_error e) {
-        throw e;
-    }
-}
-
-/***************************************************************************
  **                ADD TEXTBOOKS TO CLASS                                 **
  **************************************************************************/
 void DBController::AddTextbooksToClass (Class *clss) {
     try {
         dbManager->AddTextbooksToClass(clss->getBooklist(), clss->getCourse()->getCourseCode(), clss->getSemester());
         if (DEBUG) qDebug() << "DBController - Added Textbook " << clss->getBooklist()[0]->getISBN() << " to class " << clss->getSemester() << " " << clss->getCourse()->getCourseCode();
-    }
-    catch(std::runtime_error e) {
-        throw e;
-    }
-}
-
-/***************************************************************************
- **                REMOVE STUDENTS FROM CLASS                             **
- **************************************************************************/
-void DBController::RemoveStudentsFromClass (Class *clss) {
-    try {
-        dbManager->RemoveStudentsFromClass(clss->getClasslist(), clss->getCourse()->getCourseCode(), clss->getSemester());
     }
     catch(std::runtime_error e) {
         throw e;

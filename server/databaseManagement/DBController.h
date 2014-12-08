@@ -159,26 +159,6 @@ class DBController {
         void DeleteClass (Class *);
 
         /* =====================================================================
-          Function  : AddStudentsToClass
-          Purpose   : Adds a list of Students to a Class
-          Variables : In - Class* - The Class being added to containing
-                      the list of Students to add to it.
-          Returns   : void
-          Throws    : Throws runtime_error if there is any error
-        ===================================================================== */
-        void AddStudentsToClass (Class *);
-
-        /* =====================================================================
-          Function  : RemoveStudentsFromClass
-          Purpose   : Removes a list of Students from a Class
-          Variables : In - Class* - The Class being removed from containing
-                      the list of Students to remove from it.
-          Returns   : void
-          Throws    : Throws runtime_error if there is any error
-        ===================================================================== */
-        void RemoveStudentsFromClass (Class *);
-
-        /* =====================================================================
           Function  : AddTextbooksToClass
           Purpose   : Adds a list of Textbooks to a Class
           Variables : In - Class* - The Class being added to containing

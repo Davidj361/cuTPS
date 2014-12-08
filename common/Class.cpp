@@ -9,9 +9,6 @@ Class::Class(const Class& ass) : semester(ass.semester) {
         foreach (Textbook* book, ass.booklist) {
                 booklist.push_back(new Textbook(*book));
         }
-        foreach (Student* stu, ass.classlist) {
-                classlist.push_back(new Student(*stu));
-        }
 }
 
 Class::Class(QString semester, const Course& course) : semester(semester) {

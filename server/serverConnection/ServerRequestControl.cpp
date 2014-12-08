@@ -57,7 +57,8 @@ void ServerRequestControl::run(){
             }
 
             db->AddTextbooksToClass(cl);
-            delete cl->getCourse();
+            if(cl->getCourse() == 0)
+                delete cl->getCourse();
             delete cl;
 
             serializer->serializeSuccess(command, *out);

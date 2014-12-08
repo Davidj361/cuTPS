@@ -67,6 +67,7 @@ void MainWindow::on_btnChapterAddEdit_clicked()
                       (float) ui->lineChapterPrice->text().toDouble(),
                       getContentManagerSelectedChapter()->getcid());
             localStorage.editChapter(c);
+            this->displayManageContent();
         }
         if(ui->btnChapterAddEdit->text().compare("Edit Section") == 0){
             Section s(ui->lineChapterTitle->text(),
@@ -78,6 +79,7 @@ void MainWindow::on_btnChapterAddEdit_clicked()
                       (float) ui->lineChapterPrice->text().toDouble(),
                       getContentManagerSelectedSection()->getcid());
             localStorage.editSection(s);
+            this->displayManageContent();
         }
         if(ui->btnChapterAddEdit->text().compare("Add Chapter") == 0){
             Chapter c(ui->lineChapterTitle->text(),
@@ -87,6 +89,7 @@ void MainWindow::on_btnChapterAddEdit_clicked()
                       ui->checkBoxChapterAvailable->isChecked(),
                       (float) ui->lineChapterPrice->text().toDouble());
             localStorage.addChapter(c);
+            this->displayManageContent();
         }
         if(ui->btnChapterAddEdit->text().compare("Add Section") == 0){
             Section s(ui->lineChapterTitle->text(),
@@ -97,11 +100,11 @@ void MainWindow::on_btnChapterAddEdit_clicked()
                       ui->checkBoxChapterAvailable->isChecked(),
                       (float) ui->lineChapterPrice->text().toDouble());
             localStorage.addSection(s);
+            this->displayManageContent();
         }
     } catch (std::runtime_error e){
         this->popupError(e.what());
     }
-    this->displayManageContent();
 }
 
 void MainWindow::on_btnManageAddSection_clicked()

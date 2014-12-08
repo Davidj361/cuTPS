@@ -506,8 +506,6 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
     // }
 }
 
-
-
 void MainWindow::on_btnManageRemoveSection_clicked()
 {
     try {

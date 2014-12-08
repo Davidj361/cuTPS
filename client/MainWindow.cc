@@ -797,7 +797,12 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     (float) ui->lineTextbookPrice->text().toDouble()
                     );
         c.addTextbook(tb);
-        localStorage.addTextbook(c);
+        try{
+            localStorage.addTextbook(c);
+        } catch (std::runtime_error e){
+            this->popupError(e.what());
+        }
+
         delete course;
         delete tb;
 
@@ -815,7 +820,11 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->checkBoxTextbookAvailable->isChecked(),
                     (float) ui->lineTextbookPrice->text().toDouble()
                     );
-        localStorage.editTextbook(tb);
+        try{
+            localStorage.editTextbook(tb);
+        } catch (std::runtime_error e){
+            this->popupError(e.what());
+        }
 
     }
     this->displayManageContent();
@@ -844,5 +853,12 @@ void MainWindow::on_listTextbookTerm_itemClicked(QListWidgetItem *item)
 void MainWindow::on_btnChapterCancel_clicked()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerPage));
+
+}
+
+//void MainWindow::display
+
+void MainWindow::on_btnManageAddChapter_clicked()
+{
 
 }

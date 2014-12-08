@@ -2551,7 +2551,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="page">
+      <widget class="QWidget" name="ContentManageChapterForm">
        <widget class="QTextBrowser" name="lineChapterDescription">
         <property name="geometry">
          <rect>

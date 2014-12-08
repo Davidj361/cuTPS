@@ -140,6 +140,8 @@ class MainWindow : public QMainWindow {
 
         void on_btnChapterCancel_clicked();
 
+        void on_btnManageAddChapter_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

@@ -16,15 +16,15 @@ class Checkout {
         public:
                 // Using this, we can have direct links to other subsystems without needing to create more than 1
                 // instance of each for our system
-                Checkout(const StorageControl&, const ShoppingCart&, const LocalStorage&);
+                Checkout(const StorageControl&, ShoppingCart&, const LocalStorage&);
                 // This will send off the invoice object to StorageControl
                 // TODO See if you can change return type for error checking success or fail?
                 void checkout();
         private:
                 // Pointers to our subsystems for calling functions
-                const StorageControl* storage;
-                const ShoppingCart* cart;
-                const LocalStorage* lStorage;
+                const StorageControl*const storage;
+                ShoppingCart* const cart;
+                const LocalStorage*const lStorage;
 };
 
 #endif

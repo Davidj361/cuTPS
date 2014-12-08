@@ -3,12 +3,13 @@
 Chapter::Chapter() : chapterNo(0), textbook(0) {}
 
 Chapter::Chapter(const Chapter& c) : Content(c), chapterNo(c.chapterNo), textbook(c.textbook) {
-    foreach(Section* s, c.sections) {
-        Section* newSection = new Section(*s);
-        newSection->chapter = this;
-        newSection->textbook = this->textbook;
-        this->addSection(newSection);
-    }
+    // TODO get rid of this if there's no issues
+    // foreach(Section* s, c.sections) {
+    //     Section* newSection = new Section(*s);
+    //     newSection->chapter = this;
+    //     newSection->textbook = this->textbook;
+    //     this->addSection(newSection);
+    // }
 }
 
 Chapter::Chapter(QString cTitle, int cChapterno, Textbook *cParent,

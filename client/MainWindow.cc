@@ -230,7 +230,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
 
     foreach (const Textbook *t, *studentContent) {
         if (t->isAvailable()) {
-            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? "" : (" : $" + QVariant(t->getPrice()).toString() ) ) );
+            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? (" : $" + QString::number(t->getPrice(), 'f', 2) ) : "" ) );
             if (t->isAvailable()) {
                     textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
                     textbookListItem->setCheckState(Qt::Unchecked);
@@ -241,7 +241,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
         }
         foreach (const Chapter *ch, t->getChapters()) {
             if (ch->isAvailable()) {
-                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? "" : (" : $" + QVariant(ch->getPrice()).toString() ) ) );
+                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? (" : $" + QString::number(ch->getPrice(), 'f', 2) ) : "" ) );
                 if (ch->isAvailable()) {
                         chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
                         chapterListItem->setCheckState(Qt::Unchecked);
@@ -257,7 +257,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
                     for (int i = 0; i < length; i++)
                             spaces += " ";
                     spaces += spaces;
-                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QVariant(s->getPrice()).toString() ) ));
+                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? (" : $" + QString::number(s->getPrice(), 'f', 2) ) : "" ));
                     if (s->isAvailable()) {
                             sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
                             sectionListItem->setCheckState(Qt::Unchecked);
@@ -871,10 +871,22 @@ void MainWindow::on_btnTextbookCancel_clicked()
 
 void MainWindow::on_btnTextbookAddEdit_clicked()
 {
-    if(ui->listTextbookClass->isEnabled()){
-        // add
+    if(ui->listTextbookClass->isEnabled()) {
+
+        if (ui->listTextbookTerm->currentRow() < 0) {
+            this->popupWarning("Please select a semester");
+            return;
+        }
+
+        if (ui->listTextbookClass->currentRow() < 0) {
+            this->popupWarning("Please select a course");
+            return;
+        }
+
         Course *course = new Course(ui->listTextbookClass->selectedItems().first()->text(), "");
+
         Class c(ui->listTextbookTerm->selectedItems().first()->text(), course);
+
         Textbook *tb = new Textbook(
                     ui->lineTextbookIsbn->text(),
                     ui->lineTextbookTitle->text(),
@@ -886,18 +898,21 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->checkBoxTextbookAvailable->isChecked(),
                     (float) ui->lineTextbookPrice->text().toDouble()
                     );
+
         c.addTextbook(tb);
-        try{
+
+        try {
             localStorage.addTextbook(c);
-        } catch (std::runtime_error e){
+            this->displayManageContent();
+
+            delete course;
+            delete tb;
+        }
+        catch (std::runtime_error e){
             this->popupError(e.what());
         }
-
-        delete course;
-        delete tb;
-
     }
-    else{
+    else {
 
         Textbook tb(
                     ui->lineTextbookIsbn->text(),
@@ -909,17 +924,16 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->lineTextbookDescription->toPlainText(),
                     ui->checkBoxTextbookAvailable->isChecked(),
                     (float) ui->lineTextbookPrice->text().toDouble(),
-                    ui->lineTextbookCid->text().toInt()
-                    );
-        try{
+                    ui->lineTextbookCid->text().toInt());
+
+        try {
             localStorage.editTextbook(tb);
-        } catch (std::runtime_error e){
+            this->displayManageContent();
+        }
+        catch (std::runtime_error e){
             this->popupError(e.what());
         }
-
     }
-    this->displayManageContent();
-
 }
 
 void MainWindow::on_btnManageEditTextbook_clicked()

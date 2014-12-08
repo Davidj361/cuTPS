@@ -21,6 +21,9 @@ void MainWindow::on_btnManageContent_clicked()
 
 void MainWindow::on_btnManageAddChapter_clicked()
 {
+    if (this->getContentManagerSelectedTextbook() == 0)
+        return;
+    
     ui->lineChapterDescription->setText("");
     ui->lineChapterPrice->setText("");
     ui->lineChapterTitle->setText("");
@@ -109,6 +112,9 @@ void MainWindow::on_btnChapterAddEdit_clicked()
 
 void MainWindow::on_btnManageAddSection_clicked()
 {
+    if (this->getContentManagerSelectedTextbook() == 0)
+        return;
+
     ui->lineChapterDescription->setText("");
     ui->lineChapterPrice->setText("");
     ui->lineChapterTitle->setText("");

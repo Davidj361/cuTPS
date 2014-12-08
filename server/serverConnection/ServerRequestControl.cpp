@@ -44,6 +44,12 @@ void ServerRequestControl::run(){
             serializer->serializeClasses(list, command, *out);
             if(user != 0)
                 delete user;
+            // Make sure to clean up the newly constructed list
+            foreach(Class* c, list) {
+                delete c;
+                c = 0;
+            }
+            list.clear();
 
         }
 

@@ -197,7 +197,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
     const QList<Textbook*> *studentContent = localStorage.getTextbooks(item->text());
     foreach (const Textbook *t, *studentContent) {
         if (t->isAvailable()) {
-            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? "" : (" : $" + QVariant(t->getPrice()).toString() ) ) );
+            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? "" : (" : $" + QString::number(t->getPrice(), 'f', 2) ) ) );
             if (t->isAvailable()) {
                     textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
                     textbookListItem->setCheckState(Qt::Unchecked);
@@ -208,7 +208,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
         }
         foreach (const Chapter *ch, t->getChapters()) {
             if (ch->isAvailable()) {
-                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? "" : (" : $" + QVariant(ch->getPrice()).toString() ) ) );
+                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? "" : (" : $" + QString::number(ch->getPrice(), 'f', 2) ) ) );
                 if (ch->isAvailable()) {
                         chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
                         chapterListItem->setCheckState(Qt::Unchecked);
@@ -224,7 +224,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
                     for (int i = 0; i < length; i++)
                             spaces += " ";
                     spaces += spaces;
-                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QVariant(s->getPrice()).toString() ) ));
+                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QString::number(s->getPrice(), 'f', 2) ) ));
                     if (s->isAvailable()) {
                             sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
                             sectionListItem->setCheckState(Qt::Unchecked);
@@ -328,9 +328,6 @@ void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
             count++;
             foreach (const Section *s, ch->getSections()) {
                 if (count == index) {
-                    // ui->courseDescription->setText("Section: "+QString::number(s->getSectionNo()) + " " + s->getTitle() + " $" + QString::number(s->getPrice()));
-                    // ui->courseDescription->append(s->getDescription());
-
                     ui->courseDescription->setFontUnderline(true);
                     ui->courseDescription->setText("Section #");
                     ui->courseDescription->setFontUnderline(false);

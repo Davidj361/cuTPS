@@ -109,7 +109,7 @@ void ServerRequestControl::run(){
             if(command == ADD_SECTION)
                 db->AddSection(s);
 
-            if(command == ADD_CLASS)
+            if(command == EDIT_SECTION)
                 db->EditSection(s);
 
             if(command == REMOVE_SECTION)

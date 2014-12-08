@@ -288,7 +288,7 @@ void DBManager::EditSection(QString title, int section, int chapter, QString tex
 
     db.transaction();
 
-    if (!query.prepare("UPDATE Sections SET name = :name, number = :number, chapter = :chapter, textbook = :textbook, description = :description "
+    if (!query.prepare("UPDATE Sections SET name = :name, number = :number, chapter = :chapter, textbook = :textbook, description = :description, "
                       " availability = :availability, price = :price WHERE content_id = :content_id;"))
         throw std::runtime_error("ERROR DBManager::EditSection() Error while preparing UPDATE statement");
 

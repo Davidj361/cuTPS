@@ -664,9 +664,9 @@ void MainWindow::on_btnManageRemoveTextbook_clicked()
     if( index >= 0 ){
         Textbook *selectedTb = tbs.at(index);
         localStorage.deleteTextbook(*selectedTb);
+        localStorage.refresh();
+        this->displayManageContent();
     }
-
-    this->displayManageContent();
 
 }
 
@@ -683,6 +683,8 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
     if(index >= 0){
         Chapter *selectedCh = selectedTb->getChapters().at(index);
         localStorage.deleteChapter(*selectedCh);
+        localStorage.refresh();
+        this->displayManageContent();
     }
 
 }
@@ -690,7 +692,6 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
 void MainWindow::on_btnManageRemoveSection_clicked()
 {
 
-    ui->listManageSections->clear();
     QList<Class*> classes = localStorage.getClasses();
     QList<Textbook*> tbs;
     foreach(Class *cl, classes){
@@ -704,6 +705,8 @@ void MainWindow::on_btnManageRemoveSection_clicked()
         if(chIndex >= 0){
             Section *selectedSec = selectedCh->getSections().at(chIndex);
             localStorage.deleteSection(*selectedSec);
+            localStorage.refresh();
+            this->displayManageContent();
         }
     }
 

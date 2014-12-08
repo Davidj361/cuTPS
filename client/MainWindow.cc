@@ -821,6 +821,7 @@ void MainWindow::on_btnManageAddTextbook_clicked()
 }
 
 void MainWindow::displayTextbookPage(Textbook *tb){
+    ui->lineTextbookCid->hide();
     if(tb == 0){
         // new tb
         ui->lineTextbookDescription->setText("");
@@ -849,6 +850,8 @@ void MainWindow::displayTextbookPage(Textbook *tb){
         ui->lineTextbookPrice->setText(QString::number(tb->getPrice(), 'f', 2));
         ui->lineTextbookPublisher->setText(tb->getPublisher());
         ui->lineTextbookTitle->setText(tb->getTitle());
+        ui->lineTextbookCid->setText(QString::number(tb->getcid()));
+        qDebug() << " cid is "<<tb->getcid();
         ui->lineTextbookYear->setText(QString::number(tb->getYear()));
         bool checked = tb->isAvailable();
         ui->checkBoxTextbookAvailable->setChecked(checked);
@@ -905,7 +908,8 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->lineTextbookEdition->text(),
                     ui->lineTextbookDescription->toPlainText(),
                     ui->checkBoxTextbookAvailable->isChecked(),
-                    (float) ui->lineTextbookPrice->text().toDouble()
+                    (float) ui->lineTextbookPrice->text().toDouble(),
+                    ui->lineTextbookCid->text().toInt()
                     );
         try{
             localStorage.editTextbook(tb);

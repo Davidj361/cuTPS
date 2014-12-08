@@ -150,6 +150,8 @@ class MainWindow : public QMainWindow {
         Section *getSelectedSection(QListWidget *tblist, QListWidget *chlist, QListWidget *secList);
         Textbook* getSelectedTextbook(QListWidget *tblist);
 
+        void on_btnManageAddSection_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

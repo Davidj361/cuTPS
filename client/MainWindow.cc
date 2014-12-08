@@ -647,7 +647,7 @@ void MainWindow::on_btnBackToMain_clicked()
 }
 
 void MainWindow::displayManageContent(){
-
+    refresh();
     ui->listManageChapters->clear();
     ui->listManageSections->clear();
     ui->listManageTextbooks->clear();
@@ -1079,4 +1079,9 @@ void MainWindow::on_btnChapterAddEdit_clicked()
     } catch (std::runtime_error e){
         this->popupError(e.what());
     }
+}
+
+void MainWindow::on_btnManageAddSection_clicked()
+{
+    this->displayManageContent();
 }

@@ -42,7 +42,7 @@ void Connection::readyRead() {
     QByteArray *str = new QByteArray(sock->readAll());
 
     // Runnable that contains main functionality
-    ServerRequestControl *src = new ServerRequestControl(str, db);
+    ServerRequestControl* src = new ServerRequestControl(str, db);
     src->setAutoDelete(true);
 
     // Connects result with function to send it

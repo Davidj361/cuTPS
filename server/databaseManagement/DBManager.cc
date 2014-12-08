@@ -138,7 +138,7 @@ void DBManager::DeleteTextbook(int content_id) {
 
     db.transaction();
 
-    if (!query.prepare("DELETE FROM Textbooks WHERE id = :content_id;"))
+    if (!query.prepare("DELETE FROM Textbooks WHERE content_id = :content_id;"))
         throw std::runtime_error("ERROR DBManager::DeleteTextbook() Error while preparing DELETE statement");
 
     query.bindValue(":content_id", content_id);
@@ -226,7 +226,7 @@ void DBManager::DeleteChapter(int content_id) {
 
     db.transaction();
 
-    if (!query.prepare("DELETE FROM Chapters WHERE id = :content_id;"))
+    if (!query.prepare("DELETE FROM Chapters WHERE content_id = :content_id;"))
         throw std::runtime_error("ERROR DBManager::DeleteChapter() Error while preparing DELETE statement");
 
     query.bindValue(":content_id", content_id);
@@ -317,7 +317,7 @@ void DBManager::DeleteSection(int content_id) {
 
     db.transaction();
 
-    if (!query.prepare("DELETE FROM Sections WHERE id = :content_id;"))
+    if (!query.prepare("DELETE FROM Sections WHERE content_id = :content_id;"))
         throw std::runtime_error("ERROR DBManager::DeleteSection() Error while preparing DELETE statement");
 
     query.bindValue(":content_id", content_id);

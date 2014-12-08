@@ -52,6 +52,10 @@ void ServerRequestControl::run(){
             Class *cl;
             serializer->deserialize(objJson, cl);
 
+            foreach (Textbook *textbook, cl->getBooklist()) {
+                db->AddTextbook(textbook);
+            }
+
             db->AddTextbooksToClass(cl);
 
             delete cl;

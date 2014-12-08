@@ -230,7 +230,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
 
     foreach (const Textbook *t, *studentContent) {
         if (t->isAvailable()) {
-            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? "" : (" : $" + QVariant(t->getPrice()).toString() ) ) );
+            QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? (" : $" + QString::number(t->getPrice(), 'f', 2) ) : "" ) );
             if (t->isAvailable()) {
                     textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
                     textbookListItem->setCheckState(Qt::Unchecked);
@@ -241,7 +241,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
         }
         foreach (const Chapter *ch, t->getChapters()) {
             if (ch->isAvailable()) {
-                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? "" : (" : $" + QVariant(ch->getPrice()).toString() ) ) );
+                QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? (" : $" + QString::number(ch->getPrice(), 'f', 2) ) : "" ) );
                 if (ch->isAvailable()) {
                         chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
                         chapterListItem->setCheckState(Qt::Unchecked);
@@ -257,7 +257,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
                     for (int i = 0; i < length; i++)
                             spaces += " ";
                     spaces += spaces;
-                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? "" : (" : $" + QVariant(s->getPrice()).toString() ) ));
+                    QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? (" : $" + QString::number(s->getPrice(), 'f', 2) ) : "" ));
                     if (s->isAvailable()) {
                             sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
                             sectionListItem->setCheckState(Qt::Unchecked);
@@ -713,30 +713,43 @@ void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
 void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 {
     ui->listManageSections->clear();
+
+    try{
+        Chapter* selectedCh = this->getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters);
+        if(selectedCh != 0){
+            foreach(Section *s, selectedCh->getSections())
+                ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+        }
+    } catch (std::runtime_error e){
+        this->popupError(e.what());
+    }
+
+
+
+}
+
+Chapter* MainWindow::getSelectedChapter(QListWidget * tblist, QListWidget * chList){
     QList<Class*> classes;
     try {
         classes = localStorage.getClasses();
     }
     catch (std::runtime_error e) {
-        this->popupError(e.what());
-        return;
+        throw e;
     }
 
     QList<Textbook*> tbs;
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
     }
-    int tbIndex = ui->listManageTextbooks->currentRow();
+    int tbIndex = tblist->currentRow();
     if(tbIndex >= 0){
         Textbook *selectedTb = tbs.at(tbIndex);
-        int chIndex = ui->listManageChapters->currentRow();
+        int chIndex = chList->currentRow();
         if(chIndex >= 0){
-            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-            foreach(Section *s, selectedCh->getSections()){
-                ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
-            }
+            return selectedTb->getChapters().at(chIndex);
         }
     }
+    return 0;
 }
 
 void MainWindow::on_btnManageRemoveTextbook_clicked()
@@ -791,30 +804,45 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
 void MainWindow::on_btnManageRemoveSection_clicked()
 {
     try {
+
+        Section *selectedSec = this->getSelectedSection(ui->listManageTextbooks, ui->listManageChapters, ui->listManageSections);
+
+        localStorage.deleteSection(*selectedSec);
+
+        localStorage.refresh();
+
+        this->displayManageContent();
+
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
+}
+
+Section * MainWindow::getSelectedSection(QListWidget *tblist, QListWidget *chlist, QListWidget *secList){
+    try {
         QList<Class*> classes = localStorage.getClasses();
         QList<Textbook*> tbs;
         foreach(Class *cl, classes){
             tbs.append( cl->getBooklist() );
         }
-        int tbIndex = ui->listManageTextbooks->currentRow();
+        int tbIndex = tblist->currentRow();
         if(tbIndex >= 0){
             Textbook *selectedTb = tbs.at(tbIndex);
-            int chIndex = ui->listManageChapters->currentRow();
+            int chIndex = chlist->currentRow();
             if(chIndex >= 0){
                 Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-                int secIndex = ui->listManageSections->currentRow();
+                int secIndex = secList->currentRow();
                 if(secIndex >= 0){
-                    Section *selectedSec = selectedCh->getSections().at(secIndex);
-                    localStorage.deleteSection(*selectedSec);
-                    localStorage.refresh();
-                    this->displayManageContent();
+                    return selectedCh->getSections().at(secIndex);
                 }
             }
         }
     }
     catch (std::runtime_error e) {
-        this->popupError(e.what());
+        throw e;
     }
+    return 0;
 }
 
 void MainWindow::on_btnManageAddTextbook_clicked()
@@ -873,10 +901,22 @@ void MainWindow::on_btnTextbookCancel_clicked()
 
 void MainWindow::on_btnTextbookAddEdit_clicked()
 {
-    if(ui->listTextbookClass->isEnabled()){
-        // add
+    if(ui->listTextbookClass->isEnabled()) {
+
+        if (ui->listTextbookTerm->currentRow() < 0) {
+            this->popupWarning("Please select a semester");
+            return;
+        }
+
+        if (ui->listTextbookClass->currentRow() < 0) {
+            this->popupWarning("Please select a course");
+            return;
+        }
+
         Course *course = new Course(ui->listTextbookClass->selectedItems().first()->text(), "");
+
         Class c(ui->listTextbookTerm->selectedItems().first()->text(), course);
+
         Textbook *tb = new Textbook(
                     ui->lineTextbookIsbn->text(),
                     ui->lineTextbookTitle->text(),
@@ -888,17 +928,18 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->checkBoxTextbookAvailable->isChecked(),
                     (float) ui->lineTextbookPrice->text().toDouble()
                     );
+
         c.addTextbook(tb);
-        try{
+
+        try {
             localStorage.addTextbook(c);
-        } catch (std::runtime_error e){
+            this->displayManageContent();
+        }
+        catch (std::runtime_error e){
             this->popupError(e.what());
         }
-
-        delete course;
-        delete tb;
-
     }
+
     else{
         // edit
         Textbook tb(
@@ -911,17 +952,16 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->lineTextbookDescription->toPlainText(),
                     ui->checkBoxTextbookAvailable->isChecked(),
                     (float) ui->lineTextbookPrice->text().toDouble(),
-                    ui->lineTextbookCid->text().toInt()
-                    );
-        try{
+                    ui->lineTextbookCid->text().toInt());
+
+        try {
             localStorage.editTextbook(tb);
-        } catch (std::runtime_error e){
+            this->displayManageContent();
+        }
+        catch (std::runtime_error e){
             this->popupError(e.what());
         }
-
     }
-    this->displayManageContent();
-
 }
 
 void MainWindow::on_btnManageEditTextbook_clicked()
@@ -949,14 +989,69 @@ void MainWindow::on_btnChapterCancel_clicked()
 
 }
 
-void MainWindow::displayContentPage(Content &c){
-    ui->lineChapterDescription->setText(c.getDescription());
-    ui->lineChapterPrice->setText(QString::number(c.getPrice(), 'f', 2));
-    ui->lineChapterTitle->setText(c.getTitle());
-    ui->checkBoxChapterAvailable->setEnabled(c.isAvailable());
-}
+
 
 void MainWindow::on_btnManageAddChapter_clicked()
 {
-    //
+    ui->lineChapterDescription->setText("");
+    ui->lineChapterPrice->setText("");
+    ui->lineChapterTitle->setText("");
+    ui->checkBoxChapterAvailable->setChecked(false);
+    ui->btnChapterAddEdit->setText("Add Chapter");
+    ui->labelContentNumber->setText("Chapter:");
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
+
+}
+
+
+
+void MainWindow::on_btnManageEditChapter_clicked()
+{
+    Chapter *selectedCh = this->getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters);
+    if(selectedCh != 0){
+        ui->btnChapterAddEdit->setText("Edit Chapter");
+        ui->lineChapterDescription->setText(selectedCh->getDescription());
+        ui->lineChapterPrice->setText(QString::number(selectedCh->getPrice(), 'f', 2));
+        ui->lineChapterTitle->setText(selectedCh->getTitle());
+        ui->checkBoxChapterAvailable->setEnabled(selectedCh->isAvailable());
+        ui->labelContentNumber->setText("Chapter:");
+        ui->lineChapterNumber->setText(QString::number(selectedCh->getChapterNo()));
+        ui->lineTextbookCid->setText(QString::number(selectedCh->getcid()));
+
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
+
+    }
+}
+
+void MainWindow::on_btnChapterAddEdit_clicked()
+{
+    try{
+        if(ui->btnChapterAddEdit->text().compare("Edit Chapter") == 0){
+            // edit chapter
+            Chapter c(ui->lineChapterTitle->text(),
+                      ui->lineChapterNumber->text().toInt(),
+                      0, ui->lineChapterDescription->toPlainText(),
+                      ui->checkBoxChapterAvailable->isChecked(),
+                      (float) ui->lineChapterPrice->text().toDouble(),
+                      ui->lineTextbookCid->text().toInt());
+            localStorage.editChapter(c);
+        }
+        if(ui->btnChapterAddEdit->text().compare("Edit Section") == 0){
+            1+1;
+        }
+        if(ui->btnChapterAddEdit->text().compare("Add Chapter") == 0){
+            Chapter c(ui->lineChapterTitle->text(),
+                      ui->lineChapterNumber->text().toInt(),
+                      0, ui->lineChapterDescription->toPlainText(),
+                      ui->checkBoxChapterAvailable->isChecked(),
+                      (float) ui->lineChapterPrice->text().toDouble());
+            //localStorage.add(c);
+        }
+        if(ui->btnChapterAddEdit->text().compare("Add Section") == 0){
+            1+1;
+        }
+    } catch (std::runtime_error e){
+        this->popupError(e.what());
+    }
 }

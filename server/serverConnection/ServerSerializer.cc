@@ -23,7 +23,7 @@ commands_t ServerSerializer::deserialize( QByteArray & bytes, QJsonObject &json 
 void ServerSerializer::deserialize( QJsonObject &json,Textbook *&tb ) {
 
     // Create new textbook
-    tb = new Textbook(json["isbn"].toString(), json["title"].toString(), json["publisher"].toString(),
+    tb = new Textbook(json["ISBN"].toString(), json["title"].toString(), json["publisher"].toString(),
             json["author"].toString(), (int)json["year"].toDouble(), json["edition"].toString(),
             json["descrition"].toString(), json["available"].toBool(), (float)json["price"].toDouble(),
             (int)json["c_id"].toDouble());
@@ -34,7 +34,7 @@ void ServerSerializer::deserialize( QJsonObject &json,Textbook *&tb ) {
 void ServerSerializer::deserialize( QJsonObject &json, Chapter *&ch ) {
 
     // create new chapter
-    Textbook *tb = new Textbook(json["isbn"].toString(),"","","",-1,"","",false, -1);
+    Textbook *tb = new Textbook(json["ISBN"].toString(),"","","",-1,"","",false, -1);
 
     ch = new Chapter(json["title"].toString(), (int)json["chapterNo"].toDouble(), tb, json["description"].toString(),
             json["available"].toBool(), (float)json["price"].toDouble(), (int)json["c_id"].toDouble());
@@ -66,7 +66,7 @@ void ServerSerializer::deserialize( QJsonObject &json, User*& u ) {
 void ServerSerializer::deserialize( QJsonObject &json, Section *&s ) {
 
     // create new section
-    Textbook *tb = new Textbook(json["isbn"].toString(),"","","",-1,"","",false, -1);
+    Textbook *tb = new Textbook(json["ISBN"].toString(),"","","",-1,"","",false, -1);
 
     Chapter *ch = new Chapter("", (int)json["chapterNo"].toDouble());
 
@@ -85,12 +85,16 @@ void ServerSerializer::deserialize( QJsonObject& json, Class*& cl ) {
 
     cl = new Class(json["semester"].toString(), course);
 
-    QJsonObject tbj = json["booklist"].toObject();
+    QJsonArray tbjArray = json["booklist"].toArray();
 
-    cl->addTextbook(new Textbook(tbj["isbn"].toString(), tbj["title"].toString(), tbj["publisher"].toString(),
-            tbj["author"].toString(), (int)tbj["year"].toDouble(), tbj["edition"].toString(),
-            tbj["descrition"].toString(), tbj["available"].toBool(), (float)tbj["price"].toDouble(),
-            (int)tbj["cid"].toDouble()));
+    foreach (QJsonValue tbv, tbjArray) {
+        QJsonObject tbj = tbv.toObject();
+
+        cl->addTextbook(new Textbook(tbj["ISBN"].toString(), tbj["title"].toString(), tbj["publisher"].toString(),
+                tbj["author"].toString(), (int)tbj["year"].toDouble(), tbj["edition"].toString(),
+                tbj["descrition"].toString(), tbj["available"].toBool(), (float)tbj["price"].toDouble(),
+                (int)tbj["cid"].toDouble()));
+    }
 
 }
 

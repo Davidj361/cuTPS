@@ -202,7 +202,7 @@ void MainWindow::on_btnTextbookCancel_clicked()
 
 void MainWindow::on_btnTextbookAddEdit_clicked()
 {
-    if(ui->listTextbookClass->isEnabled()) {
+    if(ui->listTextbookClass->isVisible()) {
 
         if (ui->listTextbookTerm->currentRow() < 0) {
             this->popupWarning("Please select a semester");

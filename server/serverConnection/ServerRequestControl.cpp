@@ -96,7 +96,8 @@ void ServerRequestControl::run(){
             if(command == REMOVE_CHAPTER)
                 db->DeleteChapter(ch);
 
-            delete ch->getTextbook();
+            if(ch->getTextbook() != 0)
+                delete ch->getTextbook();
             delete ch;
 
             serializer->serializeSuccess(command, *out);
@@ -116,8 +117,10 @@ void ServerRequestControl::run(){
 
             if(command == REMOVE_SECTION)
                 db->DeleteSection(s);
-            delete s->getChapter();
-            delete s->getTextbook();
+            if(s->getChapter() !=0)
+                delete s->getChapter();
+            if(s->getTextbook() != 0)
+                delete s->getTextbook();
             delete s;
 
             serializer->serializeSuccess(command, *out);
@@ -167,7 +170,8 @@ void ServerRequestControl::run(){
 
             serializer->serializeSuccess(command, *out);
 
-            delete cl->getCourse();
+            if(cl->getCourse() != 0)
+                delete cl->getCourse();
             delete cl;
 
         }

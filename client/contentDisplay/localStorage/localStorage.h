@@ -11,22 +11,42 @@
 
 class LocalStorage {
         public:
+
                 LocalStorage(const StorageControl&);
                 ~LocalStorage();
+
                 // Add const and non-const functions
                 const User& getUser() const;
                 const QList<Class*>& getClasses() const;
-                // this is used to update the storage for client when refresh option is used in GUI
+
+                /* =====================================================================
+                   Function  : Refresh
+                   Purpose   : Refreshes the list of content based on the user
+                   Returns   : void
+                ===================================================================== */
                 void refresh();
-                // This is used to login, give it username and password
+
+                /* =====================================================================
+                   Function  : Login
+                   Purpose   : Try and login
+                   Returns   : void, throws error if it fails
+                ===================================================================== */
                 void login(const QString& username, const QString& password);
+
+                /* =====================================================================
+                   Function  : GetTextbooks
+                   Purpose   : based on a courseCode, get the related textbooks
+                   Returns   : QList<Textbook*> or exception
+                ===================================================================== */
                 const QList<Textbook*>* getTextbooks(QString courseCode) const;
+
+                /* =====================================================================
+                   Function  : Add, edit remove functions
+                   Purpose   : update localstorage and persistent storage
+                   Returns   : void or exception
+                ===================================================================== */
                 void removeClass(Class& clss) const;
                 void addCourse(const QString& semester, const QVariant& year, const QString& courseCode, const QString& courseTitle);
-
-                // The below function should be called for every update and upon deconstruction of this controller
-                void cleanup(); // Delete all the allocated data
-
                 void addTextbook(Class&) const;
                 void editTextbook(Textbook&) const;
                 void deleteTextbook(Textbook&) const;
@@ -37,17 +57,20 @@ class LocalStorage {
                 void editSection(Section&) const;
                 void deleteSection(Section&) const;
 
+
+                /* =====================================================================
+                   Function  : cleanup
+                   Purpose   : free memory in localstorage
+                   Returns   : void
+                ===================================================================== */
+                void cleanup(); // Delete all the allocated data
+
+
         private:
-                void update(QList<Class*>&);
 
-
-
-                // For connecting to server
                 const StorageControl* const storageControl;
-                // We'll have a list of textbooks, and a list of chapters for the textbook, and a list of sections for the chapter
-                // The list of courses will have a textbook
                 User user;
-                QList<Class*> classes; // Bear in mind that there's textbooks, chapters, sections in here
+                QList<Class*> classes;
 
 };
 

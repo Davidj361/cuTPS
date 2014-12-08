@@ -71,16 +71,12 @@ void MainWindow::refresh() {
         this->populateSemesterList(ui->courseManagerSemesterList);
     }
     else if (currIndex == ui->stackedWidget->indexOf(ui->contentManagerPage)) {
-        this->displayManageContent();
+        this->listManageClear();
+        this->populateContentManager();
     }
 }
 
 
-void MainWindow::listManageClear() {
-    ui->listManageChapters->clear();
-    ui->listManageSections->clear();
-    ui->listManageTextbooks->clear();
-}
 
 void MainWindow::courseManagerClearLists() {
         ui->courseManagerSemesterList->clear();
@@ -100,6 +96,7 @@ void MainWindow::displayError(QString error) {
     ui->statusBar->showMessage(error);
 }
 
+// FIXME Possible duplicate function?
 void MainWindow::populateSemesterList(QListWidget* semesterList) {
     try {
         semesterList->clear();
@@ -154,12 +151,14 @@ void MainWindow::on_BtnLogin_clicked()
         // Check if the user is a student or an admin/content manager
         const QString userType(localStorage.getUser().getType());
         if (userType == QString("student")) {
+            // FIXME This looks like in a bad spot?
             this->update_Shopping_Cart_Count();
-            ui->contentList->clear();
             this->displayMainStudent();
-        } else if (userType == QString("content_manager"))
+            this->refresh();
+        } else if (userType == QString("content_manager")) {
             ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerMain));
-        this->refresh();
+            this->refresh();
+        }
     } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());
         qDebug() << e.what();

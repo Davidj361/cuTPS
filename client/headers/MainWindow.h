@@ -25,6 +25,9 @@ namespace Ui {
         class MainWindow;
 }
 
+//////////////////////////////////////////////////////////////////////
+// All contentManagerPage functions are in ui/contentManagerPage.cc
+//////////////////////////////////////////////////////////////////////
 class MainWindow : public QMainWindow {
         Q_OBJECT
 
@@ -135,6 +138,8 @@ class MainWindow : public QMainWindow {
         void on_btnTextbookAddEdit_clicked();
 
         void on_btnManageEditTextbook_clicked();
+
+        void populateContentManager();
 
         void populateClassList(QString semester, QListWidget *list);
 

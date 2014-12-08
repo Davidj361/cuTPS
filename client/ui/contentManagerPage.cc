@@ -6,6 +6,13 @@ void ContentManagerPage::setUi(Ui::MainWindow* ui) {
     this->ui = ui;
 }
 
+// Clear is needed if you want to refresh
+void MainWindow::listManageClear() {
+    ui->listManageChapters->clear();
+    ui->listManageSections->clear();
+    ui->listManageTextbooks->clear();
+}
+
 void MainWindow::on_btnManageContent_clicked()
 {
     this->displayManageContent();
@@ -207,7 +214,6 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
 
         try {
             localStorage.addTextbook(c);
-            this->displayManageContent();
         }
         catch (std::runtime_error e){
             this->popupError(e.what());
@@ -230,12 +236,12 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
 
         try {
             localStorage.editTextbook(tb);
-            this->displayManageContent();
         }
         catch (std::runtime_error e){
             this->popupError(e.what());
         }
     }
+    this->displayManageContent();
 }
 
 void MainWindow::on_btnManageEditTextbook_clicked()
@@ -263,9 +269,7 @@ void MainWindow::on_btnChapterCancel_clicked()
 
 }
 
-void MainWindow::displayManageContent(){
-    this->listManageClear();
-
+void MainWindow::populateContentManager() {
     QList<Class*> classes;
     try {
         classes = localStorage.getClasses();
@@ -280,9 +284,11 @@ void MainWindow::displayManageContent(){
         foreach(Textbook *tb, tbs)
             ui->listManageTextbooks->addItem( new QListWidgetItem(tb->getTitle()));
     }
+}
 
+void MainWindow::displayManageContent(){
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerPage));
-
+    this->refresh();
 }
 
 void MainWindow::on_btnManageCourses_clicked()
@@ -387,7 +393,6 @@ void MainWindow::on_btnManageRemoveTextbook_clicked()
         if( index >= 0 ){
             Textbook *selectedTb = tbs.at(index);
             localStorage.deleteTextbook(*selectedTb);
-            localStorage.refresh();
             this->displayManageContent();
         }
     }
@@ -412,7 +417,6 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
             if(chIndex >= 0){
                 Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
                 localStorage.deleteChapter(*selectedCh);
-                localStorage.refresh();
                 this->displayManageContent();
             }
         }
@@ -431,8 +435,6 @@ void MainWindow::on_btnManageRemoveSection_clicked()
         Section *selectedSec = this->getSelectedSection(ui->listManageTextbooks, ui->listManageChapters, ui->listManageSections);
 
         localStorage.deleteSection(*selectedSec);
-
-        localStorage.refresh();
 
         this->displayManageContent();
 

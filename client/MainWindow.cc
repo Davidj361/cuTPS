@@ -678,6 +678,7 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
     }
+
     Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
     int index = ui->listManageChapters->currentRow();
     if(index >= 0){
@@ -697,16 +698,19 @@ void MainWindow::on_btnManageRemoveSection_clicked()
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
     }
-    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
-    int index = ui->listManageChapters->currentRow();
-    if(index >= 0){
-        Chapter *selectedCh = selectedTb->getChapters().at(index);
+    int tbIndex = ui->listManageTextbooks->currentRow();
+    if(tbIndex >= 0){
+        Textbook *selectedTb = tbs.at(tbIndex);
         int chIndex = ui->listManageChapters->currentRow();
-        if(chIndex >= 0){
-            Section *selectedSec = selectedCh->getSections().at(chIndex);
-            localStorage.deleteSection(*selectedSec);
-            localStorage.refresh();
-            this->displayManageContent();
+        if(index >= 0){
+            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+            int secIndex = ui->listManageSections->currentRow();
+            if(secIndex >= 0){
+                Section *selectedSec = selectedCh->getSections().at(secIndex);
+                localStorage.deleteSection(*selectedSec);
+                localStorage.refresh();
+                this->displayManageContent();
+            }
         }
     }
 

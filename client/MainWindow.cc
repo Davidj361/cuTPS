@@ -465,8 +465,8 @@ void MainWindow::on_btnViewCart_clicked()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartStudent));
     QList<Content*> content = shoppingCart.getCartContents();
     foreach(Content * c, content){
-        QListWidgetItem* contentListItem = new QListWidgetItem(c->getTitle()+" $"+QString::number(c->getPrice(), 'f', 2));
-        ui->listWidgetShoppingCart->addItem(contentListItem);
+        // QListWidgetItem* contentListItem = new QListWidgetItem(c->getTitle()+" $"+QString::number(c->getPrice(), 'f', 2));
+        ui->listWidgetShoppingCart->addItem(c->getTitle()+" $"+QString::number(c->getPrice(), 'f', 2));
     }
 
 }

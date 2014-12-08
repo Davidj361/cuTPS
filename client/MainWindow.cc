@@ -250,10 +250,12 @@ bool MainWindow::isStudent() {
 }
 
 void MainWindow::displayCourseManager() {
+    refresh();
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->CourseManager));
 }
 
 void MainWindow::displayMainStudent() {
+    refresh();
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
 }
 
@@ -507,11 +509,11 @@ void MainWindow::on_courseManagerDeleteButton_released()
     if (ui->courseManagerCourseList->currentItem() == 0)
         return;
 
-    const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
+    Class* clss = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
 
     try {
         // TODO - Remove Class, not remove course
-        storageControl.removeCourse(*(ass->getCourse()));
+        storageControl.removeClass(*clss);
         refresh();
     } catch (std::runtime_error e) {
         this->popupError(e.what());

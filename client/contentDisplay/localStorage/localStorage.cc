@@ -55,9 +55,9 @@ void LocalStorage::login(const QString& username, const QString& password) {
     }
 }
 
-void LocalStorage::removeCourse(Course& course) const {
+void LocalStorage::removeClass(Class& clss) const {
     try {
-        this->storageControl->removeCourse(course);
+        this->storageControl->removeClass(clss);
     }
     catch(std::runtime_error e) {
         throw e;

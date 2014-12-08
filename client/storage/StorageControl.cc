@@ -59,11 +59,11 @@ void StorageControl::addClass(Class &c) const {
     updateStorage(c, ADD_CLASS);
 }
 
-void StorageControl::editClass(Class &c){
+void StorageControl::editClass(Class &c) const{
     updateStorage(c, EDIT_CLASS);
 }
 
-void StorageControl::removeClass(Class   &c){
+void StorageControl::removeClass(Class &c) const{
     updateStorage(c, DELETE_CLASS);
 }
 

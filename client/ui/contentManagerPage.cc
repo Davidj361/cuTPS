@@ -475,27 +475,35 @@ void MainWindow::on_btnManageRemoveTextbook_clicked()
 
 void MainWindow::on_btnManageRemoveChapter_clicked()
 {
-
     try {
-        QList<Class*> classes = localStorage.getClasses();
-        QList<Textbook*> tbs;
-        foreach(Class *cl, classes){
-            tbs.append( cl->getBooklist() );
-        }
-        int tbIndex = ui->listManageTextbooks->currentRow();
-        if(tbIndex >= 0){
-            Textbook *selectedTb = tbs.at(tbIndex);
-            int chIndex = ui->listManageChapters->currentRow();
-            if(chIndex >= 0){
-                Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-                localStorage.deleteChapter(*selectedCh);
-                this->displayManageContent();
-            }
-        }
-    }
-    catch (std::runtime_error e) {
+        Chapter* ch = getContentManagerSelectedChapter();
+        if (ch != 0)
+            localStorage.deleteChapter(*ch);
+        this->refresh();
+    } catch (std::runtime_error e) {
         this->popupError(e.what());
     }
+
+    // try {
+    //     QList<Class*> classes = localStorage.getClasses();
+    //     QList<Textbook*> tbs;
+    //     foreach(Class *cl, classes){
+    //         tbs.append( cl->getBooklist() );
+    //     }
+    //     int tbIndex = ui->listManageTextbooks->currentRow();
+    //     if(tbIndex >= 0){
+    //         Textbook *selectedTb = tbs.at(tbIndex);
+    //         int chIndex = ui->listManageChapters->currentRow();
+    //         if(chIndex >= 0){
+    //             Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+    //             localStorage.deleteChapter(*selectedCh);
+    //             this->displayManageContent();
+    //         }
+    //     }
+    // }
+    // catch (std::runtime_error e) {
+    //     this->popupError(e.what());
+    // }
 }
 
 
@@ -503,13 +511,10 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
 void MainWindow::on_btnManageRemoveSection_clicked()
 {
     try {
-
         Section *selectedSec = this->getContentManagerSelectedSection();
-
-        localStorage.deleteSection(*selectedSec);
-
-        this->displayManageContent();
-
+        if (selectedSec != 0)
+            localStorage.deleteSection(*selectedSec);
+        this->refresh();
     }
     catch (std::runtime_error e) {
         this->popupError(e.what());

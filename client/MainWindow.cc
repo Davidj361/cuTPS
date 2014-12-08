@@ -39,13 +39,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 MainWindow::~MainWindow() {
-    for (int i = 0; i < ui->resultsListWidget->count(); i++)
-        delete ui->resultsListWidget->item(i);
-    delete ui;
-}
-
-void MainWindow::scrollDown() {
-    ui->resultsListWidget->scrollToBottom();
 }
 
 void MainWindow::popupWarning(const QString& info) {
@@ -85,11 +78,6 @@ void MainWindow::courseManagerClearLists() {
         ui->courseManagerAddCourseTitle->setText("");
         ui->courseManagerAddCourseCode->setText("");
         ui->courseManagerYear->setText("");
-}
-
-void MainWindow::setServerIP() {
-    *serverIP = ui->txtServerIP->text();
-    ui->statusBar->showMessage("Server IP address set");
 }
 
 void MainWindow::displayError(QString error) {

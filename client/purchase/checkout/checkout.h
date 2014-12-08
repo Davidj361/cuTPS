@@ -11,17 +11,20 @@
 #include "../../../common/headers/Course.h"
 #include "../../../common/headers/Invoice.h"
 
-// This class will generate invoices as well as make calls to StorageControl subsystem
 class Checkout {
         public:
-                // Using this, we can have direct links to other subsystems without needing to create more than 1
-                // instance of each for our system
+
                 Checkout(const StorageControl&, ShoppingCart&, const LocalStorage&);
-                // This will send off the invoice object to StorageControl
-                // TODO See if you can change return type for error checking success or fail?
+
+                /* =====================================================================
+                   Function  : checkout;
+                   Purpose   : creates invoice from contents of shopping cart
+                   Returns   : void
+                ===================================================================== */
                 void checkout();
+
         private:
-                // Pointers to our subsystems for calling functions
+
                 const StorageControl*const storage;
                 ShoppingCart* const cart;
                 const LocalStorage*const lStorage;

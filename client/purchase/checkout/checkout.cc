@@ -4,10 +4,11 @@ Checkout::Checkout(const StorageControl& storage, ShoppingCart& cart, const Loca
 
 // This will send off the invoice object to StorageControl
 void Checkout::checkout() {
-        // check if subsystems are not null
+
         if (storage == 0 || cart == 0 || lStorage == 0)
                 throw std::runtime_error("Checkout::checkout, storage, lStorage, or cart is null");
         Invoice invoice(lStorage->getUser().getUsername(), cart->getCartCids());
+
         try{
             storage->checkout(invoice);
             cart->clearCart();
@@ -15,4 +16,5 @@ void Checkout::checkout() {
         catch(std::runtime_error e){
             throw e;
         }
+
 }

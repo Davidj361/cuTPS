@@ -161,8 +161,6 @@ void MainWindow::on_BtnLogin_clicked()
     } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());
         qDebug() << e.what();
-        //ui->loginStatus->setText("Invalid Username and Password");
-
     }
 }
 

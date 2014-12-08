@@ -92,19 +92,29 @@ void MainWindow::displayError(QString error) {
 }
 
 void MainWindow::populateSemesterList(QListWidget* semesterList) {
-    semesterList->clear();
-    foreach (const Class* c, localStorage.getClasses()) {
-            if (semesterList->findItems(c->getSemester(), Qt::MatchExactly).empty())
-                    semesterList->addItem(c->getSemester());
+    try {
+        semesterList->clear();
+        foreach (const Class* c, localStorage.getClasses()) {
+                if (semesterList->findItems(c->getSemester(), Qt::MatchExactly).empty())
+                        semesterList->addItem(c->getSemester());
+        }
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
     }
 }
 
 void MainWindow::studentSemesterListPopulate() {
-    ui->semesterList->clear();
-    for (int i=0; i < localStorage.getClasses().size(); i++ ){
-        const Class* tempclass = localStorage.getClasses().at(i);
-        if (ui->semesterList->findItems(tempclass->getSemester(), Qt::MatchExactly).empty())
-                ui->semesterList->addItem(tempclass->getSemester());
+    try {
+        ui->semesterList->clear();
+        for (int i=0; i < localStorage.getClasses().size(); i++ ){
+            const Class* tempclass = localStorage.getClasses().at(i);
+            if (ui->semesterList->findItems(tempclass->getSemester(), Qt::MatchExactly).empty())
+                    ui->semesterList->addItem(tempclass->getSemester());
+        }
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
     }
 }
 
@@ -159,18 +169,23 @@ void MainWindow::on_courseManagerSemesterList_itemPressed(QListWidgetItem *item)
 
 void MainWindow::populateClassList(QString semester, QListWidget *classList){
     classList->clear();
-    // Add all the courses for our currently selected semester
-    foreach (Class* c, localStorage.getClasses()) {
-            if (c->getSemester() == semester) {
-                    classList->addItem(c->getCourse()->getCourseCode());
-                    // const QString* title = &c->getCourse()->getCourseTitle();
-                    // ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
-                    // We will link the actual course
-                    QVariant var;
-                    var.setValue(c);
-                    // qDebug() << var.value<Class*>()->getCourse()->getCourseTitle();
-                    classList->item(classList->count()-1)->setData(Qt::UserRole, var);
-            }
+    try {
+        // Add all the courses for our currently selected semester
+        foreach (Class* c, localStorage.getClasses()) {
+                if (c->getSemester() == semester) {
+                        classList->addItem(c->getCourse()->getCourseCode());
+                        // const QString* title = &c->getCourse()->getCourseTitle();
+                        // ui->courseManagerCourseList->item(ui->courseManagerCourseList->count()-1)->setData(Qt::UserRole, *title);
+                        // We will link the actual course
+                        QVariant var;
+                        var.setValue(c);
+                        // qDebug() << var.value<Class*>()->getCourse()->getCourseTitle();
+                        classList->item(classList->count()-1)->setData(Qt::UserRole, var);
+                }
+        }
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
     }
 }
 
@@ -185,20 +200,34 @@ void MainWindow::on_semesterList_itemPressed(QListWidgetItem *item)
 {
     const QString semester = item->text();
     ui->courseList->clear();
-    // Add all the courses for our currently selected semester
-    foreach (Class* c, localStorage.getClasses()) {
-        if (c->getSemester() == semester)
-            ui->courseList->addItem(c->getCourse()->getCourseCode());
+    try {
+        // Add all the courses for our currently selected semester
+        foreach (Class* c, localStorage.getClasses()) {
+            if (c->getSemester() == semester)
+                ui->courseList->addItem(c->getCourse()->getCourseCode());
+        }
     }
-}
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
 
+}
 // For when an item is selected in the course list
 void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
 {
     ui->contentList->clear();
 
+    const QList<Textbook *> *studentContent;
+
     //Get the booklist
-    const QList<Textbook*> *studentContent = localStorage.getTextbooks(item->text());
+    try {
+        studentContent = localStorage.getTextbooks(item->text());
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+        return;
+    }
+
     foreach (const Textbook *t, *studentContent) {
         if (t->isAvailable()) {
             QListWidgetItem* textbookListItem = new QListWidgetItem(t->getTitle() + (t->isAvailable() ? "" : (" : $" + QVariant(t->getPrice()).toString() ) ) );
@@ -263,8 +292,16 @@ void MainWindow::displayMainStudent() {
 
 void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
 {
+    const QList<Textbook*> *studentContent;
 
-    const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+    try {
+        studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+        return;
+    }
+
     int count = 0;
     int index = ui->contentList->currentRow();
     // FIXME count seems a little sketchy here, make sure it's not bugging out
@@ -385,7 +422,16 @@ void MainWindow::on_btnAddToCart_clicked()
         ri++;
     }
 
-    const QList<Textbook*> *studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+    const QList<Textbook *> *studentContent;
+
+    try {
+        studentContent = localStorage.getTextbooks(ui->courseList->currentItem()->text());
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+        return;
+    }
+
     foreach (const Textbook *t, *studentContent) {
         if (count == index && index >= 0) {
             shoppingCart.addToCart(t);
@@ -576,17 +622,23 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionLogout_triggered()
 {
-    const QString userType(localStorage.getUser().getType());
+    try {
 
-    this->clear_All_Widgets();
+        const QString userType(localStorage.getUser().getType());
 
-    if (userType == "student") {
-        shoppingCart.clearCart();
-        MainWindow::clearStudentCourseList();
+        this->clear_All_Widgets();
+
+        if (userType == "student") {
+            shoppingCart.clearCart();
+            MainWindow::clearStudentCourseList();
+        }
+
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
+        localStorage.cleanup();
     }
-
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->LoginPage));
-    localStorage.cleanup();
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
 }
 
 void MainWindow::on_btnBackToMain_clicked()
@@ -600,7 +652,15 @@ void MainWindow::displayManageContent(){
     ui->listManageSections->clear();
     ui->listManageTextbooks->clear();
 
-    QList<Class*> classes = localStorage.getClasses();
+    QList<Class*> classes;
+    try {
+        classes = localStorage.getClasses();
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+        return;
+    }
+
     foreach(Class *cl, classes){
         QList<Textbook*> tbs = cl->getBooklist();
         foreach(Textbook *tb, tbs)
@@ -624,7 +684,15 @@ void MainWindow::on_btnManageContent_clicked()
 
 void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
 {
-    QList<Class*> classes = localStorage.getClasses();
+    QList<Class*> classes;
+    try {
+        classes = localStorage.getClasses();
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+        return;
+    }
+
     QList<Textbook*> tbs;
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
@@ -645,7 +713,15 @@ void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
 void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 {
     ui->listManageSections->clear();
-    QList<Class*> classes = localStorage.getClasses();
+    QList<Class*> classes;
+    try {
+        classes = localStorage.getClasses();
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+        return;
+    }
+
     QList<Textbook*> tbs;
     foreach(Class *cl, classes){
         tbs.append( cl->getBooklist() );
@@ -665,67 +741,78 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_btnManageRemoveTextbook_clicked()
 {
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
+    try {
+        QList<Class *> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
+        }
+        int index = ui->listManageTextbooks->currentRow();
+        if( index >= 0 ){
+            Textbook *selectedTb = tbs.at(index);
+            localStorage.deleteTextbook(*selectedTb);
+            localStorage.refresh();
+            this->displayManageContent();
+        }
     }
-    int index = ui->listManageTextbooks->currentRow();
-    if( index >= 0 ){
-        Textbook *selectedTb = tbs.at(index);
-        localStorage.deleteTextbook(*selectedTb);
-        localStorage.refresh();
-        this->displayManageContent();
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
     }
-
 }
 
 void MainWindow::on_btnManageRemoveChapter_clicked()
 {
 
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
-    }
-    int tbIndex = ui->listManageTextbooks->currentRow();
-    if(tbIndex >= 0){
-        Textbook *selectedTb = tbs.at(tbIndex);
-        int chIndex = ui->listManageChapters->currentRow();
-        if(chIndex >= 0){
-            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-            localStorage.deleteChapter(*selectedCh);
-            localStorage.refresh();
-            this->displayManageContent();
+    try {
+        QList<Class*> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
         }
-    }
-
-}
-
-void MainWindow::on_btnManageRemoveSection_clicked()
-{
-
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
-    }
-    int tbIndex = ui->listManageTextbooks->currentRow();
-    if(tbIndex >= 0){
-        Textbook *selectedTb = tbs.at(tbIndex);
-        int chIndex = ui->listManageChapters->currentRow();
-        if(chIndex >= 0){
-            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-            int secIndex = ui->listManageSections->currentRow();
-            if(secIndex >= 0){
-                Section *selectedSec = selectedCh->getSections().at(secIndex);
-                localStorage.deleteSection(*selectedSec);
+        int tbIndex = ui->listManageTextbooks->currentRow();
+        if(tbIndex >= 0){
+            Textbook *selectedTb = tbs.at(tbIndex);
+            int chIndex = ui->listManageChapters->currentRow();
+            if(chIndex >= 0){
+                Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+                localStorage.deleteChapter(*selectedCh);
                 localStorage.refresh();
                 this->displayManageContent();
             }
         }
     }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
+}
 
+void MainWindow::on_btnManageRemoveSection_clicked()
+{
+    try {
+        QList<Class*> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
+        }
+        int tbIndex = ui->listManageTextbooks->currentRow();
+        if(tbIndex >= 0){
+            Textbook *selectedTb = tbs.at(tbIndex);
+            int chIndex = ui->listManageChapters->currentRow();
+            if(chIndex >= 0){
+                Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+                int secIndex = ui->listManageSections->currentRow();
+                if(secIndex >= 0){
+                    Section *selectedSec = selectedCh->getSections().at(secIndex);
+                    localStorage.deleteSection(*selectedSec);
+                    localStorage.refresh();
+                    this->displayManageContent();
+                }
+            }
+        }
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
 }
 
 void MainWindow::on_btnManageAddTextbook_clicked()

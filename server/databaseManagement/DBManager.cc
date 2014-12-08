@@ -133,6 +133,23 @@ void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QSt
     db.commit();
 }
 
+void DBManager::DeleteTextbook(int content_id) {
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("DELETE FROM Textbooks WHERE id = :content_id;"))
+        throw std::runtime_error("ERROR DBManager::DeleteTextbook() Error while preparing DELETE statement");
+
+    query.bindValue(":content_id", content_id);
+
+    if (!query.exec()) {
+        db.rollback();
+        throw std::runtime_error("ERROR DBManager::DeleteTextbook() Error while executing DELETE statement");
+    }
+    db.commit();
+}
+
 void DBManager::AddChapter(QString title, int chapter, QString textbook, QString description, bool available, float price) {
     if (title == "")
         throw std::runtime_error("ERROR DBManager::AddChapter() title cannot be empty");
@@ -201,6 +218,23 @@ void DBManager::EditChapter(QString title, int chapter, QString textbook, QStrin
             throw std::runtime_error("ERROR DBManager::EditChapter() Error while updating chapter");
     }
 
+    db.commit();
+}
+
+void DBManager::DeleteChapter(int content_id) {
+    QSqlQuery query;
+
+    db.transaction();
+
+    if (!query.prepare("DELETE FROM Chapters WHERE id = :content_id;"))
+        throw std::runtime_error("ERROR DBManager::DeleteChapter() Error while preparing DELETE statement");
+
+    query.bindValue(":content_id", content_id);
+
+    if (!query.exec()) {
+        db.rollback();
+        throw std::runtime_error("ERROR DBManager::DeleteChapter() Error while executing DELETE statement");
+    }
     db.commit();
 }
 
@@ -278,19 +312,19 @@ void DBManager::EditSection(QString title, int section, int chapter, QString tex
     db.commit();
 }
 
-void DBManager::DeleteContent(int content_id) {
+void DBManager::DeleteSection(int content_id) {
     QSqlQuery query;
 
     db.transaction();
 
-    if (!query.prepare("DELETE FROM Content WHERE id = :content_id;"))
-        throw std::runtime_error("ERROR DBManager::DeleteContent() Error while preparing DELETE statement");
+    if (!query.prepare("DELETE FROM Sections WHERE id = :content_id;"))
+        throw std::runtime_error("ERROR DBManager::DeleteSection() Error while preparing DELETE statement");
 
     query.bindValue(":content_id", content_id);
 
     if (!query.exec()) {
         db.rollback();
-        throw std::runtime_error("ERROR DBManager::DeleteContent() Error while executing DELETE statement");
+        throw std::runtime_error("ERROR DBManager::DeleteSection() Error while executing DELETE statement");
     }
     db.commit();
 }

@@ -57,7 +57,7 @@ class DBManager {
           Returns   : void
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        void DeleteTextbook(int content_id);
+        void DeleteTextbook(Textbook *textbook);
 
         /* =====================================================================
           Function  : AddChapter
@@ -84,7 +84,7 @@ class DBManager {
           Returns   : void
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        void DeleteChapter(int content_id);
+        void DeleteChapter(Chapter *chapter);
 
         /* =====================================================================
           Function  : AddSection
@@ -111,7 +111,7 @@ class DBManager {
           Returns   : void
           Throws    : Throws runtime_error if there is any error
         ===================================================================== */
-        void DeleteSection(int content_id);
+        void DeleteSection(Section *section);
 
         /* =====================================================================
           Function  : AddCourse

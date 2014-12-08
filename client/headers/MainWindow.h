@@ -109,6 +109,19 @@ class MainWindow : public QMainWindow {
 
         void on_btnBackToMain_clicked();
 
+        void on_btnManageCourses_clicked();
+
+        void on_btnManageContent_clicked();
+        void displayManageContent();
+
+        void on_listManageTextbooks_itemClicked(QListWidgetItem *item);
+
+        void on_listManageChapters_itemClicked(QListWidgetItem *item);
+
+        void on_btnManageRemoveTextbook_clicked();
+
+        void on_btnManageRemoveChapter_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

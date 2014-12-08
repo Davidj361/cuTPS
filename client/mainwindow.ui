@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -2060,6 +2060,183 @@
          </spacer>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="ContentManagerMain">
+       <widget class="QPushButton" name="btnManageCourses">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>130</y>
+          <width>161</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Manage Courses</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageContent">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>240</y>
+          <width>161</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Manage Content</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="ContentManagerPage">
+       <widget class="QPushButton" name="btnManageAddTextbook">
+        <property name="geometry">
+         <rect>
+          <x>67</x>
+          <y>310</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add Textbook</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageEditTextbook">
+        <property name="geometry">
+         <rect>
+          <x>67</x>
+          <y>350</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Edit Textbook</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageRemoveTextbook">
+        <property name="geometry">
+         <rect>
+          <x>67</x>
+          <y>390</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Remove Textbook</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageAddChapter">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>310</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add Chapter</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageEditChapter">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>350</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Edit Chapter</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageRemoveChapter">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>390</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Remove Chapter</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageRemoveSection">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>390</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Remove Sections</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageEditSection">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>350</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Edit Section</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnManageAddSection">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>310</y>
+          <width>131</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add Section</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="listManageTextbooks">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>30</y>
+          <width>151</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="listManageChapters">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>30</y>
+          <width>151</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="listManageSections">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>30</y>
+          <width>151</width>
+          <height>271</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="ShoppingCartOrderConfirmed">
        <layout class="QGridLayout" name="gridLayout_9">

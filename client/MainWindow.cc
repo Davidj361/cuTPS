@@ -139,7 +139,7 @@ void MainWindow::on_BtnLogin_clicked()
             ui->contentList->clear();
             this->displayMainStudent();
         } else if (userType == QString("content_manager"))
-            this->displayCourseManager();
+            ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerMain));
         this->refresh();
     } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());
@@ -588,4 +588,86 @@ void MainWindow::on_actionLogout_triggered()
 void MainWindow::on_btnBackToMain_clicked()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->MainStudent));
+}
+
+void MainWindow::displayManageContent(){
+
+    ui->listManageChapters->clear();
+    ui->listManageSections->clear();
+    ui->listManageTextbooks->clear();
+
+    QList<Class*> classes = localStorage.getClasses();
+    foreach(Class *cl, classes){
+        QList<Textbook*> tbs = cl->getBooklist();
+        foreach(Textbook *tb, tbs)
+            ui->listManageTextbooks->addItem( new QListWidgetItem(tb->getTitle()));
+    }
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManagerPage));
+
+}
+
+void MainWindow::on_btnManageCourses_clicked()
+{
+    this->displayCourseManager();
+}
+
+void MainWindow::on_btnManageContent_clicked()
+{
+    this->displayManageContent();
+
+}
+
+void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
+{
+    QList<Class*> classes = localStorage.getClasses();
+    QList<Textbook*> tbs;
+    foreach(Class *cl, classes){
+        tbs.append( cl->getBooklist() );
+    }
+    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
+    ui->listManageChapters->clear();
+    ui->listManageSections->clear();
+    foreach(Chapter *ch, selectedTb->getChapters()){
+        ui->listManageChapters->addItem( new QListWidgetItem(ch->getTitle()));
+    }
+
+
+}
+
+void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
+{
+    ui->listManageSections->clear();
+    QList<Class*> classes = localStorage.getClasses();
+    QList<Textbook*> tbs;
+    foreach(Class *cl, classes){
+        tbs.append( cl->getBooklist() );
+    }
+    Textbook *selectedTb = tbs.at(ui->listManageTextbooks->currentRow());
+    Chapter *selectedCh = selectedTb->getChapters().at(ui->listManageChapters->currentRow());
+    foreach(Section *s, selectedCh->getSections()){
+        ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
+    }
+}
+
+void MainWindow::on_btnManageRemoveTextbook_clicked()
+{
+    QList<Class*> classes = localStorage.getClasses();
+    QList<Textbook*> tbs;
+    foreach(Class *cl, classes){
+        tbs.append( cl->getBooklist() );
+    }
+    int index = ui->listManageTextbooks->currentRow();
+    if( index >= 0 ){
+        Textbook *selectedTb = tbs.at(index);
+        localStorage.deleteTextbook(*selectedTb);
+    }
+
+    this->displayManageContent();
+
+}
+
+void MainWindow::on_btnManageRemoveChapter_clicked()
+{
+
 }

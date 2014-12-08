@@ -198,7 +198,7 @@ void DBManager::EditChapter(QString title, int chapter, QString textbook, QStrin
 
     db.transaction();
 
-    if (query.prepare("UPDATE Chapters SET name = :name, number = :number, textbook = :textbook, description = :description, "
+    if (!query.prepare("UPDATE Chapters SET name = :name, number = :number, textbook = :textbook, description = :description, "
                       "availability = :availability, price = :price WHERE content_id = :content_id;"))
         throw std::runtime_error("ERROR DBManager::EditChapter() Error while preparing UPDATE statement");
 
@@ -251,7 +251,7 @@ void DBManager::AddSection(QString title, int section, int chapter, QString text
 
     int content_id = GetNewContentId("section");
 
-    if (query.prepare("INSERT INTO Sections (name, number, chapter, textbook, "
+    if (!query.prepare("INSERT INTO Sections (name, number, chapter, textbook, "
                                             "description, availability, price, content_id) VALUES "
                                             "(:name, :number, :chapter, :textbook, :description,:availability, "
                                             ":price, :content_id);"))
@@ -288,7 +288,7 @@ void DBManager::EditSection(QString title, int section, int chapter, QString tex
 
     db.transaction();
 
-    if (query.prepare("UPDATE Sections SET name = :name, number = :number, chapter = :chapter, textbook = :textbook, description = :description "
+    if (!query.prepare("UPDATE Sections SET name = :name, number = :number, chapter = :chapter, textbook = :textbook, description = :description "
                       " availability = :availability, price = :price WHERE content_id = :content_id;"))
         throw std::runtime_error("ERROR DBManager::EditSection() Error while preparing UPDATE statement");
 
@@ -369,7 +369,7 @@ void DBManager::EditCourse(QString coursecode, QString coursetitle, QString newc
 
     db.transaction();
 
-    if (query.prepare("UPDATE Courses SET code = :newcode, name = :name WHERE code = :code;"))
+    if (!query.prepare("UPDATE Courses SET code = :newcode, name = :name WHERE code = :code;"))
         throw std::runtime_error("ERROR DBManager::EditCourse() Error while preparing UPDATE statement");
 
     query.bindValue(":newcode", newcoursecode.isEmpty() ? coursecode : newcoursecode);

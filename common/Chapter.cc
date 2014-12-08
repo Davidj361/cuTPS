@@ -2,15 +2,7 @@
 
 Chapter::Chapter() : chapterNo(0), textbook(0) {}
 
-Chapter::Chapter(const Chapter& c) : Content(c), chapterNo(c.chapterNo), textbook(c.textbook) {
-    // TODO get rid of this if there's no issues
-    // foreach(Section* s, c.sections) {
-    //     Section* newSection = new Section(*s);
-    //     newSection->chapter = this;
-    //     newSection->textbook = this->textbook;
-    //     this->addSection(newSection);
-    // }
-}
+Chapter::Chapter(const Chapter& c) : Content(c), chapterNo(c.chapterNo), textbook(c.textbook) {}
 
 Chapter::Chapter(QString cTitle, int cChapterno, Textbook *cParent,
                  QString cDescription, bool cAvailable, float cPrice, int cC_id) {
@@ -24,12 +16,9 @@ Chapter::Chapter(QString cTitle, int cChapterno, Textbook *cParent,
 }
 
 Chapter::~Chapter() {
-    for (QList<Section *>::iterator iter = sections.begin(); iter != sections.end(); ++iter) {
-        if ( (*iter) != 0) {
-            delete *iter;
-            (*iter) = 0;
-        }
-    }
+    foreach (Section *section, sections)
+        if (section != 0)
+            delete section;
 }
 
 const Textbook* Chapter::getTextbook() const {
@@ -42,15 +31,19 @@ void Chapter::serialize(QJsonObject &chapterJson) const {
     chapterJson["price"] = price;
     chapterJson["chapterNo"] = chapterNo;
     chapterJson["description"] = description;
+
     if (textbook != 0)
         chapterJson["ISBN"] = textbook->getISBN();
+
     chapterJson["c_id"] = c_id;
+
     QJsonArray sectionsa;
     foreach(Section* s, sections){
         QJsonObject sjson;
         s->serialize(sjson);
         sectionsa.append(sjson);
     }
+
     chapterJson["sections"] =sectionsa;
 
 }

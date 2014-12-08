@@ -38,8 +38,8 @@ Class::~Class() {
     }
 
     if (course != 0)
-            delete course;
-}
+        delete course;
+    }
 
 void Class::serialize(QJsonObject &json) const {
     json.insert("semester", semester);

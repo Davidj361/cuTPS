@@ -40,35 +40,31 @@ void ServerRequestControl::run(){
             db->RetrieveContentList(username, list);
 
             serializer.serializeClasses(list, command, *out);
+
             if(user != 0)
                 delete user;
-            // Make sure to clean up the newly constructed list
-            foreach(Class* c, list) {
-                delete c;
-                c = 0;
-            }
-            list.clear();
 
+            foreach(Class* c, list)
+                delete c;
+            list.clear();
         }
 
 
         else if ( command == ADD_TEXTBOOK ) {
 
             Class *cl;
+
             serializer.deserialize(objJson, cl);
 
-            foreach (Textbook *textbook, cl->getBooklist()) {
+            foreach (Textbook *textbook, cl->getBooklist())
                 db->AddTextbook(textbook);
-            }
 
             db->AddTextbooksToClass(cl);
-            if(cl->getCourse() == 0)
-                delete cl->getCourse();
+
             if(cl != 0)
                 delete cl;
 
             serializer.serializeSuccess(command, *out);
-
         }
 
         else if ( command == EDIT_TEXTBOOK || command == REMOVE_TEXTBOOK ){
@@ -86,7 +82,6 @@ void ServerRequestControl::run(){
                 delete tb;
 
             serializer.serializeSuccess(command, *out);
-
         }
 
         else if ( command == ADD_CHAPTER || command == EDIT_CHAPTER || command == REMOVE_CHAPTER ) {
@@ -109,7 +104,6 @@ void ServerRequestControl::run(){
                 delete ch;
 
             serializer.serializeSuccess(command, *out);
-
         }
 
         else if ( command == ADD_SECTION || command == EDIT_SECTION || command == REMOVE_SECTION ) {
@@ -125,15 +119,17 @@ void ServerRequestControl::run(){
 
             if(command == REMOVE_SECTION)
                 db->DeleteSection(s);
-            if(s->getChapter() !=0)
+
+            if(s->getChapter() != 0)
                 delete s->getChapter();
+
             if(s->getTextbook() != 0)
                 delete s->getTextbook();
+
             if(s != 0)
                 delete s;
 
             serializer.serializeSuccess(command, *out);
-
         }
 
         else if ( command == LOGIN ){
@@ -175,17 +171,13 @@ void ServerRequestControl::run(){
                     db->AddCourse(cl->getCourse());
                 db->AddClass(cl);
             }
-
-            if ( command == DELETE_CLASS)
+            else if ( command == DELETE_CLASS)
                 db->DeleteClass(cl);
 
             serializer.serializeSuccess(command, *out);
 
-            if(cl->getCourse() != 0)
-                delete cl->getCourse();
             if(cl != 0)
                 delete cl;
-
         }
 
         else if( command == ADD_INVOICE ) {
@@ -212,7 +204,6 @@ void ServerRequestControl::run(){
         serializer.serializeError(temp, command, *out);
 
         emit response(out);
-
     }
 
 }

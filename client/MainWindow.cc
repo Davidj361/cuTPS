@@ -12,14 +12,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->contentManagerPage->setUi(ui);
 
     /*  Set Background Image  */
-    /*
-    QPalette* palette = new QPalette();
-    palette->setBrush(QPalette::Background,*(new QBrush(*(new QPixmap("images/red.jpg")))));
-    setPalette(*palette);
-    */
-
-    ui->UsernameBox->setText("bruce");
-    ui->PasswordBox->setText("password");
 
     ui->UsernameBox->setFocus();
 

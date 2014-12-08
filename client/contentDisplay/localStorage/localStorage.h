@@ -27,7 +27,7 @@ class LocalStorage {
                 // The below function should be called for every update and upon deconstruction of this controller
                 void cleanup(); // Delete all the allocated data
 
-                void addTextbook(Textbook&) const;
+                void addTextbook(Class&) const;
                 void editTextbook(Textbook&) const;
                 void deleteTextbook(Textbook&) const;
                 void addChapter(Chapter&) const;

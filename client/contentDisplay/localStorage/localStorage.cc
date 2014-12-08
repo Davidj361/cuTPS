@@ -29,7 +29,12 @@ void LocalStorage::refresh() {
     this->cleanup();
     if (storageControl == 0)
             throw std::runtime_error("LocalStorage::refresh(), storageControl is null");
-    storageControl->refreshContent(user, classes);
+    try {
+        storageControl->refreshContent(user, classes);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
 const QList<Textbook*>* LocalStorage::getTextbooks(QString courseCode) const {
@@ -51,50 +56,106 @@ void LocalStorage::login(const QString& username, const QString& password) {
 }
 
 void LocalStorage::removeCourse(Course& course) const {
-    this->storageControl->removeCourse(course);
+    try {
+        this->storageControl->removeCourse(course);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
 void LocalStorage::addCourse(const QString& semester, const QVariant& year, const QString& courseCode, const QString& courseTitle) {
+
     Course newCourse(courseCode, courseTitle);
     QString sem(semester + " " + year.toString());
     Class newClass(sem, newCourse);
-    storageControl->addClass(newClass);
+
+    try {
+        storageControl->addClass(newClass);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::addTextbook(Textbook& t) const{
-    //TODO CHANGE THIS FUNCTION TO CLASS
-    //storageControl->addTextbook(t);
+void LocalStorage::addTextbook(Class& c) const {
+    try {
+        storageControl->addTextbook(c);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::editTextbook(Textbook& t) const{
-    storageControl->editTextbook(t);
+void LocalStorage::editTextbook(Textbook& t) const {
+    try {
+        storageControl->editTextbook(t);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::deleteTextbook(Textbook& t) const{
-    storageControl->removeTextbook(t);
+void LocalStorage::deleteTextbook(Textbook& t) const {
+    try {
+        storageControl->removeTextbook(t);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::addChapter(Chapter& c) const{
-    storageControl->addChapter(c);
+void LocalStorage::addChapter(Chapter& c) const {
+    try {
+        storageControl->addChapter(c);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::editChapter(Chapter& c) const{
-    storageControl->editChapter(c);
+void LocalStorage::editChapter(Chapter& c) const {
+    try {
+        storageControl->editChapter(c);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::deleteChapter(Chapter& c) const{
-    storageControl->removeChapter(c);
+void LocalStorage::deleteChapter(Chapter& c) const {
+    try {
+        storageControl->removeChapter(c);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::addSection(Section& s) const{
-    storageControl->addSection(s);
+void LocalStorage::addSection(Section& s) const {
+    try {
+        storageControl->addSection(s);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::editSection(Section& s) const{
-    storageControl->editSection(s);
+void LocalStorage::editSection(Section& s) const {
+    try {
+        storageControl->editSection(s);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 
-void LocalStorage::deleteSection(Section& s) const{
-    storageControl->removeSection(s);
+void LocalStorage::deleteSection(Section& s) const {
+    try {
+        storageControl->removeSection(s);
+    }
+    catch(std::runtime_error e) {
+        throw e;
+    }
 }
 

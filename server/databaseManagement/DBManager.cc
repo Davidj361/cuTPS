@@ -106,8 +106,8 @@ void DBManager::EditTextbook(QString isbn, QString title, QString publisher, QSt
 
     db.transaction();
 
-    if (!query.prepare("UPDATE Textbook SET isbn = :isbn, title = :title, publisher = :publisher, author = :author,"
-                       "year = :year, edition = :edition, description = :description, availability = :availability "
+    if (!query.prepare("UPDATE Textbooks SET isbn = :isbn, title = :title, publisher = :publisher, author = :author, "
+                       "year = :year, edition = :edition, description = :description, availability = :availability, "
                        "price = :price WHERE content_id = :content_id;"))
         throw std::runtime_error("ERROR DBManager::EditTextbook() Error while preparing INSERT statement");
 

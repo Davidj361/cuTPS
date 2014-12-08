@@ -163,9 +163,9 @@ void DBManager::AddChapter(QString title, int chapter, QString textbook, QString
 
     int content_id = GetNewContentId("chapter");
 
-    if (query.prepare("INSERT INTO Chapters (name, number, textbook, description, "
+    if (!query.prepare("INSERT INTO Chapters (name, number, textbook, description, "
                                              "availability, price, content_id) VALUES (:name, :number, "
-                                             ":textbook,:description,:availability, :price, :content_id);"))
+                                             ":textbook, :description, :availability, :price, :content_id);"))
         throw std::runtime_error("ERROR DBManager::AddChapter() Error while preparing INSERT statement");
 
         query.bindValue(":name", title);

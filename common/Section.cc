@@ -34,7 +34,10 @@ void Section::serialize(QJsonObject &sectionJson) const {
     sectionJson["description"] = description;
     sectionJson["c_id"] = c_id;
     if(textbook != 0){
-        sectionJson["isbn"] = textbook->getISBN();
+        sectionJson["ISBN"] = textbook->getISBN();
+    }
+    if (chapter != 0) {
+        sectionJson["chapterNo"] = chapter->getChapterNo();
     }
 
 }

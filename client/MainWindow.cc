@@ -784,12 +784,37 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
     if(ui->listTextbookClass->isEnabled()){
         // add
         Course *course = new Course(ui->listTextbookClass->selectedItems().first()->text(), "");
-        //Class c(ui->listTextbookTerm->selectedItems().first(), course);
+        Class c(ui->listTextbookTerm->selectedItems().first()->text(), course);
+        Textbook *tb = new Textbook(
+                    ui->lineTextbookIsbn->text(),
+                    ui->lineTextbookTitle->text(),
+                    ui->lineTextbookPublisher->text(),
+                    ui->lineTextbookAuthor->text(),
+                    ui->lineTextbookPrice->text().toInt(),
+                    ui->lineTextbookEdition->text(),
+                    ui->lineTextbookDescription->toPlainText(),
+                    ui->checkBoxTextbookAvailable->isChecked(),
+                    (float) ui->lineTextbookPrice->text().toDouble()
+                    );
+        c.addTextbook(tb);
+        localStorage.addTextbook(c);
+        delete course;
+        delete tb;
 
     }
     else{
-        //edit
-        1+1;
+        Textbook tb(
+                    ui->lineTextbookIsbn->text(),
+                    ui->lineTextbookTitle->text(),
+                    ui->lineTextbookPublisher->text(),
+                    ui->lineTextbookAuthor->text(),
+                    ui->lineTextbookPrice->text().toInt(),
+                    ui->lineTextbookEdition->text(),
+                    ui->lineTextbookDescription->toPlainText(),
+                    ui->checkBoxTextbookAvailable->isChecked(),
+                    (float) ui->lineTextbookPrice->text().toDouble()
+                    );
+        localStorage.editTextbook(tb);
     }
 }
 

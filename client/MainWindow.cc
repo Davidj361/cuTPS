@@ -225,8 +225,11 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
         if (t->isAvailable()) {
             textbookListItem->setFlags(textbookListItem->flags() | Qt::ItemIsUserCheckable);
             textbookListItem->setCheckState(Qt::Unchecked);
+            textbookListItem->setForeground(Qt::black);
         } else {
             textbookListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+            textbookListItem->setCheckState(Qt::Unchecked);
+            textbookListItem->setForeground(Qt::gray);
         }
         ui->contentList->addItem(textbookListItem);
         foreach (const Chapter *ch, t->getChapters()) {
@@ -236,6 +239,8 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
                 chapterListItem->setCheckState(Qt::Unchecked);
             } else {
                 chapterListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                chapterListItem->setCheckState(Qt::Unchecked);
+                chapterListItem->setForeground(Qt::gray);
             }
             ui->contentList->addItem(chapterListItem);
             foreach (const Section *s, ch->getSections()) {
@@ -246,6 +251,9 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
                     sectionListItem->setCheckState(Qt::Unchecked);
                 } else {
                     sectionListItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                    sectionListItem->setCheckState(Qt::Unchecked);
+                    sectionListItem->setForeground(Qt::gray);
+
                 }
                 ui->contentList->addItem(sectionListItem);
             }

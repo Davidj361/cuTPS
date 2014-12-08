@@ -24,15 +24,17 @@ Class::Class(QString semester, Course *course) {
 }
 
 Class::~Class() {
-    Textbook *t;
-    foreach (t, booklist) {
-        delete t;
-        t = 0;
+    foreach (Textbook* t, booklist) {
+        if (t != 0) {
+            delete t;
+            t = 0;
+        }
     }
-    Student *s;
-    foreach (s, classlist) {
-        delete s;
-        s = 0;
+    foreach (Student* s, classlist) {
+        if (s != 0) {
+            delete s;
+            s = 0;
+        }
     }
 
     if (course != 0)

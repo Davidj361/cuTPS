@@ -2,14 +2,7 @@
 
 Textbook::Textbook() {}
 
-Textbook::Textbook(const Textbook& t) : Content(t), author(t.author), ISBN(t.ISBN), publisher(t.publisher), edition(t.edition), year(t.year) {
-    // TODO Delete this if there's no issues
-    // foreach(const Chapter* ch, t.chapters) {
-    //     Chapter* newChapter = new Chapter(*ch);
-    //     newChapter->textbook = this;
-    //     this->addChapter(newChapter);
-    // }
-}
+Textbook::Textbook(const Textbook& t) : Content(t), author(t.author), ISBN(t.ISBN), publisher(t.publisher), edition(t.edition), year(t.year) {}
 
 Textbook::Textbook(QString cISBN, QString cTitle, QString cPublisher, QString cAuthor,
                    int cYear, QString cEdition, QString cDescription,
@@ -27,12 +20,9 @@ Textbook::Textbook(QString cISBN, QString cTitle, QString cPublisher, QString cA
 }
 
 Textbook::~Textbook() {
-    for (QList<Chapter *>::iterator iter = chapters.begin(); iter != chapters.end(); ++iter) {
-        if ( (*iter) != 0) {
-            delete *iter;
-            (*iter) = 0;
-        }
-    }
+    foreach (Chapter *chapter, chapters)
+        if (chapter != 0)
+            delete chapter;
 }
 
 const QString& Textbook::getAuthor() const {

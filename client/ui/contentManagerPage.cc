@@ -529,3 +529,13 @@ void MainWindow::on_btnManageRemoveSection_clicked()
         this->popupError(e.what());
     }
 }
+
+void MainWindow::on_btnManageBack_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerMain));
+}
+
+void MainWindow::on_btnCourseManageBack_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerMain));
+}

@@ -163,6 +163,11 @@ class MainWindow : public QMainWindow {
 
         void on_btnManageEditSection_clicked();
 
+
+        void on_btnManageBack_clicked();
+
+        void on_btnCourseManageBack_clicked();
+
 private:
 
         Ui::MainWindow    *ui;

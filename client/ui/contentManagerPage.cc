@@ -448,21 +448,29 @@ Section * MainWindow::getContentManagerSelectedSection() {
 void MainWindow::on_btnManageRemoveTextbook_clicked()
 {
     try {
-        QList<Class *> classes = localStorage.getClasses();
-        QList<Textbook*> tbs;
-        foreach(Class *cl, classes){
-            tbs.append( cl->getBooklist() );
-        }
-        int index = ui->listManageTextbooks->currentRow();
-        if( index >= 0 ){
-            Textbook *selectedTb = tbs.at(index);
-            localStorage.deleteTextbook(*selectedTb);
-            this->displayManageContent();
-        }
-    }
-    catch (std::runtime_error e) {
+        Textbook* tb = getContentManagerSelectedTextbook();
+        if (tb != 0)
+            localStorage.deleteTextbook(*tb);
+        this->refresh();
+    } catch (std::runtime_error e) {
         this->popupError(e.what());
     }
+    // try {
+    //     QList<Class *> classes = localStorage.getClasses();
+    //     QList<Textbook*> tbs;
+    //     foreach(Class *cl, classes){
+    //         tbs.append( cl->getBooklist() );
+    //     }
+    //     int index = ui->listManageTextbooks->currentRow();
+    //     if( index >= 0 ){
+    //         Textbook *selectedTb = tbs.at(index);
+    //         localStorage.deleteTextbook(*selectedTb);
+    //         this->displayManageContent();
+    //     }
+    // }
+    // catch (std::runtime_error e) {
+    //     this->popupError(e.what());
+    // }
 }
 
 void MainWindow::on_btnManageRemoveChapter_clicked()

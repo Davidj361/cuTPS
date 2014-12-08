@@ -292,7 +292,7 @@ void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
                 ui->courseDescription->setFontUnderline(true);
                 ui->courseDescription->append("\nPrice ");
                 ui->courseDescription->setFontUnderline(false);
-                ui->courseDescription->append("$" + QString::number(t->getPrice()));
+                ui->courseDescription->append("$" + QString::number(t->getPrice(), 'f', 2));
             }
             ui->courseDescription->setFontUnderline(true);
             ui->courseDescription->append("\nDescription");
@@ -316,7 +316,7 @@ void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
                     ui->courseDescription->setFontUnderline(true);
                     ui->courseDescription->append("\nPrice ");
                     ui->courseDescription->setFontUnderline(false);
-                    ui->courseDescription->append("$" + QString::number(ch->getPrice()));
+                    ui->courseDescription->append("$" + QString::number(ch->getPrice(), 'f', 2));
                 }
                 ui->courseDescription->setFontUnderline(true);
                 ui->courseDescription->append("\nDescription");
@@ -343,7 +343,7 @@ void MainWindow::on_contentList_itemClicked(QListWidgetItem *item)
                             ui->courseDescription->setFontUnderline(true);
                             ui->courseDescription->append("\nPrice ");
                             ui->courseDescription->setFontUnderline(false);
-                            ui->courseDescription->append("$" + QString::number(s->getPrice()));
+                            ui->courseDescription->append("$" + QString::number(s->getPrice(), 'f', 2));
                     }
                     ui->courseDescription->setFontUnderline(true);
                     ui->courseDescription->append("\nDescription");
@@ -428,7 +428,7 @@ void MainWindow::on_btnViewCart_clicked()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ShoppingCartStudent));
     QList<Content*> content = shoppingCart.getCartContents();
     foreach(Content * c, content){
-        QListWidgetItem* contentListItem = new QListWidgetItem(c->getTitle()+" $"+QString::number(c->getPrice()));
+        QListWidgetItem* contentListItem = new QListWidgetItem(c->getTitle()+" $"+QString::number(c->getPrice(), 'f', 2));
         ui->listWidgetShoppingCart->addItem(contentListItem);
     }
 

@@ -518,6 +518,8 @@ void MainWindow::on_btnProcedeCheckout_clicked()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartOrderConfirmed));
     try{
         checkout.checkout();
+        ui->listWidgetShoppingCart->clear();
+        ui->shoppingCartCountIndicator->setText("0");
     } catch(std::runtime_error e){
         this->popupError(e.what());
         ui->billingInfoError->setText(e.what());

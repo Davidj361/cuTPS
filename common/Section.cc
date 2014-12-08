@@ -1,4 +1,8 @@
-    #include "headers/Section.h"
+#include "headers/Section.h"
+
+Section::Section() : sectionNo(0), textbook(0), chapter(0) {}
+
+Section::Section(const Section& s) : Content(s), sectionNo(s.sectionNo), textbook(s.textbook), chapter(s.chapter) {}
 
 Section::Section(QString cTitle, int cSectionNo, Chapter *cChapter,
                  Textbook *cTextbook, QString cDescription, bool cAvailable,

@@ -1,4 +1,14 @@
-    #include "headers/Textbook.h"
+#include "headers/Textbook.h"
+
+Textbook::Textbook() {}
+
+Textbook::Textbook(const Textbook& t) : Content(t), author(t.author), ISBN(t.ISBN), publisher(t.publisher), edition(t.edition), year(t.year) {
+    foreach(const Chapter* ch, t.chapters) {
+        Chapter* newChapter = new Chapter(*ch);
+        newChapter->textbook = this;
+        this->addChapter(newChapter);
+    }
+}
 
 Textbook::Textbook(QString cISBN, QString cTitle, QString cPublisher, QString cAuthor,
                    int cYear, QString cEdition, QString cDescription,

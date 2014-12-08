@@ -6,13 +6,22 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QList>
+#include <QMetaType>
+
+
+class Textbook;
 
 class Section;
-class Textbook;
 
 class Chapter: public Content {
 
     public:
+        friend class Textbook;
+
+        // For setData
+        Chapter();
+        Chapter(const Chapter&);
+
         Chapter(QString title, int chapter, Textbook *textbook = 0, QString description = "", bool available = false, float price = 0, int content_id = 0);
         ~Chapter();
 
@@ -28,5 +37,8 @@ class Chapter: public Content {
         QList<Section *> sections;
 
 };
+
+Q_DECLARE_METATYPE(Chapter)
+Q_DECLARE_METATYPE(Chapter*)
 
 #endif // CHAPTER_H

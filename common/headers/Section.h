@@ -5,13 +5,17 @@
 #include "Textbook.h"
 #include "Chapter.h"
 #include <QJsonObject>
+#include <QMetaType>
 
 class Chapter;
+
 class Textbook;
 
 class Section: public Content {
 
     public:
+        friend class Chapter;
+
         /* =====================================================================
         Function  : Section
         Purpose   : Constructs an Section object
@@ -25,6 +29,10 @@ class Section: public Content {
                         -  c_id
         Returns   : void
         ===================================================================== */
+        // Needed for setData
+        Section();
+        Section(const Section&);
+
         Section(QString title, int section, Chapter *chapter = 0, Textbook *textbook = 0, QString description = "", bool available = false, float price = 0, int content_id= 0);
 
         const Chapter  *getChapter () const;
@@ -38,5 +46,8 @@ class Section: public Content {
         Chapter  *chapter;
 
 };
+
+Q_DECLARE_METATYPE(Section)
+Q_DECLARE_METATYPE(Section*)
 
 #endif // SECTION_H

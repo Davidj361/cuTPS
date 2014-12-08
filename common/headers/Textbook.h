@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QList>
+#include <QMetaType>
 
 class Chapter;
 
@@ -27,6 +28,11 @@ class Textbook: public Content {
                         -  c_id
         Returns   : void
         ===================================================================== */
+
+        // These are needed for set data to help with overhead and data management in the UI
+        Textbook();
+        Textbook(const Textbook&);
+
         Textbook(QString isbn, QString title, QString publisher, QString author, int year, QString edition, QString description, bool available, float price, int content_id = 0);
         ~Textbook();
 
@@ -49,5 +55,8 @@ class Textbook: public Content {
         QList<Chapter *> chapters;
 
 };
+
+Q_DECLARE_METATYPE(Textbook)
+Q_DECLARE_METATYPE(Textbook*)
 
 #endif // TEXTBOOK_H

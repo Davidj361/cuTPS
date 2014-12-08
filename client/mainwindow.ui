@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="Testpage">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -2553,16 +2553,6 @@
          <string>Cancel</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineTextbookCid">
-        <property name="geometry">
-         <rect>
-          <x>680</x>
-          <y>370</y>
-          <width>111</width>
-          <height>61</height>
-         </rect>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="ContentManageChapterForm">
        <widget class="QTextBrowser" name="lineChapterDescription">
@@ -2718,16 +2708,6 @@
         </property>
         <property name="inputMask">
          <string>999;_</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineChapterISBN">
-        <property name="geometry">
-         <rect>
-          <x>730</x>
-          <y>421</y>
-          <width>51</width>
-          <height>20</height>
-         </rect>
         </property>
        </widget>
       </widget>

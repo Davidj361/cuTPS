@@ -869,7 +869,6 @@ void MainWindow::on_btnManageAddTextbook_clicked()
 }
 
 void MainWindow::displayTextbookPage(Textbook *tb){
-    ui->lineTextbookCid->hide();
     if(tb == 0){
         // new tb
         ui->lineTextbookDescription->setText("");
@@ -898,7 +897,6 @@ void MainWindow::displayTextbookPage(Textbook *tb){
         ui->lineTextbookPrice->setText(QString::number(tb->getPrice(), 'f', 2));
         ui->lineTextbookPublisher->setText(tb->getPublisher());
         ui->lineTextbookTitle->setText(tb->getTitle());
-        ui->lineTextbookCid->setText(QString::number(tb->getcid()));
         qDebug() << " cid is "<<tb->getcid();
         ui->lineTextbookYear->setText(QString::number(tb->getYear()));
         bool checked = tb->isAvailable();
@@ -970,7 +968,7 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
                     ui->lineTextbookDescription->toPlainText(),
                     ui->checkBoxTextbookAvailable->isChecked(),
                     (float) ui->lineTextbookPrice->text().toDouble(),
-                    ui->lineTextbookCid->text().toInt());
+                    getSelectedTextbook(ui->listManageTextbooks)->getcid());
 
         try {
             localStorage.editTextbook(tb);
@@ -1017,10 +1015,7 @@ void MainWindow::on_btnManageAddChapter_clicked()
     ui->checkBoxChapterAvailable->setChecked(false);
     ui->btnChapterAddEdit->setText("Add Chapter");
     ui->labelContentNumber->setText("Chapter:");
-    Textbook *selectedTb = this->getSelectedTextbook(ui->listManageTextbooks);
-    if(selectedTb != 0){
-        ui->lineChapterISBN->setText(selectedTb->getISBN());
-    }
+
 
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
@@ -1040,11 +1035,7 @@ void MainWindow::on_btnManageEditChapter_clicked()
         ui->checkBoxChapterAvailable->setEnabled(selectedCh->isAvailable());
         ui->labelContentNumber->setText("Chapter:");
         ui->lineChapterNumber->setText(QString::number(selectedCh->getChapterNo()));
-        ui->lineTextbookCid->setText(QString::number(selectedCh->getcid()));
-        Textbook *selectedTb = this->getSelectedTextbook(ui->listManageTextbooks);
-        if(selectedTb != 0){
-            ui->lineChapterISBN->setText(selectedTb->getISBN());
-        }
+
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->ContentManageChapterForm));
 
     }
@@ -1057,10 +1048,11 @@ void MainWindow::on_btnChapterAddEdit_clicked()
             // edit chapter
             Chapter c(ui->lineChapterTitle->text(),
                       ui->lineChapterNumber->text().toInt(),
-                      0, ui->lineChapterDescription->toPlainText(),
+                      getSelectedTextbook(ui->listManageTextbooks),
+                      ui->lineChapterDescription->toPlainText(),
                       ui->checkBoxChapterAvailable->isChecked(),
                       (float) ui->lineChapterPrice->text().toDouble(),
-                      ui->lineTextbookCid->text().toInt());
+                      getSelectedChapter(ui->listManageTextbooks, ui->listManageChapters)->getcid());
             localStorage.editChapter(c);
         }
         if(ui->btnChapterAddEdit->text().compare("Edit Section") == 0){
@@ -1075,16 +1067,13 @@ void MainWindow::on_btnChapterAddEdit_clicked()
             localStorage.editSection(s);
         }
         if(ui->btnChapterAddEdit->text().compare("Add Chapter") == 0){
-            Textbook * tb = new Textbook(ui->lineChapterISBN->text(), "", "", "", -1, "", "", false, -1);
             Chapter c(ui->lineChapterTitle->text(),
                       ui->lineChapterNumber->text().toInt(),
                       getSelectedTextbook(ui->listManageTextbooks),
                       ui->lineChapterDescription->toPlainText(),
                       ui->checkBoxChapterAvailable->isChecked(),
-                      (float) ui->lineChapterPrice->text().toDouble(),
-                      ui->lineTextbookCid->text().toInt());
+                      (float) ui->lineChapterPrice->text().toDouble());
             localStorage.addChapter(c);
-            delete tb;
         }
         if(ui->btnChapterAddEdit->text().compare("Add Section") == 0){
             Section s(ui->lineChapterTitle->text(),

@@ -442,21 +442,14 @@
         </sizepolicy>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="3" column="0" colspan="2">
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>517</width>
-            <height>24</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="3" column="2">
+        <item row="3" column="3">
          <widget class="QPushButton" name="courseManagerDeleteButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: black;</string>
           </property>
@@ -465,7 +458,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="3">
+        <item row="2" column="1" colspan="3">
          <widget class="QWidget" name="dfhgdgfhsgfhtryeusdfg" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -961,7 +954,7 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="0" colspan="3">
+        <item row="1" column="1" colspan="3">
          <widget class="Line" name="line">
           <property name="palette">
            <palette>
@@ -1392,7 +1385,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0" colspan="3">
+        <item row="0" column="1" colspan="3">
          <widget class="QWidget" name="widget" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1401,20 +1394,20 @@
            </sizepolicy>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
-           <item row="1" column="3">
-            <widget class="QPushButton" name="courseManagerAddButton">
-             <property name="focusPolicy">
-              <enum>Qt::TabFocus</enum>
+           <item row="1" column="3" colspan="2">
+            <spacer name="horizontalSpacer_12">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="styleSheet">
-              <string notr="true">color: black;</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>212</width>
+               <height>20</height>
+              </size>
              </property>
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
+            </spacer>
            </item>
-           <item row="1" column="2">
+           <item row="2" column="2">
             <widget class="QLineEdit" name="courseManagerAddCourseTitle">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1427,7 +1420,7 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0" colspan="2">
+           <item row="2" column="0" colspan="2">
             <widget class="QLineEdit" name="courseManagerAddCourseCode">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1440,7 +1433,7 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
+           <item row="1" column="2">
             <widget class="QLineEdit" name="courseManagerYear">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1462,20 +1455,7 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="3">
-            <spacer name="horizontalSpacer_12">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>212</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="0" colspan="2">
+           <item row="1" column="0" colspan="2">
             <widget class="QComboBox" name="courseManagerSemesterList2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1498,8 +1478,66 @@
              </item>
             </widget>
            </item>
+           <item row="2" column="4">
+            <widget class="QPushButton" name="courseManagerAddButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: black;</string>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <spacer name="horizontalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pushButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Back</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
+        </item>
+        <item row="3" column="1" colspan="2">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>517</width>
+            <height>24</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -2286,75 +2324,88 @@
       </widget>
       <widget class="ContentManagerPage" name="contentManagerPage">
        <layout class="QGridLayout" name="gridLayout_11">
-        <item row="0" column="0">
-         <widget class="QListWidget" name="listManageTextbooks"/>
-        </item>
-        <item row="0" column="1">
-         <widget class="QListWidget" name="listManageChapters"/>
-        </item>
-        <item row="0" column="2">
-         <widget class="QListWidget" name="listManageSections"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="btnManageAddTextbook">
-          <property name="text">
-           <string>Add Textbook</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="btnManageAddChapter">
-          <property name="text">
-           <string>Add Chapter</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QPushButton" name="btnManageAddSection">
-          <property name="text">
-           <string>Add Section</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="btnManageEditTextbook">
-          <property name="text">
-           <string>Edit Textbook</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="btnManageEditChapter">
-          <property name="text">
-           <string>Edit Chapter</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="btnManageEditSection">
-          <property name="text">
-           <string>Edit Section</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="btnManageRemoveTextbook">
-          <property name="text">
-           <string>Remove Textbook</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QPushButton" name="btnManageRemoveChapter">
           <property name="text">
            <string>Remove Chapter</string>
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QListWidget" name="listManageTextbooks"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QListWidget" name="listManageChapters"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QListWidget" name="listManageSections"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="btnManageAddTextbook">
+          <property name="text">
+           <string>Add Textbook</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="btnManageAddChapter">
+          <property name="text">
+           <string>Add Chapter</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QPushButton" name="btnManageAddSection">
+          <property name="text">
+           <string>Add Section</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="btnManageEditTextbook">
+          <property name="text">
+           <string>Edit Textbook</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="btnManageEditChapter">
+          <property name="text">
+           <string>Edit Chapter</string>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="2">
+         <widget class="QPushButton" name="btnManageEditSection">
+          <property name="text">
+           <string>Edit Section</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="btnManageRemoveTextbook">
+          <property name="text">
+           <string>Remove Textbook</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
          <widget class="QPushButton" name="btnManageRemoveSection">
           <property name="text">
            <string>Remove Sections</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Back</string>
           </property>
          </widget>
         </item>

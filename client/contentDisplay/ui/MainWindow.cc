@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->loginPage));
 
-    ui->ipAddressTextbox->setText("127.0.0.1");
+    DEFAULT_IP = "127.0.0.1";
+    ui->ipAddressTextbox->setText(DEFAULT_IP);
 
     portno = 60001;
 
@@ -123,7 +124,8 @@ void MainWindow::on_BtnLogin_clicked()
     //user = storageControl->logIn(User(ui->UsernameBox->text(), ui->PasswordBox->text(),"",""));
     // user = User(ui->UsernameBox->text(), ui->PasswordBox->text(),"","");
     try {
-        storageControl.setIP(ui->ipAddressTextbox->text());
+        if (ui->ipAddressTextbox->text() != DEFAULT_IP)
+            storageControl.setIP(ui->ipAddressTextbox->text());
         localStorage.login(ui->UsernameBox->text(), ui->PasswordBox->text());
         ui->loginStatus->setText(localStorage.getUser().getUsername());
 
@@ -536,11 +538,12 @@ void MainWindow::on_courseManagerDeleteButton_released()
     if (ui->courseManagerCourseList->currentItem() == 0)
         return;
 
-    const Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
+    Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
 
     try {
         // TODO - Remove Class, not remove course
-        storageControl.removeCourse(*(ass->getCourse()));
+        storageControl.removeClass(*ass);
+        //storageControl.removeCourse(*(ass->getCourse()));
         refresh();
     } catch (std::runtime_error e) {
         this->popupError(e.what());

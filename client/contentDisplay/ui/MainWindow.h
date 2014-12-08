@@ -184,6 +184,8 @@ private:
         StorageControl storageControl;
         LocalStorage   localStorage;
         Checkout checkout;
+
+        QString DEFAULT_IP;
 };
 
 #endif // MAINWINDOW_H

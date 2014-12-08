@@ -40,9 +40,9 @@ void ConnectionClient::request(QByteArray &inStr, QByteArray &outStr) {
 
 
     // Test if still connected, if not try to connect again
-    if (!sock->waitForConnected(1000)) {
+    if (!sock->waitForConnected(100)) {
         sock->connectToHost(*serverAddr, portno);
-        if (!sock->waitForConnected(1000)) {
+        if (!sock->waitForConnected(100)) {
             emit ConnectionError("Could not connect to server");
             throw std::runtime_error("ERROR: ConnectionClient::request(), could not connect to server");
         }

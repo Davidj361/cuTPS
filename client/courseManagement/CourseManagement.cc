@@ -4,10 +4,11 @@ CourseManagement::CourseManagement(StorageControl &cStorage){
     storage = &cStorage;
 }
 
-void CourseManagement::addClass(QString courseCode, QString courseTitle, QString semester, int year){
+void CourseManagement::addClass( QString courseCode, QString courseTitle, QString semester, int year ){
 
     QString term(semester);
     term.append(" "+year);
+
     Course *course = new Course(courseCode, courseTitle);
     Class c(term,course);
 
@@ -16,28 +17,33 @@ void CourseManagement::addClass(QString courseCode, QString courseTitle, QString
     } catch (std::runtime_error e){
         throw e;
     }
+
 }
 
-void CourseManagement::removeClass(QString courseCode, QString semester, int year){
+void CourseManagement::removeClass( QString courseCode, QString semester, int year ){
 
     QString term(semester);
     term.append(" "+year);
 
     Course *course = new Course(courseCode, "");
     Class c(term,course);
+
     try{
         storage->removeClass(c);
     } catch (std::runtime_error e){
         throw e;
     }
+
 }
 
-void CourseManagement::removeCourse(QString courseCode){
+void CourseManagement::removeCourse( QString courseCode ){
 
     Course course(courseCode, "");
+
     try{
         storage->removeCourse(course);
     } catch (std::runtime_error e) {
         throw e;
     }
 }
+

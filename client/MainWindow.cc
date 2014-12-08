@@ -157,7 +157,6 @@ void MainWindow::on_BtnLogin_clicked()
             this->refresh();
         } else if (userType == QString("content_manager")) {
             ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerMain));
-            this->refresh();
         }
     } catch(std::runtime_error e) {
         ui->loginStatus->setText(e.what());

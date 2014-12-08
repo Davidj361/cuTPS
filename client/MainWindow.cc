@@ -496,12 +496,6 @@ void MainWindow::on_btnCheckout_clicked()
 {
     if (shoppingCart.getCartContents().count() > 0) {
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartGatherCreditCardInfo));
-        //TODO delete the following lines after it works
-        ui->lineName->setText("h");
-        ui->lineEmail->setText("h");
-        ui->linedate->setText("h");
-        ui->lineCC->setText("h");
-        ui->lineCvv->setText("h");
     } else {
         MainWindow::popupError("There are no items in the Shopping Cart");
     }

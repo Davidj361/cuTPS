@@ -656,11 +656,11 @@ void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
             foreach(Chapter *ch, selectedTb->getChapters()){
                 ui->listManageChapters->addItem( new QListWidgetItem(ch->getTitle()));
             }
-        } catch(std::runtime_error e) {
-            this->popupError(e.what());
         }
-
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
+}
 
 void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
 {
@@ -681,10 +681,11 @@ void MainWindow::on_listManageChapters_itemClicked(QListWidgetItem *item)
                     ui->listManageSections->addItem( new QListWidgetItem(s->getTitle()));
                 }
             }
-        } catch(std::runtime_error e) {
-            this->popupError(e.what());
         }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
+}
 
 void MainWindow::on_btnManageRemoveTextbook_clicked()
 {
@@ -711,48 +712,50 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
 {
 
     try {
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
-    }
-    int tbIndex = ui->listManageTextbooks->currentRow();
-    if(tbIndex >= 0){
-        Textbook *selectedTb = tbs.at(tbIndex);
-        int chIndex = ui->listManageChapters->currentRow();
-        if(chIndex >= 0){
-            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-            localStorage.deleteChapter(*selectedCh);
-            localStorage.refresh();
-            this->displayManageContent();
+        QList<Class*> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
         }
-    }
-
-}
-
-void MainWindow::on_btnManageRemoveSection_clicked()
-{
-
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
-    }
-    int tbIndex = ui->listManageTextbooks->currentRow();
-    if(tbIndex >= 0){
-        Textbook *selectedTb = tbs.at(tbIndex);
-        int chIndex = ui->listManageChapters->currentRow();
-        if(chIndex >= 0){
-            Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
-            int secIndex = ui->listManageSections->currentRow();
-            if(secIndex >= 0){
-                Section *selectedSec = selectedCh->getSections().at(secIndex);
-                localStorage.deleteSection(*selectedSec);
+        int tbIndex = ui->listManageTextbooks->currentRow();
+        if(tbIndex >= 0){
+            Textbook *selectedTb = tbs.at(tbIndex);
+            int chIndex = ui->listManageChapters->currentRow();
+            if(chIndex >= 0){
+                Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+                localStorage.deleteChapter(*selectedCh);
                 localStorage.refresh();
                 this->displayManageContent();
             }
         }
+    } catch(std::runtime_error e) {
+        this->popupError(e.what());
     }
+
+}
+
+void MainWindow::on_btnManageRemoveSection_clicked() {
+    try {
+        QList<Class*> classes = localStorage.getClasses();
+        QList<Textbook*> tbs;
+        foreach(Class *cl, classes){
+            tbs.append( cl->getBooklist() );
+        }
+        int tbIndex = ui->listManageTextbooks->currentRow();
+        if(tbIndex >= 0){
+            Textbook *selectedTb = tbs.at(tbIndex);
+            int chIndex = ui->listManageChapters->currentRow();
+            if(chIndex >= 0){
+                Chapter *selectedCh = selectedTb->getChapters().at(chIndex);
+                int secIndex = ui->listManageSections->currentRow();
+                if(secIndex >= 0){
+                    Section *selectedSec = selectedCh->getSections().at(secIndex);
+                    localStorage.deleteSection(*selectedSec);
+                    localStorage.refresh();
+                    this->displayManageContent();
+                }
+            }
+        }
     } catch(std::runtime_error e) {
         this->popupError(e.what());
     }

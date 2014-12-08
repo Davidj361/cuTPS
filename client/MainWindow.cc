@@ -230,7 +230,7 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
         }
         ui->contentList->addItem(textbookListItem);
         foreach (const Chapter *ch, t->getChapters()) {
-            QListWidgetItem* chapterListItem = new QListWidgetItem("Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? (" : $" + QString::number(ch->getPrice(), 'f', 2) ) : "" ) );
+            QListWidgetItem* chapterListItem = new QListWidgetItem("    Ch." + QString::number(ch->getChapterNo()) + ": " + ch->getTitle() + (ch->isAvailable() ? (" : $" + QString::number(ch->getPrice(), 'f', 2) ) : "" ) );
             if (ch->isAvailable()) {
                 chapterListItem->setFlags(chapterListItem->flags() | Qt::ItemIsUserCheckable);
                 chapterListItem->setCheckState(Qt::Unchecked);
@@ -239,13 +239,8 @@ void MainWindow::on_courseList_itemPressed(QListWidgetItem *item)
             }
             ui->contentList->addItem(chapterListItem);
             foreach (const Section *s, ch->getSections()) {
-                // FIXME HOLY FUCK WHAT WAS I THINKING? Please change this back
-                QString spaces = "";
-                int length = QString("Ch.:" + QString::number(ch->getChapterNo())).length();
-                for (int i = 0; i < length; i++)
-                    spaces += " ";
-                spaces += spaces;
-                QListWidgetItem* sectionListItem = new QListWidgetItem(spaces + s->getTitle() + (s->isAvailable() ? (" : $" + QString::number(s->getPrice(), 'f', 2) ) : "" ));
+                QListWidgetItem* sectionListItem = new QListWidgetItem("       Sec."+QString::number(s->getSectionNo())+": " + s->getTitle() +
+                                                                       (s->isAvailable() ? (" : $" + QString::number(s->getPrice(), 'f', 2) ) : "" ));
                 if (s->isAvailable()) {
                     sectionListItem->setFlags(sectionListItem->flags() | Qt::ItemIsUserCheckable);
                     sectionListItem->setCheckState(Qt::Unchecked);

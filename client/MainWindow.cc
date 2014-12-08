@@ -786,6 +786,8 @@ void MainWindow::on_btnManageRemoveChapter_clicked()
     }
 }
 
+
+
 void MainWindow::on_btnManageRemoveSection_clicked()
 {
     try {
@@ -898,7 +900,7 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
 
     }
     else{
-
+        // edit
         Textbook tb(
                     ui->lineTextbookIsbn->text(),
                     ui->lineTextbookTitle->text(),
@@ -947,9 +949,14 @@ void MainWindow::on_btnChapterCancel_clicked()
 
 }
 
-//void MainWindow::display
+void MainWindow::displayContentPage(Content &c){
+    ui->lineChapterDescription->setText(c.getDescription());
+    ui->lineChapterPrice->setText(QString::number(c.getPrice(), 'f', 2));
+    ui->lineChapterTitle->setText(c.getTitle());
+    ui->checkBoxChapterAvailable->setEnabled(c.isAvailable());
+}
 
 void MainWindow::on_btnManageAddChapter_clicked()
 {
-
+    //
 }

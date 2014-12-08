@@ -142,6 +142,8 @@ class MainWindow : public QMainWindow {
 
         void on_btnManageAddChapter_clicked();
 
+        void displayContentPage(Content &);
+
 private:
 
         Ui::MainWindow    *ui;

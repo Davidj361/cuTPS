@@ -117,8 +117,11 @@ void MainWindow::on_btnManageAddSection_clicked()
 
 void MainWindow::on_btnManageEditSection_clicked()
 {
-    // CRASH
     Section *s = getContentManagerSelectedSection();
+    // cumon bro, don't you know if you access pointers that are null then you get seg faults?
+    // STEP IT UP
+    if (s == 0)
+        return;
     ui->lineChapterDescription->setText(s->getDescription());
     ui->lineChapterPrice->setText(QString::number(s->getPrice()));
     ui->lineChapterTitle->setText(s->getTitle());
@@ -247,16 +250,19 @@ void MainWindow::on_btnTextbookAddEdit_clicked()
 
 void MainWindow::on_btnManageEditTextbook_clicked()
 {
-    QList<Class*> classes = localStorage.getClasses();
-    QList<Textbook*> tbs;
-    foreach(Class *cl, classes){
-        tbs.append( cl->getBooklist() );
-    }
-    int index = ui->listManageTextbooks->currentRow();
-    if( index >= 0 ){
-        Textbook *selectedTb = tbs.at(index);
-        this->displayTextbookPage(selectedTb);
-    }
+    Textbook* tb = this->getContentManagerSelectedTextbook();
+    if (tb != 0)
+        this->displayTextbookPage(tb);
+    // QList<Class*> classes = localStorage.getClasses();
+    // QList<Textbook*> tbs;
+    // foreach(Class *cl, classes){
+    //     tbs.append( cl->getBooklist() );
+    // }
+    // int index = ui->listManageTextbooks->currentRow();
+    // if( index >= 0 ){
+    //     Textbook *selectedTb = tbs.at(index);
+    //     this->displayTextbookPage(selectedTb);
+    // }
 }
 
 void MainWindow::on_listTextbookTerm_itemClicked(QListWidgetItem *item)
@@ -501,7 +507,3 @@ void MainWindow::on_btnManageRemoveSection_clicked()
         this->popupError(e.what());
     }
 }
-
-
-// Keywords
-// CRASH setData HERE

@@ -663,6 +663,27 @@ void DBManager::AddInvoice(QString username, QList<int> cart) {
 
     QSqlQuery query;
 
+    //
+    // Need to check that the content is still 'available and not deleted'
+    //
+    foreach (int content_id, cart) {
+        if (!query.prepare("SELECT availability FROM textbooks WHERE content_id = :t_id UNION "
+                           "SELECT availability FROM chapters WHERE content_id = :c_id UNION "
+                           "SELECT availability FROM sections WHERE content_id = :s_id;"))
+            throw std::runtime_error("ERROR DBManager::AddInvoice() Error while preparing SELECT availability statement");
+
+        query.bindValue(":t_id", content_id);
+        query.bindValue(":c_id", content_id);
+        query.bindValue(":s_id", content_id);
+
+        if (!query.exec())
+            throw std::runtime_error("ERROR DBManager::AddInvoice() Error while searching for content_id");
+
+        if (!query.first() || !query.value(0).toBool())
+            throw std::runtime_error("Content was either deleted or is no longer available. Please return and refresh your cart");
+    }
+
+
     // Add a new record to the invoices table
     if (!query.prepare("INSERT INTO Invoices (student, date_purchased) VALUES (:student, :date);"))
         throw std::runtime_error("ERROR DBManager::AddInvoice() Error while preparing INSERT invoice statement");

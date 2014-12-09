@@ -50,8 +50,10 @@ void MainWindow::refresh() {
         this->popupError(e.what());
     }
     int currIndex = ui->stackedWidget->currentIndex();
-    if (currIndex == ui->stackedWidget->indexOf(ui->mainStudent))
+    if (currIndex == ui->stackedWidget->indexOf(ui->mainStudent)) {
+        this->clearStudentLists();
         this->studentSemesterListPopulate();
+    }
     else if (currIndex == ui->stackedWidget->indexOf(ui->courseManager)) {
         this->courseManagerClearLists();
         this->populateSemesterList(ui->courseManagerSemesterList);
@@ -77,20 +79,6 @@ void MainWindow::displayError(QString error) {
     ui->statusBar->showMessage(error);
 }
 
-// FIXME Possible duplicate function?
-void MainWindow::populateSemesterList(QListWidget* semesterList) {
-    try {
-        semesterList->clear();
-        foreach (const Class* c, localStorage.getClasses()) {
-                if (semesterList->findItems(c->getSemester(), Qt::MatchExactly).empty())
-                        semesterList->addItem(c->getSemester());
-        }
-    }
-    catch (std::runtime_error e) {
-        this->popupError(e.what());
-    }
-}
-
 void MainWindow::studentSemesterListPopulate() {
     try {
         ui->semesterList->clear();
@@ -105,10 +93,10 @@ void MainWindow::studentSemesterListPopulate() {
     }
 }
 
-void MainWindow::clearStudentCourseList() {
-    while (ui->courseList->count() > 0) {
-        ui->courseList->takeItem(0);
-    }
+void MainWindow::clearStudentLists() {
+    ui->courseList->clear();
+    ui->courseDescription->clear();
+    ui->contentList->clear();
 }
 
 
@@ -264,6 +252,11 @@ bool MainWindow::validUsernamePassword() {
 
 bool MainWindow::isStudent() {
     return true;
+}
+
+void MainWindow::on_btnManageCourses_clicked()
+{
+    this->displayCourseManager();
 }
 
 void MainWindow::displayCourseManager() {
@@ -531,6 +524,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
 void MainWindow::on_btnConfirmationMainPage_clicked()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->mainStudent));
+    this->refresh();
 }
 
 void MainWindow::on_courseManagerDeleteButton_released()
@@ -612,7 +606,7 @@ void MainWindow::on_actionLogout_triggered()
 
         if (userType == "student") {
             shoppingCart.clearCart();
-            MainWindow::clearStudentCourseList();
+            MainWindow::clearStudentLists();
         }
 
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->loginPage));
@@ -627,7 +621,3 @@ void MainWindow::on_btnBackToMain_clicked()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->mainStudent));
 }
-
-
-
-

@@ -39,11 +39,13 @@ class MainWindow : public QMainWindow {
     private slots:
 
         void studentSemesterListPopulate();
+    
+        // this is for content managing
         void populateSemesterList(QListWidget* semesterList);
 
         void listManageClear();
 
-        void clearStudentCourseList();
+        void clearStudentLists();
         
         void popupWarning(const QString&);
 

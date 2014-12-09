@@ -13,6 +13,20 @@ void MainWindow::listManageClear() {
     ui->listManageTextbooks->clear();
 }
 
+// For managing courses
+void MainWindow::populateSemesterList(QListWidget* semesterList) {
+    try {
+        semesterList->clear();
+        foreach (const Class* c, localStorage.getClasses()) {
+                if (semesterList->findItems(c->getSemester(), Qt::MatchExactly).empty())
+                        semesterList->addItem(c->getSemester());
+        }
+    }
+    catch (std::runtime_error e) {
+        this->popupError(e.what());
+    }
+}
+
 void MainWindow::on_btnManageContent_clicked()
 {
     this->displayManageContent();
@@ -310,12 +324,6 @@ void MainWindow::displayManageContent(){
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->contentManagerPage));
     this->refresh();
 }
-
-void MainWindow::on_btnManageCourses_clicked()
-{
-    this->displayCourseManager();
-}
-
 
 void MainWindow::on_listManageTextbooks_itemClicked(QListWidgetItem *item)
 {

@@ -4,12 +4,7 @@
 Class::Class(): course(0) {}
 
 // This is needed for UI stuff
-Class::Class(const Class& ass) : semester(ass.semester) {
-        course = new Course(*ass.course);
-        foreach (Textbook* book, ass.booklist) {
-                booklist.push_back(new Textbook(*book));
-        }
-}
+Class::Class(const Class& ass) : semester(ass.semester), course(0) {}
 
 Class::Class(QString semester, const Course& course) : semester(semester) {
         this->course = new Course(course);

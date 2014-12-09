@@ -17,6 +17,7 @@ class Chapter: public Content {
 
     public:
         friend class Textbook;
+        friend class ServerRequestControl; // For fixing memory leaks
 
         // For setData
         Chapter();

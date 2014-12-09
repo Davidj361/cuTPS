@@ -54,6 +54,8 @@ void Connection::readyRead() {
 }
 
 void Connection::response(QByteArray *out) {
+    if (out == 0)
+        return;
 
     // Turn size of message into QByteArray
     QString outSize = QString::number(out->size());
@@ -62,8 +64,7 @@ void Connection::response(QByteArray *out) {
 
     // Send the size
     sock->write(outSizearr);
-
     // Send the message
     sock->write(*out);
-
+    delete out;
 }

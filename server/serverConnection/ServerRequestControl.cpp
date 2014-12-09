@@ -16,7 +16,7 @@ ServerRequestControl::~ServerRequestControl() {
 void ServerRequestControl::run(){
 
     // set up variables
-    QByteArray out;
+    QByteArray* out = new QByteArray();
     commands_t command;
     ServerSerializer serializer;
 
@@ -39,7 +39,7 @@ void ServerRequestControl::run(){
 
             db->RetrieveContentList(username, list);
 
-            serializer.serializeClasses(list, command, out);
+            serializer.serializeClasses(list, command, *out);
 
             if(user != 0)
                 delete user;
@@ -64,7 +64,7 @@ void ServerRequestControl::run(){
             if(cl != 0)
                 delete cl;
 
-            serializer.serializeSuccess(command, out);
+            serializer.serializeSuccess(command, *out);
         }
 
         else if ( command == EDIT_TEXTBOOK || command == REMOVE_TEXTBOOK ){
@@ -81,7 +81,7 @@ void ServerRequestControl::run(){
             if(tb != 0)
                 delete tb;
 
-            serializer.serializeSuccess(command, out);
+            serializer.serializeSuccess(command, *out);
         }
 
         else if ( command == ADD_CHAPTER || command == EDIT_CHAPTER || command == REMOVE_CHAPTER ) {
@@ -98,12 +98,14 @@ void ServerRequestControl::run(){
             if(command == REMOVE_CHAPTER)
                 db->DeleteChapter(ch);
 
-            if(ch->getTextbook() != 0)
-                delete ch->getTextbook();
-            if(ch != 0)
-                delete ch;
+            if(ch != 0) {
+                if(ch->textbook != 0)
+                    delete ch->textbook;
+                if(ch != 0)
+                    delete ch;
+            }
 
-            serializer.serializeSuccess(command, out);
+            serializer.serializeSuccess(command, *out);
         }
 
         else if ( command == ADD_SECTION || command == EDIT_SECTION || command == REMOVE_SECTION ) {
@@ -117,19 +119,21 @@ void ServerRequestControl::run(){
             if(command == EDIT_SECTION)
                 db->EditSection(s);
 
-            if(command == REMOVE_SECTION)
-                db->DeleteSection(s);
+            if(s != 0) {
+                if(command == REMOVE_SECTION)
+                    db->DeleteSection(s);
 
-            if(s->getChapter() != 0)
-                delete s->getChapter();
+                if(s->chapter != 0)
+                    delete s->chapter;
 
-            if(s->getTextbook() != 0)
-                delete s->getTextbook();
+                if(s->textbook != 0)
+                    delete s->textbook;
 
-            if(s != 0)
-                delete s;
+                if(s != 0)
+                    delete s;
+            }
 
-            serializer.serializeSuccess(command, out);
+            serializer.serializeSuccess(command, *out);
         }
 
         else if ( command == LOGIN ){
@@ -139,7 +143,7 @@ void ServerRequestControl::run(){
 
             db->Login(user);
 
-            serializer.serializeUser(*user, LOGIN, out);
+            serializer.serializeUser(*user, LOGIN, *out);
 
             if(user != 0)
                 delete user;
@@ -157,7 +161,7 @@ void ServerRequestControl::run(){
             if(course != 0)
                 delete course;
 
-            serializer.serializeSuccess(command, out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
@@ -174,7 +178,7 @@ void ServerRequestControl::run(){
             else if ( command == DELETE_CLASS)
                 db->DeleteClass(cl);
 
-            serializer.serializeSuccess(command, out);
+            serializer.serializeSuccess(command, *out);
 
             if(cl != 0)
                 delete cl;
@@ -190,20 +194,20 @@ void ServerRequestControl::run(){
             if(i != 0)
                 delete i;
 
-            serializer.serializeSuccess(command, out);
+            serializer.serializeSuccess(command, *out);
 
         }
 
-        emit response(&out);
+        emit response(out);
 
     } catch ( exception &e ) {
 
         qDebug() << e.what();
 
         QString temp(e.what());
-        serializer.serializeError(temp, command, out);
+        serializer.serializeError(temp, command, *out);
 
-        emit response(&out);
+        emit response(out);
     }
 
 }

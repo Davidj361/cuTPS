@@ -482,6 +482,11 @@ void MainWindow::on_btnPreviousPage_clicked()
 void MainWindow::on_btnCheckout_clicked()
 {
     if (shoppingCart.getCartContents().count() > 0) {
+        float total = 0;
+        foreach (Content *content, shoppingCart.getCartContents())
+            total += content->getPrice();
+        ui->lblCartTotal->setText("$ " + QString::number(total, 'f', 2));
+
         ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartGatherCreditCardInfo));
     } else {
         MainWindow::popupError("There are no items in the Shopping Cart");
@@ -497,26 +502,31 @@ void MainWindow::on_btnProcedeCheckout_clicked()
     fieldList.append(ui->linedate);
     fieldList.append(ui->lineCvv);
     fieldList.append(ui->lineCC);
+
+    // Check all fields are filled out
     foreach(QLineEdit *e, fieldList) {
         if (e->text().compare("") == 0) {
             this->popupError("Ensure all fields have been filled");
             return;
         }
     }
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartOrderConfirmed));
+
     try{
         checkout.checkout();
+
+        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->indexOf(ui->shoppingCartOrderConfirmed));
+
         ui->listWidgetShoppingCart->clear();
         ui->shoppingCartCountIndicator->setText("0");
-    } catch(std::runtime_error e){
+        foreach(QLineEdit *e, fieldList) {
+            e->setText("");
+        }
+        this->on_btnClearCart_clicked();
+
+    }
+    catch(std::runtime_error e) {
         this->popupError(e.what());
     }
-
-    foreach(QLineEdit *e, fieldList) {
-        e->setText("");
-    }
-    this->on_btnClearCart_clicked();
-
 }
 
 void MainWindow::on_btnConfirmationMainPage_clicked()
@@ -533,9 +543,7 @@ void MainWindow::on_courseManagerDeleteButton_released()
     Class* ass = ui->courseManagerCourseList->currentItem()->data(Qt::UserRole).value<Class*>();
 
     try {
-        // TODO - Remove Class, not remove course
         storageControl.removeClass(*ass);
-        //storageControl.removeCourse(*(ass->getCourse()));
         refresh();
     } catch (std::runtime_error e) {
         this->popupError(e.what());

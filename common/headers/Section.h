@@ -15,6 +15,7 @@ class Section: public Content {
 
     public:
         friend class Chapter;
+        friend class ServerRequestControl; // For fixing memory leaks
 
         /* =====================================================================
         Function  : Section

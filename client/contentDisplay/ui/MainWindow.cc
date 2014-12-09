@@ -499,8 +499,7 @@ void MainWindow::on_btnProcedeCheckout_clicked()
     fieldList.append(ui->lineCC);
     foreach(QLineEdit *e, fieldList) {
         if (e->text().compare("") == 0) {
-            MainWindow::popupError("Ensure all fields have been filled");
-            ui->billingInfoError->setText("One of your fields is empty or invalid");
+            this->popupError("Ensure all fields have been filled");
             return;
         }
     }
@@ -511,7 +510,6 @@ void MainWindow::on_btnProcedeCheckout_clicked()
         ui->shoppingCartCountIndicator->setText("0");
     } catch(std::runtime_error e){
         this->popupError(e.what());
-        ui->billingInfoError->setText(e.what());
     }
 
     foreach(QLineEdit *e, fieldList) {

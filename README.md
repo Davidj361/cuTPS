@@ -5,19 +5,35 @@
 
 - common - Contains all classes that are common between the client and server
 - resources - Contains all non source code files eg. SQL and DB files
-- cuTPSServer - Contains all source code for the cuTPS server
-- cuTPSClient - Contains all source code for the cuTPS client
+- server - Contains all source code for the cuTPS server
+- client - Contains all source code for the cuTPS client
 
 ## Build Instructions
 
-- From a terminal, enter the cuTPSServer folder
-  1.  `$ qmake cuTPSServer.pro`
+- From a terminal, enter the server folder
+  1.  `$ qmake server.pro`
   2.  `$ make`
-  3.  `$ ./cuTPSServer`
-- From another terminal, enter the cuTPSClient folder
-  1.  `$ qmake cuTPSClient.pro`
+  3.  `$ ./server`
+- From another terminal, enter the client folder
+  1.  `$ qmake client.pro`
   2.  `$ make`
-  3.  `$ ./cuTPSClient`
+  3.  `$ ./client`
+
+## Test accounts
+
+The accounts below are in the format of username : password
+
+### Students
+
+- bruce : password
+- peter : password
+- clark : password
+- celina : password
+
+### Content Manager
+
+- gandalf : password
+- albus : password
 
 ## JSON API Reference
 
@@ -284,77 +300,6 @@ If the status of a response is ERROR instead of SUCCESS it will be formatted as 
   message : "A useful and informative error message"
 }
 ```
-
-... More to follow in deliverable 4
-
-## Database Structure
-
-### Users
-
-| username | password | type | name |
-| --- | --- | --- | --- |
-| text - not null | text - not null | text - not null | text - not null |
-
-*Note*: We need another table for user types. Make it a foreign key dependency of Users.type
-
-### Courses
-
-| code | name |
-| --- | --- |
-| text - not null| text - not null |
-
-*Note*: We need a new table for semesters. This also means we need a new entity object possible called class.
-A class will have a course, the semester its in and the students in it.
-
-### Content
-
-This table is used as a way to uniquely identify each textbook, chapter, section
-across all their tables.
-
-| id |
-|---|
-|int|
-
-*Note*: We may need to add a column to this table that specifies type but only if
-we can use that column to specify what table to look in when querying content by
-its content id.  If it's not possible and the only way is to look in each content
-table (Textbooks, Chapter, Sections) until the content id is found then the type
-column is irrelevant.
-
-### Textbooks
-
-|isbn|title|publisher|author|year|edition|description|availability|price|content_id|
-|---|---|---|---|---|---|---|---|---|---|
-|text - not null|text - not null| text - not null|text - not null|integer - not null|text|text|integer (bool) - not null|real (float) - not null|integer - not null|
-
-### Chapters
-
-|name|number|textbook|description|availability|price|content_id|
-|---|---|---|---|---|---|---|
-|text - not null|integer - not null|text - not null|text|integer (bool) - not null|real (float) - not null|integer - not null|
-
-### Sections
-
-|name|number|chapter|textbook|description|availability|price|content_id|
-|---|---|---|---|---|---|---|---|
-|text - not null|integer - not null|integer - not null|text - not null|text|integer (bool) - not null|real (float) - not null|integer - not null|
-
-### Book_List
-
-|textbook_id|course_code|
-|---|---|
-|text - not null|text - not null|
-
-*Note*: The course code will change so it references a class and not a course
-since the books for a course may vary by semester
-
-### Class_list
-
-|student|course_code|
-|---|---|
-|text - not null|text - not null|
-
-*Note* - We need to add a semester column to this table
 
 
 # Useful info

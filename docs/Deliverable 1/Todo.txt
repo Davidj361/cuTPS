@@ -1,0 +1,23 @@
+To do:
+
+-* {Graeme} Add brackets on UC
+-* {Graeme} Update object list tracability
+- {Graeme} In course state diagram rename Enrolled states 
+
+-* {Andrew} Add table captions to all tables/diagrams
+- {Andrew} Add states to content and invoice diagrams
+
+- {David} Add refresh to Manage content and Manage system data UC diagrams
+- {David} Add empty cart to state machine diagram (from NotEmpty and from Paid to Empty)
+- {David} Add logout to user state diagram.
+
+
+- {Sina} Finish text blurbs (especially the first one)
+
+-* {Andrew} Standardize theming throughout document & complete review.,lp-
+
+Questions:
+
+Dave: So I noticed for the state machine diagram for Content that it looks a bit wonky with having Remove Details. I think this diagram should be changed for editing/modifying details instead since that is how it is in our use cases. Unless someone can further explain to me what is happening here. Another thing is the Invoice state machine diagram; I think it's strange that we edit billing info then it goes from that state to "Content Added". In my opinion it rather should loop back to "Saved Invoice".
+
+Andrew: I fixed the invoice state machine. Change the Content diagram to whatever you think makes sense.

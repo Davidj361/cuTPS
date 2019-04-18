@@ -1,0 +1,33 @@
+D3 Notes
+
+1.1 Project Overview - Done
+1.2 Overview of document - Sina
+
+2.1 Phase 1 Prototype Decomposition - David
+2.2 System Decompostion - Andrew
+2.3 Design Evolution - Graeme
+
+3.1 Hardware/Software Mapping - David
+3.2 Persistent Storage Management - Andrew
+3.3 Design Patterns - Graeme
+
+4 Subsystem Services - Sina
+
+5 Class Interfaces - David / Graeme / Sina
+
+TODO:
+visio files were updated for figures 1, 2, 4, 7, 9, 10, 11, 12, 14, 15
+
+
+Definitions:
+
+Class interface
+- the set of public operations provided by a class
+
+Subsystem interface
+- the set of public operations provided by all classes in a subsystem
+
+Service
+- name given to a set of related operations in the subsystem interface
+	- name is a noun phrase
+- a subsystem can provide multiple services to other subsystems

@@ -1,0 +1,6 @@
+Question: "It was mentioned that we need no encryption for user passwords, but
+      are passwords necessary at all? Or is just a username enough for a login?"
+
+Christine : "Passwords are not necessary.  A username will be enough for logging in."
+
+Can a constructor throw an exception or should sensitive work be done in another init function
